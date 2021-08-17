@@ -1,0 +1,316 @@
+
+
+
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body pt-0">
+
+                    @if (isset($domains) && count($domains)>0)
+                        <div class="table-wrap">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th width="">Organization/Domain</th>
+                                            <th class="">Full URL</th>
+                                            <th class="">Subdomain</th>
+                                            <th class="">Local Default</th>
+                                            <th>Shut Down</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($domains as $item)
+                                        <tr>
+                                            <td width="30%">                                                
+                                                <a href="javascript:void(0)" class="pr-5 text-primary btn-edit-mdl-organization-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" class="pr-10 text-primary btn-delete-mdl-organization-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Delete" aria-describedby="tooltip563">
+                                                    <i class="fa fa-trash text-danger"></i>
+                                                </a>
+                                                {{$item->org}}/{{$item->domain}}
+                                            </td>
+                                            <td>
+                                                {{$item->full_url}}
+                                            </td>
+                                            <td>
+                                                {{$item->subdomain}}
+                                            </td>
+                                            <td>
+                                                {{$item->is_local_default_organization ? 'Yes' : 'No'}}
+                                            </td>
+                                            <td>
+                                                {{$item->is_shut_down ? 'Yes' : 'No'}}
+                                                @if ($item->is_shut_down)
+                                                <span class="small">
+                                                    <br/>
+                                                    {{ $item->shut_down_reason}}
+                                                </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @else
+                        <p>No Domains, use the add button to add a domain.</p>
+                    @endif
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="mdl-organization-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 id="lbl-organization-modal-title" class="modal-title">Domain</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div id="div-organization-modal-error" class="alert alert-danger" role="alert"></div>
+                    <form class="form-horizontal" id="frm-organization-modal" role="form" method="POST" enctype="multipart/form-data" action="">
+                        <div class="row">
+                            <div class="col-lg-12 ma-10">
+                                @csrf
+
+                                <input type="hidden" id="txt-organization-primary-id" value="0" />
+
+                                <div id="div-edit-txt-organization-primary-id">
+                                    <div class="row">
+                                        <div class="col-lg-10 ma-10">
+                                        
+                                            <!-- Org Field -->
+                                            <div id="div-org" class="form-group">
+                                                <label class="control-label mb-10 col-sm-3" for="org">Organization</label>
+                                                <div class="col-sm-4">
+                                                    {!! Form::text('org', null, ['id'=>'org', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    {!! Form::text('domain', null, ['id'=>'domain', 'placeholder'=>'Domain e.g. test, beta, live', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
+                                                </div>
+                                            </div>
+
+                                            <!-- Full Url Field -->
+                                            <div id="div-full_url" class="form-group">
+                                                <label class="control-label mb-10 col-sm-3" for="full_url">Full Url</label>
+                                                <div class="col-sm-9">
+                                                    {!! Form::text('full_url', null, ['id'=>'full_url', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
+                                                </div>
+                                            </div>
+
+                                            <!-- Subdomain Field -->
+                                            <div id="div-subdomain" class="form-group">
+                                                <label class="control-label mb-10 col-sm-3" for="subdomain">Subdomain</label>
+                                                <div class="col-sm-9">
+                                                    {!! Form::text('subdomain', null, ['id'=>'subdomain', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
+                                                </div>
+                                            </div>
+
+                                            <!-- Is Local Default Organization Field -->
+                                            <div id="div-is_local_default_organization" class="form-group">
+                                                <label class="control-label mb-10 col-sm-3" for="is_local_default_organization">Is Default</label>
+                                                <div class="col-sm-9">
+                                                    <div class="form-check">
+                                                        {{-- {!! Form::hidden('is_local_default_organization', 0, ['id'=>'is_local_default_organization', 'class' => 'form-check-input']) !!} --}}
+                                                        {!! Form::checkbox('is_local_default_organization', '1', null, ['id'=>'is_local_default_organization', 'class' => 'form-check-input']) !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Is Shut Down Field -->
+                                            <div id="div-is_shut_down" class="form-group">
+                                                <label class="control-label mb-10 col-sm-3" for="is_shut_down">Shut Down</label>
+                                                <div class="col-sm-9">
+                                                    <div class="form-check">
+                                                        {{-- {!! Form::hidden('is_shut_down', 0, ['id'=>'is_shut_down', 'class' => 'form-check-input']) !!} --}}
+                                                        {!! Form::checkbox('is_shut_down', '1', null, ['id'=>'is_shut_down', 'class' => 'form-check-input']) !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Shut Down Reason Field -->
+                                            <div id="div-shut_down_reason" class="form-group">
+                                                <label class="control-label mb-10 col-sm-3" for="shut_down_reason">Shut Down Reason</label>
+                                                <div class="col-sm-9">
+                                                    {!! Form::textarea('shut_down_reason', null, ['id'=>'shut_down_reason', 'rows'=>'3', 'class' => 'form-control']) !!}
+                                                </div>
+                                            </div>
+                                            
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <hr class="light-grey-hr mb-10" />
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-organization-modal" value="add">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@push('page_scripts')
+<script type="text/javascript">
+    $(document).ready(function() {
+    
+        //Show Modal for New Entry
+        $(document).on('click', ".btn-new-mdl-organization-modal", function(e) {
+            $('#div-organization-modal-error').hide();
+            $('#mdl-organization-modal').modal('show');
+            $('#frm-organization-modal').trigger("reset");
+            $('#txt-organization-primary-id').val(0);
+    
+            $('#div-show-txt-organization-primary-id').hide();
+            $('#div-edit-txt-organization-primary-id').show();
+        });
+    
+        //Show Modal for Edit
+        $(document).on('click', ".btn-edit-mdl-organization-modal", function(e) {
+            e.preventDefault();
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+    
+            $('#div-show-txt-organization-primary-id').hide();
+            $('#div-edit-txt-organization-primary-id').show();
+            let itemId = $(this).attr('data-val');
+    
+            $.get( "{{ route('fc.organizations.show','') }}/"+itemId).done(function( data ) {
+        
+                $('#div-organization-modal-error').hide();
+                $('#mdl-organization-modal').modal('show');
+                $('#frm-organization-modal').trigger("reset");
+
+                $('#txt-organization-primary-id').val(data.response.id);    
+                $('#org').val(data.response.org);
+                $('#domain').val(data.response.domain);
+                $('#full_url').val(data.response.full_url);
+                $('#subdomain').val(data.response.subdomain);
+                $('#shut_down_reason').val(data.response.shut_down_reason);
+
+                $('#is_local_default_organization')[0].checked = false;
+                if (data.response.is_local_default_organization == 1){
+                    $('#is_local_default_organization')[0].checked = true;
+                }
+
+                $('#is_shut_down')[0].checked = false;
+                if (data.response.is_shut_down == 1){
+                    $('#is_shut_down')[0].checked = true;
+                }
+
+            });
+        });
+    
+        //Delete action
+        $(document).on('click', ".btn-delete-mdl-organization-modal", function(e) {
+            e.preventDefault();
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+    
+            let itemId = $(this).attr('data-val');
+            if (confirm("Are you sure you want to delete this Domain?")){
+    
+                let endPointUrl = "{{ route('fc.organizations.destroy','') }}/"+itemId;
+    
+                let formData = new FormData();
+                formData.append('_token', $('input[name="_token"]').val());
+                formData.append('_method', 'DELETE');
+                
+                $.ajax({
+                    url:endPointUrl,
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    processData:false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(result){
+                        if(result.errors){
+                            console.log(result.errors)
+                        }else{
+                            window.alert("The Domain record has been deleted.");
+                            location.reload(true);
+                        }
+                    },
+                });            
+            }
+        });
+    
+        //Save details
+        $('#btn-save-mdl-organization-modal').click(function(e) {
+            e.preventDefault();
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+    
+            let actionType = "POST";
+            let endPointUrl = "{{ route('fc.organizations.store') }}";
+            let primaryId = $('#txt-organization-primary-id').val();
+            
+            let formData = new FormData();
+            formData.append('_token', $('input[name="_token"]').val());
+    
+            if (primaryId != "0"){
+                actionType = "PUT";
+                endPointUrl = "{{ route('fc.organizations.update','') }}/"+primaryId;
+                formData.append('id', primaryId);
+            }
+            
+            formData.append('_method', actionType);
+            formData.append('org', $('#org').val());
+            formData.append('domain', $('#domain').val());
+            formData.append('full_url', $('#full_url').val());
+            formData.append('subdomain', $('#subdomain').val());
+            formData.append('shut_down_reason', $('#shut_down_reason').val());
+            formData.append('is_shut_down', $('#is_shut_down').is(':checked') ? 1:0);
+            formData.append('is_local_default_organization', $('#is_local_default_organization').is(':checked') ? 1:0);
+
+            $.ajax({
+                url:endPointUrl,
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData:false,
+                contentType: false,
+                dataType: 'json',
+                success: function(result){
+                    if(result.errors){
+                        $('#div-organization-modal-error').html('');
+                        $('#div-organization-modal-error').show();
+                        
+                        $.each(result.errors, function(key, value){
+                            $('#div-organization-modal-error').append('<li class="">'+value+'</li>');
+                        });
+                    }else{
+                        $('#div-organization-modal-error').hide();
+                        window.setTimeout( function(){
+                            window.alert("The Domain saved successfully.");
+                            $('#div-organization-modal-error').hide();
+                            location.reload(true);
+                        },20);
+                    }
+                }, error: function(data){
+                    console.log(data);
+                }
+            });
+        });
+    
+    });
+</script>
+@endpush
