@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Ledger;

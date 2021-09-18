@@ -31,6 +31,7 @@
         "illuminate/routing": "^6|^7|^8",
         "illuminate/session": "^6|^7|^8",
         "illuminate/support": "^6|^7|^8",
+        "laravel/sanctum": "^2.11",
         "nesbot/carbon": "^2.50",
         "spatie/laravel-permission": "^4.2",
         "symfony/debug": "^4.3|^5",
