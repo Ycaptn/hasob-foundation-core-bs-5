@@ -57,7 +57,7 @@ class OrganizationManager {
             $tenant = Organization::query()->where('full_url', 'LIKE', "%{$identifier}%")->first();
             if ($tenant) {
                 Log::info("Organization Found for Host {$identifier}");
-                Log::info("Organization Loaded in Tenant Manager => {$tenant->full_name}");
+                Log::info("Organization Loaded in Tenant Manager => {$tenant->id} => {$tenant->org}/{$tenant->domain}");
                 $this->setTenant($tenant);
                 return $tenant;
             }

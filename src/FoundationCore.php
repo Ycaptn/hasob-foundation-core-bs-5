@@ -74,6 +74,18 @@ class FoundationCore
         //Site Display
         Route::get('/public/{id}', [SiteDisplayController::class, 'index'])->name('fc.site-display.index');
         Route::get('/phpinfo', function () { phpinfo(); })->name('fc.php-info');
+
+        Route::get('/clear-cache', function() {
+            \Artisan::call('cache:clear');
+            \Artisan::call('config:cache');
+            \Artisan::call('clear-compiled');
+            \Artisan::call('optimize');
+            return "Cache is cleared ... Check again";
+        })->name('fc.clear-cache');
+
+        //Multi Tenancy
+        Route::get('/org-detect',[OrganizationController::class,'detect'])->name('fc.org-detect');
+
     }
 
     public function routes()
@@ -125,9 +137,6 @@ class FoundationCore
             Route::post('/profile/availability', [UserController::class, 'modifyUserAvailability'])->name('user-availability');
 
 
-            //Multi Tenancy
-            Route::get('/org-detect',[OrganizationController::class,'detect'])->name('org-detect');
-
             //Org settings
             Route::resource('organizations', OrganizationController::class);
             Route::resource('settings', SettingController::class);
@@ -152,14 +161,6 @@ class FoundationCore
                 ob_end_clean();
                 return $response;
             })->name('get-dept-picture');
-
-            Route::get('/clear-cache', function() {
-                Artisan::call('cache:clear');
-                Artisan::call('config:cache');
-                Artisan::call('clear-compiled');
-                Artisan::call('optimize');
-                return "Cache is cleared ... Check again";
-            })->name('clear-cache');
 
         });
 
