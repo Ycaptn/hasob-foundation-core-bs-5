@@ -20,7 +20,7 @@ trait Attachable
     public function get_attachment($name){
         $attachables = EloquentAttachable::where('attachable_id', $this->id)
                                             ->where('attachable_type', self::class)    
-                                            ->orderBy('created_at')                                
+                                            ->orderBy('created_at','desc')
                                             ->get();
 
         $attachments = [];
@@ -35,7 +35,7 @@ trait Attachable
     public function get_attachments(){
         $attachables = EloquentAttachable::where('attachable_id', $this->id)
                                             ->where('attachable_type', self::class)    
-                                            ->orderBy('created_at')                                
+                                            ->orderBy('created_at','desc')
                                             ->get();
 
         $attachments = [];
