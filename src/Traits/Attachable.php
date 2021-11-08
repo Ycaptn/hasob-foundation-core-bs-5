@@ -16,6 +16,22 @@ use Hasob\FoundationCore\Models\Organization;
 trait Attachable
 {
 
+
+    public function get_attachment($name){
+        $attachables = EloquentAttachable::where('attachable_id', $this->id)
+                                            ->where('attachable_type', self::class)    
+                                            ->orderBy('created_at')                                
+                                            ->get();
+
+        $attachments = [];
+        foreach ($attachables as $attachable){
+            if ($attachable->attachment != null && $attachable->attachment->label == $name){
+                return $attachable->attachment;
+            }
+        }
+        return null;
+    }
+
     public function get_attachments(){
         $attachables = EloquentAttachable::where('attachable_id', $this->id)
                                             ->where('attachable_type', self::class)    

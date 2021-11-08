@@ -7,7 +7,7 @@
 @if (FoundationCore::has_feature('sites', $organization))
 <li class="">
     <a href="{{ route('fc.sites.index') }}" class="{{ Request::is('fc/sites') ? 'active' : '' }}">
-        <div class="pull-left"><i class="zmdi zmdi-globe-alt mr-20"></i><span class="right-nav-text">Sites</span></div><div class="pull-right"></div><div class="clearfix"></div>
+        <div class="pull-left"><i class="zmdi zmdi-globe-alt mr-10"></i><span class="right-nav-text">Sites</span></div><div class="pull-right"></div><div class="clearfix"></div>
     </a>
 </li>
 @endif
@@ -15,7 +15,7 @@
 @if (FoundationCore::has_feature('departments', $organization))
 <li class="">
     <a href="{{ route('fc.departments.index') }}" class="{{ Request::is('fc/departments') ? 'active' : '' }}">
-        <div class="pull-left"><i class="zmdi zmdi-group mr-20"></i><span class="right-nav-text">Departments</span></div><div class="pull-right"></div><div class="clearfix"></div>
+        <div class="pull-left"><i class="zmdi zmdi-group mr-10"></i><span class="right-nav-text">Departments</span></div><div class="pull-right"></div><div class="clearfix"></div>
     </a>
 </li>
 @endif
@@ -23,14 +23,14 @@
 @if (FoundationCore::has_feature('ledgers', $organization))
 <li class="">
     <a href="{{ route('fc.ledgers.index') }}" class="{{ Request::is('fc/ledgers') ? 'active' : '' }}">
-        <div class="pull-left"><i class="zmdi zmdi-bookmark-outline mr-20"></i><span class="right-nav-text">Ledgers</span></div><div class="pull-right"></div><div class="clearfix"></div>
+        <div class="pull-left"><i class="zmdi zmdi-bookmark-outline mr-10"></i><span class="right-nav-text">Ledgers</span></div><div class="pull-right"></div><div class="clearfix"></div>
     </a>
 </li>
 @endif
 
 <li>
     <a href="javascript:void(0);" data-toggle="collapse" data-target="#access_dr" class="collapsed" aria-expanded="false">
-        <div class="pull-left"><i class="zmdi zmdi-accounts-list mr-20"></i>
+        <div class="pull-left"><i class="zmdi zmdi-accounts-list mr-10"></i>
             <span class="right-nav-text">Access Control</span>
         </div>
         <div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div>
@@ -39,17 +39,17 @@
         
         <li class="">
             <a href="{{ route('fc.users.index') }}" class="{{ Request::is('fc/users') ? 'active' : '' }}">
-                <div class="pull-left"><i class="zmdi zmdi-accounts-outline mr-20"></i><span class="right-nav-text">Users</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                <div class="pull-left"><i class="zmdi zmdi-accounts-outline mr-10"></i><span class="right-nav-text">Users</span></div><div class="pull-right"></div><div class="clearfix"></div>
             </a>
         </li>
         <li class="">
             <a href="{{ route('fc.user.show',0) }}" class="{{ Request::is('fc/user/0') ? 'active' : '' }}">
-                <div class="pull-left"><i class="zmdi zmdi-account-add mr-20"></i><span class="right-nav-text">Add User</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                <div class="pull-left"><i class="zmdi zmdi-account-add mr-10"></i><span class="right-nav-text">Add User</span></div><div class="pull-right"></div><div class="clearfix"></div>
             </a>
         </li>
         <li class="">
             <a href="{{ route('fc.roles.index') }}" class="{{ Request::is('fc/roles*') ? 'active' : '' }}">
-                <div class="pull-left"><i class="zmdi zmdi-gamepad mr-20"></i><span class="right-nav-text">Roles</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                <div class="pull-left"><i class="zmdi zmdi-gamepad mr-10"></i><span class="right-nav-text">Roles</span></div><div class="pull-right"></div><div class="clearfix"></div>
             </a>
         </li>
 
