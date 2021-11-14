@@ -81,7 +81,6 @@ class UserDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '50px', 'printable' => false])
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
@@ -99,12 +98,20 @@ class UserDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'no',
-            'user',
-            'email',
-            'telephone',
-            'roles',
-            'last_login'
+            Column::make('no')
+                ->addClass('text-center')
+                ->width(10)
+            ,
+            Column::make('user'),
+            Column::make('email'),
+            Column::make('telephone'),
+            Column::make('roles'),
+            Column::make('last_login'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width('20px')
+                ->addClass('text-center')
         ];
     }
 

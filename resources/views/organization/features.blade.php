@@ -16,7 +16,7 @@ Features
 
 <div class="row">
 
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <div class="panel panel-default card-view">
             <div class="panel-wrapper collapse in">
                 <div class="panel-body pa-20">

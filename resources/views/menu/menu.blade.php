@@ -61,7 +61,7 @@
 
 <li>
     <a href="javascript:void(0);" data-toggle="collapse" data-target="#settings_dr" class="collapsed" aria-expanded="false">
-        <div class="pull-left"><i class="zmdi zmdi-wrench mr-20"></i>
+        <div class="pull-left"><i class="zmdi zmdi-wrench mr-10"></i>
             <span class="right-nav-text">System</span>
         </div>
         <div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div>
@@ -70,19 +70,19 @@
 
         <li class="">
             <a href="{{ route('fc.org-settings') }}" class="{{ Request::is('fc/org-settings') ? 'active' : '' }}">
-                <div class="pull-left"><i class="zmdi zmdi-settings mr-20"></i><span class="right-nav-text">Settings</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                <div class="pull-left"><i class="zmdi zmdi-settings mr-10"></i><span class="right-nav-text">Settings</span></div><div class="pull-right"></div><div class="clearfix"></div>
             </a>
         </li>
 
         <li class="">
             <a href="{{ route('fc.org-domains') }}" class="{{ Request::is('fc/org-domains') ? 'active' : '' }}">
-                <div class="pull-left"><i class="zmdi zmdi-seat mr-20"></i><span class="right-nav-text">Domains</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                <div class="pull-left"><i class="zmdi zmdi-seat mr-10"></i><span class="right-nav-text">Domains</span></div><div class="pull-right"></div><div class="clearfix"></div>
             </a>
         </li>
 
         <li class="">
             <a href="{{ route('fc.org-features') }}" class="{{ Request::is('fc/org-features') ? 'active' : '' }}">
-                <div class="pull-left"><i class="zmdi zmdi-apps mr-20"></i><span class="right-nav-text">Features</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                <div class="pull-left"><i class="zmdi zmdi-apps mr-10"></i><span class="right-nav-text">Features</span></div><div class="pull-right"></div><div class="clearfix"></div>
             </a>
         </li>
 

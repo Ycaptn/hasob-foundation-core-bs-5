@@ -15,7 +15,13 @@ System Roles
 
 @section('content')
 
-    {!! $dataTable->table(['width' => '100%', 'class' => 'table table-striped table-bordered']) !!}
+    <div class="panel panel-default card-view pa-10">
+        <div class="panel-wrapper collapse in">
+            <div class="panel-body pa-0">
+                {!! $dataTable->table(['width' => '100%', 'class' => 'table table-striped table-bordered']) !!}
+            </div>
+        </div>
+    </div>
 
 
     <!-- Modal -->

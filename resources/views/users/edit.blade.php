@@ -39,10 +39,18 @@
 
 								<ul class="nav nav-tabs" role="tablist">
 									<li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab">Details</a></li>
+
+                                    @if (FoundationCore::has_feature('user-presence', $organization))
                                     <li role="presentation"><a href="#presence" aria-controls="presence" role="tab" data-toggle="tab">Presence Status</a></li>
+                                    @endif
+
 									<li role="presentation"><a href="#disable" aria-controls="disable" role="tab" data-toggle="tab">Disable</a></li>
                                     <li role="presentation"><a href="#roles" aria-controls="roles" role="tab" data-toggle="tab">Security Roles</a></li>
+                                    
+                                    @if (FoundationCore::has_feature('user-active-directory', $organization))
                                     <li role="presentation"><a href="#active-directory" aria-controls="active-directory" role="tab" data-toggle="tab">Active Directory</a></li>
+                                    @endif
+
                                     <li role="presentation"><a href="#others" aria-controls="others" role="tab" data-toggle="tab">Others</a></li>
                                     @if($is_edit)
                                     <li role="presentation"><a href="#raw" aria-controls="raw" role="tab" data-toggle="tab">Raw</a></li>
@@ -183,6 +191,7 @@
                                         </div>
                                     </div>
 
+                                    @if (FoundationCore::has_feature('user-presence', $organization))
                                     <div role="tabpanel" class="tab-pane" id="presence" style="margin-top:15px;">
 
                                         <div class="form-group">
@@ -206,6 +215,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
 
                                     <div role="tabpanel" class="tab-pane" id="disable" style="margin-top:15px;">
 
@@ -261,6 +271,7 @@
                                         @endif
                                     </div>
 
+                                    @if (FoundationCore::has_feature('user-active-directory', $organization))
                                     <div role="tabpanel" class="tab-pane" id="active-directory" style="margin-top:15px;">
 
                                         <div class="form-group">
@@ -292,6 +303,7 @@
                                         </div>
 
                                     </div>
+                                    @endif
 
                                     <div role="tabpanel" class="tab-pane" id="others" style="margin-top:15px;">
 

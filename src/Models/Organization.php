@@ -2,6 +2,8 @@
 
 namespace Hasob\FoundationCore\Models;
 
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -63,9 +65,13 @@ class Organization extends Model
 
         $features_config = array_merge(
             config('hasob-edms.hasob_features'),
+            config('hasob-scola.hasob_features'),
             config('hasob-workflow.hasob_features'),
-            config('hasob-foundation-core.hasob_features')
+            config('hasob-foundation-core.hasob_features'),
+            config('hasob-scola-gradebook.hasob_features')
         );
+
+        //Log::debug(config('*.hasob_features'));
 
         $features_saved = [];
         $artifact_record = $this->artifact('features');
