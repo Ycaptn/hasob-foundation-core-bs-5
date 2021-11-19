@@ -64,11 +64,11 @@ class Organization extends Model
     public function get_features(){
 
         $features_config = array_merge(
-            config('hasob-edms.hasob_features'),
-            config('hasob-scola.hasob_features'),
-            config('hasob-workflow.hasob_features'),
-            config('hasob-foundation-core.hasob_features'),
-            config('hasob-scola-gradebook.hasob_features')
+            config('hasob-edms.hasob_features')!=null ? config('hasob-edms.hasob_features') : [] ,
+            config('hasob-scola.hasob_features')!=null ? config('hasob-scola.hasob_features') : [] ,
+            config('hasob-workflow.hasob_features')!=null ? config('hasob-workflow.hasob_features') : [] ,
+            config('hasob-foundation-core.hasob_features')!=null ? config('hasob-foundation-core.hasob_features') : [] ,
+            config('hasob-scola-gradebook.hasob_features')!=null ? config('hasob-scola-gradebook.hasob_features') : []
         );
 
         //Log::debug(config('*.hasob_features'));
