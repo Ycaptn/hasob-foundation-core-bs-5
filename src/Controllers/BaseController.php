@@ -2,6 +2,7 @@
 
 namespace Hasob\FoundationCore\Controllers;
 
+use Response;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -74,6 +75,50 @@ class BaseController extends Controller
 
         $valid_chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
         return self::getRandomString($valid_chars, $length);
+    }
+
+
+    public function sendResponse($result, $message)
+    {
+        return Response::json(self::makeResponse($message, $result));
+    }
+
+
+    public function sendError($error, $code = 404)
+    {
+        return Response::json(self::makeError($error), $code);
+    }
+
+    
+    public function sendSuccess($message)
+    {
+        return Response::json([
+            'success' => true,
+            'message' => $message
+        ], 200);
+    }
+
+    public static function makeResponse($message, $data)
+    {
+        return [
+            'success' => true,
+            'data'    => $data,
+            'message' => $message,
+        ];
+    }
+
+    public static function makeError($message, array $data = [])
+    {
+        $res = [
+            'success' => false,
+            'message' => $message,
+        ];
+
+        if (!empty($data)) {
+            $res['data'] = $data;
+        }
+
+        return $res;
     }
 
 
