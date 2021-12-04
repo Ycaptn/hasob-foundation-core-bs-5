@@ -114,9 +114,13 @@ class CardDataView extends Component
             }
 
             if (empty($search_term)==false && $this->search_fields!=null && is_array($this->search_fields)){
-                foreach($this->search_fields as $idx=>$search_field){
-                    $model_query = $model_query->where($search_field,"LIKE","%{$search_term}%");
-                }
+                
+                $search_fields = $this->search_fields;
+                $model_query = $model_query->where(function($q) use ($search_fields, $search_term){
+                    foreach($search_fields as $idx=>$search_field){
+                        $q->orWhere($search_field,"LIKE","%{$search_term}%");
+                    }
+                });
             }
             
             $group_term = null;
