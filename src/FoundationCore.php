@@ -78,6 +78,19 @@ class FoundationCore
         return false;
     }
 
+    public function get_setting(Organization $org, $key){
+
+        if (Schema::hasTable('fc_settings')){    
+            if ($org != null){
+                $record = Setting::where(['organization_id'=>$org->id,'key'=>$key])->first();
+                if ($record != null){
+                    return $record;
+                }
+            }
+        }
+        return null;
+    }
+
     public function register_setting(Organization $org, $key, $group_name, $display_type, $display_name, $owner_feature, $display_ordinal=1){
 
         if (Schema::hasTable('fc_settings')){    
