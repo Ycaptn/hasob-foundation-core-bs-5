@@ -2,16 +2,28 @@
 
 
 @section('title_postfix')
-Settings
+Application Settings
 @stop
 
 @section('page_title')
-Settings
-<a href="#" class="btn btn-xs btn-primary pull-right btn-new-mdl-setting-modal">Add Setting</a>
+Application Settings
 @stop
 
-@section('app_css')   
-@endsection
+
+@section('page_title_subtext')
+    <a class="ml-10 mb-10" href="{{ URL::previous() }}" style="font-size:11px;color:blue;">
+        <i class="fa fa-angle-double-left"></i> Back to Dashboard
+    </a>
+@stop
+
+@section('page_title_buttons')
+<span class="pull-right">
+    {{-- <a href="#" class="btn btn-xs btn-primary pull-right btn-new-mdl-setting-modal">
+        <i class="zmdi zmdi-file-plus"></i> Add New Setting
+    </a> --}}
+</span>
+@stop
+
 
 @section('content')
 

@@ -8,9 +8,7 @@
         <div class="panel panel-default card-view">
             <div class="panel-wrapper collapse in">
                 <div class="panel-body pt-0">
-
                     @if (isset($settings) && count($settings)>0)
-
                         <div class="pills-struct">
                             <ul role="tablist" class="nav nav-pills" id="settings_tab">
                                 @foreach($groups as $idx=>$group)
@@ -28,7 +26,6 @@
                                 @endforeach
                             </ul>
                             <div class="tab-content" id="settins_tab_content">
-
                                 @foreach($groups as $idx=>$group)
                                 @php
                                     $active_str = "";
@@ -41,13 +38,6 @@
                                     <div class="table-wrap">
                                         <div class="table-responsive">
                                             <table class="table table-hover mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="30%">Key</th>
-                                                        <th width="50%">Value</th>
-                                                        <th width="20%">Group</th>
-                                                    </tr>
-                                                </thead>
                                                 <tbody>
                                                     @foreach ($settings as $item)
                                                     @php
@@ -56,20 +46,35 @@
                                                         }
                                                     @endphp
                                                     <tr>
-                                                        <td width="30%">                                                
+                                                        <td width="20px" class="text-center">
                                                             <a href="javascript:void(0)" class="pr-5 text-primary btn-edit-mdl-setting-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
-                                                            <a href="javascript:void(0)" class="pr-10 text-primary btn-delete-mdl-setting-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Delete" aria-describedby="tooltip563">
-                                                                <i class="fa fa-trash text-danger"></i>
-                                                            </a>
-                                                            {{$item->key}}
                                                         </td>
                                                         <td>
-                                                            {{$item->value}}
-                                                        </td>
-                                                        <td>
-                                                            {{$item->group_name}}
+                                                            <em>{{$item->display_name}}</em>
+                                                            @if (empty($item->value))
+                                                                &nbsp;<span class="txt-danger small"> - No value set</span>
+                                                            @else
+                                                                <blockquote class="ma-5 small pa-10">
+                                                                    @if($item->display_type=="boolean")
+                                                                        @if (filter_var($item->value,FILTER_VALIDATE_BOOLEAN)==true)
+                                                                        Selected - Enabled
+                                                                        @else
+                                                                        Disenabled
+                                                                        @endif
+                                                                    @elseif($item->display_type=="file-select")
+                                                                        <div class="size-container">
+                                                                            <img src="{{ route('fc.attachment.show', $item->value) }}" />
+                                                                        </div>
+                                                                        <a target="_blank" class="small txt-danger ma-5" href="{{ route('fc.attachment.show', $item->value) }}">View Full Image</a>
+                                                                    @elseif($item->display_type=="textarea")
+                                                                        {!! nl2br($item->value) !!}
+                                                                    @else
+                                                                        {{ $item->value }}
+                                                                    @endif
+                                                                </blockquote>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -80,26 +85,23 @@
 
                                 </div>
                                 @endforeach
-
                             </div>
                         </div>
-
                     @else
                         <p>No Settings, use the add button to add a setting.</p>
                     @endif
-
                 </div>
             </div>
         </div>
     </div>
         
     <div class="modal fade" id="mdl-setting-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 id="lbl-setting-modal-title" class="modal-title">Setting</h4>
+                    <h4 class="modal-title">Application Setting</h4>
                 </div>
 
                 <div class="modal-body">
@@ -114,37 +116,49 @@
                                 </div>
 
                                 <input type="hidden" id="txt-setting-primary-id" value="0" />
-                                <div id="div-show-txt-setting-primary-id">
-                                    <div class="row">
-                                        <div class="col-lg-10 ma-10">
-                                        </div>
-                                    </div>
-                                </div>
+                                <input type="hidden" id="txt-setting-display-type" value="0" />
+
                                 <div id="div-edit-txt-setting-primary-id">
                                     <div class="row">
-                                        <div class="col-lg-10 ma-10">
+                                        <div class="col-lg-11 ma-10">
                                         
-                                            <!-- Key Field -->
-                                            <div id="div-key" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="key">Key</label>
-                                                <div class="col-sm-9">
-                                                    {!! Form::text('key', null, ['id'=>'key','class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
+                                            <div id="div-value-key" class="form-group">
+                                                <div class="col-sm-12">
+                                                    <span id="key" name="key"></span>
                                                 </div>
                                             </div>
 
-                                            <!-- Value Field -->
                                             <div id="div-value" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="value">Value</label>
-                                                <div class="col-sm-9">
-                                                    {!! Form::textarea('value', null, ['id'=>'value','rows'=>'3','class'=>'form-control']) !!}
-                                                </div>
-                                            </div>
+                                                <div class="col-sm-12">
+                                                    
+                                                    <textarea id="value-textarea" rows="8" class="form-control"></textarea>
+                                                
+                                                    <input type="text" id="value-text" class="form-control" />
+                                                
+                                                    <div id="div-check-box" class="checkbox checkbox-primary">
+                                                        <input id="value-cbx" type="checkbox">
+                                                        <label for="checkbox2">
+                                                            Selected - Enabled
+                                                        </label>
+                                                    </div>
+                                                
+                                                    <div id="div-file-select" class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                        <div class="form-control" data-trigger="fileinput"> 
+                                                            <i class="glyphicon glyphicon-file fileinput-exists"></i> 
+                                                            <span class="fileinput-filename"></span>
+                                                        </div>
+                                                        <span class="input-group-addon fileupload btn btn-primary btn-anim btn-file">
+                                                            <i class="fa fa-upload"></i> 
+                                                            <span class="fileinput-new btn-text">Select file
+                                                        </span> 
+                                                        <span class="fileinput-exists btn-text">Change</span>
+                                                            <input type="hidden"><input id="value-file" type="file" name="...">
+                                                        </span> 
+                                                        <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput">
+                                                            <i class="fa fa-trash"></i><span class="btn-text"> Remove</span>
+                                                        </a> 
+                                                    </div>
 
-                                            <!-- Group Name Field -->
-                                            <div id="div-group_name" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="group_name">Group Name</label>
-                                                <div class="col-sm-9">
-                                                    {!! Form::text('group_name', null, ['id'=>'group_name','class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
                                                 </div>
                                             </div>
 
@@ -204,13 +218,35 @@
             $('#div-edit-txt-setting-primary-id').show();
             let itemId = $(this).attr('data-val');
 
+            $('#key').empty();
+            $('#value-text').hide();
+            $('#div-check-box').hide();
+            $('#value-textarea').hide();
+            $('#div-file-select').hide();
+
             $.get( "{{ route('fc.settings.show','') }}/"+itemId).done(function( data ) {     
 
                 $('#txt-setting-primary-id').val(data.response.id);
+                $('#txt-setting-display-type').val(data.response.display_type);
+                $('#key').append(data.response.display_name);
 
-                $('#key').val(data.response.key);
-                $('#value').val(data.response.value);
-                $('#group_name').val(data.response.group_name);
+                if (data.response.display_type=="file-select"){
+                    $('#div-file-select').show();
+
+                } else if (data.response.display_type=="textarea"){
+                    $('#value-textarea').show();
+                    $('#value-textarea').val(data.response.value);
+
+                } else if (data.response.display_type=="boolean"){
+                    $('#div-check-box').show();
+                    if (data.response.value && data.response.value==true){
+                        $('#value-cbx').prop("checked", true);
+                    }
+
+                } else {
+                    $('#value-text').show();
+                    $('#value-text').val(data.response.value);
+                }
 
                 $("#spinner-settings").hide();
                 $("btn-save-mdl-setting-modal").attr('disabled', false);
@@ -268,14 +304,31 @@
 
             if (primaryId != "0"){
                 actionType = "PUT";
-                endPointUrl = "{{ route('fc.settings.update','') }}"+primaryId;
+                endPointUrl = "{{ route('fc.settings.update','') }}/"+primaryId;
                 formData.append('id', primaryId);
             }
             
             formData.append('_method', actionType);
-            formData.append('key', $('#key').val());
-            formData.append('value', $('#value').val());
-            formData.append('group_name', $('#group_name').val());
+            
+            @if (isset($organization) && $organization!=null)
+                formData.append('organization_id', '{{$organization->id}}');
+            @endif
+
+            display_type = $('#txt-setting-display-type').val();
+            if (display_type=="file-select"){
+                $('#div-file-select').show();
+                formData.append('value', $('#value-file')[0].files[0]);
+
+            } else if (display_type=="textarea"){
+                formData.append('value', $('#value-textarea').val());
+
+            } else if (display_type=="boolean"){
+                $('#div-check-box').show();
+                formData.append('value', $('#value-cbx').prop("checked"));
+
+            } else {
+                formData.append('value', $('#value-text').val());
+            }
 
             $.ajax({
                 url:endPointUrl,

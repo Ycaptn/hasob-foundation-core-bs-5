@@ -1,16 +1,21 @@
 <?php
 namespace Hasob\FoundationCore;
 
-use Illuminate\Support\Facades\Route;
-
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-use Hasob\FoundationCore\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
+
 use Hasob\FoundationCore\Models\Site;
+use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Ledger;
+use Hasob\FoundationCore\Models\Setting;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
+
+use Hasob\FoundationCore\Managers\OrganizationManager;
 
 use Hasob\FoundationCore\Controllers\TagController;
 use Hasob\FoundationCore\Controllers\PageController;
@@ -26,7 +31,6 @@ use Hasob\FoundationCore\Controllers\DepartmentController;
 use Hasob\FoundationCore\Controllers\AttachmentController;
 use Hasob\FoundationCore\Controllers\SiteDisplayController;
 use Hasob\FoundationCore\Controllers\OrganizationController;
-
 
 class FoundationCore
 {
@@ -47,6 +51,21 @@ class FoundationCore
         return Site::all_sites($org);
     }
 
+    public function enabled_features(Organization $org){
+
+        $enabled = [];
+        if ($org != null){       
+            $features = $org->get_features();
+            foreach($features as $key=>$feature){
+                if ($feature){
+                    $enabled[]=$key;
+                }
+            }
+        }
+
+        return $enabled;
+    }
+
     public function has_feature($feature, Organization $org){
 
         if ($org != null){       
@@ -59,13 +78,32 @@ class FoundationCore
         return false;
     }
 
-    public function api_routes()
-    {
+    public function register_setting(Organization $org, $key, $group_name, $display_type, $display_name, $owner_feature, $display_ordinal=1){
+
+        if (Schema::hasTable('fc_settings')){    
+            if ($org != null){
+                $record = Setting::where(['organization_id'=>$org->id,'key'=>$key])->first();
+                if ($record == null){
+                    Setting::create([
+                        'organization_id'=>$org->id,
+                        'display_ordinal'=>$display_ordinal,
+                        'group_name'=>$group_name,
+                        'display_name'=>$display_name,
+                        'display_type'=>$display_type,
+                        'owner_feature'=>$owner_feature,
+                        'key'=>$key
+                    ]);
+                }
+            }
+        }
 
     }
 
-    public function api_public_routes()
-    {
+    public function api_routes(){
+        Route::resource('settings', \Hasob\FoundationCore\Controllers\API\SettingAPIController::class);
+    }
+
+    public function api_public_routes(){
 
     }
 
@@ -161,6 +199,11 @@ class FoundationCore
                 ob_end_clean();
                 return $response;
             })->name('get-dept-picture');
+
+            //Resources
+            Route::resource('settings', \Hasob\FoundationCore\Controllers\SettingController::class);
+
+
 
         });
 

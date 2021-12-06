@@ -17,19 +17,25 @@ class CreateSettingsTable extends Migration
         Schema::create('fc_settings', function (Blueprint $table) {
 
             $table->uuid('id')->primary();
+            $table->foreignUuid('organization_id')->references('id')->on('fc_organizations');
+
+            $table->integer('display_ordinal')->default(0);
+            $table->string('display_type', 200)->nullable();
+            $table->string('display_name', 200)->nullable();
+            $table->string('allowed_editor_roles', 200)->nullable();
+            $table->string('allowed_view_roles', 200)->nullable();
+            $table->string('owner_feature', 200)->nullable();
+
             $table->string('key');
             $table->text('value')->nullable();
-            $table->binary('binary_value')->nullable();
-
+            
             $table->string('group_name')->nullable();
             $table->string('model_type')->nullable();
             $table->string('model_value')->nullable();
-
-            $table->uuid('organization_id')->nullable();
-            $table->foreign('organization_id')->references('id')->on('fc_organizations');
-
+            
             $table->timestamps();
             $table->softDeletes();
+            
         });
     }
 
