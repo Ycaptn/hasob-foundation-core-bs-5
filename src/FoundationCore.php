@@ -17,6 +17,11 @@ use Hasob\FoundationCore\Models\Organization;
 
 use Hasob\FoundationCore\Managers\OrganizationManager;
 
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Exceptions\RoleDoesNotExist;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
+
 use Hasob\FoundationCore\Controllers\TagController;
 use Hasob\FoundationCore\Controllers\PageController;
 use Hasob\FoundationCore\Controllers\SiteController;
@@ -112,6 +117,27 @@ class FoundationCore
 
     }
 
+    public function register_roles($roles_list){
+
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        
+        foreach ($roles_list as $role=>$permissions) {
+            try{
+                $dbRole = Role::findByName($role);
+            }catch(RoleDoesNotExist $e) {
+                $dbRole = Role::create(['name'=>$role]);
+            }
+            foreach ($permissions as $permission){
+                try{
+                    $dbPerm = Permission::findByName($permission);
+                }catch(PermissionDoesNotExist $e) {
+                    $dbPerm = Permission::create(['name'=>$permission]);
+                }
+                $dbRole->givePermissionTo($permission);
+            }
+        }
+    }
+
     public function api_routes(){
         Route::resource('settings', \Hasob\FoundationCore\Controllers\API\SettingAPIController::class);
     }
@@ -120,8 +146,7 @@ class FoundationCore
 
     }
 
-    public function public_routes()
-    {
+    public function public_routes(){
         //Site Display
         Route::get('/public/{id}', [SiteDisplayController::class, 'index'])->name('fc.site-display.index');
         Route::get('/phpinfo', function () { phpinfo(); })->name('fc.php-info');
@@ -139,8 +164,7 @@ class FoundationCore
 
     }
 
-    public function routes()
-    {
+    public function routes(){
 
         Route::name('fc.')->prefix('fc')->group(function(){
 
@@ -221,6 +245,5 @@ class FoundationCore
         });
 
     }
-
 
 }
