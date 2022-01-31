@@ -25,6 +25,11 @@ class OrganizationController extends BaseController
 {
 
     public function detect(Organization $org, Request $request){
+
+        if ($request->expectsJson()){
+            return self::createJSONResponse("ok","success",$org,200);
+        }
+
         return "Organization Detected ==> {$org}";
     }
 
