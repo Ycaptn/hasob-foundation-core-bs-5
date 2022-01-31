@@ -97,6 +97,10 @@ class Site extends Model
         return $this->hasMany(Page::class);
     }
 
+    public function site_artifacts(){
+        return $this->hasMany(SiteArtifact::class);
+    }
+
     public function save(array $options = []){
 
         $exists = $this->exists;

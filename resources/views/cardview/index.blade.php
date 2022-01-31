@@ -19,7 +19,10 @@
         @endif
     </div>
 </div>
-
+<div class="offline-flag"><span class="offline">You are currently offline</span></div>
+<div id="spinner-{{$control_id}}" class="">
+    <div class="loader" id="loader-{{$control_id}}"></div>
+</div>
 <div id="{{$control_id}}-div-card-view" class="row"></div>
 
 @if ($data_set_enable_pagination == true)

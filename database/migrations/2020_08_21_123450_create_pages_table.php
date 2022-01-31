@@ -23,6 +23,8 @@ class CreatePagesTable extends Migration
             $table->string('page_path')->nullable();
             $table->text('content')->nullable();
 
+            $table->integer('display_ordinal')->default(0);
+
             $table->boolean('is_hidden')->default(false);
             $table->boolean('is_published')->default(false);
             $table->boolean('allow_comments')->default(false);

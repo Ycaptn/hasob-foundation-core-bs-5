@@ -21,6 +21,7 @@ class CreateSettingsTable extends Migration
 
             $table->integer('display_ordinal')->default(0);
             $table->string('display_type', 200)->nullable();
+            $table->string('display_type_options', 200)->nullable();
             $table->string('display_name', 200)->nullable();
             $table->string('allowed_editor_roles', 200)->nullable();
             $table->string('allowed_view_roles', 200)->nullable();

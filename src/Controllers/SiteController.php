@@ -6,112 +6,224 @@ use Carbon;
 use Session;
 use Validator;
 
+use Hasob\FoundationCore\Models\Site;
+
+use Hasob\FoundationCore\Events\SiteCreated;
+use Hasob\FoundationCore\Events\SiteUpdated;
+use Hasob\FoundationCore\Events\SiteDeleted;
+
+use Hasob\FoundationCore\Requests\CreateSiteRequest;
+use Hasob\FoundationCore\Requests\UpdateSiteRequest;
+
+use Hasob\FoundationCore\DataTables\SiteDataTable;
+
+use Hasob\FoundationCore\Controllers\BaseController;
+use Hasob\FoundationCore\Models\Organization;
+
+use Flash;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 
-use Hasob\FoundationCore\Models\User;
-use Hasob\FoundationCore\Models\Site;
-use Hasob\FoundationCore\Models\Comment;
-use Hasob\FoundationCore\Models\Department;
-use Hasob\FoundationCore\Models\Organization;
 
 class SiteController extends BaseController
 {
+    /**
+     * Display a listing of the Site.
+     *
+     * @param SiteDataTable $siteDataTable
+     * @return Response
+     */
+    public function index(Organization $org, SiteDataTable $siteDataTable)
+    {
+        $current_user = Auth()->user();
 
-    public function index(Organization $org, Request $request){
+        $cdv_sites = new \Hasob\FoundationCore\View\Components\CardDataView(Site::class, "hasob-foundation-core::sites.card_view_item");
+        $cdv_sites->setDataQuery(['organization_id'=>$org->id])
+                        ->setSearchFields(['site_name','description'])
+                        ->addDataOrder('display_ordinal','DESC')
+                        ->enableSearch(true)
+                        ->enablePagination(true)
+                        ->setPaginationLimit(20)
+                        ->setSearchPlaceholder('Search Sites');
 
-        return view('hasob-foundation-core::sites.index')
-                ->with('sites', Site::all_sites($org));
+        if (request()->expectsJson()){
+            return $cdv_sites->render();
+        }
+
+        return view('hasob-foundation-core::sites.card_view_index')
+                    ->with('current_user', $current_user)
+                    ->with('months_list', BaseController::monthsList())
+                    ->with('states_list', BaseController::statesList())
+                    ->with('cdv_sites', $cdv_sites);
     }
 
-	//Display the specific resource
-    public function show(Organization $org, Request $request, $id){
-        $current_user = Auth::user();
-		
-		$item = null;
-        if (empty($id) == false){
-            $item = Site::find($id);
-        }
-
-        if ($item == null){
-			abort(404);
-        }
-		
-		if ($request->expectsJson()){
-			return self::createJSONResponse("ok","success",$item,200);
-		}
-		
-        return view('hasob-foundation-core::sites.site-manager')
-                    ->with('site', $item)
-                    ->with('organization', $org)
-                    ->with('current_user', $current_user);
+    /**
+     * Show the form for creating a new Site.
+     *
+     * @return Response
+     */
+    public function create(Organization $org)
+    {
+        return view('hasob-foundation-core::pages.sites.create');
     }
 
-	//Display creation of a new resource
-    public function create(Organization $org, Request $request){
-	
-		return view('hasob-foundation-core::.index')
-				->with('organization', $org)
-				->with('current_user', $current_user);
-	}
+    /**
+     * Store a newly created Site in storage.
+     *
+     * @param CreateSiteRequest $request
+     *
+     * @return Response
+     */
+    public function store(Organization $org, CreateSiteRequest $request)
+    {
+        $input = $request->all();
 
-	//Destroy the specific resource
-    public function destroy(Organization $org, Request $request, $id){
-		
-		$item = null;
-        if (empty($id) == false){
-            $item = Site::find($id);
-        }
-
-        if ($item == null){
-			abort(404);
-        }
-		
-		$item->destroy();
-	}
-
-	//Update a specific resource
-    public function update(Organization $org, Request $request, $id){
-	
-		$item = null;
-        if (empty($id) == false){
-            $item = Site::find($id);
-        }
-
-        if ($item == null){
-			abort(404);
-        }
-		
-		$item->save();
-	}
-
-	//Store a newly created resource
-    public function store(Organization $org, Request $request){
-
-        $current_user = Auth::user();
-
-        $site = new Site();
-        $site->site_name = $request->site_name;
-        $site->description = $request->site_description;
-        $site->organization_id = $org->id;
-        $site->creator_user_id = $current_user->id;
-        
+        /** @var Site $site */
+        $site = Site::create($input);
         if (empty($request->site_path) == true){
             $site->site_path = strtolower(self::generateRandomCode(8));
         }
-
-        if (empty($request->site_department) != false){
-            $site->department_id = $request->site_department;
-        }
         $site->save();
+        Flash::success('Site saved successfully.');
 
-        return self::createJSONResponse("ok","success",$site,200);
+        SiteCreated::dispatch($site);
+        return redirect(route('fc.sites.index'));
     }
 
+    /**
+     * Display the specified Site.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function show(Organization $org, $id)
+    {
+        /** @var Site $site */
+        $site = Site::find($id);
+
+        if (empty($site)) {
+            Flash::error('Site not found');
+
+            return redirect(route('fc.sites.index'));
+        }
+
+        return view('hasob-foundation-core::sites.show')->with('site', $site);
+    }
+
+    /**
+     * Show the form for editing the specified Site.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function edit(Organization $org, $id)
+    {
+        /** @var Site $site */
+        $site = Site::find($id);
+
+        if (empty($site)) {
+            Flash::error('Site not found');
+
+            return redirect(route('fc.sites.index'));
+        }
+
+        return view('hasob-foundation-core::sites.edit')->with('site', $site);
+    }
+
+    /**
+     * Update the specified Site in storage.
+     *
+     * @param  int              $id
+     * @param UpdateSiteRequest $request
+     *
+     * @return Response
+     */
+    public function update(Organization $org, $id, UpdateSiteRequest $request)
+    {
+        /** @var Site $site */
+        $site = Site::find($id);
+
+        if (empty($site)) {
+            Flash::error('Site not found');
+
+            return redirect(route('fc.sites.index'));
+        }
+
+        $site->fill($request->all());
+        $site->save();
+
+        Flash::success('Site updated successfully.');
+        
+        SiteUpdated::dispatch($site);
+        return redirect(route('fc.sites.index'));
+    }
+
+    /**
+     * Remove the specified Site from storage.
+     *
+     * @param  int $id
+     *
+     * @throws \Exception
+     *
+     * @return Response
+     */
+    public function destroy(Organization $org, $id)
+    {
+        /** @var Site $site */
+        $site = Site::find($id);
+
+        if (empty($site)) {
+            Flash::error('Site not found');
+
+            return redirect(route('fc.sites.index'));
+        }
+
+        $site->delete();
+
+        Flash::success('Site deleted successfully.');
+        SiteDeleted::dispatch($site);
+        return redirect(route('fc.sites.index'));
+    }
+
+        
+    public function processBulkUpload(Organization $org, Request $request){
+
+        $attachedFileName = time() . '.' . $request->file->getClientOriginalExtension();
+        $request->file->move(public_path('uploads'), $attachedFileName);
+        $path_to_file = public_path('uploads').'/'.$attachedFileName;
+
+        //Process each line
+        $loop = 1;
+        $errors = [];
+        $lines = file($path_to_file);
+
+        if (count($lines) > 1) {
+            foreach ($lines as $line) {
+                
+                if ($loop > 1) {
+                    $data = explode(',', $line);
+                    // if (count($invalids) > 0) {
+                    //     array_push($errors, $invalids);
+                    //     continue;
+                    // }else{
+                    //     //Check if line is valid
+                    //     if (!$valid) {
+                    //         $errors[] = $msg;
+                    //     }
+                    // }
+                }
+                $loop++;
+            }
+        }else{
+            $errors[] = 'The uploaded csv file is empty';
+        }
+        
+        if (count($errors) > 0) {
+            return $this->sendError($this->array_flatten($errors), 'Errors processing file');
+        }
+        return $this->sendResponse($subject->toArray(), 'Bulk upload completed successfully');
+    }
 }

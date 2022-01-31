@@ -23,6 +23,8 @@ class CreateSitesTable extends Migration
             $table->string('site_path')->nullable();
             $table->text('description')->nullable();
 
+            $table->integer('display_ordinal')->default(0);
+
             $table->uuid('siteable_id')->nullable();
             $table->string('siteable_type')->nullable();
             

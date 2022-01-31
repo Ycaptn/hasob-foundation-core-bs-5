@@ -119,27 +119,34 @@ class FoundationCore
 
     public function register_roles($roles_list){
 
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-        
-        foreach ($roles_list as $role=>$permissions) {
-            try{
-                $dbRole = Role::findByName($role);
-            }catch(RoleDoesNotExist $e) {
-                $dbRole = Role::create(['name'=>$role]);
-            }
-            foreach ($permissions as $permission){
+        if (Schema::hasTable('roles')){    
+            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+            
+            foreach ($roles_list as $role=>$permissions) {
                 try{
-                    $dbPerm = Permission::findByName($permission);
-                }catch(PermissionDoesNotExist $e) {
-                    $dbPerm = Permission::create(['name'=>$permission]);
+                    $dbRole = Role::findByName($role);
+                }catch(RoleDoesNotExist $e) {
+                    $dbRole = Role::create(['name'=>$role]);
                 }
-                $dbRole->givePermissionTo($permission);
+                foreach ($permissions as $permission){
+                    try{
+                        $dbPerm = Permission::findByName($permission);
+                    }catch(PermissionDoesNotExist $e) {
+                        $dbPerm = Permission::create(['name'=>$permission]);
+                    }
+                    $dbRole->givePermissionTo($permission);
+                }
             }
         }
     }
 
     public function api_routes(){
-        Route::resource('settings', \Hasob\FoundationCore\Controllers\API\SettingAPIController::class);
+        Route::name('fc-api.')->prefix('fc-api')->group(function(){
+            Route::resource('settings', \Hasob\FoundationCore\Controllers\API\SettingAPIController::class);
+            Route::resource('sites', \Hasob\FoundationCore\Controllers\API\SiteAPIController::class);
+            Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
+            Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
+        });
     }
 
     public function api_public_routes(){
@@ -161,7 +168,6 @@ class FoundationCore
 
         //Multi Tenancy
         Route::get('/org-detect',[OrganizationController::class,'detect'])->name('fc.org-detect');
-
     }
 
     public function routes(){
@@ -187,10 +193,12 @@ class FoundationCore
             //Resource Routes
             Route::resource('departments', DepartmentController::class);
             Route::resource('ledgers', LedgerController::class);
-            Route::resource('pages', PageController::class);
             Route::resource('sites', SiteController::class);
             Route::resource('tags', TagController::class);
             Route::resource('socials', SocialController::class);
+            Route::resource('settings', \Hasob\FoundationCore\Controllers\SettingController::class);
+            Route::resource('pages', \Hasob\FoundationCore\Controllers\PageController::class);
+            Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\SiteArtifactController::class);
 
             //User Management
             Route::get('/profile', [UserController::class, 'profile'])->name('users.profile');
@@ -236,11 +244,6 @@ class FoundationCore
                 ob_end_clean();
                 return $response;
             })->name('get-dept-picture');
-
-            //Resources
-            Route::resource('settings', \Hasob\FoundationCore\Controllers\SettingController::class);
-
-
 
         });
 

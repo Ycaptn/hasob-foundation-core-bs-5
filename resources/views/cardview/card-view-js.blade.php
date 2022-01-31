@@ -3,10 +3,23 @@
 <script type="text/javascript">
     $(document).ready(function() {
     
-        {{$control_id}}_display_results("{{url()->full()}}");
+        {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
 
         function {{$control_id}}_display_results(endpoint_url){
-            $.ajaxSetup({headers: {'X-CSRF-TOKEN':"{{ csrf_token() }}"}});
+            $.ajaxSetup({
+                cache: false, 
+                headers: {'X-CSRF-TOKEN':"{{ csrf_token() }}"}
+            });
+
+            //check for internet status 
+            if (!window.navigator.onLine) {
+                $('.offline').fadeIn(300);
+                return;
+            }else{
+                $('.offline').fadeOut(300);
+            }
+
+            $("#spinner-{{$control_id}}").show();
             $('#{{$control_id}}-div-card-view').empty();
             $('#{{$control_id}}-div-card-view').append("<span class='text-center ma-20 pa-20'>Loading.....</span>");
 
@@ -25,27 +38,32 @@
                         $("#{{$control_id}}-pagination").append("<li><a data-val='"+pg+"' class='{{$control_id}}-pg text-primary' href='#'>"+pg+"</a></li>");
                     }
                 }
+                $("#spinner-{{$control_id}}").hide();
             });
         }
 
         $(document).on('keyup', "#{{$control_id}}-txt-search", function(e) {
+            e.preventDefault();
             let search_term = $('#{{$control_id}}-txt-search').val();
-            {{$control_id}}_display_results("{{url()->full()}}?st="+search_term);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?st="+search_term);
         });
 
         $(document).on('click', "#{{$control_id}}-btn-search", function(e) {
+            e.preventDefault();
             let search_term = $('#{{$control_id}}-txt-search').val();
-            {{$control_id}}_display_results("{{url()->full()}}?st="+search_term);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?st="+search_term);
         });
 
         $(document).on('click', ".{{$control_id}}-grp", function(e) {
+            e.preventDefault();
             let group_term = $(this).attr('data-val');
-            {{$control_id}}_display_results("{{url()->full()}}?grp="+group_term);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?grp="+group_term);
         });
 
         $(document).on('click', ".{{$control_id}}-pg", function(e) {
+            e.preventDefault();
             let page_number = $(this).attr('data-val');
-            {{$control_id}}_display_results("{{url()->full()}}?pg="+page_number);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?pg="+page_number);
         });
         
     });

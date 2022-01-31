@@ -224,7 +224,7 @@
             $('#value-textarea').hide();
             $('#div-file-select').hide();
 
-            $.get( "{{ route('fc.settings.show','') }}/"+itemId).done(function( data ) {     
+            $.get( "{{ route('fc-api.settings.show','') }}/"+itemId).done(function( data ) {     
 
                 $('#txt-setting-primary-id').val(data.response.id);
                 $('#txt-setting-display-type').val(data.response.display_type);
@@ -261,7 +261,7 @@
             let itemId = $(this).attr('data-val');
             if (confirm("Are you sure you want to delete this Setting?")){
 
-                let endPointUrl = "{{ route('fc.settings.destroy',0) }}"+itemId;
+                let endPointUrl = "{{ route('fc-api.settings.destroy',0) }}"+itemId;
 
                 let formData = new FormData();
                 formData.append('_token', $('input[name="_token"]').val());
@@ -296,7 +296,7 @@
             $("btn-save-mdl-setting-modal").attr('disabled', true);
 
             let actionType = "POST";
-            let endPointUrl = "{{ route('fc.settings.store') }}";
+            let endPointUrl = "{{ route('fc-api.settings.store') }}";
             let primaryId = $('#txt-setting-primary-id').val();
             
             let formData = new FormData();
@@ -304,7 +304,7 @@
 
             if (primaryId != "0"){
                 actionType = "PUT";
-                endPointUrl = "{{ route('fc.settings.update','') }}/"+primaryId;
+                endPointUrl = "{{ route('fc-api.settings.update','') }}/"+primaryId;
                 formData.append('id', primaryId);
             }
             

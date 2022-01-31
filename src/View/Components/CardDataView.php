@@ -27,6 +27,8 @@ class CardDataView extends Component
     private $data_set_order_list;
     private $data_set_model;
 
+    private $json_data_route_name;
+
 
     public function __construct($model, $template){
 
@@ -39,6 +41,18 @@ class CardDataView extends Component
         $this->data_set_model = $model;
 
         return $this;
+    }
+
+    public function setJSONDataRouteName($route_name){
+        $this->json_data_route_name = $route_name;
+        return $this;
+    }
+
+    public function getJSONDataRouteName(){
+        if (empty($this->json_data_route_name)==false){
+            return $this->json_data_route_name;
+        }
+        return url()->full();
     }
 
     public function setDataItemTemplate($path){
@@ -200,6 +214,7 @@ class CardDataView extends Component
     public function render_js(){
         return view("hasob-foundation-core::cardview.card-view-js")
                     ->with('control_id',$this->control_id)
+                    ->with('control_obj',$this)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)

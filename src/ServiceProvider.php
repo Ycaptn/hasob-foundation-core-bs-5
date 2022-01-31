@@ -1,6 +1,12 @@
 <?php
 namespace Hasob\FoundationCore;
 
+use Illuminate\Support\Facades\Schema;
+
+use Hasob\FoundationCore\Models\Setting;
+use Hasob\FoundationCore\Models\Organization;
+use Hasob\FoundationCore\Managers\OrganizationManager;
+
 use Hasob\FoundationCore\Facades;
 use Hasob\FoundationCore\Providers\FoundationCoreEventServiceProvider;
 
@@ -49,6 +55,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         
         Blade::componentNamespace('Hasob\\FoundationCore\\View\\Components', 'hasob-foundation-core');
+
+        $this->registerSettings();
     }
 
     /**
@@ -71,7 +79,70 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     }
 
-        /**
+    public function registerSettings(){
+
+
+        $app_settings = [
+            'portal_app_name'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Application Name','display_ordinal'=>1],
+            'portal_contact_name'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Name on Portal Support','display_ordinal'=>2],
+            'portal_contact_phone'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Phone Number on Portal Support','display_ordinal'=>3],
+            'portal_contact_email'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Email on Portal Support','display_ordinal'=>4],
+
+            'portal_email_sender_name'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Name for Sending Email','display_ordinal'=>5],
+            'portal_email_sender_email'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Email Address for Sending Email','display_ordinal'=>6],
+            
+            'portal_welcome_text'=>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Welcome text on Landing Page of Portal','display_ordinal'=>1],
+            'portal_login_text'=>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Login Page','display_ordinal'=>2],
+            'portal_registration_text'=>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Registration Page','display_ordinal'=>3],
+            
+            'portal_file_high_res_picture'=>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'High Resolution Image of Portal Logo','display_ordinal'=>1],
+            'portal_file_icon_picture'=>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'Icon Image of Portal','display_ordinal'=>2],
+            'portal_file_landing_page_picture'=>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'Image on Landing Page of Portal','display_ordinal'=>3],
+
+            'portal_long_name'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Institution Name','display_ordinal'=>2],
+            'portal_short_name'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Institution Abbreviation','display_ordinal'=>3],
+            'portal_official_website'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Official Institution Website','display_ordinal'=>4],
+            'portal_official_email'=>['group_name'=>'Application','display_type'=>'email','display_name'=>'Official Institution Email','display_ordinal'=>5],
+            'portal_official_phone'=>['group_name'=>'Application','display_type'=>'number','display_name'=>'Official Institution Phone Number','display_ordinal'=>6],
+            'portal_official_address'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Official Institution Address','display_ordinal'=>7],
+        ];
+
+        if (Schema::hasTable('fc_organizations') && Schema::hasTable('fc_settings')){
+
+            $host = request()->getHost();
+            $manager = new OrganizationManager();
+            $org = $manager->loadTenant($host);
+
+            if ($org != null){
+
+
+                foreach($app_settings as $key=>$setting){
+                    \FoundationCore::register_setting(
+                        $org, 
+                        $key, 
+                        $setting['group_name'],
+                        $setting['display_type'],
+                        $setting['display_name'], 
+                        "app_settings", 
+                        $setting['display_ordinal']
+                    );
+                }
+
+                $setting_list = Setting::whereIn('key',array_keys($app_settings))->get();
+
+                $app_setting_values = $setting_list->mapWithKeys(function($item,$key){
+                    return [$item->key => $item->value];
+                });
+
+                \View::share('app_settings', $app_setting_values);
+            }
+
+        }
+
+
+    }
+
+    /**
      * Get the active router.
      *
      * @return Router

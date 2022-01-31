@@ -22,6 +22,8 @@ class CreateSiteArtifactsTable extends Migration
             $table->string('headline');
             $table->string('type');
             $table->text('content')->nullable();
+            
+            $table->integer('display_ordinal')->default(0);
 
             $table->boolean('is_sticky')->default(false);
             $table->boolean('is_flashing')->default(false);
