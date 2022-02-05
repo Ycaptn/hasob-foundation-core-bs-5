@@ -7,9 +7,11 @@ use Illuminate\View\Component;
 class AttachmentList extends Component
 {
     public $attachable;
+    public $file_types;
 
-    public function __construct($attachable)
+    public function __construct($attachable, $fileTypes=null)
     {
+        $this->file_types = $fileTypes;
         $this->attachable = $attachable;
     }
 

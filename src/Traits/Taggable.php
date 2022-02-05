@@ -26,7 +26,7 @@ trait Taggable
             $tags[] = $taggable->tag;
         }
 
-        return $tag;
+        return $tags;
     }
 
     private function create_tag(User $user, $name, $meta_data=null, $parent_id=null){

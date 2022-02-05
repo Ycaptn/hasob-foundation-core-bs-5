@@ -23,9 +23,11 @@ use Hasob\FoundationCore\Traits\Taggable;
 use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
 
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use HasApiTokens;
     use HasRoles;
     use Notifiable;
     use SoftDeletes;

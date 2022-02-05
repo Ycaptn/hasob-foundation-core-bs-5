@@ -32,15 +32,25 @@ trait Attachable
         return null;
     }
 
-    public function get_attachments(){
-        $attachables = EloquentAttachable::where('attachable_id', $this->id)
+    public function get_attachments($file_types = null){
+        $attachables_query = EloquentAttachable::where('attachable_id', $this->id)
                                             ->where('attachable_type', self::class)    
-                                            ->orderBy('created_at','desc')
-                                            ->get();
+                                            ->orderBy('created_at','desc');
+
+        $attachables = $attachables_query->get();
 
         $attachments = [];
         foreach ($attachables as $attachable){
-            $attachments []= $attachable->attachment;
+            if ($file_types != null){
+                
+                $attachment = $attachable->attachment;
+                if (str_contains(strtolower($file_types), strtolower($attachment->file_type))){
+                    $attachments []= $attachable->attachment;
+                }
+
+            } else {
+                $attachments []= $attachable->attachment;
+            }
         }
         return $attachments;
     }

@@ -88,15 +88,15 @@ class AttachmentController extends BaseController
     public function update(Organization $org, Request $request){
 
         $options = json_decode($request->options, true);
-        if ($options['name'] == null || empty($options['name'])) {
+        if (isset($options['name'])==false || $options['name'] == null || empty($options['name'])) {
             $err_msg = ['The name must be provided.'];
             return self::createJSONResponse("fail", "error", $err_msg, 200);
         }
-        if (empty($options['attachable_id']) || empty($options['attachable_type'])) {
+        if (isset($options['attachable_id'])==false || empty($options['attachable_id'])) {
             $err_msg = ['Invalid upload request.'];
             return self::createJSONResponse("fail", "error", $err_msg, 200);
         }
-        if (class_exists($options['attachable_type']) == false) {
+        if (isset($options['attachable_type'])==false || empty($options['attachable_type']) || class_exists($options['attachable_type']) == false) {
             $err_msg = ['Invalid upload request.'];
             return self::createJSONResponse("fail", "error", $err_msg, 200);
         }
@@ -114,8 +114,8 @@ class AttachmentController extends BaseController
 
         $attachment = $attachable_type->create_attachment(
             Auth::guard()->user(),
-            $options['name'],
-            $options['comments'],
+            isset($options['name']) ? $options['name'] : 'Unnamed File {{ time() }}',
+            isset($options['comments']) ? $options['comments'] : "",
             $request->file
         );
         if ($attachment == null) {

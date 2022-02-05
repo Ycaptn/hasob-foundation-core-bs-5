@@ -21,6 +21,7 @@ class Attachable extends Model
     use Artifactable;
     use Disable;
     use GuidId;
+    use Taggable;
 
     public $table = 'fc_attachables';
     

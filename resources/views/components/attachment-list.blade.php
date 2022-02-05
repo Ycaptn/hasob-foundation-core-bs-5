@@ -1,33 +1,45 @@
 @if ($attachable!=null)
-    <div class="streamline user-activity mt-10">
-    @foreach ($attachable->get_attachments() as $idx => $attach)
 
-        <div class="sl-item small">
-            <a href="javascript:void(0)">
-                <div class="sl-avatar avatar avatar-sm avatar-circle">
-                    <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank">
-                        <i class="fa fa-paperclip fa-3x"></i>
-                    </a>
-                </div>
-                <div class="sl-content">
-                    <p class="inline-block small">
-                        <span class="capitalize-font txt-primary mr-5 weight-500">
-                            <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank">
-                                <strong>{{ $attach->label }}</strong>
-                            </a>
+    @php
+        $attachments = $attachable->get_attachments($file_types);
+    @endphp
+
+    @if (count($attachments)>0)
+        <div class="streamline user-activity mt-10">
+        @foreach ($attachments as $idx => $attach)
+
+            <div class="sl-item small">
+                <a href="javascript:void(0)">
+                    <div class="sl-avatar avatar avatar-sm avatar-circle">
+                        <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank">
+                            <i class="fa fa-paperclip fa-3x"></i>
+                        </a>
+                    </div>
+                    <div class="sl-content">
+                        <p class="inline-block small">
+                            <span class="capitalize-font txt-primary mr-5 weight-500">
+                                <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank">
+                                    <strong>{{ $attach->label }}</strong>
+                                </a>
+                            </span>
+                            @if (empty($attach->description) == false)
+                            <br/>
+                            <span class="$text_color">
+                                {{ $attach->description }}
+                            </span>
+                            @endif
+                        </p>
+                        <span class="block small txt-grey capitalize-font">
+                            <i class="fa fa-upload"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}
                         </span>
-                        <br/>
-                        <span class="$text_color">
-                            {{ $attach->description }}
-                        </span>
-                    </p>
-                    <span class="block small txt-grey capitalize-font">
-                        <i class="fa fa-upload"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}
-                    </span>
-                </div>
-            </a>
+                    </div>
+                </a>
+            </div>
+
+        @endforeach
         </div>
+    @else
+        <center class="ma-20">No Files</center>
+    @endif
 
-    @endforeach
-    </div>
 @endif
