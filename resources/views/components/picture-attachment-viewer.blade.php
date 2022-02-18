@@ -53,7 +53,7 @@
                                     {{ $attachment->label }}
                                     <br>
                                     <span class="small">
-                                        {{ \Carbon\Carbon::parse($attachment->created_at)->format('d M y') }} <span class="small text-danger">- {!! \Carbon\Carbon::parse($attachment->created_at)->diffForHumans() !!}</span>
+                                        {{ \Carbon\Carbon::parse($attachment->created_at)->format('d M y') }} <span class="small text-primary">- {!! \Carbon\Carbon::parse($attachment->created_at)->diffForHumans() !!}</span> <span> <a href="#" data-val="{{$attachment->id}}" class="btn-delete-picture-attachement"><i class="fa fa-trash txt-danger"></i></a><span>
                                     </span>
                                 </div>
                             </a>
@@ -93,6 +93,78 @@
                 let image_path = $(this).attr('data-val-image-path');
                 $('#{{$control_id}}_picture-box').attr("src",image_path);
                 $('#{{$control_id}}_picture-viewer-modal').modal('show');
+            });
+
+            $('.btn-delete-picture-attachement').click(function(e){
+                e.preventDefault();
+                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+                //check for internet status 
+                if (!window.navigator.onLine) {
+                    $('.offline').fadeIn(300);
+                    return;
+                }else{
+                    $('.offline').fadeOut(300);
+                }
+
+                let itemId = $(this).attr('data-val');
+                let spinner = '<div class="loader2" id="loader-1"></div>';
+                swal({
+                        title: "Are you sure you want to delete this Picture?",
+                        text: "You will not be able to recover this Picture if deleted.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes",
+                        cancelButtonText: "No",
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            swal({
+                                html: true,
+                                title: 'Please Wait !',
+                                text:  spinner,
+                                showCancelButton: false, 
+                                showConfirmButton: false
+                            });
+                            let endPointUrl = "{{ route('fc.attachment.destroy','') }}/"+itemId;
+
+                            let formData = new FormData();
+                            formData.append('_token', $('input[name="_token"]').val());
+                            formData.append('_method', 'DELETE');
+                            
+                            $.ajax({
+                                url:endPointUrl,
+                                type: "POST",
+                                data: formData,
+                                cache: false,
+                                processData:false,
+                                contentType: false,
+                                dataType: 'json',
+                                success: function(result){
+                                    if(result.errors){
+                                        console.log(result.errors)
+                                        swal("Error", "Oops an error occurred. Please try again.", "error");
+                                    }else{
+                                        //swal("Deleted", "Beneficiary deleted successfully.", "success");
+                                        swal({
+                                            title: "Deleted",
+                                            text: "Picture deleted successfully",
+                                            type: "success",
+                                            confirmButtonClass: "btn-success",
+                                            confirmButtonText: "OK",
+                                            closeOnConfirm: false
+                                        });
+
+                                        window.setTimeout( function(){ 
+                                        location.reload(true);
+                                    },200);
+                                }
+                            },
+                        });
+                    }
+                });
             });
 
         });

@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 
 use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Comment;
 use Hasob\FoundationCore\Models\Attachment;
+use Hasob\FoundationCore\Models\Attachable;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
 
@@ -25,7 +27,23 @@ class AttachmentController extends BaseController
 {
 
     public function index(Organization $org, Request $request){}
-    public function delete(Organization $org, Request $request, $id){}
+
+    public function destroy(Organization $org,Request $request, $id){
+        $attach = Attachment::find($id);
+        if(empty($attach)){
+            $err_msg = ['Attachment not found'];
+            return self::createJSONResponse("fail", "error", $err_msg, 404);
+        }
+        $path = str_replace('public/','',$attach->path);
+        File::delete($path);
+        Attachable::where('attachment_id',$attach->id)->delete();
+        $attach->delete();
+
+        $msg = ['Attachment deleted successfully'];
+
+        return self::createJSONResponse("ok", "success", $msg, 200);
+
+    }
     public function edit(Organization $org, Request $request, $id){
         return $this->show($org, $request, $id);
     }
@@ -130,5 +148,6 @@ class AttachmentController extends BaseController
 
         return self::createJSONResponse("ok", "success", $attachment->path, 200);
     }
+
 
 }
