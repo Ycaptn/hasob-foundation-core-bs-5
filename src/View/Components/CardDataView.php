@@ -156,11 +156,11 @@ class CardDataView extends Component
 
             $results = [];
             $results_count = 0;
-            $selected_page = null;
+            $selected_page = 1;
             
             if ($this->data_set_enable_pagination == true){
 
-                $selected_page = null;
+                $selected_page = 1;
                 if (request()->has('pg')){
                     $selected_page = request()->input('pg');
                 }
