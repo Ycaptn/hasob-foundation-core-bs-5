@@ -186,6 +186,7 @@ class FoundationCore
             //Attachment Management
             Route::get('/attachment/{id}', [AttachmentController::class, 'show'])->name('attachment.show');
             Route::post('/attachment', [AttachmentController::class, 'update'])->name('attachment.store');
+            Route::delete('/attachment/{id}', [AttachmentController::class, 'destroy'])->name('attachment.destroy');
 
             //Comments
             Route::post('/comment/add', [CommentController::class, 'update'])->name('comment-add');

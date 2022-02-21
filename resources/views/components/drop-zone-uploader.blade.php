@@ -72,7 +72,6 @@
             file.previewElement.querySelector('.error-msg').innerHTML = "";
             file.previewElement.querySelector('.success-msg').innerHTML = "<strong class='text-blue'>DONE!!</strong>";
             file.previewElement.querySelector(".progress-bar").style.display = "none";
-            console.log(response);
             //location.reload();
         },
         error: function(file, response) {

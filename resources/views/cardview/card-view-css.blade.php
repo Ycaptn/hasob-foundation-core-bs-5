@@ -6,5 +6,11 @@
     .cdv-txt-light-dark-blue {
         color: #4e44e7;
     }
+    .cdv-current-page{
+        background-color: #7c4bee !important;
+        color: #ffffff !important;
+    }       
+            
+  
     
 </style>

@@ -10,19 +10,27 @@
                 <div class="panel-body pt-0">
                     @if (isset($settings) && count($settings)>0)
                         <div class="pills-struct">
+
                             <ul role="tablist" class="nav nav-pills" id="settings_tab">
                                 @foreach($groups as $idx=>$group)
-                                @php
-                                    $active_str = "";
-                                    if ($idx == 0){
-                                        $active_str = "active";
-                                    }
-                                @endphp
-                                <li role="presentation" class="{{ $active_str }}">
-                                    <a data-toggle="tab" id="tab_{{$idx}}" role="tab" href="#settings_tab_{{$idx}}" aria-expanded="false">
-                                        {{ $group }}
-                                    </a>
-                                </li>
+
+                                    @if($group)
+
+                                        @php
+                                            $active_str = "";
+                                            if ($idx == 0){
+                                                $active_str = "active";
+                                            }
+                                        @endphp
+
+                                        <li role="presentation" class="{{ $active_str }}">
+                                            <a data-toggle="tab" id="tab_{{$idx}}" role="tab" href="#settings_tab_{{$idx}}" aria-expanded="false">
+                                                {{ $group }} 
+                                            </a>
+                                        </li>
+                                        
+                                    @endif
+                                             
                                 @endforeach
                             </ul>
                             <div class="tab-content" id="settins_tab_content">
@@ -101,7 +109,7 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Application Setting</h4>
+                    <h4 class="modal-title">Application Setting </h4>
                 </div>
 
                 <div class="modal-body">
@@ -111,7 +119,7 @@
                             <div class="col-lg-12 ma-10">
                                 @csrf
 
-                                <div id="spinner-settings" class="">
+                                <div id="spinner-settings" class="spinner-settings">
                                     <div class="loader" id="loader-1"></div>
                                 </div>
 
@@ -198,7 +206,7 @@
             $('#div-show-txt-setting-primary-id').hide();
             $('#div-edit-txt-setting-primary-id').show();
 
-            $("#spinner-settings").hide();
+            $(".spinner-settings").hide();
             $("btn-save-mdl-setting-modal").attr('disabled', false);
         });
 
@@ -211,7 +219,7 @@
             $('#mdl-setting-modal').modal('show');
             $('#frm-setting-modal').trigger("reset");
 
-            $("#spinner-settings").show();
+            $(".spinner-settings").show();
             $("btn-save-mdl-setting-modal").attr('disabled', true);
 
             $('#div-show-txt-setting-primary-id').hide();
@@ -226,30 +234,33 @@
 
             $.get( "{{ route('fc-api.settings.show','') }}/"+itemId).done(function( data ) {     
 
-                $('#txt-setting-primary-id').val(data.response.id);
-                $('#txt-setting-display-type').val(data.response.display_type);
-                $('#key').append(data.response.display_name);
+                console.log(data, data.data);
+                $(".spinner-settings").hide();
 
-                if (data.response.display_type=="file-select"){
+                $('#txt-setting-primary-id').val(data.data.id);
+                $('#txt-setting-display-type').val(data.data.display_type);
+               $('#key').append(data.data.display_name);
+
+                if (data.data.display_type=="file-select"){
                     $('#div-file-select').show();
 
-                } else if (data.response.display_type=="textarea"){
+                } else if (data.data.display_type=="textarea"){
                     $('#value-textarea').show();
                     $('#value-textarea').val(data.response.value);
 
-                } else if (data.response.display_type=="boolean"){
+                } else if (data.data.display_type=="boolean"){
                     $('#div-check-box').show();
-                    if (data.response.value && data.response.value==true){
+                    if (data.data.value && data.data.value==true){
                         $('#value-cbx').prop("checked", true);
                     }
 
                 } else {
                     $('#value-text').show();
-                    $('#value-text').val(data.response.value);
-                }
+                    $('#value-text').val(data.data.value);
+                } 
 
-                $("#spinner-settings").hide();
-                $("btn-save-mdl-setting-modal").attr('disabled', false);
+                
+                $("btn-save-mdl-setting-modal").attr('disabled', false);  
             });
         });
 
