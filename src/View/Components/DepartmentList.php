@@ -8,7 +8,7 @@ class DepartmentList extends Component
 {
     public $departments;
 
-    public function __construct($departments)
+    public function __construct($departments, $label="Department")
     {
         $this->departments = $departments;
     }

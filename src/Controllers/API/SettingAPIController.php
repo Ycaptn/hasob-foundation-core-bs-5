@@ -73,6 +73,22 @@ class SettingAPIController extends AppBaseController
         }
 
         $setting->fill($request->all());
+        if ($request->display_type == "file-select"){
+
+            $attachment = $request->create_attachment(
+                Auth::guard()->user(),$setting->key,"",$request->value
+            );
+            if ($attachment == null) {
+                $err_msg = ['Unable to upload attachment.'];
+                return self::createJSONResponse("fail", "error", $err_msg, 200);
+            }
+            $setting->value = $attachment->id;
+
+        } else {
+            $setting->value = $request->value;
+        }
+
+
         $setting->save();
         
         SettingUpdated::dispatch($setting);
