@@ -14,6 +14,8 @@ class CardDataView extends Component
     
     private $control_id;
     private $search_fields;
+    private $relationship_key;
+    private $relationship_search_fields;
     private $search_placeholder_text;
 
     private $data_set_pagination_limit;
@@ -62,6 +64,11 @@ class CardDataView extends Component
 
     public function setSearchFields($fields){
         $this->search_fields = $fields;
+        return $this;
+    }
+
+    public function setSearchRelationKey($relationship){
+        $this->relationship_key = $relationship;
         return $this;
     }
 
@@ -130,11 +137,32 @@ class CardDataView extends Component
             if (empty($search_term)==false && $this->search_fields!=null && is_array($this->search_fields)){
                 
                 $search_fields = $this->search_fields;
-                $model_query = $model_query->where(function($q) use ($search_fields, $search_term){
-                    foreach($search_fields as $idx=>$search_field){
-                        $q->orWhere($search_field,"LIKE","%{$search_term}%");
-                    }
-                });
+                $relationship = $this->relationship_key;
+                if(is_array($relationship)){
+                    foreach ($relationship as $key => $fields) {
+                      if(is_array($fields)){
+                        $model_query->whereHas($key ,function($q) use ($fields,$search_term){
+                            foreach($fields as $idx=>$search_field){
+                                if($idx == 0){
+                                    $q->where($search_field,'LIKE',"%{$search_term}%");   
+                                }else{
+                                    $q->orWhere($search_field,'LIKE',"%{$search_term}%");
+                                }       
+                            }
+                        })->orWhere(function($q) use ($search_fields, $search_term){
+                                foreach($search_fields as $idx=>$search_field){
+                                    $q->orWhere($search_field,"LIKE","%{$search_term}%");
+                            }
+                        });
+                      }
+                    }   
+                } else{
+                        $model_query->where(function($q) use ($search_fields, $search_term){
+                            foreach($search_fields as $idx=>$search_field){
+                                $q->orWhere($search_field,"LIKE","%{$search_term}%");
+                            }
+                        });
+                }
             }
             
             $group_term = null;

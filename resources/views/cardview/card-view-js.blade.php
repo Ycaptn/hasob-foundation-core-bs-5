@@ -24,7 +24,7 @@
             $('#{{$control_id}}-div-card-view').append("<span class='text-center ma-20 pa-20'>Loading.....</span>");
 
             $.get(endpoint_url).done(function( response ) {
-        
+                console.log(response);
                 if (response != null && response.cards_html != null){
                     $('#{{$control_id}}-div-card-view').empty();
                     $('#{{$control_id}}-div-card-view').append(response.cards_html);
