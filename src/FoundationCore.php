@@ -36,6 +36,7 @@ use Hasob\FoundationCore\Controllers\DepartmentController;
 use Hasob\FoundationCore\Controllers\AttachmentController;
 use Hasob\FoundationCore\Controllers\SiteDisplayController;
 use Hasob\FoundationCore\Controllers\OrganizationController;
+use Hasob\FoundationCore\Controllers\API\AttachmentAPIController;
 
 class FoundationCore
 {

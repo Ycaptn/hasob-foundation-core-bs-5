@@ -22,8 +22,9 @@ use Hasob\FoundationCore\Models\Attachment;
 use Hasob\FoundationCore\Models\Attachable;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
+use App\Http\Controllers\AppBaseController;
 
-class AttachmentAPIController extends BaseController
+class AttachmentAPIController extends AppBaseController
 {
 
     public function index(Organization $org, Request $request){}
@@ -41,7 +42,8 @@ class AttachmentAPIController extends BaseController
 
         $msg = ['Attachment deleted successfully'];
 
-        return self::createJSONResponse("ok", "success", $msg, 200);
+        
+        return $this->sendResponse("ok", $msg);
 
     }
     public function edit(Organization $org, Request $request, $id){
