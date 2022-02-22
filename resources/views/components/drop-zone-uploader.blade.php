@@ -21,7 +21,11 @@
                     <div class="dz-message needsclick">
                         <i class="fa fa-cloud-upload fa-3x"></i> <br />
                         Drop files here or click to upload<br />
+                        <div id="close-uploader" style="margin: 10px 0 10px 0 ; position:absolute; bottom: 10px; right:20px">
+                            <button class="btn btn-primary btn-sm close-uploader" type="button">OK</button>
+                        </div>
                     </div>
+                    
                     <div id="previews" class="table table-striped files"></div>
                     <div id="preview-template" class="file-row" style="display: none;">
                         <div>
@@ -31,7 +35,7 @@
                             </div>
                             <strong class="error text-danger" data-dz-errormessage></strong>
                         </div>
-                    </div>
+                    </div>        
                 </form>
 
             </div>
@@ -46,10 +50,14 @@
 <script src="{{ asset('hasob-foundation-core/vendor/dropzone-5.7.0/dist/dropzone.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-
         $('#btnNewUpload').click(function() {
+            $('#close-uploader').hide();
             $('#error_div_file-upload-zone').hide();
             $('#file-upload-zone-modal').modal('show');
+        });
+        $('.close-uploader').click(function() {
+            $('#file-upload-zone-modal').modal('hide');
+            location.reload(true);
         });
 
     });
@@ -73,6 +81,7 @@
             file.previewElement.querySelector('.success-msg').innerHTML = "<strong class='text-blue'>DONE!!</strong>";
             file.previewElement.querySelector(".progress-bar").style.display = "none";
             //location.reload();
+            $('#close-uploader').show();
         },
         error: function(file, response) {
             file.previewElement.querySelector('.error-msg').innerHTML = "<strong class='text-red'>ERROR!!</strong>";
