@@ -75,7 +75,7 @@ class SettingAPIController extends AppBaseController
         $setting->fill($request->all());
         if ($request->display_type == "file-select"){
 
-            $attachment = $request->create_attachment(
+            $attachment = $setting->create_attachment(
                 Auth::guard()->user(),$setting->key,"",$request->value
             );
             if ($attachment == null) {
