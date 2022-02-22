@@ -21,7 +21,7 @@
                 if (e.which==13 && $('#comment-text').val().length > 2){
                     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                     e.preventDefault();
-
+                    let spinner = '<div class="loader2" id="loader-1"></div>';
                     var formData = new FormData();
                     options = JSON.stringify({
                         'commentable_id': '{{ $commentable->id }}',
@@ -29,6 +29,13 @@
                         'comments':$('#comment-text').val(),
                     });
                     formData.append('options', options);
+                    swal({
+                        html: true,
+                        title: 'Submitting Post Please Wait!',
+                        text:  spinner,
+                        showCancelButton: false, 
+                        showConfirmButton: false
+                    });
 
                     $.ajax({
                         url: "{{ route('fc.comment-add') }}",
@@ -37,19 +44,23 @@
                         contentType: false,
                         data: formData,
                         success: function(data){
-
+                            swal.close();
                             if (data!=null && data.status=='fail'){
-                                if (data.response!=null){
+                                if (data.response!=null){     
                                     alert("Error submitting comments "+data.response);
                                 }
                             }else if (data!=null && data.status=='ok'){
-                                alert("Comments have been saved.");
-                                location.reload();
+                                setTimeout(() => {
+                                    alert("Comments have been saved.");
+                                    location.reload();
+                                }, 1000);
+                                
                             }else{
                                 alert("Error submitting comments");
                             }
                         },
                         error: function(data){
+                            swal.close();
                             console.log(data);
                         }
                     });
