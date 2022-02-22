@@ -184,7 +184,7 @@
                                                 <span class="small text-center" style="display:inline-block;">No Profile Image</span>
                                                 
                                                 @else
-                                                    <img style="width:100px;height:100px;" src="{{ route('school-picture-staff',[$edited_user->id]) }}" >
+                                                    <img style="width:100px;height:100px;" src="{{ route('fc.get-profile-picture',[$edited_user->id]) }}" >
                                                 @endif
                                                 
                                             </div>
