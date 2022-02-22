@@ -35,7 +35,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $organization_id;
+  //  public $organization_id;
 
     /**
     * @OA\Property(
@@ -44,7 +44,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="integer"
     * )
     */
-    public $display_ordinal;
+    //public $display_ordinal;
 
     /**
     * @OA\Property(
@@ -53,7 +53,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $display_type;
+    //public $display_type;
 
     /**
     * @OA\Property(
@@ -62,7 +62,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $allowed_editor_roles;
+   // public $allowed_editor_roles;
 
     /**
     * @OA\Property(
@@ -71,7 +71,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $allowed_view_roles;
+    //public $allowed_view_roles;
 
     /**
     * @OA\Property(
@@ -80,7 +80,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $key;
+   // public $key;
 
     /**
     * @OA\Property(
@@ -89,7 +89,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $value;
+   // public $value;
 
     /**
     * @OA\Property(
@@ -98,7 +98,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $group_name;
+    //public $group_name;
 
     /**
     * @OA\Property(
@@ -107,7 +107,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $model_type;
+    //public $model_type;
 
     /**
     * @OA\Property(
@@ -116,7 +116,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $model_value;
+    //public $model_value;
 
 
 }

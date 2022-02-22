@@ -13,6 +13,7 @@ use Hasob\FoundationCore\Models\Setting;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Auth;
 
 use Response;
 
@@ -75,7 +76,7 @@ class SettingAPIController extends AppBaseController
         $setting->fill($request->all());
         if ($request->display_type == "file-select"){
 
-            $attachment = $request->create_attachment(
+            $attachment = $setting->create_attachment(
                 Auth::guard()->user(),$setting->key,"",$request->value
             );
             if ($attachment == null) {
