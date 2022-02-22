@@ -13,6 +13,7 @@ use Hasob\FoundationCore\Models\Setting;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Auth;
 
 use Response;
 
