@@ -146,6 +146,9 @@ class FoundationCore
             Route::resource('sites', \Hasob\FoundationCore\Controllers\API\SiteAPIController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
+            Route::get('/attachment/{id}', [AttachmentAPIController::class, 'show'])->name('attachment.show');
+            Route::post('/attachment', [AttachmentAPIController::class, 'update'])->name('attachment.store');
+            Route::delete('/attachment/{id}', [AttachmentAPIController::class, 'destroy'])->name('attachment.destroy');
         });
     }
 
