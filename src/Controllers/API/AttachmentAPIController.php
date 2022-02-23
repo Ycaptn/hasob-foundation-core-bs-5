@@ -27,7 +27,19 @@ use App\Http\Controllers\AppBaseController;
 class AttachmentAPIController extends AppBaseController
 {
 
-    public function index(Organization $org, Request $request){}
+    public function index(Organization $org, Request $request){
+        $attachments = Attachment::all();
+        $attach = [];
+        if(!empty($attachments)){
+            foreach ($attachments as $key => $value) {
+                # code...
+                $path = str_replace('public/','',$value->path);
+                array_push($attach,asset($path));
+            }
+        }
+        
+        return $this->sendResponse($attach,"Attachments retrieved successfully");
+    }
 
     public function destroy(Organization $org,Request $request, $id){
         $attach = Attachment::find($id);
@@ -100,8 +112,11 @@ class AttachmentAPIController extends AppBaseController
                     ]
                 );
             }
+            $path = str_replace('public/','',$attach->path);
+            $asset = asset($path);
 
-            return response()->file(base_path($attach->path));
+            return $this->sendResponse($asset,"Asset retrieved successfully");
+            //return response()->file(base_path($attach->path));
         }        
     }
 
