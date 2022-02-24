@@ -9,6 +9,10 @@
     .cdv-current-page{
         background-color: #7c4bee !important;
         color: #ffffff !important;
+    }
+    .disable-link{
+        pointer-events: none;
+        opacity: 0.4;
     }       
             
   
