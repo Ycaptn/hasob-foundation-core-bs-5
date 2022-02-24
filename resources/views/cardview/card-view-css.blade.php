@@ -10,9 +10,12 @@
         background-color: #7c4bee !important;
         color: #ffffff !important;
     }
+    .disable{
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
     .disable-link{
         pointer-events: none;
-        opacity: 0.4;
     }       
             
   

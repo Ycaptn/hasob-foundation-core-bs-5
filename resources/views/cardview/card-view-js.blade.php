@@ -39,16 +39,18 @@
                 if (response != null && response.paginate && response.result_count > 0){
                     $("#{{$control_id}}-pagination").empty();
                     console.log(response);
-                    $("#{{$control_id}}-pagination").append("<li> <a href='#' id='pre' data-type='pre' class='{{$control_id}}-pg'><i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i></a></li>"); 
+                    $("#{{$control_id}}-pagination").append("<li><span class='pre'> <a href='#' id='pre' data-type='pre' class='{{$control_id}}-pg'><i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i></a></span></li>"); 
                     for(let pg=1;pg<=response.pages_total;pg++){
                         $("#{{$control_id}}-pagination").append("<li><a data-val='"+pg+"' data-type='pg' class='{{$control_id}}-pg pg-"+pg+"' href='#'>"+pg+"</a></li>");
                         (response.page_number == pg) ? $('.pg-'+pg).addClass('cdv-current-page') : $('.pg-'+pg).addClass('text-primary');
                     }
-                    $("#{{$control_id}}-pagination").append("<li><a href='#' id='nxt' data-type='nxt'  class='{{$control_id}}-pg'><i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i></a></li>");
+                    $("#{{$control_id}}-pagination").append("<li><span class='nxt'><a href='#' id='nxt' data-type='nxt'  class='{{$control_id}}-pg'><i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i></a></span></li>");
                     if(current_page == 1){
+                        $('.pre').addClass('disable');
                         $('#pre').addClass('disable-link');
                     }
                     if(page_total == current_page){
+                        $('.nxt').addClass('disable');
                         $('#nxt').addClass('disable-link');
                     }
                     
