@@ -9,7 +9,7 @@ Payment Detail Details
 @stop
 
 @section('page_title_subtext')
-    <a class="ml-10 mb-10" href="{{ route('gb.paymentDetails.index') }}" style="font-size:11px;color:blue;">
+    <a class="ml-10 mb-10" href="{{ route('fc.paymentDetails.index') }}" style="font-size:11px;color:blue;">
         <i class="fa fa-angle-double-left"></i> Back to Payment Detail List
     </a>
 @stop
@@ -30,7 +30,7 @@ Payment Detail Details
             <div class="panel-body">
                 <div class="form-wrap">
                     <div class="row">
-                        @include('hasob-scola-gradebook::pages.payment_details.show_fields')
+                        @include('hasob-foundation-core::pages.payment_details.show_fields')
                     </div>
                 </div>
             </div>

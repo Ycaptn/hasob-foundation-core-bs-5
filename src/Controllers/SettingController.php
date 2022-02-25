@@ -39,7 +39,7 @@ class SettingController extends BaseController
     {
         $current_user = Auth()->user();
 
-        $cdv_settings = new \Hasob\FoundationCore\View\Components\CardDataView(Setting::class, "hasob-scola-gradebook::pages.settings.card_view_item");
+        $cdv_settings = new \Hasob\FoundationCore\View\Components\CardDataView(Setting::class, "hasob-foundation-core::pages.settings.card_view_item");
         $cdv_settings->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
                         //->setSearchFields(['field_to_search1','field_to_search2'])
@@ -54,14 +54,14 @@ class SettingController extends BaseController
             return $cdv_settings->render();
         }
 
-        return view('hasob-scola-gradebook::pages.settings.card_view_index')
+        return view('hasob-foundation-core::pages.settings.card_view_index')
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())
                     ->with('cdv_settings', $cdv_settings);
 
         /*
-        return $settingDataTable->render('hasob-scola-gradebook::pages.settings.index',[
+        return $settingDataTable->render('hasob-foundation-core::pages.settings.index',[
             'current_user'=>$current_user,
             'months_list'=>BaseController::monthsList(),
             'states_list'=>BaseController::statesList()
@@ -71,7 +71,7 @@ class SettingController extends BaseController
 
     public function create(Organization $org)
     {
-        return view('hasob-scola-gradebook::pages.settings.create');
+        return view('hasob-foundation-core::pages.settings.create');
     }
 
     public function store(Organization $org, CreateSettingRequest $request)
@@ -84,7 +84,7 @@ class SettingController extends BaseController
         Flash::success('Setting saved successfully.');
 
         SettingCreated::dispatch($setting);
-        return redirect(route('gb.settings.index'));
+        return redirect(route('fc.settings.index'));
     }
 
     public function show(Organization $org, Request $request, $id)
@@ -110,10 +110,10 @@ class SettingController extends BaseController
         if (empty($setting)) {
             Flash::error('Setting not found');
 
-            return redirect(route('gb.settings.index'));
+            return redirect(route('fc.settings.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.settings.edit')->with('setting', $setting);
+        return view('hasob-foundation-core::pages.settings.edit')->with('setting', $setting);
     }
 
     public function update(Organization $org, $id, UpdateSettingRequest $request)
@@ -154,14 +154,14 @@ class SettingController extends BaseController
         if (empty($setting)) {
             Flash::error('Setting not found');
 
-            return redirect(route('gb.settings.index'));
+            return redirect(route('fc.settings.index'));
         }
 
         $setting->delete();
 
         Flash::success('Setting deleted successfully.');
         SettingDeleted::dispatch($setting);
-        return redirect(route('gb.settings.index'));
+        return redirect(route('fc.settings.index'));
     }
 
 }

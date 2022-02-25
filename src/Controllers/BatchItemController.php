@@ -34,7 +34,7 @@ class BatchItemController extends BaseController
     {
         $current_user = Auth()->user();
 
-        $cdv_batch_items = new \Hasob\FoundationCore\View\Components\CardDataView(BatchItem::class, "hasob-scola-gradebook::pages.batch_items.card_view_item");
+        $cdv_batch_items = new \Hasob\FoundationCore\View\Components\CardDataView(BatchItem::class, "hasob-foundation-core::pages.batch_items.card_view_item");
         $cdv_batch_items->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
                         //->setSearchFields(['field_to_search1','field_to_search2'])
@@ -49,14 +49,14 @@ class BatchItemController extends BaseController
             return $cdv_batch_items->render();
         }
 
-        return view('hasob-scola-gradebook::pages.batch_items.card_view_index')
+        return view('hasob-foundation-core::pages.batch_items.card_view_index')
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())
                     ->with('cdv_batch_items', $cdv_batch_items);
 
         /*
-        return $batchItemDataTable->render('hasob-scola-gradebook::pages.batch_items.index',[
+        return $batchItemDataTable->render('hasob-foundation-core::pages.batch_items.index',[
             'current_user'=>$current_user,
             'months_list'=>BaseController::monthsList(),
             'states_list'=>BaseController::statesList()
@@ -71,7 +71,7 @@ class BatchItemController extends BaseController
      */
     public function create(Organization $org)
     {
-        return view('hasob-scola-gradebook::pages.batch_items.create');
+        return view('hasob-foundation-core::pages.batch_items.create');
     }
 
     /**
@@ -91,7 +91,7 @@ class BatchItemController extends BaseController
         //Flash::success('Batch Item saved successfully.');
 
         BatchItemCreated::dispatch($batchItem);
-        return redirect(route('gb.batchItems.index'));
+        return redirect(route('fc.batchItems.index'));
     }
 
     /**
@@ -109,10 +109,10 @@ class BatchItemController extends BaseController
         if (empty($batchItem)) {
             //Flash::error('Batch Item not found');
 
-            return redirect(route('gb.batchItems.index'));
+            return redirect(route('fc.batchItems.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.batch_items.show')->with('batchItem', $batchItem);
+        return view('hasob-foundation-core::pages.batch_items.show')->with('batchItem', $batchItem);
     }
 
     /**
@@ -130,10 +130,10 @@ class BatchItemController extends BaseController
         if (empty($batchItem)) {
             //Flash::error('Batch Item not found');
 
-            return redirect(route('gb.batchItems.index'));
+            return redirect(route('fc.batchItems.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.batch_items.edit')->with('batchItem', $batchItem);
+        return view('hasob-foundation-core::pages.batch_items.edit')->with('batchItem', $batchItem);
     }
 
     /**
@@ -152,7 +152,7 @@ class BatchItemController extends BaseController
         if (empty($batchItem)) {
             //Flash::error('Batch Item not found');
 
-            return redirect(route('gb.batchItems.index'));
+            return redirect(route('fc.batchItems.index'));
         }
 
         $batchItem->fill($request->all());
@@ -161,7 +161,7 @@ class BatchItemController extends BaseController
         //Flash::success('Batch Item updated successfully.');
         
         BatchItemUpdated::dispatch($batchItem);
-        return redirect(route('gb.batchItems.index'));
+        return redirect(route('fc.batchItems.index'));
     }
 
     /**
@@ -181,14 +181,14 @@ class BatchItemController extends BaseController
         if (empty($batchItem)) {
             //Flash::error('Batch Item not found');
 
-            return redirect(route('gb.batchItems.index'));
+            return redirect(route('fc.batchItems.index'));
         }
 
         $batchItem->delete();
 
         //Flash::success('Batch Item deleted successfully.');
         BatchItemDeleted::dispatch($batchItem);
-        return redirect(route('gb.batchItems.index'));
+        return redirect(route('fc.batchItems.index'));
     }
 
         

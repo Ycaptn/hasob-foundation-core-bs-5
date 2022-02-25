@@ -26,14 +26,14 @@
                             <div id="div-show-txt-address-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">                            
-                                    @include('hasob-scola-gradebook::pages.addresses.show_fields')
+                                    @include('hasob-foundation-core::pages.addresses.show_fields')
                                     </div>
                                 </div>
                             </div>
                             <div id="div-edit-txt-address-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
-                                    @include('hasob-scola-gradebook::pages.addresses.fields')
+                                    @include('hasob-foundation-core::pages.addresses.fields')
                                     </div>
                                 </div>
                             </div>

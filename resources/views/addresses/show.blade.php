@@ -9,7 +9,7 @@ Address Details
 @stop
 
 @section('page_title_subtext')
-    <a class="ml-10 mb-10" href="{{ route('gb.addresses.index') }}" style="font-size:11px;color:blue;">
+    <a class="ml-10 mb-10" href="{{ route('fc.addresses.index') }}" style="font-size:11px;color:blue;">
         <i class="fa fa-angle-double-left"></i> Back to Address List
     </a>
 @stop
@@ -30,7 +30,7 @@ Address Details
             <div class="panel-body">
                 <div class="form-wrap">
                     <div class="row">
-                        @include('hasob-scola-gradebook::pages.addresses.show_fields')
+                        @include('hasob-foundation-core::pages.addresses.show_fields')
                     </div>
                 </div>
             </div>

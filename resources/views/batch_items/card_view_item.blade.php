@@ -14,7 +14,7 @@
                                     </div>
                                     <div class="pull-left user-detail-wrap pt-5">	
                                         @php
-                                            $detail_page_url = route('gb.batchItems.show', $data_item->id);
+                                            $detail_page_url = route('fc.batchItems.show', $data_item->id);
                                         @endphp
                                         <span class="block card-user-name">
                                             <a href='{{$detail_page_url}}'>{{$data_item->id}}</a><br/>

@@ -34,7 +34,7 @@ class PaymentDetailController extends BaseController
     {
         $current_user = Auth()->user();
 
-        $cdv_payment_details = new \Hasob\FoundationCore\View\Components\CardDataView(PaymentDetail::class, "hasob-scola-gradebook::pages.payment_details.card_view_item");
+        $cdv_payment_details = new \Hasob\FoundationCore\View\Components\CardDataView(PaymentDetail::class, "hasob-foundation-core::pages.payment_details.card_view_item");
         $cdv_payment_details->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
                         //->setSearchFields(['field_to_search1','field_to_search2'])
@@ -49,14 +49,14 @@ class PaymentDetailController extends BaseController
             return $cdv_payment_details->render();
         }
 
-        return view('hasob-scola-gradebook::pages.payment_details.card_view_index')
+        return view('hasob-foundation-core::pages.payment_details.card_view_index')
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())
                     ->with('cdv_payment_details', $cdv_payment_details);
 
         /*
-        return $paymentDetailDataTable->render('hasob-scola-gradebook::pages.payment_details.index',[
+        return $paymentDetailDataTable->render('hasob-foundation-core::pages.payment_details.index',[
             'current_user'=>$current_user,
             'months_list'=>BaseController::monthsList(),
             'states_list'=>BaseController::statesList()
@@ -71,7 +71,7 @@ class PaymentDetailController extends BaseController
      */
     public function create(Organization $org)
     {
-        return view('hasob-scola-gradebook::pages.payment_details.create');
+        return view('hasob-foundation-core::pages.payment_details.create');
     }
 
     /**
@@ -91,7 +91,7 @@ class PaymentDetailController extends BaseController
         //Flash::success('Payment Detail saved successfully.');
 
         PaymentDetailCreated::dispatch($paymentDetail);
-        return redirect(route('gb.paymentDetails.index'));
+        return redirect(route('fc.paymentDetails.index'));
     }
 
     /**
@@ -109,10 +109,10 @@ class PaymentDetailController extends BaseController
         if (empty($paymentDetail)) {
             //Flash::error('Payment Detail not found');
 
-            return redirect(route('gb.paymentDetails.index'));
+            return redirect(route('fc.paymentDetails.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.payment_details.show')->with('paymentDetail', $paymentDetail);
+        return view('hasob-foundation-core::pages.payment_details.show')->with('paymentDetail', $paymentDetail);
     }
 
     /**
@@ -130,10 +130,10 @@ class PaymentDetailController extends BaseController
         if (empty($paymentDetail)) {
             //Flash::error('Payment Detail not found');
 
-            return redirect(route('gb.paymentDetails.index'));
+            return redirect(route('fc.paymentDetails.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.payment_details.edit')->with('paymentDetail', $paymentDetail);
+        return view('hasob-foundation-core::pages.payment_details.edit')->with('paymentDetail', $paymentDetail);
     }
 
     /**
@@ -152,7 +152,7 @@ class PaymentDetailController extends BaseController
         if (empty($paymentDetail)) {
             //Flash::error('Payment Detail not found');
 
-            return redirect(route('gb.paymentDetails.index'));
+            return redirect(route('fc.paymentDetails.index'));
         }
 
         $paymentDetail->fill($request->all());
@@ -161,7 +161,7 @@ class PaymentDetailController extends BaseController
         //Flash::success('Payment Detail updated successfully.');
         
         PaymentDetailUpdated::dispatch($paymentDetail);
-        return redirect(route('gb.paymentDetails.index'));
+        return redirect(route('fc.paymentDetails.index'));
     }
 
     /**
@@ -181,14 +181,14 @@ class PaymentDetailController extends BaseController
         if (empty($paymentDetail)) {
             //Flash::error('Payment Detail not found');
 
-            return redirect(route('gb.paymentDetails.index'));
+            return redirect(route('fc.paymentDetails.index'));
         }
 
         $paymentDetail->delete();
 
         //Flash::success('Payment Detail deleted successfully.');
         PaymentDetailDeleted::dispatch($paymentDetail);
-        return redirect(route('gb.paymentDetails.index'));
+        return redirect(route('fc.paymentDetails.index'));
     }
 
         

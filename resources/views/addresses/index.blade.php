@@ -15,7 +15,7 @@ Addresses
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Address
     </a>
     @if (Auth()->user()->hasAnyRole(['','admin']))
-        @include('hasob-scola-gradebook::pages.addresses.bulk-upload-modal')
+        @include('hasob-foundation-core::pages.addresses.bulk-upload-modal')
     @endif
 </span>
 @stop
@@ -34,7 +34,7 @@ Addresses
 
                     <div class="table-wrap">
                         <div class="table-responsive">
-                            @include('hasob-scola-gradebook::pages.addresses.table')
+                            @include('hasob-foundation-core::pages.addresses.table')
                             
                         </div>
                     </div>
@@ -44,7 +44,7 @@ Addresses
         </div>
     </div>
 
-    @include('hasob-scola-gradebook::pages.addresses.modal')
+    @include('hasob-foundation-core::pages.addresses.modal')
 
 @endsection
 

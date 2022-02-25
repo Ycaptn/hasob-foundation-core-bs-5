@@ -26,7 +26,7 @@ class PaymentDetailDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'hasob-scola-gradebook::pages.payment_details.datatables_actions');
+        return $dataTable->addColumn('action', 'hasob-foundation-core::pages.payment_details.datatables_actions');
     }
 
     /**

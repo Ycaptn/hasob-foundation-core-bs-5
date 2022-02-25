@@ -34,7 +34,7 @@ class AddressController extends BaseController
     {
         $current_user = Auth()->user();
 
-        $cdv_addresses = new \Hasob\FoundationCore\View\Components\CardDataView(Address::class, "hasob-scola-gradebook::pages.addresses.card_view_item");
+        $cdv_addresses = new \Hasob\FoundationCore\View\Components\CardDataView(Address::class, "hasob-foundation-core::pages.addresses.card_view_item");
         $cdv_addresses->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
                         //->setSearchFields(['field_to_search1','field_to_search2'])
@@ -49,14 +49,14 @@ class AddressController extends BaseController
             return $cdv_addresses->render();
         }
 
-        return view('hasob-scola-gradebook::pages.addresses.card_view_index')
+        return view('hasob-foundation-core::pages.addresses.card_view_index')
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())
                     ->with('cdv_addresses', $cdv_addresses);
 
         /*
-        return $addressDataTable->render('hasob-scola-gradebook::pages.addresses.index',[
+        return $addressDataTable->render('hasob-foundation-core::pages.addresses.index',[
             'current_user'=>$current_user,
             'months_list'=>BaseController::monthsList(),
             'states_list'=>BaseController::statesList()
@@ -71,7 +71,7 @@ class AddressController extends BaseController
      */
     public function create(Organization $org)
     {
-        return view('hasob-scola-gradebook::pages.addresses.create');
+        return view('hasob-foundation-core::pages.addresses.create');
     }
 
     /**
@@ -91,7 +91,7 @@ class AddressController extends BaseController
         //Flash::success('Address saved successfully.');
 
         AddressCreated::dispatch($address);
-        return redirect(route('gb.addresses.index'));
+        return redirect(route('fc.addresses.index'));
     }
 
     /**
@@ -109,10 +109,10 @@ class AddressController extends BaseController
         if (empty($address)) {
             //Flash::error('Address not found');
 
-            return redirect(route('gb.addresses.index'));
+            return redirect(route('fc.addresses.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.addresses.show')->with('address', $address);
+        return view('hasob-foundation-core::pages.addresses.show')->with('address', $address);
     }
 
     /**
@@ -130,10 +130,10 @@ class AddressController extends BaseController
         if (empty($address)) {
             //Flash::error('Address not found');
 
-            return redirect(route('gb.addresses.index'));
+            return redirect(route('fc.addresses.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.addresses.edit')->with('address', $address);
+        return view('hasob-foundation-core::pages.addresses.edit')->with('address', $address);
     }
 
     /**
@@ -152,7 +152,7 @@ class AddressController extends BaseController
         if (empty($address)) {
             //Flash::error('Address not found');
 
-            return redirect(route('gb.addresses.index'));
+            return redirect(route('fc.addresses.index'));
         }
 
         $address->fill($request->all());
@@ -161,7 +161,7 @@ class AddressController extends BaseController
         //Flash::success('Address updated successfully.');
         
         AddressUpdated::dispatch($address);
-        return redirect(route('gb.addresses.index'));
+        return redirect(route('fc.addresses.index'));
     }
 
     /**
@@ -181,14 +181,14 @@ class AddressController extends BaseController
         if (empty($address)) {
             //Flash::error('Address not found');
 
-            return redirect(route('gb.addresses.index'));
+            return redirect(route('fc.addresses.index'));
         }
 
         $address->delete();
 
         //Flash::success('Address deleted successfully.');
         AddressDeleted::dispatch($address);
-        return redirect(route('gb.addresses.index'));
+        return redirect(route('fc.addresses.index'));
     }
 
         

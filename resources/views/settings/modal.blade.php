@@ -26,14 +26,14 @@
                             <div id="div-show-txt-setting-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">                            
-                                    @include('hasob-scola-gradebook::pages.settings.show_fields')
+                                    @include('hasob-foundation-core::pages.settings.show_fields')
                                     </div>
                                 </div>
                             </div>
                             <div id="div-edit-txt-setting-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
-                                    @include('hasob-scola-gradebook::pages.settings.fields')
+                                    @include('hasob-foundation-core::pages.settings.fields')
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@ $(document).ready(function() {
         $('#div-edit-txt-setting-primary-id').hide();
         let itemId = $(this).attr('data-val');
 
-        // $.get( "{{ route('gb.settings.show','') }}/"+itemId).done(function( response ) {
+        // $.get( "{{ route('fc.settings.show','') }}/"+itemId).done(function( response ) {
         $.get( "{{URL::to('/')}}/api/v1/gb-api/fc_settings/"+itemId).done(function( response ) {
 			
 			$('#txt-setting-primary-id').val(response.data.id);
@@ -129,7 +129,7 @@ $(document).ready(function() {
         $('#div-edit-txt-setting-primary-id').show();
         let itemId = $(this).attr('data-val');
 
-        // $.get( "{{ route('gb.settings.show','') }}/"+itemId).done(function( response ) {     
+        // $.get( "{{ route('fc.settings.show','') }}/"+itemId).done(function( response ) {     
         $.get( "{{URL::to('/')}}/api/v1/gb-api/fc_settings/"+itemId).done(function( response ) {
 
 			$('#txt-setting-primary-id').val(response.data.id);
@@ -173,7 +173,7 @@ $(document).ready(function() {
             }, function(isConfirm) {
                 if (isConfirm) {
 
-                    let endPointUrl = "{{ route('gb.settings.destroy','') }}/"+itemId;
+                    let endPointUrl = "{{ route('fc.settings.destroy','') }}/"+itemId;
 
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
@@ -229,7 +229,7 @@ $(document).ready(function() {
         $("#div-save-mdl-setting-modal").attr('disabled', true);
 
         let actionType = "POST";
-        let endPointUrl = "{{ route('gb.settings.store') }}";
+        let endPointUrl = "{{ route('fc.settings.store') }}";
         let primaryId = $('#txt-setting-primary-id').val();
         
         let formData = new FormData();
@@ -237,7 +237,7 @@ $(document).ready(function() {
 
         if (primaryId != "0"){
             actionType = "PUT";
-            endPointUrl = "{{ route('gb.settings.update','') }}/"+primaryId;
+            endPointUrl = "{{ route('fc.settings.update','') }}/"+primaryId;
             formData.append('id', primaryId);
         }
         

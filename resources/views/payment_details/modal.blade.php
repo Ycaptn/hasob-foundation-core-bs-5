@@ -26,14 +26,14 @@
                             <div id="div-show-txt-paymentDetail-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">                            
-                                    @include('hasob-scola-gradebook::pages.payment_details.show_fields')
+                                    @include('hasob-foundation-core::pages.payment_details.show_fields')
                                     </div>
                                 </div>
                             </div>
                             <div id="div-edit-txt-paymentDetail-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
-                                    @include('hasob-scola-gradebook::pages.payment_details.fields')
+                                    @include('hasob-foundation-core::pages.payment_details.fields')
                                     </div>
                                 </div>
                             </div>

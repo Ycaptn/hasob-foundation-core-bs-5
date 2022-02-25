@@ -26,7 +26,7 @@ class AddressDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'hasob-scola-gradebook::pages.addresses.datatables_actions');
+        return $dataTable->addColumn('action', 'hasob-foundation-core::pages.addresses.datatables_actions');
     }
 
     /**

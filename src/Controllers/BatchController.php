@@ -34,7 +34,7 @@ class BatchController extends BaseController
     {
         $current_user = Auth()->user();
 
-        $cdv_batches = new \Hasob\FoundationCore\View\Components\CardDataView(Batch::class, "hasob-scola-gradebook::pages.batches.card_view_item");
+        $cdv_batches = new \Hasob\FoundationCore\View\Components\CardDataView(Batch::class, "hasob-foundation-core::pages.batches.card_view_item");
         $cdv_batches->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
                         //->setSearchFields(['field_to_search1','field_to_search2'])
@@ -49,14 +49,14 @@ class BatchController extends BaseController
             return $cdv_batches->render();
         }
 
-        return view('hasob-scola-gradebook::pages.batches.card_view_index')
+        return view('hasob-foundation-core::pages.batches.card_view_index')
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())
                     ->with('cdv_batches', $cdv_batches);
 
         /*
-        return $batchDataTable->render('hasob-scola-gradebook::pages.batches.index',[
+        return $batchDataTable->render('hasob-foundation-core::pages.batches.index',[
             'current_user'=>$current_user,
             'months_list'=>BaseController::monthsList(),
             'states_list'=>BaseController::statesList()
@@ -71,7 +71,7 @@ class BatchController extends BaseController
      */
     public function create(Organization $org)
     {
-        return view('hasob-scola-gradebook::pages.batches.create');
+        return view('hasob-foundation-core::pages.batches.create');
     }
 
     /**
@@ -91,7 +91,7 @@ class BatchController extends BaseController
         //Flash::success('Batch saved successfully.');
 
         BatchCreated::dispatch($batch);
-        return redirect(route('gb.batches.index'));
+        return redirect(route('fc.batches.index'));
     }
 
     /**
@@ -109,10 +109,10 @@ class BatchController extends BaseController
         if (empty($batch)) {
             //Flash::error('Batch not found');
 
-            return redirect(route('gb.batches.index'));
+            return redirect(route('fc.batches.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.batches.show')->with('batch', $batch);
+        return view('hasob-foundation-core::pages.batches.show')->with('batch', $batch);
     }
 
     /**
@@ -130,10 +130,10 @@ class BatchController extends BaseController
         if (empty($batch)) {
             //Flash::error('Batch not found');
 
-            return redirect(route('gb.batches.index'));
+            return redirect(route('fc.batches.index'));
         }
 
-        return view('hasob-scola-gradebook::pages.batches.edit')->with('batch', $batch);
+        return view('hasob-foundation-core::pages.batches.edit')->with('batch', $batch);
     }
 
     /**
@@ -152,7 +152,7 @@ class BatchController extends BaseController
         if (empty($batch)) {
             //Flash::error('Batch not found');
 
-            return redirect(route('gb.batches.index'));
+            return redirect(route('fc.batches.index'));
         }
 
         $batch->fill($request->all());
@@ -161,7 +161,7 @@ class BatchController extends BaseController
         //Flash::success('Batch updated successfully.');
         
         BatchUpdated::dispatch($batch);
-        return redirect(route('gb.batches.index'));
+        return redirect(route('fc.batches.index'));
     }
 
     /**
@@ -181,14 +181,14 @@ class BatchController extends BaseController
         if (empty($batch)) {
             //Flash::error('Batch not found');
 
-            return redirect(route('gb.batches.index'));
+            return redirect(route('fc.batches.index'));
         }
 
         $batch->delete();
 
         //Flash::success('Batch deleted successfully.');
         BatchDeleted::dispatch($batch);
-        return redirect(route('gb.batches.index'));
+        return redirect(route('fc.batches.index'));
     }
 
         

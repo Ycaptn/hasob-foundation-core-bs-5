@@ -26,7 +26,7 @@ class BatchDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'hasob-scola-gradebook::pages.batches.datatables_actions');
+        return $dataTable->addColumn('action', 'hasob-foundation-core::pages.batches.datatables_actions');
     }
 
     /**

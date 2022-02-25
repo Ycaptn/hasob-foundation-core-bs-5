@@ -18,7 +18,7 @@ Batch Items
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Batch Item
     </a>
     @if (Auth()->user()->hasAnyRole(['','admin']))
-        @include('hasob-scola-gradebook::pages.batch_items.bulk-upload-modal')
+        @include('hasob-foundation-core::pages.batch_items.bulk-upload-modal')
     @endif
 </span>
 @stop
@@ -39,7 +39,7 @@ Batch Items
         </div>
     </div>
 
-    @include('hasob-scola-gradebook::pages.batch_items.modal')
+    @include('hasob-foundation-core::pages.batch_items.modal')
     
 @endsection
 

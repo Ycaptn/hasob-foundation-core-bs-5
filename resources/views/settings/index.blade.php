@@ -31,7 +31,7 @@ Settings
 
                     <div class="table-wrap">
                         <div class="table-responsive">
-                            @include('hasob-scola-gradebook::pages.settings.table')
+                            @include('hasob-foundation-core::pages.settings.table')
                             
                         </div>
                     </div>
@@ -41,7 +41,7 @@ Settings
         </div>
     </div>
 
-    @include('hasob-scola-gradebook::pages.settings.modal')
+    @include('hasob-foundation-core::pages.settings.modal')
 
 @endsection
 

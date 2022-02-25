@@ -26,14 +26,14 @@
                             <div id="div-show-txt-batchItem-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">                            
-                                    @include('hasob-scola-gradebook::pages.batch_items.show_fields')
+                                    @include('hasob-foundation-core::pages.batch_items.show_fields')
                                     </div>
                                 </div>
                             </div>
                             <div id="div-edit-txt-batchItem-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
-                                    @include('hasob-scola-gradebook::pages.batch_items.fields')
+                                    @include('hasob-foundation-core::pages.batch_items.fields')
                                     </div>
                                 </div>
                             </div>

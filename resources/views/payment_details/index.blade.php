@@ -15,7 +15,7 @@ Payment Details
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Payment Detail
     </a>
     @if (Auth()->user()->hasAnyRole(['','admin']))
-        @include('hasob-scola-gradebook::pages.payment_details.bulk-upload-modal')
+        @include('hasob-foundation-core::pages.payment_details.bulk-upload-modal')
     @endif
 </span>
 @stop
@@ -34,7 +34,7 @@ Payment Details
 
                     <div class="table-wrap">
                         <div class="table-responsive">
-                            @include('hasob-scola-gradebook::pages.payment_details.table')
+                            @include('hasob-foundation-core::pages.payment_details.table')
                             
                         </div>
                     </div>
@@ -44,7 +44,7 @@ Payment Details
         </div>
     </div>
 
-    @include('hasob-scola-gradebook::pages.payment_details.modal')
+    @include('hasob-foundation-core::pages.payment_details.modal')
 
 @endsection
 
