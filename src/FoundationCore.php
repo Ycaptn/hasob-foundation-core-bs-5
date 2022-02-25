@@ -156,11 +156,17 @@ class FoundationCore
 
     public function api_public_routes(){
 
-        //Multi Tenancy
-        // Route::get('/org-detect',[OrganizationController::class,'detect'])->name('fc.org-detect');
+        Route::name('fc-api.')->prefix('fc-api')->group(function(){
 
-        //Settings
-        // Route::get('/app-settings',[OrganizationController::class,'app_settings'])->name('fc.app-settings');
+            //Multi Tenancy
+            Route::get('/org-detect',[OrganizationController::class,'detect'])->name('fc.org-detect');
+
+            //Settings
+            Route::get('/app-settings',[OrganizationController::class,'app_settings'])->name('fc.app-settings');
+
+        });
+
+        
 
     }
 
@@ -185,7 +191,6 @@ class FoundationCore
     }
 
     public function routes(){
-
         Route::name('fc.')->prefix('fc')->group(function(){
 
             //Attachment Management
