@@ -150,6 +150,12 @@ class FoundationCore
             Route::get('/attachment/{id}', [AttachmentAPIController::class, 'show'])->name('attachment.show');
             Route::post('/attachment', [AttachmentAPIController::class, 'update'])->name('attachment.store');
             Route::delete('/attachment/{id}', [AttachmentAPIController::class, 'destroy'])->name('attachment.destroy');
+
+            Route::resource('batches', Hasob\FoundationCore\Controllers\API\BatchAPIController::class);
+            Route::resource('addresses', Hasob\FoundationCore\Controllers\API\AddressAPIController::class);
+            Route::resource('batch_items', Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
+            Route::resource('payment_details', Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
+
         });
     }
 
@@ -213,6 +219,10 @@ class FoundationCore
             Route::resource('settings', \Hasob\FoundationCore\Controllers\SettingController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\PageController::class);
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\SiteArtifactController::class);
+            Route::resource('addresses', Hasob\FoundationCore\Controllers\AddressController::class);
+            Route::resource('batches', Hasob\FoundationCore\Controllers\BatchController::class);
+            Route::resource('batchItems', Hasob\FoundationCore\Controllers\BatchItemController::class);
+            Route::resource('paymentDetails', Hasob\FoundationCore\Controllers\PaymentDetailController::class);
 
             //User Management
             Route::get('/profile', [UserController::class, 'profile'])->name('users.profile');
