@@ -147,25 +147,25 @@ class FoundationCore
             Route::resource('sites', \Hasob\FoundationCore\Controllers\API\SiteAPIController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
-            Route::get('/attachment/{id}', [AttachmentAPIController::class, 'show'])->name('attachment.show');
-            Route::post('/attachment', [AttachmentAPIController::class, 'update'])->name('attachment.store');
-            Route::delete('/attachment/{id}', [AttachmentAPIController::class, 'destroy'])->name('attachment.destroy');
-
-            Route::resource('batches', Hasob\FoundationCore\Controllers\API\BatchAPIController::class);
-            Route::resource('addresses', Hasob\FoundationCore\Controllers\API\AddressAPIController::class);
-            Route::resource('batch_items', Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
-            Route::resource('payment_details', Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
-
         });
     }
 
     public function api_public_routes(){
 
-        //Multi Tenancy
-        // Route::get('/org-detect',[OrganizationController::class,'detect'])->name('fc.org-detect');
+        Route::name('fc-api.')->prefix('fc-api')->group(function(){
+            Route::get('/attachments/{id}', [AttachmentAPIController::class, 'show'])->name('attachments.show');
+            Route::get('/attachments', [AttachmentAPIController::class, 'index'])->name('attachments.index');
+            Route::post('/attachments', [AttachmentAPIController::class, 'update'])->name('attachments.store');
+            Route::delete('/attachments/{id}', [AttachmentAPIController::class, 'destroy'])->name('attachments.destroy');
+            //Multi Tenancy
+            Route::get('/org-detect',[OrganizationController::class,'detect'])->name('fc.org-detect');
 
-        //Settings
-        // Route::get('/app-settings',[OrganizationController::class,'app_settings'])->name('fc.app-settings');
+            //Settings
+            Route::get('/app-settings',[OrganizationController::class,'app_settings'])->name('fc.app-settings');
+
+        });
+
+        
 
     }
 
@@ -190,7 +190,6 @@ class FoundationCore
     }
 
     public function routes(){
-
         Route::name('fc.')->prefix('fc')->group(function(){
 
             //Attachment Management

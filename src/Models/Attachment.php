@@ -15,6 +15,7 @@ use Hasob\FoundationCore\Traits\Socialable;
 use Hasob\FoundationCore\Traits\Taggable;
 use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
+use Hasob\FoundationCore\Traits\OrganizationalConstraint;
 
 class Attachment extends Model
 {
@@ -22,6 +23,7 @@ class Attachment extends Model
     use Artifactable;
     use Disable;
     use GuidId;
+    use OrganizationalConstraint;
 
     public $table = 'fc_attachments';
     

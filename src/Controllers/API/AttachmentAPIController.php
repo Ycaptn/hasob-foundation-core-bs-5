@@ -27,7 +27,37 @@ use App\Http\Controllers\AppBaseController;
 class AttachmentAPIController extends AppBaseController
 {
 
-    public function index(Organization $org, Request $request){}
+    public function index(Organization $org, Request $request){
+        $attachments = Attachment::all();
+        $attach = [];
+        if(!empty($attachments)){
+            foreach ($attachments as $key => $value) {
+                # code...
+                $path = str_replace('public/','',$value->path);
+                //array_push($attach,asset($path));
+                $record = [
+                    'id' => $value->id,
+                    'uploader_user_id' =>$value->uploader_user_id,
+                    'path' => $value->path,
+                    'asset_path' => asset($path),
+                    'label' => $value->label,
+                    'description' => $value->description,
+                    'file_type' => $value->file_type,
+                    'file_number' =>  $value->file_number,
+                    'storage_driver' => $value->storage_driver,
+                    'allowed_user_ids' => $value->allowed_user_ids,
+                    'allowed_viewer_user_roles' => $value->allowed_viewer_user_roles,
+                    'organization_id' =>$value->organization_id,
+                    'created_at' => $value->created_at,
+                    'updated_at' => $value->updated_at,
+                    'deleted_at' => $value->deleted_at
+                ];
+                array_push($attach,$record);
+            }
+        }
+        
+        return $this->sendResponse($attach,"Attachments retrieved successfully");
+    }
 
     public function destroy(Organization $org,Request $request, $id){
         $attach = Attachment::find($id);
@@ -100,8 +130,11 @@ class AttachmentAPIController extends AppBaseController
                     ]
                 );
             }
+            $path = str_replace('public/','',$attach->path);
+            $asset = array_merge($attach->toArray(),['asset_path' => asset($path)]);
 
-            return response()->file(base_path($attach->path));
+            return $this->sendResponse($asset,"Asset retrieved successfully");
+            //return response()->file(base_path($attach->path));
         }        
     }
 
