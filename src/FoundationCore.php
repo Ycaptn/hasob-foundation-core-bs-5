@@ -147,17 +147,16 @@ class FoundationCore
             Route::resource('sites', \Hasob\FoundationCore\Controllers\API\SiteAPIController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
-            Route::get('/attachments/{id}', [AttachmentAPIController::class, 'show'])->name('attachments.show');
-            Route::get('/attachments', [AttachmentAPIController::class, 'index'])->name('attachments.index');
-            Route::post('/attachments', [AttachmentAPIController::class, 'update'])->name('attachments.store');
-            Route::delete('/attachments/{id}', [AttachmentAPIController::class, 'destroy'])->name('attachments.destroy');
         });
     }
 
     public function api_public_routes(){
 
         Route::name('fc-api.')->prefix('fc-api')->group(function(){
-
+            Route::get('/attachments/{id}', [AttachmentAPIController::class, 'show'])->name('attachments.show');
+            Route::get('/attachments', [AttachmentAPIController::class, 'index'])->name('attachments.index');
+            Route::post('/attachments', [AttachmentAPIController::class, 'update'])->name('attachments.store');
+            Route::delete('/attachments/{id}', [AttachmentAPIController::class, 'destroy'])->name('attachments.destroy');
             //Multi Tenancy
             Route::get('/org-detect',[OrganizationController::class,'detect'])->name('fc.org-detect');
 

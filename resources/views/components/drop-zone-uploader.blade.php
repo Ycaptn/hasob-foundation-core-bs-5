@@ -9,7 +9,10 @@
 <div class="modal fade" id="file-upload-zone-modal" tabindex="-1" role="dialog" aria-labelledby="file-upload-zone-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 id="lbl-beneficiary-modal-title" class="modal-title">Pictures</h4>
+            </div>
             <div class="modal-body">
 
                 <div id="error_div_file-upload-zone" class="alert alert-danger" role="alert">
