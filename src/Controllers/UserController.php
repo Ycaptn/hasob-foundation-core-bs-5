@@ -175,6 +175,19 @@ class UserController extends BaseController
                 ->with("departments", Department::where('organization_id',$org->id)->get());
     }
 
+    public function disable(Organization $org, Request $request, $id){
+        $user = User::find($id);
+        if (empty($user)) {
+            return self::createJSONResponse("ok", "failed", "User Not found" ,404);
+        }
+        $input = array_merge($request->all(), ['disabling_user_id' => Auth::user()->id,'disabled_at' => Carbon\Carbon::now()->format('Y-m-d H:i:s')]);
+        $user->fill($input);
+        $user->save();
+
+        return self::createJSONResponse("ok", "success", $user ,200);
+
+    }
+
 
     public function validateUserDetailsForm(Request $request){
 

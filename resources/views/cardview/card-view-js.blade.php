@@ -52,9 +52,14 @@
                     if(page_total == current_page){
                         $('.nxt').addClass('disable');
                         $('#nxt').addClass('disable-link');
+                    }  
+                           
+                    if($(".card-item").length == 0){
+                        $("#{{$control_id}}-pagination").hide();
+                    }else{
+                        $("#{{$control_id}}-pagination").show();
                     }
-                    
-                    $("#{{$control_id}}-pagination").show();
+                    //$("#{{$control_id}}-pagination").show();
                 }
                 $("#spinner-{{$control_id}}").hide();
             });
