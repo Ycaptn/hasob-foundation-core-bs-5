@@ -58,7 +58,7 @@ trait Attachable
     public function create_attachment(User $user, $name, $comments, $file){
 
         $rndFileName = time() . '.' . $file->getClientOriginalExtension();
-        $path = $file->move(public_path('uploads'), $rndFileName);
+        $path = $file->copy(public_path('uploads'), $rndFileName);
 
         $attach = new Attachment();
         $attach->path = "public/uploads/{$rndFileName}";
@@ -87,7 +87,7 @@ trait Attachable
     public function attach(User $user, $name, $comments, $file){
 
         $rndFileName = time() . '.' . $file->getClientOriginalExtension();
-        $path = $file->move(public_path('uploads'), $rndFileName);
+        $path = $file->copy(public_path('uploads'), $rndFileName);
 
         $attach = new Attachment();
         $attach->path = "public/uploads/{$rndFileName}";
@@ -113,7 +113,7 @@ trait Attachable
         $file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
 
         $rndFileName = time() . '.' . $file_extension;
-        $path = File::move($file_path, public_path('uploads').'/'.$rndFileName);
+        $path = File::copy($file_path, public_path('uploads').'/'.$rndFileName);
 
         $attach = new Attachment();
         $attach->path = "public/uploads/{$rndFileName}";
