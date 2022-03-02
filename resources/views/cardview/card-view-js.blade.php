@@ -27,7 +27,6 @@
             $.get(endpoint_url).done(function( response ) {
                 current_page = parseInt(response.page_number);
                 page_total = parseInt(response.pages_total);
-                console.log(response);
                 if (response != null && response.cards_html != null){
                     $('#{{$control_id}}-div-card-view').empty();
                     $('#{{$control_id}}-div-card-view').append(response.cards_html);
