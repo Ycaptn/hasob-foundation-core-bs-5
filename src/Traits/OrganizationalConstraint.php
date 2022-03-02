@@ -19,7 +19,12 @@ trait OrganizationalConstraint {
         $organization = $manager->loadTenant($host);
 
         if ($organization != null){
-            return parent::newQuery()->where('organization_id', $organization->id);
+            if(isset($this->table)){
+                return parent::newQuery()->where($this->table.'.organization_id', $organization->id);
+            }else{
+                return parent::newQuery()->where('organization_id', $organization->id); 
+            }
+            
         }
 
         return parent::newQuery();
