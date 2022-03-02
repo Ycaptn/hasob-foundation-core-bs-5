@@ -124,7 +124,7 @@ class CardDataView extends Component
 
             $model_query = new $this->data_set_model();
 
-            if ($this->data_set_query != null){
+            if (is_array($this->data_set_query) && $this->data_set_query != null){
                 $model_query = $model_query->where($this->data_set_query);
             }
 
@@ -214,6 +214,7 @@ class CardDataView extends Component
                 "result_count" => $results_count,
                 "control_id" => $this->control_id,
                 "cards_html" => $card_html,
+                "page_limit" => $this->data_set_pagination_limit,
             ]);
         }
 

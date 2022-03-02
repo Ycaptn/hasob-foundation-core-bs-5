@@ -25,7 +25,6 @@
             $('#{{$control_id}}-div-card-view').append("<span class='text-center ma-20 pa-20'>Loading.....</span>");
 
             $.get(endpoint_url).done(function( response ) {
-                console.log(response);
                 current_page = parseInt(response.page_number);
                 page_total = parseInt(response.pages_total);
                 if (response != null && response.cards_html != null){
@@ -38,7 +37,6 @@
                 }
                 if (response != null && response.paginate && response.result_count > 0){
                     $("#{{$control_id}}-pagination").empty();
-                    console.log(response);
                     $("#{{$control_id}}-pagination").append("<li><span class='pre'> <a href='#' id='pre' data-type='pre' class='{{$control_id}}-pg'><i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i></a></span></li>"); 
                     for(let pg=1;pg<=response.pages_total;pg++){
                         $("#{{$control_id}}-pagination").append("<li><a data-val='"+pg+"' data-type='pg' class='{{$control_id}}-pg pg-"+pg+"' href='#'>"+pg+"</a></li>");
@@ -52,9 +50,14 @@
                     if(page_total == current_page){
                         $('.nxt').addClass('disable');
                         $('#nxt').addClass('disable-link');
+                    }  
+                           
+                    if($(".card-item").length == 0){
+                        $("#{{$control_id}}-pagination").hide();
+                    }else{
+                        $("#{{$control_id}}-pagination").show();
                     }
-                    
-                    $("#{{$control_id}}-pagination").show();
+                    //$("#{{$control_id}}-pagination").show();
                 }
                 $("#spinner-{{$control_id}}").hide();
             });

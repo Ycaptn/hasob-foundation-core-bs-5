@@ -235,6 +235,7 @@ class FoundationCore
             Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
             Route::get('/user/{id}/delete', [UserController::class, 'delete'])->name('user.delete');
             Route::post('/user/{id}', [UserController::class, 'update'])->name('user.store');
+            Route::put('/user/{id}/disable', [UserController::class, 'disable'])->name('user.disable');
 
             //Role Management
             Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
