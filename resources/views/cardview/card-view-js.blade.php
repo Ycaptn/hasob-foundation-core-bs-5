@@ -27,6 +27,7 @@
             $.get(endpoint_url).done(function( response ) {
                 current_page = parseInt(response.page_number);
                 page_total = parseInt(response.pages_total);
+                console.log(response);
                 if (response != null && response.cards_html != null){
                     $('#{{$control_id}}-div-card-view').empty();
                     $('#{{$control_id}}-div-card-view').append(response.cards_html);
@@ -52,11 +53,9 @@
                         $('#nxt').addClass('disable-link');
                     }  
                            
-                    if($(".card-item").length == 0){
-                        $("#{{$control_id}}-pagination").hide();
-                    }else{
-                        $("#{{$control_id}}-pagination").show();
-                    }
+                    
+                    $("#{{$control_id}}-pagination").show();
+                  
                     //$("#{{$control_id}}-pagination").show();
                 }
                 $("#spinner-{{$control_id}}").hide();
