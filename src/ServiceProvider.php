@@ -57,6 +57,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         Blade::componentNamespace('Hasob\\FoundationCore\\View\\Components', 'hasob-foundation-core');
 
         $this->registerSettings();
+        $this->registerSecurityRoles();
     }
 
     /**
@@ -140,6 +141,18 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
 
 
+    }
+
+    public function registerSecurityRoles(){
+
+        //Roles in this application with their roles.
+        $app_roles = [
+            'admin'                 =>  [],
+            'personal-ledger'       =>  [],
+            'principal-officer'     =>  [],
+        ];
+
+        \FoundationCore::register_roles($app_roles);
     }
 
     /**

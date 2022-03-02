@@ -25,15 +25,19 @@ trait Ledgerable
                         ->first();
     }
 
-    public function create_ledger($name, Organization $org, array $properties=[]){
+    public function create_ledger($name, Organization $org=null, array $properties=[]){
 
         $current_user = Auth::user();
 
         $properties['name'] = $name;
         $properties['ledgerable_id'] = $this->id;
         $properties['ledgerable_type'] = self::class;
-        $properties['organization_id'] = $org->id;
-        $properties['creator_user_id'] = $current_user->id;
+
+        if ($current_user != null){
+            $properties['creator_user_id'] = $current_user->id;
+        }
+        
+        $properties['organization_id'] = $org!=null ? $org->id : ($this->organization_id!=null ? $this->organization_id : null);
 
         return Ledger::create($properties);
     }
@@ -45,8 +49,19 @@ trait Ledgerable
 
         //create the ledger if it doesn't exist
         if ($ledger == null){
-            $item_name = ucwords(array_pop(explode("\\", self::class)));
+
+            $type_name = self::class;
+
+            if (strpos($type_name, '\\')!=false){
+                $type_name_parts = explode("\\", self::class);
+            }
+            if (is_array($type_name_parts)){
+                $type_name = array_pop($type_name_parts);
+            }
+            
+            $item_name = ucwords($type_name);
             $ledger = $this->create_ledger("{$item_name} Account");
+
         }
 
         if ($ledger != null){
