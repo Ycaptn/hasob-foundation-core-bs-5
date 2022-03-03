@@ -58,7 +58,7 @@ trait Attachable
     public function create_attachment(User $user, $name, $comments, $file){
 
         $rndFileName = time() . '.' . $file->getClientOriginalExtension();
-        $path = $file->copy(public_path('uploads'), $rndFileName);
+        $path = $file->move(public_path('uploads'), $rndFileName);
 
         $attach = new Attachment();
         $attach->path = "public/uploads/{$rndFileName}";
