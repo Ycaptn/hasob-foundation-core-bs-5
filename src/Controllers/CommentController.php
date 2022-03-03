@@ -51,11 +51,27 @@ class CommentController extends BaseController
             return self::createJSONResponse("fail", "error", $err_msg, 200);
         }
 
-        $comment = $commentable_type->create_comment(
-            Auth::guard()->user(),
-            $options['comments']
-        );
-        
+        if(isset($options['id'])){
+            $comm = Comment::find($options['id']);
+            if($comm != null){
+                $comment = $commentable_type->update_comment(
+                    Auth::guard()->user(),
+                    $options['comments'],
+                    $options['id']
+                );
+            }else{
+
+                $err_msg = ['Invalid comment request.'];
+                return self::createJSONResponse("fail", "error", $err_msg, 200);
+            }
+           
+        }else{
+            $comment = $commentable_type->create_comment(
+                Auth::guard()->user(),
+                $options['comments']
+            );
+        }
+ 
         return self::createJSONResponse("ok", "success", null, 200);
 
     }

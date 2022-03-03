@@ -17,6 +17,7 @@ class CardDataView extends Component
     private $relationship_key;
     private $relationship_search_fields;
     private $search_placeholder_text;
+    public $query_relationship;
 
     private $data_set_pagination_limit;
     private $data_set_enable_pagination;
@@ -64,6 +65,11 @@ class CardDataView extends Component
 
     public function setSearchFields($fields){
         $this->search_fields = $fields;
+        return $this;
+    }
+
+    public function setQueryRelationship($relationship){
+        $this->query_relationship = $relationship;
         return $this;
     }
 
@@ -126,6 +132,17 @@ class CardDataView extends Component
 
             if (is_array($this->data_set_query) && $this->data_set_query != null){
                 $model_query = $model_query->where($this->data_set_query);
+            }
+            if (is_array($this->query_relationship)){
+                foreach ($this->query_relationship as $key => $fields) {
+                    if(is_array($fields)){
+                        $model_query =   $model_query->whereHas($key, function($q) use ($fields){
+                            foreach($fields as $idx=>$value){
+                                $q->where($idx,$value);
+                            }
+                        });
+                    }
+                }
             }
 
             if ($this->data_set_order_list != null && is_array($this->data_set_order_list)){

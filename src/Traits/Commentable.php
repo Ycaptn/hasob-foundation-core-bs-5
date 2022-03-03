@@ -33,5 +33,20 @@ trait Commentable
 
         return $comment;
     }
+
+    public function update_comment(User $user, $comment_text,$id,$parent_id=null){
+
+        $comments = new Comment();
+        $comment = $comments->find($id);
+        $comment->user_id = $user->id;
+        $comment->parent_id = $parent_id;
+        $comment->content = $comment_text;
+        $comment->commentable_id = $this->id;
+        $comment->commentable_type = self::class;
+        $comment->organization_id = $user->organization_id;
+        $comment->save();
+
+        return $comment;
+    }
     
 }
