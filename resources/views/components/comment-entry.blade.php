@@ -3,6 +3,7 @@
     <div id="comment-form" >
 
         {{ csrf_field() }}
+        <input type="hidden" id="comment_primary_id" value="0">
         <div class="input-group">
             <span class="input-group-addon"><span class="fa fa-comments-o"></span></span>
             <input id="{{ isset($comment_tag_id)?$comment_tag_id:'comment-text'}}" 
@@ -12,22 +13,34 @@
         </div>
 
     </div>
+    
 
     @push('page_scripts')
     <script type="text/javascript">
         $(document).ready(function(){
-
+            $('#comment_primary_id').hide()
             $("#comment-text").on('keypress', function(e){
                 if (e.which==13 && $('#comment-text').val().length > 2){
                     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+                    $('#comment_primary_id').show()
                     e.preventDefault();
                     let spinner = '<div class="loader2" id="loader-1"></div>';
                     var formData = new FormData();
-                    options = JSON.stringify({
+                    if( $('#comment_primary_id').val() == "0"){
+                        options = JSON.stringify({
                         'commentable_id': '{{ $commentable->id }}',
                         'commentable_type':  String.raw`{{ get_class($commentable) }}`,
                         'comments':$('#comment-text').val(),
-                    });
+                        });
+                    }else{
+                        options = JSON.stringify({
+                        'commentable_id': '{{ $commentable->id }}',
+                        'commentable_type':  String.raw`{{ get_class($commentable) }}`,
+                        'comments':$('#comment-text').val(),
+                        'id': $('#comment_primary_id').val()
+                        });
+                    }
+                   
                     formData.append('options', options);
                     swal({
                         html: true,
@@ -65,6 +78,15 @@
                         }
                     });
                 }
+            });
+
+            $(".btn-edit-mdl-comment-modal").on('click', function(e){
+                e.preventDefault();
+                $('#comment_primary_id').val($(this).attr('data-val'))
+                let id = $(this).attr('data-val');
+                console.log(id);
+                let comment = $('#comment_'+id)[0].innerText;
+                $('#comment-text').val(comment);      
             });
 
         });
