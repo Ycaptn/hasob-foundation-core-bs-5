@@ -216,6 +216,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         //Roles in this application with their roles.
         \FoundationCore::register_roles([
             'admin'                 =>  [],
+            'departments-admin'     =>  [],
+            'ledgers-admin'         =>  [],
+            'sites-admin'           =>  [],
             'personal-ledger'       =>  [],
             'principal-officer'     =>  [],
         ]);
