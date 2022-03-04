@@ -125,7 +125,7 @@ class AttachmentController extends BaseController
             return self::createJSONResponse("fail", "error", $err_msg, 200);
         }
 
-        if ($request->file == null) {
+        if ($request->file == null || $request->file == 'undefined') {
             $err_msg = ['The file must be provided.'];
             return self::createJSONResponse("fail", "error", $err_msg, 200);
         }
