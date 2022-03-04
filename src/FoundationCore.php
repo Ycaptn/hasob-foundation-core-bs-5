@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 
@@ -139,6 +140,61 @@ class FoundationCore
                 }
             }
         }
+    }
+
+    public function get_menu_map(){
+
+        $current_user = Auth::user();
+        if ($current_user != null){
+
+            $fc_menu = [
+                'mnu_fc_admin'=>['id'=>'mnu_fc_admin','label'=>'Administration','icon'=>'bx bx-abacus','path'=>'#','route-selector'=>'',
+                    'children' => []
+                ]
+            ];
+
+            if ($current_user->hasAnyRole(['admin','sites-admin'])){
+                $fc_menu['mnu_fc_admin']['children']['sites'] = ['id'=>'mnu_fc_sites','label'=>'Sites','icon'=>'bx bx-globe-alt','path'=>route('fc.sites.index'),'route-selector'=>'fc/sites',
+                    'children' => []
+                ];
+            }
+
+            if ($current_user->hasAnyRole(['admin','departments-admin'])){
+                $fc_menu['mnu_fc_admin']['children']['depts'] = ['id'=>'mnu_fc_depts','label'=>'Departments','icon'=>'bx bx-collection','path'=>route('fc.departments.index'),'route-selector'=>'fc/departments',
+                    'children' => []
+                ];
+            }
+
+            if ($current_user->hasAnyRole(['admin','ledgers-admin'])){
+                $fc_menu['mnu_fc_admin']['children']['ledgers'] = ['id'=>'mnu_fc_ledgers','label'=>'Ledgers','icon'=>'bx bx-wallet-alt','path'=>route('fc.ledgers.index'),'route-selector'=>'fc/ledgers',
+                    'children' => []
+                ];
+            }
+
+            if ($current_user->hasRole('admin')){                
+
+                $fc_menu['mnu_fc_admin']['children']['access'] = ['id'=>'mnu_fc_acl','label'=>'Access Control','icon'=>'bx bx-briefcase-alt','path'=>'#','route-selector'=>null,
+                    'children' => [
+                        'users'=>['id'=>'mnu_fc_usr','label'=>'Users','icon'=>'bx bx-user','path'=>route('fc.users.index'),'route-selector'=>'fc/users'],
+                        'add-user'=>['id'=>'mnu_fc_ausr','label'=>'Add User','icon'=>'bx bx-user-plus','path'=>route('fc.user.show',0),'route-selector'=>'fc/user/0'],
+                        'roles'=>['id'=>'mnu_fc_roles','label'=>'Roles','icon'=>'bx bx-user-check','path'=>route('fc.roles.index'),'route-selector'=>'fc/roles*'],
+                    ]
+                ];
+
+                $fc_menu['mnu_fc_admin']['children']['system'] = ['id'=>'mnu_fc_system','label'=>'System','icon'=>'bx bx-wrench','path'=>'#','route-selector'=>null,
+                    'children' => [
+                        'settings'=>['id'=>'mnu_fc_org_settings','label'=>'Settings','icon'=>'bx bx-cog','path'=>route('fc.org-settings'),'route-selector'=>'fc/org-settings'],
+                        'domains'=>['id'=>'mnu_fc_org_domains','label'=>'Domains','icon'=>'bx bx-globe','path'=>route('fc.org-domains'),'route-selector'=>'fc/org-domains'],
+                        'features'=>['id'=>'mnu_fc_org_features','label'=>'Features','icon'=>'bx bx-slider','path'=>route('fc.org-features'),'route-selector'=>'fc/org-features'],
+                    ]
+                ];
+            }
+
+            return $fc_menu;
+        }
+
+        return [];
+
     }
 
     public function api_routes(){

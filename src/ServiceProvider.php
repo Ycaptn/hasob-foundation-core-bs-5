@@ -1,10 +1,18 @@
 <?php
 namespace Hasob\FoundationCore;
 
+use Hash;
+use Carbon\Carbon;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
+use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Setting;
+use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
+
 use Hasob\FoundationCore\Managers\OrganizationManager;
 
 use Hasob\FoundationCore\Facades;
@@ -56,8 +64,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         
         Blade::componentNamespace('Hasob\\FoundationCore\\View\\Components', 'hasob-foundation-core');
 
-        $this->registerSettings();
         $this->registerSecurityRoles();
+        $this->initializeOrganization();
+        $this->registerSettings();
     }
 
     /**
@@ -78,6 +87,65 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->app->register(FoundationCoreEventServiceProvider::class);
 
+    }
+
+    private function initializeOrganization(){
+
+        if (Schema::hasTable('fc_organizations')){
+
+            //Create default organization
+            $default_org_id = null;
+            if (DB::table('fc_organizations')->count() == 0){
+                $default_org_id = Organization::create([
+                    'org' => 'app',
+                    'domain' => 'test',
+                    'full_url' => 'www.app.test',
+                    'subdomain' => 'sub',
+                    'is_local_default_organization' => true,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ])->id;
+            }else{
+                $default_org_id = DB::table('fc_organizations')->where('is_local_default_organization', true)->select('id')->first()->id;
+            }
+        
+            if (Schema::hasTable('fc_departments')){
+                //Create home department
+                if (DB::table('fc_departments')->count() == 0){
+                    $fc_department_id = Department::create([
+                        'key' => 'home',
+                        'long_name' => 'Home',
+                        'email' => 'home@app.com',
+                        'telephone' => '07085554141',
+                        'physical_location' => 'Ground Floor',
+                        'organization_id' => $default_org_id,
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                    ])->id;
+                }
+            }
+
+            if (Schema::hasTable('fc_users')){
+                //Create user accounts
+                if (DB::table('fc_users')->count() == 0){
+                    $platform_admin_id = User::create([
+                        'email' => 'admin@app.com',
+                        'telephone' => '07063321200',
+                        'password' => Hash::make('password'),
+                        'first_name' => 'Admin',
+                        'last_name' => 'Admin',
+                        'organization_id' => $default_org_id,
+                        'last_loggedin_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                    ])->id;
+                
+                    $usr = User::where('email','admin@app.com')->first();
+                    if ($usr != null){ $usr->assignRole('admin'); }
+                }
+            }
+
+        }
     }
 
     public function registerSettings(){
@@ -146,13 +214,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function registerSecurityRoles(){
 
         //Roles in this application with their roles.
-        $app_roles = [
+        \FoundationCore::register_roles([
             'admin'                 =>  [],
+            'departments-admin'     =>  [],
+            'ledgers-admin'         =>  [],
+            'sites-admin'           =>  [],
             'personal-ledger'       =>  [],
             'principal-officer'     =>  [],
-        ];
-
-        \FoundationCore::register_roles($app_roles);
+        ]);
     }
 
     /**
