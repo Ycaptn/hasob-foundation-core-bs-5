@@ -12,14 +12,14 @@ use Hasob\FoundationCore\Requests\API\UpdateSettingAPIRequest;
 use Hasob\FoundationCore\Models\Setting;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
+use Hasob\FoundationCore\Controllers\BaseController;
 use Auth;
 
 use Response;
 
 use Hasob\FoundationCore\Models\Organization;
 
-class SettingAPIController extends AppBaseController
+class SettingAPIController extends BaseController
 {
     public function index(Request $request, Organization $organization)
     {

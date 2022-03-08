@@ -12,7 +12,7 @@ use Hasob\FoundationCore\Models\Site;
 
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\AppBaseController;
+use Hasob\FoundationCore\Controllers\BaseController;
 use Response;
 
 use Hasob\FoundationCore\Models\Organization;
@@ -22,7 +22,7 @@ use Hasob\FoundationCore\Models\Organization;
  * @package Hasob\FoundationCore\Controllers\API
  */
 
-class SiteAPIController extends AppBaseController
+class SiteAPIController extends BaseController
 {
     /**
      * Display a listing of the Site.

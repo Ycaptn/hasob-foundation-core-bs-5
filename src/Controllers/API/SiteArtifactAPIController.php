@@ -13,7 +13,7 @@ use Hasob\FoundationCore\Events\SiteArtifactDeletedEvent;
 use Hasob\FoundationCore\Requests\API\CreateSiteArtifactAPIRequest;
 use Hasob\FoundationCore\Requests\API\UpdateSiteArtifactAPIRequest;
 
-use App\Http\Controllers\AppBaseController;
+use Hasob\FoundationCore\Controllers\BaseController as AppBaseController;
 
 use Hasob\FoundationCore\Models\Organization;
 
