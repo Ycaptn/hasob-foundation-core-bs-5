@@ -17,7 +17,7 @@ trait Commentable
     public function get_comments(){
         return Comment::where('commentable_id',$this->id)
                         ->where('commentable_type',self::class)
-                        ->orderBy('created_at')
+                        ->orderBy('created_at', 'desc')
                         ->get();
     }
 
