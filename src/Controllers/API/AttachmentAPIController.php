@@ -22,9 +22,10 @@ use Hasob\FoundationCore\Models\Attachment;
 use Hasob\FoundationCore\Models\Attachable;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
-use App\Http\Controllers\AppBaseController;
 
-class AttachmentAPIController extends AppBaseController
+use Hasob\FoundationCore\Controllers\BaseController;
+
+class AttachmentAPIController extends BaseController
 {
 
     public function index(Organization $org, Request $request){

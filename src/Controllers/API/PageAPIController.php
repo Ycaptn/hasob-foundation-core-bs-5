@@ -13,7 +13,7 @@ use Hasob\FoundationCore\Events\PageDeletedEvent;
 use Hasob\FoundationCore\Requests\API\CreatePageAPIRequest;
 use Hasob\FoundationCore\Requests\API\UpdatePageAPIRequest;
 
-use App\Http\Controllers\AppBaseController;
+use Hasob\FoundationCore\Controllers\BaseController;
 
 use Hasob\FoundationCore\Models\Organization;
 
@@ -22,7 +22,7 @@ use Hasob\FoundationCore\Models\Organization;
  * @package Hasob\FoundationCore\Controllers\API
  */
 
-class PageAPIController extends AppBaseController
+class PageAPIController extends BaseController
 {
     /**
      * Display a listing of the Page.
