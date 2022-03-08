@@ -148,32 +148,32 @@ class FoundationCore
         if ($current_user != null){
 
             $fc_menu = [
-                'mnu_fc_admin'=>['id'=>'mnu_fc_admin','label'=>'Administration','icon'=>'bx bx-abacus','path'=>'#','route-selector'=>'',
+                'mnu_fc_admin'=>['id'=>'mnu_fc_admin','label'=>'Administration','icon'=>'bx bx-abacus','path'=>'#','route-selector'=>'','is-parent'=>true,
                     'children' => []
                 ]
             ];
 
             if ($current_user->hasAnyRole(['admin','sites-admin'])){
-                $fc_menu['mnu_fc_admin']['children']['sites'] = ['id'=>'mnu_fc_sites','label'=>'Sites','icon'=>'bx bx-globe-alt','path'=>route('fc.sites.index'),'route-selector'=>'fc/sites',
+                $fc_menu['mnu_fc_admin']['children']['sites'] = ['id'=>'mnu_fc_sites','label'=>'Sites','icon'=>'bx bx-globe-alt','path'=>route('fc.sites.index'),'route-selector'=>'fc/sites','is-parent'=>false,
                     'children' => []
                 ];
             }
 
             if ($current_user->hasAnyRole(['admin','departments-admin'])){
-                $fc_menu['mnu_fc_admin']['children']['depts'] = ['id'=>'mnu_fc_depts','label'=>'Departments','icon'=>'bx bx-collection','path'=>route('fc.departments.index'),'route-selector'=>'fc/departments',
+                $fc_menu['mnu_fc_admin']['children']['depts'] = ['id'=>'mnu_fc_depts','label'=>'Departments','icon'=>'bx bx-collection','path'=>route('fc.departments.index'),'route-selector'=>'fc/departments','is-parent'=>false,
                     'children' => []
                 ];
             }
 
             if ($current_user->hasAnyRole(['admin','ledgers-admin'])){
-                $fc_menu['mnu_fc_admin']['children']['ledgers'] = ['id'=>'mnu_fc_ledgers','label'=>'Ledgers','icon'=>'bx bx-wallet-alt','path'=>route('fc.ledgers.index'),'route-selector'=>'fc/ledgers',
+                $fc_menu['mnu_fc_admin']['children']['ledgers'] = ['id'=>'mnu_fc_ledgers','label'=>'Ledgers','icon'=>'bx bx-wallet-alt','path'=>route('fc.ledgers.index'),'route-selector'=>'fc/ledgers','is-parent'=>false,
                     'children' => []
                 ];
             }
 
             if ($current_user->hasRole('admin')){                
 
-                $fc_menu['mnu_fc_admin']['children']['access'] = ['id'=>'mnu_fc_acl','label'=>'Access Control','icon'=>'bx bx-briefcase-alt','path'=>'#','route-selector'=>null,
+                $fc_menu['mnu_fc_admin']['children']['access'] = ['id'=>'mnu_fc_acl','label'=>'Access Control','icon'=>'bx bx-briefcase-alt','path'=>'#','route-selector'=>null,'is-parent'=>false,
                     'children' => [
                         'users'=>['id'=>'mnu_fc_usr','label'=>'Users','icon'=>'bx bx-user','path'=>route('fc.users.index'),'route-selector'=>'fc/users'],
                         'add-user'=>['id'=>'mnu_fc_ausr','label'=>'Add User','icon'=>'bx bx-user-plus','path'=>route('fc.user.show',0),'route-selector'=>'fc/user/0'],
@@ -181,7 +181,7 @@ class FoundationCore
                     ]
                 ];
 
-                $fc_menu['mnu_fc_admin']['children']['system'] = ['id'=>'mnu_fc_system','label'=>'System','icon'=>'bx bx-wrench','path'=>'#','route-selector'=>null,
+                $fc_menu['mnu_fc_admin']['children']['system'] = ['id'=>'mnu_fc_system','label'=>'System','icon'=>'bx bx-wrench','path'=>'#','route-selector'=>null,'is-parent'=>false,
                     'children' => [
                         'settings'=>['id'=>'mnu_fc_org_settings','label'=>'Settings','icon'=>'bx bx-cog','path'=>route('fc.org-settings'),'route-selector'=>'fc/org-settings'],
                         'domains'=>['id'=>'mnu_fc_org_domains','label'=>'Domains','icon'=>'bx bx-globe','path'=>route('fc.org-domains'),'route-selector'=>'fc/org-domains'],
