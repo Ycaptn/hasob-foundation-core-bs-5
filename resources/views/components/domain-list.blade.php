@@ -1,72 +1,64 @@
 
 
-
-
-<div class="row">
-
-    <div class="col-lg-12">
-        <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body pt-0">
-
-                    @if (isset($domains) && count($domains)>0)
-                        <div class="table-wrap">
-                            <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th width="">Organization/Domain</th>
-                                            <th class="">Full URL</th>
-                                            <th class="">Subdomain</th>
-                                            <th class="">Local Default</th>
-                                            <th>Shut Down</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($domains as $item)
-                                        <tr>
-                                            <td width="30%">                                                
-                                                <a href="javascript:void(0)" class="pr-5 text-primary btn-edit-mdl-organization-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a href="javascript:void(0)" class="pr-10 text-primary btn-delete-mdl-organization-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Delete" aria-describedby="tooltip563">
-                                                    <i class="fa fa-trash text-danger"></i>
-                                                </a>
-                                                {{$item->org}}/{{$item->domain}}
-                                            </td>
-                                            <td>
-                                                {{$item->full_url}}
-                                            </td>
-                                            <td>
-                                                {{$item->subdomain}}
-                                            </td>
-                                            <td>
-                                                {{$item->is_local_default_organization ? 'Yes' : 'No'}}
-                                            </td>
-                                            <td>
-                                                {{$item->is_shut_down ? 'Yes' : 'No'}}
-                                                @if ($item->is_shut_down)
-                                                <span class="small">
-                                                    <br/>
-                                                    {{ $item->shut_down_reason}}
-                                                </span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    @else
-                        <p>No Domains, use the add button to add a domain.</p>
-                    @endif
-
+    <div class="card">
+        <div class="card-body">
+    
+            @if (isset($domains) && count($domains)>0)
+                <div class="table-wrap">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="">Organization/Domain</th>
+                                    <th class="">Full URL</th>
+                                    <th class="">Subdomain</th>
+                                    <th class="">Local Default</th>
+                                    <th>Shut Down</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($domains as $item)
+                                <tr>
+                                    <td width="30%">                                                
+                                        <a href="javascript:void(0)" class="pr-5 text-primary btn-edit-mdl-organization-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" class="pr-10 text-primary btn-delete-mdl-organization-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Delete" aria-describedby="tooltip563">
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </a>
+                                        {{$item->org}}/{{$item->domain}}
+                                    </td>
+                                    <td>
+                                        {{$item->full_url}}
+                                    </td>
+                                    <td>
+                                        {{$item->subdomain}}
+                                    </td>
+                                    <td>
+                                        {{$item->is_local_default_organization ? 'Yes' : 'No'}}
+                                    </td>
+                                    <td>
+                                        {{$item->is_shut_down ? 'Yes' : 'No'}}
+                                        @if ($item->is_shut_down)
+                                        <span class="small">
+                                            <br/>
+                                            {{ $item->shut_down_reason}}
+                                        </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            @else
+                <p>No Domains, use the add button to add a domain.</p>
+            @endif
+
         </div>
     </div>
-    
+
     <div class="modal fade" id="mdl-organization-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -165,8 +157,6 @@
             </div>
         </div>
     </div>
-
-</div>
 
 
 

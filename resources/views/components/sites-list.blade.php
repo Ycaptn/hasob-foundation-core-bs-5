@@ -1,57 +1,80 @@
 
 
-<div class="row">
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
     
     @foreach ($sites as $item)
-    <div class="col-sm-4 mb-19">
+    <div class="col">
+        <div class="card site-item">
+            <div class="row g-0">
+                <div class="col-lg-2">
+                    <center>
+                        <a href="{{ route('fc.sites.show',$item->id) }}">
+                            <i class="fa fa-3x fa-paper-plane-o mt-4 ml-3"></i>
+                        </a>
+                    </center>
+                </div>
+                <div class="col-lg-10">
+                    <div class="card-body">
+                            
+        
+                        <div class="d-flex align-items-center">
+                            <div><h4 class="card-title"><a href="{{ route('fc.sites.show',$item->id) }}">{{ $item->site_name }}</a></h4></div>
+                            <div class="ms-auto"> 
+                                <a data-toggle="tooltip" 
+                                    title="Pages" 
+                                    data-val="{{$item->id}}" 
+                                    data-toggle="tooltip" 
+                                    data-original-title="Pages"
+                                    class="btn-edit-mdl-site-modal inline-block mr-5" href="#">
+                                    <i class="fa fa-files-o txt-primary" style="opacity:80%"></i>
+                                </a>
 
-        <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body pt-0">
-
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <a href="{{ route('fc.sites.show',$item->id) }}">
-                                <i class="fa fa-3x fa-globe mr-10"></i>
-                            </a>
+                                @if (\Auth::user()!=null && \Auth::user()->hasAnyRole('admin','department-admin'))
+                                <a data-toggle="tooltip" 
+                                    title="Edit" 
+                                    data-val="{{$item->id}}" 
+                                    data-toggle="tooltip" 
+                                    data-original-title="Edit"
+                                    class="btn-edit-mdl-site-modal inline-block mr-5" href="#">
+                                    <i class="bx bxs-edit txt-warning" style="opacity:80%"></i>
+                                </a>
+                                <a data-toggle="tooltip" 
+                                    title="Delete" 
+                                    data-val="{{$item->id}}" 
+                                    data-toggle="tooltip" 
+                                    data-original-title="Delete"
+                                    class="btn-delete-mdl-site-modal inline-block mr-5" href="#">
+                                    <i class="bx bxs-trash-alt txt-danger" style="opacity:80%"></i>
+                                </a>
+                                @endif
+                            </div>
+                            
                         </div>
-                        <div class="col-lg-10">
-                            <span class="panel-title txt-dark">
-                                <a href="{{ route('fc.sites.show',$item->id) }}">{{ $item->site_name }}</a>
-                            </span>
-            
-                            <a href="#" class="pull-right">
-                                <i class="fa fa-edit font-15 pr-3 text-primary" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                <i class="fa fa-files-o font-15 pr-3 text-warning" data-toggle="tooltip" title="" data-original-title="Pages"></i>
-                                <i class="fa fa-trash font-15 pr-3 text-danger" data-toggle="tooltip" title="" data-original-title="Delete"></i>
-                            </a>
-
-                            <span class="small">
-                                <br/>
+        
+                        <div class="clearfix">
+                            <p class="mb-0 fst-italic"> 
                                 @if (empty($item->description) == false)
                                     {!! \Illuminate\Support\Str::limit($item->description,40,' ...') !!}
                                 @else
                                     No Description
                                 @endif
-                            </span>
-
-                            <span class="small">
-                                <br/>
-                                @php
-                                $site_id = empty($item->site_path) ? $item->id : $item->site_path;
-                                @endphp
-                                <a href="{{ route('fc.site-display.index',$site_id) }}">
-                                {!! \Illuminate\Support\Str::limit(route('fc.site-display.index',$site_id),40,' ...') !!}
-                                </a>
-                            </span>
-
+                            </p>
+                            <p class="mb-0">
+                                <span>
+                                    @php
+                                        $site_id = empty($item->site_path) ? $item->id : $item->site_path;
+                                    @endphp
+                                    <a href="{{ route('fc.site-display.index',$site_id) }}">
+                                        {!! \Illuminate\Support\Str::limit(route('fc.site-display.index',$site_id),40,' ...') !!}
+                                    </a>
+                                </span>
+                            </p>
                         </div>
+        
                     </div>
-                    
                 </div>
             </div>
         </div>
-
     </div>
     @endforeach
 

@@ -13,16 +13,19 @@ System Roles
     @include('layouts.datatables_css')
 @endsection
 
+@section('page_title_subtext')
+<a class="ms-1" href="{{ route('dashboard') }}">
+    <i class="bx bx-chevron-left"></i> Back to Dashboard
+</a> 
+@stop
+
 @section('content')
 
-    <div class="panel panel-default card-view pa-10">
-        <div class="panel-wrapper collapse in">
-            <div class="panel-body pa-0">
-                {!! $dataTable->table(['width' => '100%', 'class' => 'table table-striped table-bordered']) !!}
-            </div>
+    <div class="card">
+        <div class="card-body">
+            {!! $dataTable->table(['width' => '100%', 'class' => 'table table-striped table-bordered']) !!}
         </div>
     </div>
-
 
     <!-- Modal -->
     <div class="modal fade in" id="mdlRoleDetails" tabindex="-1" role="dialog" aria-labelledby="lblRoleDetails">
@@ -41,8 +44,8 @@ System Roles
         
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="btnSaveRoleDetails" data-val="0">Save Changes</button>
+                    {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> --}}
                 </div>
             </div>
         </div>

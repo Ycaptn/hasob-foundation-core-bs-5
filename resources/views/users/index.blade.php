@@ -1,5 +1,8 @@
 @extends(config('hasob-foundation-core.view_layout'))
 
+@php
+$hide_right_panel = true;
+@endphp
 
 @section('title_postfix')
 System Users
@@ -11,17 +14,21 @@ System Users
 
 @section('app_css')
     @include('layouts.datatables_css')
-@endsection
+@stop
+
+@section('page_title_subtext')
+<a class="ms-1" href="{{ route('dashboard') }}">
+    <i class="bx bx-chevron-left"></i> Back to Dashboard
+</a> 
+@stop
 
 @section('content')
 
-    <div class="panel panel-default card-view pa-10">
-        <div class="panel-wrapper collapse in">
-            <div class="panel-body pa-0">
-                {!! $dataTable->table(['width' => '100%', 'class' => 'table table-striped table-bordered']) !!}
-            </div>
-        </div>
+<div class="card">
+    <div class="card-body">
+        {!! $dataTable->table(['width' => '100%', 'class' => 'table table-striped table-bordered']) !!}
     </div>
+</div>
 
 @stop
 

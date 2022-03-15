@@ -2,63 +2,58 @@
 
 
 
-<div class="row">
+    <div class="card ledger-list">
+        <div class="card-body">
 
-    <div class="col-lg-12">
-        <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body pt-0">
+            @if (isset($ledgers) && count($ledgers)>0)
+                <div class="table-wrap">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Ledger Name</th>
+                                    <th class="text-center">Balance</th>
+                                    <th class="text-center">Entries</th>
+                                    <th>Creator</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ledgers as $item)
+                                <tr>
+                                    <td width="50%">
+                                        
+                                        <a href="javascript:void(0)" class="pr-10 text-primary" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
 
-                    @if (isset($ledgers) && count($ledgers)>0)
-                        <div class="table-wrap">
-                            <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th width="50%">Ledger Name</th>
-                                            <th class="text-center">Balance</th>
-                                            <th class="text-center">Entries</th>
-                                            <th>Creator</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($ledgers as $item)
-                                        <tr>
-                                            <td width="50%">
-                                                
-                                                <a href="javascript:void(0)" class="pr-10 text-primary" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-
-                                                {{$item->name}}
-                                            </td>
-                                            <td class="text-center">
-                                                {{number_format($item->balance(),2)}}
-                                            </td>
-                                            <td class="text-center">
-                                                {{$item->item_count()}}
-                                            </td>
-                                            <td>
-                                                @if ($item->creator_user != null)
-                                                {{$item->creator_user->full_name}}
-                                                @else
-                                                N/A
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    @else
-                        <p>No Ledgers, use the create button to create a ledger.</p>
-                    @endif
-
+                                        {{$item->name}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{number_format($item->balance(),2)}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{$item->item_count()}}
+                                    </td>
+                                    <td>
+                                        @if ($item->creator_user != null)
+                                        {{$item->creator_user->full_name}}
+                                        @else
+                                        N/A
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            @else
+                <p>No Ledgers, use the create button to create a ledger.</p>
+            @endif
+            
         </div>
     </div>
+
 
     <div class="modal fade" id="mdl-ledger-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -99,8 +94,6 @@
             </div>
         </div>
     </div>
-
-</div>
 
 
 
