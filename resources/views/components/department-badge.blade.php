@@ -1,27 +1,60 @@
-<div class="row">
-    <div class="col-lg-2">
-        <a href="{{ route('fc.departments.show',$department->id) }}">
-            @if ( $department->logo_image != null )
-                <img class="img-circle" src="../imgs/logo.png" />
-            @else
-                <i class="fa fa-4x fa-globe"></i>
-            @endif
-        </a>
-    </div>
-    <div class="col-lg-10">
+<div class="card department-item">
+    <div class="row g-0">
+        <div class="col-lg-2">
+            <center>
+                <a href="{{ route('fc.departments.show',$department->id) }}">
+                    @if ( $department->logo_image != null )
+                        <img class="mx-2 my-4 img-fluid" alt="..." src="../imgs/logo.png" />
+                    @else
+                        <i class="fa fa-3x fa-hospital-o mt-4 ml-3"></i>
+                    @endif
+                </a>
+            </center>
+        </div>
+        <div class="col-lg-10">
+            <div class="card-body">
+                    
 
-        <span class="panel-title txt-dark">
-            <a href="{{ route('fc.departments.show',$department->id) }}">{{ $department->long_name }}</a>
-        </span>
+                <div class="d-flex align-items-center">
+                    <div><h4 class="card-title"><a href="{{ route('fc.departments.show',$department->id) }}">{{ $department->long_name }}</a></h4></div>
+                    @if (\Auth::user()!=null && \Auth::user()->hasAnyRole('admin','department-admin'))
+                    <div class="ms-auto"> 
+                        <a data-toggle="tooltip" 
+                            title="Edit" 
+                            data-val="{{$department->id}}" 
+                            data-toggle="tooltip" 
+                            data-original-title="Edit"
+                            class="btn-edit-mdl-department-modal inline-block mr-5" href="#">
+                            <i class="bx bxs-edit txt-warning" style="opacity:80%"></i>
+                        </a>
 
-        <a href="#" class="pull-right">
-            <i class="fa fa-edit font-15 pr-3 text-primary btn-edit-mdl-department-modal" data-val="{{$department->id}}" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-            <i class="fa fa-trash font-15 pr-3 text-danger btn-delete-mdl-department-modal"  data-val="{{$department->id}}" data-toggle="tooltip" title="" data-original-title="Delete"></i>
-        </a>
+                        <a data-toggle="tooltip" 
+                            title="Delete" 
+                            data-val="{{$department->id}}" 
+                            data-toggle="tooltip" 
+                            data-original-title="Delete"
+                            class="btn-delete-mdl-department-modal inline-block mr-5" href="#">
+                            <i class="bx bxs-trash-alt txt-danger" style="opacity:80%"></i>
+                        </a>
+                    </div>
+                    @endif
+                </div>
 
-        <br/>
+                <div class="clearfix">
+                    <p class="mb-0 fw-bold"> {!! $department->physical_location !!}</p>
+                    <p class="mb-0 fst-italic">
+                        <span>
+                            @if (isset($department->telephone) && empty($department->telephone) == false)
+                                {!! $department->telephone !!} 
+                            @endif
+                            @if (isset($department->email) && empty($department->email) == false)
+                                {!! $department->email !!}
+                            @endif
+                        </span>
+                    </p>
+                </div>
 
-        <p class="small">{!! $department->physical_location !!} </p>
-        <p class="small">{!! $department->telephone !!} | {!! $department->email !!}</p>
+            </div>
+        </div>
     </div>
 </div>
