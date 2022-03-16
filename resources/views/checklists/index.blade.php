@@ -1,5 +1,8 @@
 @extends(config('hasob-foundation-core.view_layout'))
 
+@php
+$hide_right_panel = true;
+@endphp
 
 @section('title_postfix')
 {{ $selected_checklist_name ?: 'Checklists' }}
@@ -12,26 +15,42 @@
 @push('page_css')
 @endpush
 
+@section('page_title_subtext')
+<a class="ms-1" href="{{ route('dashboard') }}">
+    <i class="bx bx-chevron-left"></i> Back to Dashboard
+</a> 
+@stop
+
+@section('page_title_buttons')
+@if (Auth()->user()->hasAnyRole(['checklist-admin','admin']))
+<button id="btn-new-template" type="button" class="btn btn-primary">
+    Add New Checklist
+</button>
+@endif
+@stop
+
+
 @section('content')
 
     <div class="row">
 
         <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-check-square-o fa-fw"></i> Available Checklists
-                    <button id="btn-new-template" type="button" class="btn btn-warning btn-xs pull-right">
-                        Add New Checklist
-                    </button>
-                </div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-body">
+
+                    <h6 class="card-title">
+                        <i class="fa fa-check-square-o fa-fw"></i> Available Checklists
+                    </h6>
+
                     <div id="aitem" class="list-group">
-                        @if (isset($checklists))
+                        @if (isset($checklists) && count($checklists)>0)
                             @foreach ($checklists as $item)
                                 <a href="{{ route('fc.checklists.index','name='.$item) }}" class="list-group-item {{ $selected_checklist_name==$item?'active':'' }}">
                                     <p class="list-group-item-heading">{{ $item }}</p>
                                 </a>
                             @endforeach
+                        @else
+                            <p class="list-group-item-heading text-center mt-5 mb-5">No Checklists</p>
                         @endif
                     </div>
                 </div>
@@ -39,15 +58,24 @@
         </div>
 
         <div class="col-md-8">
-            <div class="panel panel-default">
+            <div class="card">
 
-                <div class="panel-heading">
-                    <i class="fa fa-list fa-fw"></i> Checklist Items
-                    <button id="btn-add-item" type="button" class="btn btn-primary btn-xs pull-right">
-                        Add New Item
-                    </button>
-                </div>
-                <div class="panel-body">
+                <div class="card-body">
+
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <i class="fa fa-list fa-fw"></i> Checklist Items
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-end">
+                                    <button id="btn-add-item" type="button" class="btn btn-danger btn-sm my-1 py-1 mx-1 px-1">
+                                        Add New Item
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <input type="hidden" id="cbx_list_name" value="{{ $selected_checklist_name }}" />
 
