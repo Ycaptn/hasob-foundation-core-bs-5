@@ -58,36 +58,29 @@
     <div class="modal fade" id="mdl-ledger-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-    
+
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 id="lbl-ledger-modal-title" class="modal-title">Ledger</h4>
+                    <h5 class="modal-title" id="lbl-ledger-modal-title">Ledger</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
     
                 <div class="modal-body">
                     <div id="div-ledger-modal-error" class="alert alert-danger" role="alert"></div>
                     <form class="form-horizontal" id="frm-ledger-modal" role="form" method="POST" enctype="multipart/form-data" action="">
-                        <div class="row">
-                            <div class="col-lg-12 ma-10">
-                                @csrf
+                        @csrf
     
-                                <input type="hidden" id="txt-ledger-primary-id" value="0" />
+                        <input type="hidden" id="txt-ledger-primary-id" value="0" />
 
-                                <div id="div-edit-txt-ledger-primary-id">
-                                    <div class="row">
-                                        <div class="col-lg-10 ma-10">
-                                        @include('hasob-foundation-core::ledgers.fields')
-                                        </div>
-                                    </div>
-                                </div>
-    
+                        <div id="div-edit-txt-ledger-primary-id">
+                            <div>
+                                @include('hasob-foundation-core::ledgers.fields')
                             </div>
                         </div>
                     </form>
                 </div>
     
                 <div class="modal-footer">
-                    <hr class="light-grey-hr mb-10" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="btn-save-mdl-ledger-modal" value="add">Save</button>
                 </div>
     

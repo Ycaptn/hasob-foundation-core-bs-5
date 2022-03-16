@@ -59,81 +59,83 @@
         </div>
     </div>
 
-    <div class="modal fade" id="mdl-organization-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="mdl-organization-modal" tabindex="-1" role= "dialog" aria-labelledby="mdl-department-modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 id="lbl-organization-modal-title" class="modal-title">Domain</h4>
+                    <h5 class="modal-title" id="lbl-organization-modal-title">Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
                     <div id="div-organization-modal-error" class="alert alert-danger" role="alert"></div>
-                    <form class="form-horizontal" id="frm-organization-modal" role="form" method="POST" enctype="multipart/form-data" action="">
-                        <div class="row">
-                            <div class="col-lg-12 ma-10">
+                    <form id="frm-organization-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                                 @csrf
 
                                 <input type="hidden" id="txt-organization-primary-id" value="0" />
 
-                                <div id="div-edit-txt-organization-primary-id">
-                                    <div class="row">
-                                        <div class="col-lg-10 ma-10">
-                                        
+                                <div id="div-edit-txt-organization-primary-id">                                        
                                             <!-- Org Field -->
-                                            <div id="div-org" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="org">Organization</label>
-                                                <div class="col-sm-4">
+                                            <div id="div-org" class="row mb-3">
+                                                <div class="row">
+                                                    <label class="form-label col-md-6" for="org">Organization</label>
+                                                    <label class="form-label col-md-6" for="org">Domain</label>
+                                                </div>
+                                                <div class="col-md-6">
                                                     {!! Form::text('org', null, ['id'=>'org', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
                                                 </div>
-                                                <div class="col-sm-5">
+                                                <div class="col-md-6">
                                                     {!! Form::text('domain', null, ['id'=>'domain', 'placeholder'=>'Domain e.g. test, beta, live', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
                                                 </div>
                                             </div>
 
                                             <!-- Full Url Field -->
-                                            <div id="div-full_url" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="full_url">Full Url</label>
-                                                <div class="col-sm-9">
+                                            <div id="div-full_url" class="mb-3">
+                                                <label class="form-label " for="full_url">Full Url</label>
+                                                <div >
                                                     {!! Form::text('full_url', null, ['id'=>'full_url', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
                                                 </div>
                                             </div>
 
                                             <!-- Subdomain Field -->
-                                            <div id="div-subdomain" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="subdomain">Subdomain</label>
-                                                <div class="col-sm-9">
+                                            <div id="div-subdomain" class="mb-3">
+                                                <label class="form-label" for="subdomain">Subdomain</label>
+                                                <div>
                                                     {!! Form::text('subdomain', null, ['id'=>'subdomain', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
                                                 </div>
                                             </div>
 
                                             <!-- Is Local Default Organization Field -->
-                                            <div id="div-is_local_default_organization" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="is_local_default_organization">Is Default</label>
-                                                <div class="col-sm-9">
+                                            <div id="div-is_local_default_organization" class="row mb-3">
+                                                <div class="col-md-6">
                                                     <div class="form-check">
                                                         {{-- {!! Form::hidden('is_local_default_organization', 0, ['id'=>'is_local_default_organization', 'class' => 'form-check-input']) !!} --}}
                                                         {!! Form::checkbox('is_local_default_organization', '1', null, ['id'=>'is_local_default_organization', 'class' => 'form-check-input']) !!}
+                                                        <label class="form-label" for="is_local_default_organization">Is Default</label>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <!-- Is Shut Down Field -->
-                                            <div id="div-is_shut_down" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="is_shut_down">Shut Down</label>
-                                                <div class="col-sm-9">
+                                            <div id="div-is_shut_down" class="row mb-3">
+                                                <div class="col-md-6">
+                                                    
                                                     <div class="form-check">
                                                         {{-- {!! Form::hidden('is_shut_down', 0, ['id'=>'is_shut_down', 'class' => 'form-check-input']) !!} --}}
                                                         {!! Form::checkbox('is_shut_down', '1', null, ['id'=>'is_shut_down', 'class' => 'form-check-input']) !!}
+                                                        <label class="form-label" for="is_shut_down">Shut Down</label>
                                                     </div>
+                                                </div>
+                                                <div class="">
+                                                    
                                                 </div>
                                             </div>
 
                                             <!-- Shut Down Reason Field -->
-                                            <div id="div-shut_down_reason" class="form-group">
-                                                <label class="control-label mb-10 col-sm-3" for="shut_down_reason">Shut Down Reason</label>
-                                                <div class="col-sm-9">
+                                            <div id="div-shut_down_reason" class="mb-3">
+                                                <label class="form-label" for="shut_down_reason">Shut Down Reason</label>
+                                                <div>
                                                     {!! Form::textarea('shut_down_reason', null, ['id'=>'shut_down_reason', 'rows'=>'3', 'class' => 'form-control']) !!}
                                                 </div>
                                             </div>
@@ -141,18 +143,14 @@
 
 
                                         </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
                     </form>
                 </div>
 
-                <div class="modal-footer">
-                    <hr class="light-grey-hr mb-10" />
+               <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="btn-save-mdl-organization-modal" value="add">Save</button>
                 </div>
+
 
             </div>
         </div>
