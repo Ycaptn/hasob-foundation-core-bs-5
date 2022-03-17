@@ -15,8 +15,8 @@
 @stop
 
 @section('page_title_buttons')
-    <span class="pull-right">
-        <div class="pull-right inline-block dropdown mb-15">
+    <span class="float-end">
+        <div class="float-end inline-block dropdown mb-15">
             <a href="#" data-val='{{$site->id}}' class='btn btn-xs btn-primary btn-edit-mdl-site-modal'>
                 <i class="icon wb-reply" aria-hidden="true"></i>Edit Site
             </a>

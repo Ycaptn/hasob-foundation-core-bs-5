@@ -11,8 +11,8 @@
 
     <input type='hidden' id="idUserDetails" name="idUserDetails" />
 
-    <div class="form-group">
-        <label class="col-lg-3 control-label">Title</label>
+    <div class="mb-3">
+        <label class="col-lg-3 form-lable">Title</label>
         <div class="col-lg-2">
             <div class="{{ $errors->has('userTitle') ? ' has-error' : '' }}">
                 <select id="userTitle" name="userTitle" class="form-control">
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-lg-3 control-label">Name</label>
+        <label class="col-lg-3 form-lable">Name</label>
         <div class="col-lg-3">
             <div class="{{ $errors->has('firstName') ? ' has-error' : '' }}">
                 <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name" autofocus />
@@ -47,7 +47,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-lg-3 control-label">Last Name</label>
+        <label class="col-lg-3 form-lable">Last Name</label>
         <div class="col-lg-6">
             <div class="{{ $errors->has('lastName') ? ' has-error' : '' }}">
                 <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Surname" />
@@ -57,7 +57,7 @@
 
 
     <div class="form-group">
-        <label class="col-lg-3 control-label">Email Address</label>
+        <label class="col-lg-3 form-lable">Email Address</label>
         <div class="col-lg-6">
             <div class="input-group {{ $errors->has('emailAddress') ? ' has-error' : '' }}" >
                 <input type='text' class="form-control" id="emailAddress" name="emailAddress" />
@@ -67,7 +67,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-lg-3 control-label">Telephone</label>
+        <label class="col-lg-3 form-lable">Telephone</label>
         <div class="col-lg-6">
             <div class="input-group {{ $errors->has('phoneNumber') ? ' has-error' : '' }}" >
                 <input type='text' class="form-control" id="phoneNumber" name="phoneNumber" />
@@ -76,8 +76,8 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-lg-3 control-label">Password</label>
+    <div class="mb-3">
+        <label class="col-lg-3 form-lable">Password</label>
         <div class="col-lg-3">
         <div class="{{ $errors->has('password1') ? ' has-error' : '' }}">
             <input type="password" autocomplete="off" class="form-control" id="password1" name="password1"  placeholder="Enter Password" />
@@ -91,8 +91,8 @@
     </div>
 
 
-    <div class="form-group">
-        <label class="col-lg-3 control-label">Department</label>
+    <div class="mb-3">
+        <label class="col-lg-3 form-lable">Department</label>
         <div class="col-lg-6">
         <div class="{{ $errors->has('department') ? ' has-error' : '' }}">
             <select id="department" name="department" class="form-control">
@@ -107,8 +107,8 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-lg-3 control-label">Job Title</label>
+    <div class="mb-3">
+        <label class="col-lg-3 form-lable">Job Title</label>
         <div class="col-lg-6">
         <div class="input-group {{ $errors->has('jobTitle') ? ' has-error' : '' }}" >
             <input type='text' class="form-control" id="jobTitle" name="jobTitle" placeholder="Director, etc." />
@@ -118,14 +118,14 @@
     </div>
 
     @if (isset($allRoles) && $allRoles!=null)
-    <div class="form-group">
-        <label class="col-xs-3 control-label">Security Role</label>
+    <div class="form-check">
+        <label class="col-xs-3 form-check-label">Security Role</label>
         <div class="col-xs-9">
         @foreach ($allRoles as $idx=>$role)
             <div class="col-xs-6">
                 <div class="checkbox">
                     <label>
-                        <input id='userRole{{$role->name}}' name='userRole{{$role->name}}' type="checkbox" value="0" class="roleCbx" /> {{ $role->name }}
+                        <input id='userRole{{$role->name}}' name='userRole{{$role->name}}' type="checkbox" value="0" class="roleCbx form-check-input" /> {{ $role->name }}
                     </label>
                 </div>
             </div>

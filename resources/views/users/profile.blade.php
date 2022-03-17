@@ -22,11 +22,14 @@ User Profile
         </div>
 
         <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+            <div class="card">
+                
+                <div class="card-body">
+
+                <div class="card-title">
                     <i class="fa fa-user fa-fw"></i>Profile Details
 
-                    <div class="pull-right">
+                    <div class="float-end">
                         @if ($edit_mode == false)
                         <a href="{{ route('fc.users.profile','edit=1') }}" >
                             <button id="btn-add" type="button" class="btn btn-warning btn-xs">
@@ -37,14 +40,13 @@ User Profile
                     </div>
 
                 </div>
-                <div class="panel-body">
 
                     @if ($edit_mode == false)
                         @include('hasob-foundation-core::users.partials.user-display')
                     @else
                         @include('hasob-foundation-core::users.partials.user-detail')
 
-                        <div class="col-xs-9 col-xs-offset-3">
+                        <div class="col-xs-9 col-xs-offset-3 card-text">
                             <button data-val="{{Auth::id()}}" type="button" class="btn btn-primary" id="btnSaveUserDetails">  <span class="glyphicon glyphicon-ok"></span> &nbsp;Save Changes</button>
 
                             <a href="{{ route('fc.users.profile') }}">

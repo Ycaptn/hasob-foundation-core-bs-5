@@ -8,6 +8,7 @@
 
 <div class="mb-3">
     <label class="form-label">Department</label>
+    <span class="input-group-addon"><span class="fa fa-institution"></span></span>
     <select id="ledger_department" name="ledger_department" class="form-select form-select-md">
         <option value="">Not Departmental Ledger</option>
         @if (isset($all_departments) && $all_departments != null)
@@ -16,6 +17,5 @@
             @endforeach
         @endif
     </select>
-    <span class="input-group-addon"><span class="fa fa-institution"></span></span>
 
 </div>

@@ -12,10 +12,10 @@ Create Site
 @section('content')
     
 
-    <div class="panel panel-default card-view">
+    <div class="card card-default card-view">
 
-        <div class="panel-wrapper collapse in">
-            <div class="panel-body">
+        <div class="card-wrapper collapse in">
+            <div class="card-body">
 
                 <div class="col-sm-8">
                     <div class="form-wrap">
