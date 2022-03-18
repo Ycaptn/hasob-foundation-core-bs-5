@@ -225,7 +225,7 @@ $hide_right_panel = true;
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             e.preventDefault();
 
-            $('#spinner1').show();
+            $('.spinner').show();
             $('#btn-checklist-editor-save').prop("disabled", true);
 
             var formData = new FormData();
@@ -255,28 +255,28 @@ $hide_right_panel = true;
                         if (data.response!=null){
                             for (x in data.response) {
                                 if ($.isArray(data.response[x])){
-                                    $('#error_msg_checklist_editor').html('<strong>Errors</strong><br/>'+data.response[x].join('<br/>'));
+                                    $('#error_checklist_editor').html('<strong>Errors</strong><br/>'+data.response[x].join('<br/>'));
                                 }else{
-                                    $('#error_msg_checklist_editor').html('<strong>Errors</strong><br/>'+data.response[x]);
+                                    $('#error_checklist_editor').html('<strong>Errors</strong><br/>'+data.response[x]);
                                 }
                             }
                         } else {
-                            $('#error_msg_checklist_editor').html('<strong>Error</strong><br/>An error has occurred.');
+                            $('#error_checklist_editor').html('<strong>Error</strong><br/>An error has occurred.');
                         }
 
-                        $('#spinner1').hide();
+                        $('.spinner').hide();
                         $('#btn-checklist-editor-save').prop("disabled", false);
 
                     }else if (data!=null && data.status=='ok'){
                         alert("Checklist template item saved")
                         location.reload();
                     }else{
-                        $('#error_msg_checklist_editor').html('<strong>Error</strong><br/>An error has occurred.');
+                        $('#error_checklist_editor').html('<strong>Error</strong><br/>An error has occurred.');
                     }
                 },
                 error: function(data){
                     console.log(data);
-                    $('#spinner1').hide();
+                    $('.spinner').hide();
                     $('#btn-checklist-editor-save').prop("disabled", false);
                 }
             });
