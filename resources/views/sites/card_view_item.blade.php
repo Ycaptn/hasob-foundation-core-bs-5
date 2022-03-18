@@ -17,28 +17,28 @@
                     <div class="d-flex align-items-center">
                         <div><h4 class="card-title mb-0"><a href="{{ route('fc.sites.show',$data_item->id) }}">{{ $data_item->site_name }}</a></h4></div>
                         <div class="ms-auto"> 
-                            <a data-toggle="tooltip" 
+                            <a data-bs-toggle="tooltip" 
                                 title="Pages" 
                                 data-val="{{$data_item->id}}" 
-                                data-toggle="tooltip" 
+                                data-bs-toggle="tooltip" 
                                 data-original-title="Pages"
                                 class="btn-edit-mdl-site-modal inline-block mr-5" href="#">
                                 <i class="fa fa-files-o txt-primary" style="opacity:80%"></i>
                             </a>
 
                             @if (\Auth::user()!=null && \Auth::user()->hasAnyRole('admin','department-admin'))
-                            <a data-toggle="tooltip" 
+                            <a data-bs-toggle="tooltip" 
                                 title="Edit" 
                                 data-val="{{$data_item->id}}" 
-                                data-toggle="tooltip" 
+                                data-bs-toggle="tooltip" 
                                 data-original-title="Edit"
                                 class="btn-edit-mdl-site-modal inline-block mr-5" href="#">
                                 <i class="bx bxs-edit txt-warning" style="opacity:80%"></i>
                             </a>
-                            <a data-toggle="tooltip" 
+                            <a data-bs-toggle="tooltip" 
                                 title="Delete" 
                                 data-val="{{$data_item->id}}" 
-                                data-toggle="tooltip" 
+                                data-bs-toggle="tooltip" 
                                 data-original-title="Delete"
                                 class="btn-delete-mdl-site-modal inline-block mr-5" href="#">
                                 <i class="bx bxs-trash-alt txt-danger" style="opacity:80%"></i>

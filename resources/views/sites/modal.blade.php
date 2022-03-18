@@ -1,20 +1,12 @@
-<!-- Modal -->
-<div class="modal fade" id="mdl-site-modal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="lbl-site-modal-title">Site</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      
-      <div class="modal-body">
-        <div id="div-site-modal-error" class="alert alert-danger" role="alert"></div>
-        <form id="frm_workflow_creator" name="frm_workflow_creator" role="form" method="POST" enctype="multipart/form-data" action="">
-            @csrf
 
-            <div class="offline-flag"><span class="offline">You are currently offline</span></div>
-            <div id="spinner-sites" class="">
-                <div class="loader" id="loader-1"></div>
+
+<div class="modal fade" id="mdl-site-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 id="lbl-site-modal-title" class="modal-title">Site</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
             <input type="hidden" id="workflow_id" value="0" />

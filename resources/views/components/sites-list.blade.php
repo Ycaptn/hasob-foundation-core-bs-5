@@ -20,28 +20,28 @@
                         <div class="d-flex align-items-center">
                             <div><h4 class="card-title"><a href="{{ route('fc.sites.show',$item->id) }}">{{ $item->site_name }}</a></h4></div>
                             <div class="ms-auto"> 
-                                <a data-toggle="tooltip" 
+                                <a data-bs-toggle="tooltip" 
                                     title="Pages" 
                                     data-val="{{$item->id}}" 
-                                    data-toggle="tooltip" 
+                                    data-bs-toggle="tooltip" 
                                     data-original-title="Pages"
                                     class="btn-edit-mdl-site-modal inline-block mr-5" href="#">
                                     <i class="fa fa-files-o txt-primary" style="opacity:80%"></i>
                                 </a>
 
                                 @if (\Auth::user()!=null && \Auth::user()->hasAnyRole('admin','department-admin'))
-                                <a data-toggle="tooltip" 
+                                <a data-bs-toggle="tooltip" 
                                     title="Edit" 
                                     data-val="{{$item->id}}" 
-                                    data-toggle="tooltip" 
+                                    data-bs-toggle="tooltip" 
                                     data-original-title="Edit"
                                     class="btn-edit-mdl-site-modal inline-block mr-5" href="#">
                                     <i class="bx bxs-edit txt-warning" style="opacity:80%"></i>
                                 </a>
-                                <a data-toggle="tooltip" 
+                                <a data-bs-toggle="tooltip" 
                                     title="Delete" 
                                     data-val="{{$item->id}}" 
-                                    data-toggle="tooltip" 
+                                    data-bs-toggle="tooltip" 
                                     data-original-title="Delete"
                                     class="btn-delete-mdl-site-modal inline-block mr-5" href="#">
                                     <i class="bx bxs-trash-alt txt-danger" style="opacity:80%"></i>
@@ -84,7 +84,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 id="lbl-site-modal-title" class="modal-title">Site</h4>
                 </div>
 

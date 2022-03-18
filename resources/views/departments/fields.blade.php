@@ -17,9 +17,8 @@
 
             <!-- Parent Field -->
             <div class="mb-3">
-                <label class="form-label">Parent
-                    <span class="input-group-addon"><span class="fa fa-institution"></span>
-                </label>
+                <label class="form-label">Parent</label>
+                <span class="input-group-addon"><span class="fa fa-institution"></span></span>
                 <select 
                     id="department_id" 
                     name="department_id" 

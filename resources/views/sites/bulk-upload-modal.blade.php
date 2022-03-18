@@ -8,7 +8,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 id="lbl-site-modal-title-bku" class="modal-title">Bulk Upload</h4>
             </div>
 
@@ -49,7 +49,7 @@
                                                 <span class="fileinput-exists btn-text">Change</span>
                                                     <input type="hidden"><input id="value-file" type="file" name="...">
                                                 </span> 
-                                                <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput">
+                                                <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-bs-dismiss="fileinput">
                                                     <i class="fa fa-trash"></i><span class="btn-text"> Remove</span>
                                                 </a> 
                                             </div>

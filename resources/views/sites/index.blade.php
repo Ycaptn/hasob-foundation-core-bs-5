@@ -20,7 +20,7 @@ Sites
 
 @section('page_title_buttons')
 @if (Auth()->user()->hasAnyRole(['site-admin','admin']))
-<a href="#" class="btn btn-xs btn-primary pull-right btn-new-mdl-site-modal">Create Site</a>
+<a href="#" class="btn btn-xs btn-primary float-end btn-new-mdl-site-modal">Create Site</a>
 @endif
 @stop
 
