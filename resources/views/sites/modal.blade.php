@@ -8,28 +8,30 @@
                 <h4 id="lbl-site-modal-title" class="modal-title">Site</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            
-            <input type="hidden" id="workflow_id" value="0" />
+            <div class="modal-body">
+       
+                <input type="hidden" id="workflow_id" value="0" />
                 
-
-            <div id="div-show-txt-site-primary-id" class="row mb-3">
-                <div class="col-md-9">                            
-                    @include('hasob-foundation-core::sites.show_fields')
+                
+                <div id="div-show-txt-site-primary-id" class="row mb-3">
+                    <div class="col-md-9">                            
+                        @include('hasob-foundation-core::sites.show_fields')
+                    </div>
                 </div>
-            </div>
-                    
-            <div id="div-edit-txt-site-primary-id" class="row">
-                <div class="col-md-9">
-                    @include('hasob-foundation-core::sites.fields')
+                
+                <div id="div-edit-txt-site-primary-id" class="row">
+                    <div class="col-md-9">
+                        @include('hasob-foundation-core::sites.fields')
+                    </div>
                 </div>
+                
             </div>
-
-        </form>
-      </div>
-      <div class="modal-footer" id="div-save-mdl-site-modal">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" value="add" id="btn-save-mdl-site-modal">Save</button>
-      </div>
+        
+            <div class="modal-footer" id="div-save-mdl-site-modal">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" value="add" id="btn-save-mdl-site-modal">Save</button>
+            </div>
+        </div>
     </div>
   </div>
 </div>
