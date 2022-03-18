@@ -46,15 +46,13 @@
 
             <!-- Email Field -->
             <div id="div-email" class="row mb-3">
-                <div class="row">
-                    <label class="form-label col-md-6" for="email">Email</label>
-                    <label class="form-label col-md-6" for="telephone">Telephone</label>
-                </div>
                 <div class="col-md-6">
+                    <label class="form-label col-md-6" for="email">Email</label>
                     {!! Form::email('email', null, ['id'=>'email', 'class' => 'form-control','placeholder'=>'Department Email','maxlength' => 255,'maxlength' => 255]) !!}
                 </div>
-
+                    
                 <div class="col-md-6">
+                    <label class="form-label col-md-6" for="telephone">Telephone</label>
                     {!! Form::text('telephone', null, ['id'=>'telephone', 'class' => 'form-control','placeholder'=>'Phone Number','maxlength' => 255,'maxlength' => 255]) !!}
                 </div>
             </div>
