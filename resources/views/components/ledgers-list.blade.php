@@ -12,8 +12,8 @@
                             <thead>
                                 <tr>
                                     <th width="50%">Ledger Name</th>
-                                    <th class="text-center">Balance</th>
-                                    <th class="text-center">Entries</th>
+                                    <th class="text-center w-25">Balance</th>
+                                    <th class="text-center w-25">Entries</th>
                                     <th>Creator</th>
                                 </tr>
                             </thead>
@@ -22,7 +22,7 @@
                                 <tr>
                                     <td width="50%">
                                         
-                                        <a href="javascript:void(0)" class="pr-10 text-primary" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
+                                        <a href="javascript:void(0)" class="pr-10 text-primary" data-bs-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
                                             <i class="fa fa-edit"></i>
                                         </a>
 

@@ -6,7 +6,7 @@
             @if (isset($domains) && count($domains)>0)
                 <div class="table-wrap">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
+                        <table class="table table-hover table-striped mb-0">
                             <thead>
                                 <tr>
                                     <th width="">Organization/Domain</th>

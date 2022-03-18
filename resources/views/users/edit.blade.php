@@ -41,10 +41,11 @@ $hide_right_panel = true;
 
                     <input type='hidden' id="idUserDetails" name="idUserDetails" value="{{ $edited_user!=null?$edited_user->id:0 }}" />
 
-                    <!-- <ul class="nav nav-tabs nav-primary" role="tablist"> -->
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#details" role="tab" aria-selected="true">
+                    
+                    <ul class="nav nav-tabs nav-primary" id="nav-tab" role="tablist">
+                    <li class="nav-item " role="presentation">
+  
+                            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#details" href="#details" role="tab" aria-selected="true">
                                 <div class="d-flex align-items-center">
                                     <div class="tab-icon"><i class="bx bx-detail font-18 me-1"></i>
                                     </div>
@@ -281,7 +282,7 @@ $hide_right_panel = true;
 
                         <div role="tabpanel" class="tab-pane fade" role="tab-panel" id="disable" style="margin-top:15px;">
 
-                            <div class="form-check">
+                            <div class="form-check align-items-center">
                                 <label for="cbx_is_disabled" class="form-check-label">Disabled</label> 
                                 <input type="checkbox" class="form-check-input" id="cbx_is_disabled" name="cbx_is_disabled" value="1" {{ $edited_user!=null&&$edited_user->is_disabled?'checked':''}} />
                             </div>
