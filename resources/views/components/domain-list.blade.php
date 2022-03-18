@@ -6,7 +6,7 @@
             @if (isset($domains) && count($domains)>0)
                 <div class="table-wrap">
                     <div class="table-responsive">
-                        <table class="table table-hover table-striped mb-0">
+                        <table class="table table-hover table-stripe mb-0">
                             <thead>
                                 <tr>
                                     <th width="">Organization/Domain</th>
@@ -146,7 +146,9 @@
 
                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-organization-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-organization-modal" value="add">
+                    <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="visually-hidden">Loading...</span>Save</button>
                 </div>
 
 
@@ -162,6 +164,7 @@
     
         //Show Modal for New Entry
         $(document).on('click', ".btn-new-mdl-organization-modal", function(e) {
+            $('#spinner').hide()
             $('#div-organization-modal-error').hide();
             $('#mdl-organization-modal').modal('show');
             $('#frm-organization-modal').trigger("reset");
@@ -210,6 +213,8 @@
         $(document).on('click', ".btn-delete-mdl-organization-modal", function(e) {
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+            $('#spinner').show();
+                $('#btn-delete-mdl-organization-modal').prop("disabled", true);
     
             let itemId = $(this).attr('data-val');
             if (confirm("Are you sure you want to delete this Domain?")){
@@ -244,7 +249,8 @@
         $('#btn-save-mdl-organization-modal').click(function(e) {
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-    
+            $('#spinner').show();
+                $('#btn-save-mdl-organization-modal').prop("disabled", true);
             let actionType = "POST";
             let endPointUrl = "{{ route('fc.organizations.store') }}";
             let primaryId = $('#txt-organization-primary-id').val();
@@ -285,6 +291,8 @@
                         });
                     }else{
                         $('#div-organization-modal-error').hide();
+                        $('#spinner').hide();
+                $('#btn-save-mdl-organization-modal').prop("disabled", false);
                         window.setTimeout( function(){
                             window.alert("The Domain saved successfully.");
                             $('#div-organization-modal-error').hide();
@@ -292,6 +300,8 @@
                         },20);
                     }
                 }, error: function(data){
+                    $('#spinner').hide();
+                $('#btn-save-mdl-organization-modal').prop("disabled", false);
                     console.log(data);
                 }
             });

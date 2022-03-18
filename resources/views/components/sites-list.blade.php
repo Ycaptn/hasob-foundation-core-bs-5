@@ -84,20 +84,18 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 id="lbl-site-modal-title" class="modal-title">Site</h4>
                 </div>
 
                 <div class="modal-body">
                     <div id="div-site-modal-error" class="alert alert-danger" role="alert"></div>
-                    <form class="form-horizontal" id="frm-site-modal" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <form class="form-horizontal" id="form-site-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                         <div class="row">
                             <div class="col-lg-12 ma-10">
                                 @csrf
                                 
-                                <div id="spinner1" class="">
-                                    <div class="loader" id="loader-1"></div>
-                                </div>
+                                
 
                                 <input type="hidden" id="txt-site-primary-id" value="0" />
                                 <div id="div-show-txt-site-primary-id">
@@ -121,7 +119,9 @@
 
                 <div class="modal-footer">
                     <hr class="light-grey-hr mb-10" />
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-site-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-site-modal" value="add">
+                              <span id='spinner' class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="visually-hidden">Loading...</span>Save</button>
                 </div>
 
             </div>
@@ -137,6 +137,7 @@
     
         //Show Modal for New Entry
         $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
+            $('#spinner').hide()
             $('#div-site-modal-error').hide();
             $('#mdl-site-modal').modal('show');
             $('#frm-site-modal').trigger("reset");
@@ -153,6 +154,9 @@
     
             $('#div-show-txt-site-primary-id').show();
             $('#div-edit-txt-site-primary-id').hide();
+
+            $('#spinner').show();
+                $('#btn-show-mdl-site-modal').prop("disabled", true);
             let itemId = $(this).attr('data-val');
     
             // $.get( "{{URL::to('/')}}/api/fc_sites/"+itemId).done(function( data ) {
@@ -174,6 +178,8 @@
     
             $('#div-show-txt-site-primary-id').hide();
             $('#div-edit-txt-site-primary-id').show();
+            $('#spinner').show();
+                $('#btn-edit-mdl-site-modal').prop("disabled", true);
             let itemId = $(this).attr('data-val');
     
             // $.get( "{{URL::to('/')}}/api/fc_sites/"+itemId).done(function( data ) {
@@ -226,7 +232,8 @@
         $('#btn-save-mdl-site-modal').click(function(e) {
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-    
+            $('#spinner').show();
+                $('#btn-save-mdl-site-modal').prop("disabled", true);
             let actionType = "POST";
             let endPointUrl = "{{ route('fc.sites.store') }}";
             let primaryId = $('#txt-site-primary-id').val();
@@ -262,6 +269,8 @@
                         });
                     }else{
                         $('#div-site-modal-error').hide();
+                        $('#spinner').hide();
+                $('#btn-save-mdl-site-modal').prop("disabled", false);
                         window.setTimeout( function(){
                             window.alert("The Site record saved successfully.");
                             $('#div-site-modal-error').hide();
@@ -269,6 +278,8 @@
                         },20);
                     }
                 }, error: function(data){
+                    $('#spinner').hide();
+                $('#btn-save-mdl-site-modal').prop("disabled", false);
                     console.log(data);
                 }
             });

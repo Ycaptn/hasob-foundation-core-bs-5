@@ -23,7 +23,7 @@
                                     <td width="50%">
                                         
                                         <a href="javascript:void(0)" class="pr-10 text-primary" data-bs-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
-                                            <i class="fa fa-edit"></i>
+                                            <i class="fa fa-edit btn-edit-mdl-ledger-modal"></i>
                                         </a>
 
                                         {{$item->name}}
@@ -81,7 +81,9 @@
     
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-ledger-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-ledger-modal" value="add">
+                    <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span class="visually-hidden">Loading...</span>Save</button>
                 </div>
     
             </div>
@@ -103,6 +105,7 @@
     
             $('#div-show-txt-ledger-primary-id').hide();
             $('#div-edit-txt-ledger-primary-id').show();
+            $('#spinner').hide();
         });
     
         //Show Modal for View
@@ -112,6 +115,9 @@
     
             $('#div-show-txt-ledger-primary-id').show();
             $('#div-edit-txt-ledger-primary-id').hide();
+
+            $('#spinner').show();
+                $('#btn-show-mdl-ledger-modal').prop("disabled", true);
             let itemId = $(this).attr('data-val');
     
             // $.get( "{{URL::to('/')}}/api/fc_ledgers/"+itemId).done(function( data ) {
@@ -133,6 +139,9 @@
     
             $('#div-show-txt-ledger-primary-id').hide();
             $('#div-edit-txt-ledger-primary-id').show();
+
+            $('#spinner').hide();
+                $('#btn-show-mdl-ledger-modal').prop("disabled", false);
             let itemId = $(this).attr('data-val');
     
             $.get( "{{route('fc.ledgers.store','0')}}" ).done(function( response ) {
@@ -184,7 +193,8 @@
         $('#btn-save-mdl-ledger-modal').click(function(e) {
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-    
+            $('#spinner').show();
+                $('#btn-save-mdl-ledger-modal').prop("disabled", true);
             let primaryId = $('#txt-ledger-primary-id').val();
             
             let formData = new FormData();
@@ -211,6 +221,8 @@
                         });
                     }else{
                         $('#div-ledger-modal-error').hide();
+                        $('#spinner').hide();
+                            $('#btn-save-mdl-ledger-modal').prop("disabled", false);
                         window.setTimeout( function(){
                             window.alert("The Ledger record saved successfully.");
                             $('#div-ledger-modal-error').hide();
@@ -218,6 +230,8 @@
                         },20);
                     }
                 }, error: function(data){
+                    $('#spinner').hide();
+                        $('#btn-save-mdl-ledger-modal').prop("disabled", false);
                     console.log(data);
                 }
             });

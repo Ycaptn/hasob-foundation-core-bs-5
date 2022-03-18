@@ -3,16 +3,14 @@
 
     {{ csrf_field() }}
 
-    <div id="spinner1" class="">
-        <div class="loader" id="loader-1"></div>
-    </div>
+    
 
     <div id="errorMsgUserDetails" class="alert alert-danger ma-10 mb-20"></div>
 
     <input type='hidden' id="idUserDetails" name="idUserDetails" />
 
     <div class="mb-3">
-        <label class="col-lg-3 form-lable">Title</label>
+        <label class="col-lg-3 form-label">Title</label>
         <div class="col-lg-2">
             <div class="{{ $errors->has('userTitle') ? ' has-error' : '' }}">
                 <select id="userTitle" name="userTitle" class="form-control">
@@ -32,8 +30,8 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-lg-3 form-lable">Name</label>
+    <div class="mb-3">
+        <label class="col-lg-3 form-label">Name</label>
         <div class="col-lg-3">
             <div class="{{ $errors->has('firstName') ? ' has-error' : '' }}">
                 <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name" autofocus />
@@ -46,8 +44,8 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-lg-3 form-lable">Last Name</label>
+    <div class="mb-3">
+        <label class="col-lg-3 form-label">Last Name</label>
         <div class="col-lg-6">
             <div class="{{ $errors->has('lastName') ? ' has-error' : '' }}">
                 <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Surname" />
@@ -56,8 +54,8 @@
     </div>
 
 
-    <div class="form-group">
-        <label class="col-lg-3 form-lable">Email Address</label>
+    <div class="mb-3">
+        <label class="col-lg-3 form-label">Email Address</label>
         <div class="col-lg-6">
             <div class="input-group {{ $errors->has('emailAddress') ? ' has-error' : '' }}" >
                 <input type='text' class="form-control" id="emailAddress" name="emailAddress" />
@@ -66,8 +64,8 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-lg-3 form-lable">Telephone</label>
+    <div class="mb-3">
+        <label class="col-lg-3 form-label">Telephone</label>
         <div class="col-lg-6">
             <div class="input-group {{ $errors->has('phoneNumber') ? ' has-error' : '' }}" >
                 <input type='text' class="form-control" id="phoneNumber" name="phoneNumber" />
@@ -77,7 +75,7 @@
     </div>
 
     <div class="mb-3">
-        <label class="col-lg-3 form-lable">Password</label>
+        <label class="col-lg-3 form-label">Password</label>
         <div class="col-lg-3">
         <div class="{{ $errors->has('password1') ? ' has-error' : '' }}">
             <input type="password" autocomplete="off" class="form-control" id="password1" name="password1"  placeholder="Enter Password" />
@@ -92,7 +90,7 @@
 
 
     <div class="mb-3">
-        <label class="col-lg-3 form-lable">Department</label>
+        <label class="col-lg-3 form-label">Department</label>
         <div class="col-lg-6">
         <div class="{{ $errors->has('department') ? ' has-error' : '' }}">
             <select id="department" name="department" class="form-control">
@@ -108,7 +106,7 @@
     </div>
 
     <div class="mb-3">
-        <label class="col-lg-3 form-lable">Job Title</label>
+        <label class="col-lg-3 form-label">Job Title</label>
         <div class="col-lg-6">
         <div class="input-group {{ $errors->has('jobTitle') ? ' has-error' : '' }}" >
             <input type='text' class="form-control" id="jobTitle" name="jobTitle" placeholder="Director, etc." />
@@ -149,7 +147,7 @@
 
     <script type="text/javascript">
 
-        $('#spinner1').hide();
+        $('#spinner').hide();
 
         $(document).ready(function(){
 
@@ -164,7 +162,7 @@
             $('#department').val(null);
             $('#jobTitle').val(null);
 
-            $('#spinner1').show();
+            $('#spinner').show();
             $('#btnSaveUserDetails').prop("disabled", true);
 
 
@@ -178,7 +176,7 @@
                 $('#department').val(data.department_id);
                 $('#jobTitle').val(data.job_title);
 
-                $('#spinner1').hide();
+                $('#spinner').hide();
                 $('#btnSaveUserDetails').prop("disabled", false);
             });
         });

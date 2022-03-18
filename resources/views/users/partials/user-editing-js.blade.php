@@ -2,7 +2,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-
+    $('#spinner').hide();
     $('#errorDivUserDetails').hide();
     $('#errorMsgUserDetails').hide();
     
@@ -62,7 +62,7 @@ $(document).ready(function(){
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         e.preventDefault();
 
-        $('#spinner1').show();
+        $('#spinner').show();
         $('#btnSaveUserDetails').prop("disabled", true);
 
         var selectedRoles = [];
@@ -98,7 +98,7 @@ $(document).ready(function(){
                         $('#errorMsgUserDetails').append('<li class="">'+value+'</li>');
                     });
 
-                    $('#spinner1').hide();
+                    $('#spinner').hide();
                     $('#btnSaveUserDetails').prop("disabled", false);
 
                 }else{
@@ -106,7 +106,10 @@ $(document).ready(function(){
                     location.reload();
                 }
             },
-            error: function(data){ console.log('Error:', data); }
+            error: function(data){ 
+                $('#spinner').hide();
+                    $('#btnSaveUserDetails').prop("disabled", false);
+                console.log('Error:', data); }
         });
 
     });

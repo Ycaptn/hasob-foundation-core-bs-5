@@ -4,9 +4,9 @@ $current_user = Auth::user();
 
 
 
-<div class="panel panel-default card-view  pa-0">
-    <div class="panel-wrapper collapse in">
-        <div class="panel-body  pa-0">
+<div class="card card-default card-view  pa-0">
+    <div class="card-wrapper collapse in">
+        <div class="card-body  pa-0">
             <div class="profile-box">
                 <div class="profile-cover-pic">
                     <div class="profile-image-overlay"></div>

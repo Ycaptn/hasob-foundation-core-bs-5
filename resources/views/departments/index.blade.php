@@ -20,7 +20,7 @@ Departments
 
 @section('page_title_buttons')
 @if (Auth()->user()->hasAnyRole(['site-admin','admin']))
-<a href="#" class="btn btn-xs btn-primary pull-right btn-new-mdl-department-modal">Add Department</a>
+<a href="#" class="btn btn-xs btn-primary float-end btn-new-mdl-department-modal">Add Department</a>
 @endif
 @stop
 

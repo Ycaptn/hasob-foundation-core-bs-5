@@ -20,7 +20,7 @@
     </div>
 </div>
 <div class="offline-flag"><span class="offline">You are currently offline</span></div>
-<div id="spinner-{{$control_id}}" class="">
+<div id="spinner-{{$control_id}}" class="row">
     <div class="loader" id="loader-{{$control_id}}"></div>
 </div>
 <div id="{{$control_id}}-div-card-view" class="row"></div>

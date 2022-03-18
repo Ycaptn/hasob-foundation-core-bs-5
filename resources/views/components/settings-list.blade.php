@@ -103,9 +103,7 @@
                             <div class="col-lg-12 ma-10">
                                 @csrf
 
-                                <div id="spinner-settings" class="spinner-settings">
-                                    <div class="loader" id="loader-1"></div>
-                                </div>
+                                
 
                                 <input type="hidden" id="txt-setting-primary-id" value="0" />
                                 <input type="hidden" id="txt-setting-display-type" value="0" />
@@ -165,7 +163,9 @@
 
                 <div class="modal-footer">
                     <hr class="light-grey-hr mb-10" />
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-setting-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-setting-modal" value="add">
+                    <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="visually-hidden">Loading...</span>Save</button>
                 </div>
 
             </div>
@@ -179,6 +179,7 @@
     
         //Show Modal for New Entry
         $(document).on('click', ".btn-new-mdl-setting-modal", function(e) {
+            $('#btn-new-mdl-setting-modal').hide()
             $('#div-setting-modal-error').hide();
             $('#mdl-setting-modal').modal('show');
             $('#frm-setting-modal').trigger("reset");
@@ -200,8 +201,9 @@
             $('#mdl-setting-modal').modal('show');
             $('#frm-setting-modal').trigger("reset");
 
-            $(".spinner-settings").show();
-            $("btn-save-mdl-setting-modal").attr('disabled', true);
+            $(".spinner-settings").hide();
+            $("#spinner").hide();
+            $("#btn-save-mdl-setting-modal").attr('disabled', false);
 
             $('#div-show-txt-setting-primary-id').hide();
             $('#div-edit-txt-setting-primary-id').show();
@@ -284,7 +286,7 @@
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-            $("#spinner-settings").show();
+            $("#spinner").show();
             $("btn-save-mdl-setting-modal").attr('disabled', true);
 
             let actionType = "POST";
@@ -347,13 +349,13 @@
                         },20);
                     }
 
-                    $("#spinner-settings").hide();
+                    $("#spinner").hide();
                     $("btn-save-mdl-setting-modal").attr('disabled', false);
                     
                 }, error: function(data){
                     console.log(data);
 
-                    $("#spinner-settings").hide();
+                    $("#spinner").hide();
                     $("btn-save-mdl-setting-modal").attr('disabled', false);
 
                 }

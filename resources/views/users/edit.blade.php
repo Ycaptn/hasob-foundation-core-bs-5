@@ -420,7 +420,9 @@ $hide_right_panel = true;
                     <hr style="width: 100%;">
 
                     <div style="" class="">
-                        <button type="submit" class="btn btn-primary me-4" id="save" name="btn_save">Save</button>
+                        <button type="submit" class="btn btn-primary me-4" id="save" name="btn_save">
+                        <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>Save</button>
 
                         <a href="{{ route('fc.users.index') }}">
                             <button type="button" class="btn btn-info" id="cancel" name="btn_cancel">Cancel</button>
