@@ -200,10 +200,17 @@
                    
                 </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="btn-checklist-editor-save" value="add">Save Checklist Item</button>
-      </div>
+      
+      <div id="div-checklist-editor-save" class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-checklist-editor-save" value="add">
+                    <span class="spinner">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>
+                    </span>  
+                    Save
+                </button>
+            </div>
     </div>
   </div>
 </div>
