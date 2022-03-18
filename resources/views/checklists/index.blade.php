@@ -145,7 +145,7 @@ $hide_right_panel = true;
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('#spinner1').hide();
+        $('.spinner').hide();
 
         $('#btn-new-template').click(function(){
             $('#frm_checklist_creator').trigger("reset");
@@ -157,10 +157,10 @@ $hide_right_panel = true;
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             e.preventDefault();
 
-            $('#spinner1').show();
+            $('.spinner').show();
             $('#btn-checklist-creator-save').prop("disabled", true);
 
-            var formData = new FormData();
+            let formData = new FormData();
             options = JSON.stringify({
                 'new_checklist_name':$('#new_checklist_name').val(),
             });
@@ -175,20 +175,24 @@ $hide_right_panel = true;
                 success: function(data){
 
                     if (data!=null && data.status=='fail'){
+                        $('#error_checklist_creator').html('');
+                        $('#error_msg_checklist_creator').html('');
                         $('#error_checklist_creator').show();
+                        
+                        console.log(data);
                         if (data.response!=null){
                             for (x in data.response) {
                                 if ($.isArray(data.response[x])){
-                                    $('#error_msg_checklist_creator').html('<strong>Errors</strong><br/>'+data.response[x].join('<br/>'));
+                                    $('#error_checklist_creator').append('<strong>Errors</strong><br/>'+data.response[x].join('<br/>'));
                                 }else{
-                                    $('#error_msg_checklist_creator').html('<strong>Errors</strong><br/>'+data.response[x]);
+                                    $('#error_checklist_creator').append('<strong>Errors</strong><br/>'+data.response[x]);
                                 }
                             }
                         } else {
-                            $('#error_msg_checklist_creator').html('<strong>Error</strong><br/>An error has occurred.');
+                            $('#error_checklist_creator').append('<strong>Error</strong><br/>An error has occurred.');
                         }
 
-                        $('#spinner1').hide();
+                        $('.spinner').hide();
                         $('#btn-checklist-creator-save').prop("disabled", false);
 
                     }else if (data!=null && data.status=='ok'){
@@ -200,7 +204,7 @@ $hide_right_panel = true;
                 },
                 error: function(data){
                     console.log(data);
-                    $('#spinner1').hide();
+                    $('.spinner').hide();
                     $('#btn-checklist-creator-save').prop("disabled", false);
                 }
             });

@@ -36,7 +36,7 @@ Features
                                     {{ ucwords($item) }}
                                 </td>
                                 <td class="pa-0" width="60%">
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <input id="chk_{{$item}}" name="chk_{{$item}}" data-size="small" type="checkbox" class="js-switch" value="1" {{$value?'checked':''}} />
                                     </div>
                                 </td>

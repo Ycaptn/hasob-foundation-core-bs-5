@@ -41,9 +41,11 @@
       </div>
       <div class="modal-body">
 
-        <div id="error_checklist_editor" class="alert alert-danger" role="alert">
+        <div id="error_checklist_creator" class="alert alert-danger" role="alert">
           <span id="error_msg_checklist_editor"></span>
         </div>
+
+    
 
         <form id="frm_checklist_creator" name="frm_checklist_creator" novalidate="" >
                   {{ csrf_field() }}
@@ -69,7 +71,19 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="btn-checklist-creator-save" value="add">Save Checklist</button>
+        <button type="button" class="btn btn-primary" id="btn-checklist-creator-save" value="add">
+         
+        <span class="spinner">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span class="visually-hidden">Loading...</span>
+        </span>
+        
+        Save Checklist
+
+
+
+
+        </button>
       </div>
     </div>
   </div>
