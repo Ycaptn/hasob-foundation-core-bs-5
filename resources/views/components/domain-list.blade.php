@@ -77,15 +77,13 @@
 
                                 <div id="div-edit-txt-organization-primary-id">                                        
                                             <!-- Org Field -->
-                                            <div id="div-org" class="row mb-3">
-                                                <div class="row">
-                                                    <label class="form-label col-md-6" for="org">Organization</label>
-                                                    <label class="form-label col-md-6" for="org">Domain</label>
-                                                </div>
+                                            <div id="div-org" class="row g-3 mb-3">
                                                 <div class="col-md-6">
+                                                    <label class="form-label col-md-6" for="org">Organization</label>
                                                     {!! Form::text('org', null, ['id'=>'org', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
                                                 </div>
                                                 <div class="col-md-6">
+                                                    <label class="form-label col-md-6" for="org">Domain</label>
                                                     {!! Form::text('domain', null, ['id'=>'domain', 'placeholder'=>'Domain e.g. test, beta, live', 'class' => 'form-control','maxlength' => 255,'maxlength' => 255,'maxlength' => 255]) !!}
                                                 </div>
                                             </div>
