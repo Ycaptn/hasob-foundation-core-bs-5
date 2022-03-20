@@ -208,6 +208,9 @@ class FoundationCore
             Route::resource('addresses', \Hasob\FoundationCore\Controllers\API\AddressAPIController::class);
             Route::resource('batch_items', \Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
+
+            Route::resource('ratings', \Hasob\FoundationCore\Controllers\API\RatingAPIController::class);
+            Route::resource('relationships', \Hasob\FoundationCore\Controllers\API\RelationshipAPIController::class);
         });
     }
 
@@ -283,6 +286,8 @@ class FoundationCore
             Route::resource('batches', \Hasob\FoundationCore\Controllers\BatchController::class);
             Route::resource('batchItems', \Hasob\FoundationCore\Controllers\BatchItemController::class);
             Route::resource('paymentDetails', \Hasob\FoundationCore\Controllers\PaymentDetailController::class);
+            Route::resource('ratings', \Hasob\FoundationCore\Controllers\RatingController::class);
+            Route::resource('relationships', \Hasob\FoundationCore\Controllers\RelationshipController::class);
 
             //User Management
             Route::get('/profile', [UserController::class, 'profile'])->name('users.profile');
