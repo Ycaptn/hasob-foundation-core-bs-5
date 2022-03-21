@@ -30,12 +30,12 @@ Site Artifacts
     </div>
 
     <div class="row">
-        <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body pt-5">
+        <div class="card card-view">
+            <!-- <div class="card-wrapper collapse in"> -->
+                <div class="card-body pt-5">
                     {{ $cdv_site_artifacts->render() }}
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
     </div>
 

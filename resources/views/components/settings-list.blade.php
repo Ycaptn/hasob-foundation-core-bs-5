@@ -178,8 +178,8 @@
     $(document).ready(function() {
     
         //Show Modal for New Entry
-        $(document).on('click', ".btn-new-mdl-setting-modal", function(e) {
-            $('#btn-new-mdl-setting-modal').hide()
+        $(document).on('click', "#btn-save-mdl-setting-modal", function(e) {
+            // $('.btn-new-mdl-setting-modal').hide()
             $('#div-setting-modal-error').hide();
             $('#mdl-setting-modal').modal('show');
             $('#frm-setting-modal').trigger("reset");
@@ -189,7 +189,8 @@
             $('#div-edit-txt-setting-primary-id').show();
 
             $(".spinner-settings").hide();
-            $("btn-save-mdl-setting-modal").attr('disabled', false);
+            $("#spinner").hide();
+            $("#btn-save-mdl-setting-modal").attr('disabled', false);
         });
 
         //Show Modal for Edit
@@ -241,9 +242,10 @@
                     $('#value-text').show();
                     $('#value-text').val(data.data.value);
                 } 
-
+            $("#spinner").hide();
+            $("#btn-save-mdl-setting-modal").attr('disabled', false);
                 
-                $("btn-save-mdl-setting-modal").attr('disabled', false);  
+                // $("btn-save-mdl-setting-modal").attr('disabled', false);  
             });
         });
 
@@ -287,7 +289,7 @@
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
             $("#spinner").show();
-            $("btn-save-mdl-setting-modal").attr('disabled', true);
+            $("#btn-save-mdl-setting-modal").attr('disabled', true);
 
             let actionType = "POST";
             let endPointUrl = "{{ route('fc-api.settings.store') }}";
@@ -350,13 +352,13 @@
                     }
 
                     $("#spinner").hide();
-                    $("btn-save-mdl-setting-modal").attr('disabled', false);
+                    $("#btn-save-mdl-setting-modal").attr('disabled', false);
                     
                 }, error: function(data){
                     console.log(data);
 
                     $("#spinner").hide();
-                    $("btn-save-mdl-setting-modal").attr('disabled', false);
+                    $("#btn-save-mdl-setting-modal").attr('disabled', false);
 
                 }
             });

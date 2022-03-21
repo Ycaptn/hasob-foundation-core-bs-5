@@ -28,9 +28,9 @@ Pages
     </div>
 
     <div class="row">
-        <div class="panel panel-default card-view">
+        <div class="card panel-default card-view">
             <div class="panel-wrapper collapse in">
-                <div class="panel-body">
+                <div class="card-body">
 
                     <div class="table-wrap">
                         <div class="table-responsive">

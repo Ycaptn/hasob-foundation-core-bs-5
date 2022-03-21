@@ -29,7 +29,10 @@
         
             <div class="modal-footer" id="div-save-mdl-site-modal">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" value="add" id="btn-save-mdl-site-modal">Save</button>
+                <button type="button" class="btn btn-primary" value="add" id="btn-save-mdl-site-modal">
+                <span id='spinner' class="spinner-border spinner-border-sm" role='status' aria-hidden='true'></span>
+                <span class="visually-hidden">Loading...</span>    
+                Save</button>
             </div>
         </div>
     </div>
@@ -44,6 +47,7 @@ $(document).ready(function() {
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
+        $('#spinner').hide()
         $('#div-site-modal-error').hide();
         $('#mdl-site-modal').modal('show');
         $('#frm-site-modal').trigger("reset");
@@ -73,7 +77,9 @@ $(document).ready(function() {
         $('#mdl-site-modal').modal('show');
         $('#frm-site-modal').trigger("reset");
 
-        $("#spinner-sites").show();
+        // $("#spinner-sites").show();
+        // $("#div-save-mdl-site-modal").attr('disabled', true);
+        $("#spinner").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
         $('#div-show-txt-site-primary-id').show();
@@ -90,6 +96,9 @@ $(document).ready(function() {
 
             $("#spinner-sites").hide();
             $("#div-save-mdl-site-modal").attr('disabled', false);
+
+            $("#spinner").hide();
+            $("#div-save-mdl-site-modal").attr('disabled', false);
         });
     });
 
@@ -105,6 +114,9 @@ $(document).ready(function() {
         $("#spinner-sites").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
+         $("#spinner").show();
+        $("#div-save-mdl-site-modal").attr('disabled', true);
+
         $('#div-show-txt-site-primary-id').hide();
         $('#div-edit-txt-site-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -117,6 +129,8 @@ $(document).ready(function() {
 		    $('#site_description').val(response.data.description);
 
             $("#spinner-sites").hide();
+            $("#div-save-mdl-site-modal").attr('disabled', false);
+             $("#spinner").hide();
             $("#div-save-mdl-site-modal").attr('disabled', false);
         });
     });
@@ -203,6 +217,9 @@ $(document).ready(function() {
         $("#spinner-sites").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
+         $("#spinner").show();
+            $("#div-save-mdl-site-modal").attr('disabled', true);
+
         let actionType = "POST";
         let endPointUrl = "{{ route('fc-api.sites.store') }}";
         let primaryId = $('#txt-site-primary-id').val();
@@ -268,12 +285,18 @@ $(document).ready(function() {
 
                 $("#spinner-sites").hide();
                 $("#div-save-mdl-site-modal").attr('disabled', false);
+
+                 $("#spinner").hide();
+                 $("#div-save-mdl-site-modal").attr('disabled', false);
                 
             }, error: function(data){
                 console.log(data);
                 swal("Error", "Oops an error occurred. Please try again.", "error");
 
                 $("#spinner-sites").hide();
+                $("#div-save-mdl-site-modal").attr('disabled', false);
+
+                $("#spinner").hide();
                 $("#div-save-mdl-site-modal").attr('disabled', false);
 
             }

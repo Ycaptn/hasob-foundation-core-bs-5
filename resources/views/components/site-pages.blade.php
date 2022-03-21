@@ -5,9 +5,10 @@
 <div class="row">
 
     <div class="col-lg-12">
-        <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body pt-0">
+        <div class="card card-view">
+            <!-- <div class="panel-wrapper collapse in"> -->
+            <div class="">
+                <div class="card-body pt-0">
 
                     <div class="row">
                         <div class="col-md-12 mb-15">

@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="mdl-organization-modal" tabindex="-1" role= "dialog" aria-labelledby="mdl-department-modal" aria-hidden="true">
+    <div class="modal fade" id="mdl-organization-modal" tabindex="-1" role="dialog" aria-labelledby="mdl-department-modal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 

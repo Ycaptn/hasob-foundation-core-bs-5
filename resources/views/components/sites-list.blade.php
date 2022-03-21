@@ -17,7 +17,7 @@
                     <div class="card-body">
                             
         
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center ">
                             <div><h4 class="card-title"><a href="{{ route('fc.sites.show',$item->id) }}">{{ $item->site_name }}</a></h4></div>
                             <div class="ms-auto"> 
                                 <a data-bs-toggle="tooltip" 
