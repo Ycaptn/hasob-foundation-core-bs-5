@@ -1,18 +1,18 @@
 
 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-    <div class="panel panel-default card-view pa-0" style="border-radius:7px;">
-        <div class="panel-wrapper collapse in">
-            <div class="panel-body pa-0">
+    <div class="card pa-0" style="border-radius:7px;">
+        <div class="card-wrapper collapse in">
+            <div class="card-body pa-0">
                 <div class="sm-data-box">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-12 pa-10">
 
-                                <div class="pull-left">
-                                    <div class="pull-left user-img-wrap mr-15">
-                                        <img class="user-auth-img card-user-img img-circle pull-left" src="{{asset('imgs/user.png')}}" alt="user">
+                                <div class="float-start">
+                                    <div class="float-start user-img-wrap mr-15">
+                                        <img class="user-auth-img card-user-img img-circle float-start" src="{{asset('imgs/user.png')}}" alt="user">
                                     </div>
-                                    <div class="pull-left user-detail-wrap pt-5">	
+                                    <div class="float-start user-detail-wrap pt-5">	
                                         @php
                                             $detail_page_url = route('fc.settings.show', $data_item->id);
                                         @endphp
@@ -23,7 +23,7 @@
                                     </div>
                                 </div>
 
-                                <div class="pull-right pt-5">
+                                <div class="float-end pt-5">
                                     <a data-toggle="tooltip" 
                                         title="Edit" 
                                         data-val='{{$data_item->id}}' 

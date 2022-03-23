@@ -76,15 +76,15 @@
         <div class="tab-pane fade in active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default card-view">
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body pt-0">
+                    <div class="card">
+                        <div class="card-wrapper collapse in">
+                            <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-md-9 mb-15">
                                         <span class="small">Components are parts of a page that make up a site. Editing a component will only affect a small part of the page where the component is displayed.</span>
                                     </div>
                                     <div class="col-md-3 mb-15">
-                                        <a id="btn-site-add-component" href="#" class="pull-right btn btn-primary btn-xs btn-new-mdl-component-modal" data-toggle="tooltip" title="Add New Component" style=""><span class="fa fa-plus-square mr-5"></span>Add New Component</a>
+                                        <a id="btn-site-add-component" href="#" class="float-end btn btn-primary btn-xs btn-new-mdl-component-modal" data-toggle="tooltip" title="Add New Component" style=""><span class="fa fa-plus-square mr-5"></span>Add New Component</a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -136,7 +136,7 @@
                                         <span class="small">Pages are the primary components that make up a site. Editing a page will affect the whole page and the layout of components on the page.</span>
                                     </div>
                                     <div class="col-md-3 mb-15">
-                                        <a id="btn-site-add-page" href="#" class="pull-right btn btn-primary btn-xs btn-new-mdl-page-modal" data-toggle="tooltip" title="Add New Page" style=""><span class="fa fa-plus-square mr-5"></span>Add New Page</a>
+                                        <a id="btn-site-add-page" href="#" class="float-end btn btn-primary btn-xs btn-new-mdl-page-modal" data-toggle="tooltip" title="Add New Page" style=""><span class="fa fa-plus-square mr-5"></span>Add New Page</a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -190,7 +190,7 @@
                                         <span class="small">Graphics such as images, videos, and audio files may be added, and can be attached in pages and components of a site.</span>
                                     </div>
                                     <div class="col-md-3 mb-15">
-                                        <a id="btn-site-add-image" href="#" class="pull-right btn btn-primary btn-xs btn-new-mdl-image-modal" data-toggle="tooltip" title="Add New Graphic" style=""><span class="fa fa-plus-square mr-5"></span>Add New Graphic</a>
+                                        <a id="btn-site-add-image" href="#" class="float-end btn btn-primary btn-xs btn-new-mdl-image-modal" data-toggle="tooltip" title="Add New Graphic" style=""><span class="fa fa-plus-square mr-5"></span>Add New Graphic</a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -242,7 +242,7 @@
                                         <span class="small">Menu items can be displayed on a site to direct users to sepcific pages.</span>
                                     </div>
                                     <div class="col-md-3 mb-15">
-                                        <a id="btn-site-add-menu" href="#" class="pull-right btn btn-primary btn-xs btn-new-mdl-menu-modal" data-toggle="tooltip" title="Add New Menu" style=""><span class="fa fa-plus-square mr-5"></span>Add New Menu</a>
+                                        <a id="btn-site-add-menu" href="#" class="float-end btn btn-primary btn-xs btn-new-mdl-menu-modal" data-toggle="tooltip" title="Add New Menu" style=""><span class="fa fa-plus-square mr-5"></span>Add New Menu</a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -294,7 +294,7 @@
                                         <span class="small">Templates control how a page content is formated and displayed and can be applied to specific pages or all pages that form part of a site.</span>
                                     </div>
                                     <div class="col-md-3 mb-15">
-                                        <a id="btn-site-add-template" href="#" class="pull-right btn btn-primary btn-xs btn-new-mdl-template-modal" data-toggle="tooltip" title="Add New Template" style=""><span class="fa fa-plus-square mr-5"></span>Add New Template</a>
+                                        <a id="btn-site-add-template" href="#" class="float-end btn btn-primary btn-xs btn-new-mdl-template-modal" data-toggle="tooltip" title="Add New Template" style=""><span class="fa fa-plus-square mr-5"></span>Add New Template</a>
                                     </div>
                                 </div>
                                 <div class="row">

@@ -13,7 +13,7 @@ Site Artifacts
 @stop
 
 @section('page_title_buttons')
-<span class="pull-right">
+<span class="float-end">
     <a id="btn-new-mdl-siteArtifact-modal" class="btn btn-xs btn-primary btn-new-mdl-siteArtifact-modal" href="#">
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Site Artifact
     </a>
@@ -30,12 +30,12 @@ Site Artifacts
     </div>
 
     <div class="row">
-        <div class="card card-view">
-            <!-- <div class="card-wrapper collapse in"> -->
+        <div class="card">
+            <div class="card-wrapper collapse in">
                 <div class="card-body pt-5">
                     {{ $cdv_site_artifacts->render() }}
                 </div>
-            <!-- </div> -->
+            </div>
         </div>
     </div>
 

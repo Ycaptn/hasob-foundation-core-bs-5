@@ -44,7 +44,10 @@ System Roles
         
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnSaveRoleDetails" data-val="0">Save Changes</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveRoleDetails" data-val="0">
+                      <span id='spinner' class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span class="visually-hidden">Loading...</span>    
+                    Save Changes</button>
                     {{-- <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> --}}
                 </div>
             </div>
@@ -61,7 +64,7 @@ System Roles
 
     <script type="text/javascript">
         $(document).ready(function() {
-
+            $('#spinner').hide()
             $('.buttons-csv').hide();
             $('.buttons-pdf').hide();
             $('.buttons-print').hide();
@@ -87,6 +90,8 @@ System Roles
 
             $("#btnSaveRoleDetails").click(function(e){
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+                $('#spinner').show()
+                $('#btnSaveRoleDetails').attr('disable',true)
                 e.preventDefault();
 
                 $.ajax({
@@ -123,7 +128,10 @@ System Roles
                             $('#errorMsgRoleDetails').html('<strong>Error</strong><br/>An error has occurred.');
                         }
                     },
-                    error: function(data){ console.log('Error:', data); }
+                    error: function(data){ 
+                        $('#spinner').hide()
+                $('#btnSaveRoleDetails').attr('disable',false)
+                        console.log('Error:', data); }
                 });
             });
 

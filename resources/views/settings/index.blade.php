@@ -10,8 +10,8 @@ Settings
 @stop
 
 @section('page_title_buttons')
-<span class="pull-right">
-    <a id="btn-new-mdl-setting-modal" class="btn btn-xs btn-primary pull-right btn-new-mdl-setting-modal" href="#">
+<span class="float-end">
+    <a id="btn-new-mdl-setting-modal" class="btn btn-xs btn-primary float-end btn-new-mdl-setting-modal" href="#">
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Setting
     </a>
 </span>
@@ -25,9 +25,9 @@ Settings
     </div>
 
     <div class="row">
-        <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body">
+        <div class="card">
+            <div class="card-wrapper collapse in">
+                <div class="card-body">
 
                     <div class="table-wrap">
                         <div class="table-responsive">

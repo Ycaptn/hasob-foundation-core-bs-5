@@ -5,7 +5,9 @@
 
     
 
-    <div id="errorMsgUserDetails" class="alert alert-danger ma-10 mb-20"></div>
+    <div id="errorMsgUserDetails" class="alert alert-danger alert-dismissible fade show ma-10 mb-20" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
     <input type='hidden' id="idUserDetails" name="idUserDetails" />
 
@@ -147,12 +149,13 @@
 
     <script type="text/javascript">
 
-        $('#spinner').hide();
-
+        
         $(document).ready(function(){
-
+            
             $('#idUserDetails').val('{!! Auth::guard('web')->user()->id !!}');
-
+            
+            $('#spinner').hide();
+             $('#save').attr("disabled", false);
             $('#userTitle').val(null);
             $('#firstName').val(null);
             $('#middleName').val(null);
@@ -162,8 +165,8 @@
             $('#department').val(null);
             $('#jobTitle').val(null);
 
-            $('#spinner').show();
-            $('#btnSaveUserDetails').prop("disabled", true);
+            $('#spinner').hide();
+            $('#save').attr("disabled", false);
 
 
             $.get( "{{ route('fc.user.show', Auth::guard('web')->user()->id ) }}").done(function( data ) {
@@ -177,7 +180,7 @@
                 $('#jobTitle').val(data.job_title);
 
                 $('#spinner').hide();
-                $('#btnSaveUserDetails').prop("disabled", false);
+                $('#save').attr("disabled", false);
             });
         });
     </script>

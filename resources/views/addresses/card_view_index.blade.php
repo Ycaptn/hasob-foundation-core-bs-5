@@ -13,7 +13,7 @@ Addresses
 @stop
 
 @section('page_title_buttons')
-<span class="pull-right">
+<span class="float-end">
     <a id="btn-new-mdl-address-modal" class="btn btn-xs btn-primary btn-new-mdl-address-modal" href="#">
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Address
     </a>

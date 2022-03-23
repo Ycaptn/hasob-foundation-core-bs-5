@@ -10,7 +10,7 @@ Pages
 @stop
 
 @section('page_title_buttons')
-<span class="pull-right">
+<span class="float-end">
     <a id="btn-new-mdl-page-modal" class="btn btn-xs btn-primary btn-new-mdl-page-modal" href="#">
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Page
     </a>

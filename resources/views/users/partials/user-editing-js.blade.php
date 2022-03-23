@@ -5,6 +5,8 @@ $(document).ready(function(){
     $('#spinner').hide();
     $('#errorDivUserDetails').hide();
     $('#errorMsgUserDetails').hide();
+    $('#spinner').hide();
+        $('#save').attr("disabled", false);
     
     $('.rpd-dataform').css('float','right');
 
@@ -58,12 +60,12 @@ $(document).ready(function(){
         });
     });
 
-    $("#btnSaveUserDetails").click(function(e){
+    $("#save").click(function(e){
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         e.preventDefault();
 
         $('#spinner').show();
-        $('#btnSaveUserDetails').prop("disabled", true);
+        $('#save').attr("disabled", true);
 
         var selectedRoles = [];
         $('.roleCbx').each(function() {
@@ -99,7 +101,7 @@ $(document).ready(function(){
                     });
 
                     $('#spinner').hide();
-                    $('#btnSaveUserDetails').prop("disabled", false);
+                    $('#save').attr("disabled", false);
 
                 }else{
                     alert('Detail updated successfully');
@@ -108,7 +110,7 @@ $(document).ready(function(){
             },
             error: function(data){ 
                 $('#spinner').hide();
-                    $('#btnSaveUserDetails').prop("disabled", false);
+                    $('#save').attr("disabled", false);
                 console.log('Error:', data); }
         });
 

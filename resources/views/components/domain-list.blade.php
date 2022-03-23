@@ -172,6 +172,8 @@
     
             $('#div-show-txt-organization-primary-id').hide();
             $('#div-edit-txt-organization-primary-id').show();
+            $('#spinner').hide()
+            $('#btn-save-mdl-organization-modal').attr('disable',false)
         });
     
         //Show Modal for Edit
@@ -181,6 +183,9 @@
     
             $('#div-show-txt-organization-primary-id').hide();
             $('#div-edit-txt-organization-primary-id').show();
+             $('#spinner').hide()
+            $('#btn-save-mdl-organization-modal').attr('disable',false)
+            $('.btn-edit-mdl-organization-modal').attr('disable',false)
             let itemId = $(this).attr('data-val');
     
             $.get( "{{ route('fc.organizations.show','') }}/"+itemId).done(function( data ) {
@@ -214,7 +219,7 @@
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             $('#spinner').show();
-                $('#btn-delete-mdl-organization-modal').prop("disabled", true);
+                $('.btn-delete-mdl-organization-modal').attr("disabled", true);
     
             let itemId = $(this).attr('data-val');
             if (confirm("Are you sure you want to delete this Domain?")){
@@ -235,6 +240,8 @@
                     dataType: 'json',
                     success: function(result){
                         if(result.errors){
+                             $('#spinner').hide();
+                $('.btn-delete-mdl-organization-modal').attr("disabled", false);
                             console.log(result.errors)
                         }else{
                             window.alert("The Domain record has been deleted.");
@@ -250,7 +257,7 @@
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             $('#spinner').show();
-                $('#btn-save-mdl-organization-modal').prop("disabled", true);
+            $('#btn-save-mdl-organization-modal').attr("disabled", true);
             let actionType = "POST";
             let endPointUrl = "{{ route('fc.organizations.store') }}";
             let primaryId = $('#txt-organization-primary-id').val();
@@ -292,7 +299,7 @@
                     }else{
                         $('#div-organization-modal-error').hide();
                         $('#spinner').hide();
-                $('#btn-save-mdl-organization-modal').prop("disabled", false);
+                        $('#btn-save-mdl-organization-modal').attr("disabled", false);
                         window.setTimeout( function(){
                             window.alert("The Domain saved successfully.");
                             $('#div-organization-modal-error').hide();
@@ -301,7 +308,7 @@
                     }
                 }, error: function(data){
                     $('#spinner').hide();
-                $('#btn-save-mdl-organization-modal').prop("disabled", false);
+                $('#btn-save-mdl-organization-modal').attr("disabled", false);
                     console.log(data);
                 }
             });

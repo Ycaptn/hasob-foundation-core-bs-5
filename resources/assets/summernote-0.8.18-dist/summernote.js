@@ -10023,8 +10023,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
 
-var editor = renderer["a" /* default */].create('<div class="note-editor note-frame panel panel-default"/>');
-var toolbar = renderer["a" /* default */].create('<div class="panel-heading note-toolbar" role="toolbar"/>');
+var editor = renderer["a" /* default */].create('<div class="note-editor note-frame card card-default"/>');
+var toolbar = renderer["a" /* default */].create('<div class="card-heading note-toolbar" role="toolbar"/>');
 var editingArea = renderer["a" /* default */].create('<div class="note-editing-area"/>');
 var codable = renderer["a" /* default */].create('<textarea class="note-codable" aria-multiline="true"/>');
 var editable = renderer["a" /* default */].create('<div class="note-editable" contentEditable="true" role="textbox" aria-multiline="true"/>');

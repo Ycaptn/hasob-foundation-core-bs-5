@@ -17,7 +17,7 @@ Application Settings
 @stop
 
 @section('page_title_buttons')
-<span class="pull-right">
+<span class="float-end">
     {{-- <a href="#" class="btn btn-xs btn-primary float-end btn-new-mdl-setting-modal">
         <i class="zmdi zmdi-file-plus"></i> Add New Setting
     </a> --}}

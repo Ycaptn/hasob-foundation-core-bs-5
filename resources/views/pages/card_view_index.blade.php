@@ -13,7 +13,7 @@ Pages
 @stop
 
 @section('page_title_buttons')
-<span class="pull-right">
+<span class="float-end">
     <a id="btn-new-mdl-page-modal" class="btn btn-xs btn-primary btn-new-mdl-page-modal" href="#">
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Page
     </a>
@@ -30,9 +30,9 @@ Pages
     </div>
 
     <div class="row">
-        <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body pt-5">
+        <div class="card">
+            <div class="card-wrapper collapse in">
+                <div class="card-body pt-5">
                     {{ $cdv_pages->render() }}
                 </div>
             </div>

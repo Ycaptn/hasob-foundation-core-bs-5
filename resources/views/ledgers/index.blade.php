@@ -20,7 +20,7 @@ Ledgers
 
 @section('page_title_buttons')
 @if (Auth()->user()->hasAnyRole(['site-admin','admin']))
-<a href="#" class="btn btn-xs btn-primary pull-right btn-new-mdl-ledger-modal">Create Ledger</a>
+<a href="#" class="btn btn-xs btn-primary float-end btn-new-mdl-ledger-modal">Create Ledger</a>
 @endif
 @stop
 

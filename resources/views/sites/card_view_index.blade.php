@@ -34,9 +34,13 @@ Sites
 
     <div>
 
-        {{ $cdv_sites->render() }}
+        {{ $cdv_sites->render() }} 
 
     </div>
+
+
+
+    
 
     @include('hasob-foundation-core::sites.modal')
     

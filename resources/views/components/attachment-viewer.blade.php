@@ -28,13 +28,13 @@
 
     @if (count($attachments) > 0)
 
-        <button class="btn btn-xs btn-danger pull-right" id="{{$control_id}}_btnShowAttachmentViewer">Viewer</button>
+        <button class="btn btn-xs btn-danger float-end" id="{{$control_id}}_btnShowAttachmentViewer">Viewer</button>
 
         <div class="modal fade" id="{{$control_id}}_attachment-viewer-modal" role="dialog" aria-labelledby="attachment-viewer-label" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         <h4 class="modal-title" id="{{$control_id}}_attachment-viewer-modal-label"></h4>
                         <small id="{{$control_id}}_attachment-viewer-modal-description"></small>
                     </div>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-xs btn-primary pull-left" id="{{$control_id}}_showPrevious"> << Previous </button>
+                        <button class="btn btn-xs btn-primary float-start" id="{{$control_id}}_showPrevious"> << Previous </button>
                         <button class="btn btn-xs btn-primary" id="{{$control_id}}_showNext"> Next >> </button>
                     </div>
                 </div>

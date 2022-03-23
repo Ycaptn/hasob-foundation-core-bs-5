@@ -71,6 +71,8 @@ $current_user = Auth::user();
         $('#btnPresence').click(function(){
 
             $('#error_div_availability').hide();
+            $('#spinner').hide();
+       
             $('#frm_availability').trigger("reset");
             $('#availability-modal').modal('show');
         });
@@ -83,6 +85,8 @@ $current_user = Auth::user();
             $('#div_attachment_comments').hide();
             $('#div_attachment_file_name').hide();
             $('#attachment-modal-label').html('Upload Profile Picture');
+            $('#spinner').show();
+        $('#save').attr("disabled", true);
         });
 
         $("input[type=file]").change(function(e){
@@ -117,6 +121,8 @@ $current_user = Auth::user();
                     },
                     error: function(data){
                         console.log(data);
+                        $('#spinner').hide();
+        $('#save').attr("disabled", false);
                     }
                 });
             }
