@@ -128,9 +128,9 @@
         <div class="tab-pane fade" id="pages" role="tabpanel" aria-labelledby="pages-tab">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default card-view">
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body pt-0">
+                    <div class="card card-default card-view">
+                        <div class="card-wrapper collapse in">
+                            <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-md-9 mb-15">
                                         <span class="small">Pages are the primary components that make up a site. Editing a page will affect the whole page and the layout of components on the page.</span>
@@ -182,9 +182,9 @@
         <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default card-view">
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body pt-0">
+                    <div class="card card-default card-view">
+                        <div class="card-wrapper collapse in">
+                            <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-md-9 mb-15">
                                         <span class="small">Graphics such as images, videos, and audio files may be added, and can be attached in pages and components of a site.</span>
@@ -234,9 +234,9 @@
         <div class="tab-pane fade" id="menu" role="tabpanel" aria-labelledby="menu-tab">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default card-view">
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body pt-0">
+                    <div class="card card-default card-view">
+                        <div class="card-wrapper collapse in">
+                            <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-md-9 mb-15">
                                         <span class="small">Menu items can be displayed on a site to direct users to sepcific pages.</span>
@@ -286,9 +286,9 @@
         <div class="tab-pane fade" id="templates" role="tabpanel" aria-labelledby="templates-tab">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default card-view">
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body pt-0">
+                    <div class="card ">
+                        <div class="card-wrapper collapse in">
+                            <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-md-9 mb-15">
                                         <span class="small">Templates control how a page content is formated and displayed and can be applied to specific pages or all pages that form part of a site.</span>
@@ -338,9 +338,9 @@
         <div class="tab-pane fade" id="access" role="tabpanel" aria-labelledby="access-tab">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default card-view">
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body pt-0">
+                    <div class="card card-default card-view">
+                        <div class="card-wrapper collapse in">
+                            <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-md-12 mb-15">
                                     </div>
@@ -354,9 +354,9 @@
         <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default card-view">
-                        <div class="panel-wrapper collapse in">
-                            <div class="panel-body pt-0">
+                    <div class="card card-default card-view">
+                        <div class="card-wrapper collapse in">
+                            <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-md-12 mb-15">
                                     </div>

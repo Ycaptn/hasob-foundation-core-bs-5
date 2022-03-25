@@ -21,9 +21,9 @@
                             </span>
             
                             <a href="#" class="float-end">
-                                <i class="fa fa-edit font-15 pr-3 text-primary" data-bs-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                <i class="fa fa-files-o font-15 pr-3 text-warning" data-bs-toggle="tooltip" title="" data-original-title="Pages"></i>
-                                <i class="fa fa-trash font-15 pr-3 text-danger" data-bs-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                <i class="fa fa-edit font-15 pr-3 text-primary" data-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                <i class="fa fa-files-o font-15 pr-3 text-warning" data-toggle="tooltip" title="" data-original-title="Pages"></i>
+                                <i class="fa fa-trash font-15 pr-3 text-danger" data-toggle="tooltip" title="" data-original-title="Delete"></i>
                             </a>
 
                             <span class="small">
@@ -112,7 +112,7 @@
 @push('page_scripts')
 <script type="text/javascript">
     $(document).ready(function() {
-    #('#spinner').hide()
+    #('')
         //Show Modal for New Entry
         $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
             $('#div-site-modal-error').hide();
