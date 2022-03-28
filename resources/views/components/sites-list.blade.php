@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="modal-body">
-                   <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                   <div id="div-site-modal-error" class="alert alert-danger alert-dismissible fade show" role="alert">
                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <form class="form-horizontal" id="frm-site-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                         <div class="row">

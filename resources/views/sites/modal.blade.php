@@ -11,7 +11,9 @@
             <div class="modal-body">
        
                 <input type="hidden" id="workflow_id" value="0" />
-                
+                <div id="div-site-modal-error" class="alert alert-danger alert-dismissible fade show" role="alert">
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+             </div>
                 
                 <div id="div-show-txt-site-primary-id" class="row mb-3">
                     <div class="col-12">                            
@@ -254,7 +256,9 @@ $(document).ready(function() {
                 if(result.errors){
 					$('#div-site-modal-error').html('');
 					$('#div-site-modal-error').show();
-                    
+                     $("#spinner-sites").hide();
+                  $("#div-save-mdl-site-modal").attr('disabled', false);
+                   // console.log(result.errors)
                     $.each(result.errors, function(key, value){
                         $('#div-site-modal-error').append('<li class="">'+value+'</li>');
                     });
