@@ -202,6 +202,8 @@ class FoundationCore
             Route::resource('settings', \Hasob\FoundationCore\Controllers\API\SettingAPIController::class);
             Route::resource('sites', \Hasob\FoundationCore\Controllers\API\SiteAPIController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
+            Route::resource('pageables', \Hasob\FoundationCore\Controllers\API\PageableAPIController::class);
+            Route::resource('attributes', \Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class);
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
 
             Route::resource('batches', \Hasob\FoundationCore\Controllers\API\BatchAPIController::class);
