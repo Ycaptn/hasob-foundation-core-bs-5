@@ -184,6 +184,7 @@
                     dataType: 'json',
                     success: function(result){
                         if(result.errors){
+                            console.log(result.errors);
                             $('#div-department-modal-error').html('');
                             $('#div-department-modal-error').show();
                             $('#spinner1').hide();

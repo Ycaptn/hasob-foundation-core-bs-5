@@ -37,29 +37,29 @@
 
                                 <input type='hidden' id="idUserDetails" name="idUserDetails" value="{{ $edited_user!=null?$edited_user->id:0 }}" />
 
-								<ul class="nav nav-tabs" role="tablist">
-									<li role="presentation" class="nav-link active"><a href="#details" aria-controls="details" role="tab" data-bs-toggle="tab">Details</a></li>
+								<ul class="nav nav-pills" id="myTab" role="tablist">
+									<li role="presentation" class="nav-item"><a href="#details" class="nav-link active" aria-controls="details" role="tab" data-bs-toggle="tab">Details</a></li>
 
                                     @if (FoundationCore::has_feature('user-presence', $organization))
-                                    <li role="presentation" class="nav-link"><a href="#presence" aria-controls="presence" role="tab" data-bs-toggle="tab">Presence Status</a></li>
+                                    <li role="presentation" class="nav-item"><a href="#presence" class="nav-link" aria-controls="presence" role="tab" data-bs-toggle="tab">Presence Status</a></li>
                                     @endif
 
-									<li role="presentation" class="nav-link"><a href="#disable" aria-controls="disable" role="tab" data-bs-toggle="tab">Disable</a></li>
-                                    <li role="presentation" class="nav-link"><a href="#roles" aria-controls="roles" role="tab" data-bs-toggle="tab">Security Roles</a></li>
+									<li role="presentation" class="nav-item"><a href="#disable" class="nav-link" aria-controls="disable" role="tab" data-bs-toggle="tab">Disable</a></li>
+                                    <li role="presentation" class="nav-item"><a href="#roles" class="nav-link" aria-controls="roles" role="tab" data-bs-toggle="tab">Security Roles</a></li>
                                     
                                     @if (FoundationCore::has_feature('user-active-directory', $organization))
-                                    <li role="presentation" class="nav-link"><a href="#active-directory" aria-controls="active-directory" role="tab" data-bs-toggle="tab">Active Directory</a></li>
+                                    <li role="presentation" class="nav-item"><a href="#active-directory" class="nav-link" aria-controls="active-directory" role="tab" data-bs-toggle="tab">Active Directory</a></li>
                                     @endif
 
-                                    <li role="presentation" class="nav-link"><a href="#others" aria-controls="others" role="tab" data-bs-toggle="tab">Others</a></li>
+                                    <li role="presentation" class="nav-item"><a href="#others" class="nav-link" aria-controls="others" role="tab" data-bs-toggle="tab">Others</a></li>
                                     @if($is_edit)
-                                    <li role="presentation" class="nav-link"><a href="#raw" aria-controls="raw" role="tab" data-bs-toggle="tab">Raw</a></li>
+                                    <li role="presentation" class="nav-item"><a href="#raw" class="nav-link" aria-controls="raw" role="tab" data-bs-toggle="tab">Raw</a></li>
                                     @endif
 								</ul>
 
 								<div class="tab-content">
 
-									<div role="tabpanel" class=" tab-pane fade  show active" id="details" style="margin-top:15px;">
+									<div  class=" tab-pane fade show active" id="details" style="margin-top:15px;">
                                         <div class="row">
                                             <div class="col-lg-10">
                                                 <div class="mb-3">
@@ -192,7 +192,7 @@
                                     </div>
 
                                     @if (FoundationCore::has_feature('user-presence', $organization))
-                                    <div role="tabpanel" class=" tab-pane fade" id="presence" style="margin-top:15px;">
+                                    <div class=" tab-pane fade" id="presence" style="margin-top:15px;">
 
                                         <div class="mb-3">
                                             <label class="col-sm-3 form-label">Current Status</label>
@@ -217,7 +217,7 @@
                                     </div>
                                     @endif
 
-                                    <div role="tabpanel" class=" tab-pane fade" id="disable" style="margin-top:15px;">
+                                    <div  class=" tab-pane fade " id="disable" style="margin-top:15px;">
 
                                         <div class="mb-3 form-check">
                                             <label for="cbx_is_disabled" class="col-sm-3 form-check-label">Disabled</label>
@@ -252,7 +252,7 @@
 
                                     </div>
 
-                                    <div role="tabpanel" class=" tab-pane fade" id="roles" style="margin-top:15px;">
+                                    <div  class="tab-pane fade" id="roles" style="margin-top:15px;">
                                         @if (isset($all_roles) && $all_roles!=null)
                                         <div class="mb-3">
                                             <div class="col-xs-12">
@@ -272,7 +272,7 @@
                                     </div>
 
                                     @if (FoundationCore::has_feature('user-active-directory', $organization))
-                                    <div role="tabpanel" class=" tab-pane fade" id="active-directory" style="margin-top:15px;">
+                                    <div  class="tab-pane fade" id="active-directory" style="margin-top:15px;">
 
                                         <div class="mb-3 form-check">
                                             <label for="cbx_is_ad_import" class="col-sm-3 form-check-label">AD Imported</label>
@@ -305,7 +305,7 @@
                                     </div>
                                     @endif
 
-                                    <div role="tabpanel" class=" tab-pane fade" id="others" style="margin-top:15px;">
+                                    <div  class=" tab-pane fade" id="others" style="margin-top:15px;">
 
                                         <div class="mb-3">
                                             <label for="txt_website" class="col-sm-3 form-label">Website</label>
@@ -346,7 +346,7 @@
                                     </div>
 
                                     @if($is_edit)
-                                        <div role="tabpanel" class=" tab-pane fade" id="raw" style="margin-top:15px;">
+                                        <div  class=" tab-pane fade" id="raw" style="margin-top:15px;">
                                         @if ($edited_user != null)
                                             {!! $edited_user->toJson(JSON_PRETTY_PRINT) !!}
                                         @endif

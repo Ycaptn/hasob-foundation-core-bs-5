@@ -47,6 +47,7 @@ class Department extends Model
         'is_unit',
         'email',
         'telephone',
+        'long_name',
         'physical_location',
         'parent_id',
         'organization_id'       
