@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Hasob\FoundationCore\Models\ModelArtifact;
 
+use Hasob\FoundationCore\Requests\API\UpdateModelArtifactAPIRequest;
+use Hasob\FoundationCore\Requests\API\CreateModelArtifactAPIRequest;
+
 use Hasob\FoundationCore\Controllers\BaseController;
 use Hasob\FoundationCore\Models\Organization;
 
@@ -33,7 +36,7 @@ class ModelAttributeAPIController extends BaseController
         return $this->sendResponse($attributes->toArray(), 'Attributes retrieved successfully');
     }
 
-    public function store(Request $request, Organization $organization)
+    public function store(CreateModelArtifactAPIRequest $request, Organization $organization)
     {
         $input = $request->all();
 
@@ -54,7 +57,7 @@ class ModelAttributeAPIController extends BaseController
         return $this->sendResponse($attribute->toArray(), 'Attribute retrieved successfully');
     }
 
-    public function update($id, Request $request, Organization $organization)
+    public function update($id, UpdateModelArtifactAPIRequest $request, Organization $organization)
     {
         $attribute = ModelArtifact::find($id);
 

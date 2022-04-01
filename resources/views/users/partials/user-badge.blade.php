@@ -3,62 +3,68 @@ $current_user = Auth::user();
 @endphp
 
 
+<div class="card border-top border-0 border-4 border-primary">
+    <div class="card-body">
 
-<div class="card card-default card-view  pa-0">
-    <div class="card-wrapper collapse in">
-        <div class="card-body  pa-0">
-            <div class="profile-box">
-                <div class="profile-cover-pic">
-                    <div class="profile-image-overlay"></div>
-                </div>
-                <div class="profile-info text-center">
-                    <div class="profile-img-wrap">
-                                                
-                        @if ( $current_user->profile_image == null )
-                            <img class="inline-block mb-10" src="../imgs/bare-profile.png" alt="Change your Profile Picture">
-                        @else
-                            <img class="inline-block mb-10" src="{{ route('fc.get-profile-picture', $current_user->id) }}" alt="Change your Profile Picture">
-                        @endif
+        <div class="d-flex flex-column align-items-center text-center">
 
-                        <div class="fileupload btn btn-default">
-                            <span class="btn-text">edit</span>
-                            <input class="upload" type="file">
-                        </div>
-                    </div>	
-                    <h5 class="block mt-10 mb-5 weight-500 capitalize-font txt-primary">{{ $current_user->full_name }}</h5>
-                    <h6 class="block capitalize-font pb-20">
+            <button id="btn-profilePicBtn" class="position-absolute top-0 end-0 btn btn-sm btn btn-outline-primary mt-1 me-2 py-0 px-1 small"><small>Change</small></button>
+            
 
-                        @php
-                            $title_dept = [];
-                            if (!empty($current_user->job_title)){
-                                $title_dept []= $current_user->job_title;
-                            }
-                            if ($current_user->department != null && !empty($current_user->department->name)){
-                                $title_dept []= $current_user->department->name;
-                            }
-                        @endphp
-
-                        {{ implode(" | ", $title_dept) }}
-
-                    </h6>
-                </div>	
-
-                <div class="social-info">
-                    <div class="row">
-                        <div class="col-xs-12 text-center">
-                            @php
-                                $userRoles = $current_user->getRoleNames();
-                            @endphp
-                            @foreach ($userRoles as $idx=>$roleName)
-                            <span class="label label-primary">{!! $roleName !!}</span>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
+            @if ( $current_user->profile_image == null )
+                <img style="max-width:110px;" class="rounded-circle p-1 bg-primary" src="../imgs/bare-profile.png" alt="Change your Profile Picture">
+            @else
+                <img style="max-width:110px;" class="rounded-circle p-1 bg-primary" src="{{ route('fc.get-profile-picture', $current_user->id) }}" alt="Change your Profile Picture">
+            @endif
 
 
+            <input id="file-profilePic" class="upload" type="file" style="display:none;">
+
+            <div class="mt-3">
+                <h4>{{ $current_user->full_name }}</h4>
+                <p class="text-secondary mb-1">
+                    @php
+                        $title_dept = [];
+                        if (!empty($current_user->job_title)){
+                            $title_dept []= $current_user->job_title;
+                        }
+                        if ($current_user->department != null && !empty($current_user->department->name)){
+                            $title_dept []= $current_user->department->name;
+                        }
+                    @endphp
+
+                    {{ implode(" | ", $title_dept) }}
+                </p>
             </div>
         </div>
+        <hr class="my-1" />
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                @php
+                    $userRoles = $current_user->getRoleNames();
+                @endphp
+                @foreach ($userRoles as $idx=>$roleName)
+                    <span class="badge bg-primary">{!! $roleName !!}</span>
+                @endforeach
+            </li>
+            @if (isset($current_user->website_url) && empty($current_user->website_url)==false)
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe me-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                </h6>
+                <span class="text-secondary">{{ $current_user->website_url }} </span>
+            </li>
+            @endif
+        </ul>
+    </div>
+    <div class="card-footer bg-white text-center"> 
+        <small class="text-muted">
+            @if ($current_user->last_loggedin_at != null)
+                Last logged in {{$current_user->last_loggedin_at->diffForHumans()}}
+            @else
+                Never Logged in.
+            @endif
+        </small>
     </div>
 </div>
 
@@ -67,6 +73,10 @@ $current_user = Auth::user();
 @push('page_scripts')
 <script type="text/javascript">
     $(document).ready(function(){
+
+        $('#btn-profilePicBtn').on('click', function() {
+            $('#file-profilePic').trigger('click');
+        });
 
         $('#btnPresence').click(function(){
 
@@ -86,10 +96,10 @@ $current_user = Auth::user();
             $('#div_attachment_file_name').hide();
             $('#attachment-modal-label').html('Upload Profile Picture');
             $('#spinner').show();
-        $('#save').attr("disabled", true);
+            $('#save').attr("disabled", true);
         });
 
-        $("input[type=file]").change(function(e){
+        $("#file-profilePic").change(function(e){
             if (confirm('Are you sure you want to upload this file?')){
 
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
@@ -122,7 +132,7 @@ $current_user = Auth::user();
                     error: function(data){
                         console.log(data);
                         $('#spinner').hide();
-        $('#save').attr("disabled", false);
+                        $('#save').attr("disabled", false);
                     }
                 });
             }

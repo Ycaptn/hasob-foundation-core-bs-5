@@ -5,97 +5,89 @@
     @endphp
 
 
-    <div class="email-wrapper">
-        <div class="email-sidebar">
-            <div class="email-sidebar-header d-grid">
-                <a id="{{$control_id}}-add-attribute" href="javascript:;" class="btn btn-sm btn-primary compose-mail-btn">
-                    <i class="bx bx-plus me-2"></i> New Attribute
-                </a>
-            </div>
-            <div class="email-sidebar-content">
-                <div class="email-navigation ps ps--active-y" style="height:520px; !important">
-                    <div class="list-group list-group-flush"> 
-                        <a href="app-emailbox.html" class="list-group-item active d-flex align-items-center">
-                            <i class="bx bxs-bookmark me-3 font-20"></i><span>Inbox</span>
-                            <span class="badge bg-primary rounded-pill ms-auto">7,513</span>
-                        </a>
-                        <a href="javascript:;" class="list-group-item d-flex align-items-center">
-                            <i class="bx bxs-bookmark me-3 font-20"></i><span>Starred</span>
-                        </a>
-                        <a href="javascript:;" class="list-group-item d-flex align-items-center">
-                            <i class="bx bxs-bookmark me-3 font-20"></i><span>Snoozed</span>
-                        </a>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-xl-flex align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="email-toggle-btn">
+                        <i class="bx bx-menu"></i>
                     </div>
-                <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 345px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 257px;"></div></div>
-                </div>
-            </div>
-        </div>
-        <div class="email-header d-xl-flex align-items-center">
-
-            <div class="d-flex align-items-center">
-                <div class="email-toggle-btn"><i class="bx bx-menu"></i>
-                </div>
-                <div class="btn btn-white">
-                    <input class="form-check-input" type="checkbox">
-                </div>
-                <div class="">
-                    <button type="button" class="btn btn-white ms-2"><i class="bx bx-refresh me-0"></i>
-                    </button>
-                </div>
-                <div class="">
-                    <button type="button" class="btn btn-white ms-2"><i class="bx bx-downvote me-0"></i>
-                    </button>
-                </div>
-                <div class="d-none d-md-flex">
-                    <button type="button" class="btn btn-white ms-2"><i class="bx bx-file me-0"></i>
-                    </button>
-                </div>
-                <div class="">
-                    <button type="button" class="btn btn-white ms-2"><i class="bx bx-trash me-0"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="flex-grow-1 mx-xl-2 my-2 my-xl-0">
-                <div class="input-group">	<span class="input-group-text bg-transparent"><i class="bx bx-search"></i></span>
-                    <input type="text" class="form-control" placeholder="Search attributes">
-                </div>
-            </div>
-            
-        </div>
-        <div class="email-content">
-            @if (count($artifactables)>0)
-                <div class="">
-                    <div class="email-list ps ps--active-y">
-                        
-                        <a href="app-emailread.html">
-                            <div class="d-md-flex align-items-center email-message px-3 py-1">
-                                <div class="d-flex align-items-center email-actions">
-                                    <input class="form-check-input" type="checkbox" value=""> <i class="bx bx-star font-20 mx-2 email-star"></i>
-                                    <p class="mb-0"><b>Wordpress</b>
-                                    </p>
-                                </div>
-                                <div class="">
-                                    <p class="mb-0">It is a long established fact that a reader will be distracted by the readable...</p>
-                                </div>
-                                <div class="ms-auto">
-                                    <p class="mb-0 email-time">5:56 PM</p>
-                                </div>
-                            </div>
-                        </a>
-                        
-                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 530px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 233px;"></div></div></div>
-                </div>
-            @else
-                <div class="">
-                    <div class="email-list ps ps--active-y pb-20">
-                        <h6 class="text-center mt-20" style="margin-top:20px!important;">No Attributes</h6>
+                    <div class="">
+                        <button id="{{$control_id}}-add-attribute" type="button" class="btn btn-primary me-2 ms-2">
+                            <i class="bx bx-plus me-0"></i> New Attribute
+                        </button>
+                    </div>
+                    <div class="btn btn-white">
+                        <input class="form-check-input" type="checkbox">
+                    </div>
+                    <div class="">
+                        <button type="button" class="btn btn-white ms-2">
+                            <i class="bx bx-refresh me-0"></i>
+                        </button>
+                    </div>
+                    <div class="">
+                        <button type="button" class="btn btn-white ms-2">
+                            <i class="bx bx-upvote me-0"></i>
+                        </button>
+                    </div>
+                    <div class="">
+                        <button type="button" class="btn btn-white ms-2">
+                            <i class="bx bx-downvote me-0"></i>
+                        </button>
+                    </div>
+                    <div class="d-none d-md-flex">
+                        <button type="button" class="btn btn-white ms-2">
+                            <i class="bx bx-file me-0"></i>
+                        </button>
+                    </div>
+                    <div class="">
+                        <button type="button" class="btn btn-white ms-2">
+                            <i class="bx bx-trash me-0"></i>
+                        </button>
                     </div>
                 </div>
-            @endif
+                <div class="flex-grow-1 mx-xl-2 my-2 my-xl-0">
+                    <div class="input-group">	
+                        <span class="input-group-text bg-transparent">
+                            <i class="bx bx-search"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Search attributes">
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                @if (count($artifactables)>0)
+                    <div class="">
+                        <div class="email-list ps ps--active-y">
+                            @foreach ($artifactables as $item)
+                            <a href="app-emailread.html">
+                                <div class="d-md-flex align-items-center email-message px-3 py-1">
+                                    <div class="d-flex align-items-center email-actions">
+                                        <input class="form-check-input" type="checkbox" value="" />
+                                        <p class="mb-0"><b>{{ $item->key }}</b></p>
+                                    </div>
+                                    <div class="">
+                                        <p class="mb-0">{{ $item->value }}</p>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <p class="mb-0 email-time">5:56 PM</p>
+                                    </div>
+                                </div>
+                            </a>
+                            @endforeach
+                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 530px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 233px;"></div></div></div>
+                    </div>
+                @else
+                    <div class="">
+                        <div class="ps ps--active-y">
+                            <h6 class="text-center mt-20" style="margin-top:20px!important;">No Attributes</h6>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
-
     </div>
+
 
     <div class="modal fade" id="{{$control_id}}-attribute-modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
@@ -150,21 +142,20 @@
             $(document).ready(function() {
             
                 function hide_attribute_card(){
-                    $("#div-{{$control_id}}-page-editor").hide();
-                    $('#div-{{$control_id}}-modal-error').html('');
-                    $("#div-{{$control_id}}-page-text-error").hide();
+                    $("#div-{{$control_id}}-modal-error").html('');
+                    $("#div-{{$control_id}}-modal-error").hide();
                 }
 
                 hide_attribute_card();
 
-                //Show add new page modal
+                //Show add new attribute modal
                 $(document).on('click', "#{{$control_id}}-add-attribute", function(e) {
-                    $('#div-{{$control_id}}-modal-error').hide();
+                    hide_attribute_card();
                     $('#{{$control_id}}-attribute-modal').modal('show');
                     $('#frm-{{$control_id}}-modal').trigger("reset");
                 });
 
-                //Load page details in editor on click
+                //Load attribute details in editor on click
                 $(document).on('click', ".page-editor-page-selected", function(e) {
                     
                     hide_attribute_card();
@@ -182,15 +173,18 @@
 
                 });
 
-                //New page save button
-                $('#btn-new-page-{{$control_id}}-modal').click(function(e) {
+                //New attribute save button
+                $('#btn-save-mdl-{{$control_id}}-modal').click(function(e) {
 
                     e.preventDefault();
                     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                     
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
-                    formData.append('page_name', $('#{{$control_id}}-page-name').val());
+                    formData.append('model_primary_id', '{{$artifactable->id}}');
+                    formData.append('model_name', String.raw`{{ get_class($artifactable) }}`);            
+                    formData.append('key', $('#{{$control_id}}-attribute-name').val());
+                    formData.append('value', $('#{{$control_id}}-attribute-value').val());
                     formData.append('creator_user_id', "{{Auth::id()}}");
                     @if (isset($organization) && $organization!=null)
                         formData.append('organization_id', '{{$organization->id}}');
@@ -214,37 +208,20 @@
                             }else{
                                 $('#div-{{$control_id}}-modal-error').hide();
 
-                                if (result.data!=null && result.data.id!=null){
-                                    let formData = new FormData();
-                                    formData.append('_token', $('input[name="_token"]').val());
-                                    formData.append('page_id', result.data.id);
-                                    formData.append('artifactable_id', '{{$artifactable->id}}');
-                                    formData.append('artifactable_type', String.raw`{{ get_class($artifactable) }}`);
-                                    formData.append('creator_user_id', "{{Auth::id()}}");
-                                    @if (isset($organization) && $organization!=null)
-                                        formData.append('organization_id', '{{$organization->id}}');
-                                    @endif
-
-                                    $.ajax({
-                                        url:"{{ route('fc-api.pageables.store') }}", 
-                                        type: "POST", data: formData, cache: false, 
-                                        processData:false, contentType: false, dataType: 'json',
-                                        success: function(result){},
-                                        error: function(data){},
-                                    });
-                                }
                                 window.setTimeout( function(){
                                     $('#div-{{$control_id}}-modal-error').hide();
                                     swal({
                                             title: "Saved",
-                                            text: "Page saved successfully",
+                                            text: "Attribute saved successfully",
                                             type: "success",
                                             showCancelButton: false,
                                             confirmButtonClass: "btn-success",
                                             confirmButtonText: "OK",
                                             closeOnConfirm: true
                                         },function(){
-                                            $('#{{$control_id}}-new-page-modal').modal('hide');
+                                            //Refresh the attribute list
+                                            //Close the modal screen
+                                            //$('#{{$control_id}}-new-page-modal').modal('hide');
                                         }
                                     );
                                 },20);
@@ -258,7 +235,7 @@
                     });
                 });
 
-                //Save details
+                //Save attribute details
                 $('#{{$control_id}}-save-page').click(function(e) {
                     e.preventDefault();
                     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});

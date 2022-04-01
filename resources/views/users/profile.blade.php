@@ -7,7 +7,12 @@ User Profile
 
 @section('page_title')
 User Profile
-<p>View and modify your profile details.</p>
+@stop
+
+@section('page_title_subtext')
+    <a class="ml-10 mb-10" href="{{ route('dashboard') }}" style="font-size:11px;color:blue;">
+        <i class="fa fa-angle-double-left"></i> Back to Dashboard
+    </a>
 @stop
 
 
@@ -17,29 +22,30 @@ User Profile
 
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-lg-4">
             @include('hasob-foundation-core::users.partials.user-badge')
         </div>
 
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-lg-8">
+            <div class="card border-top border-0 border-4 border-primary">
                 
                 <div class="card-body">
 
-                <div class="card-title">
-                    <i class="fa fa-user fa-fw"></i>Profile Details
-
-                    <div class="float-end">
-                        @if ($edit_mode == false)
-                        <a href="{{ route('fc.users.profile','edit=1') }}" >
-                            <button id="btn-add" type="button" class="btn btn-warning btn-xs">
-                                Modify
-                            </button>
-                        </a>
-                        @endif
+                    <div class="card-title d-flex align-items-center">
+                        <div><i class="fa fa-2x fa-edit fa-fw me-1 font-22 text-primary" aria-hidden="true"></i></div>
+                        <h5 class="mb-0 text-primary">Details</h5>
+                        <div class="ms-auto">
+                            @if ($edit_mode == false)
+                            <a href="{{ route('fc.users.profile','edit=1') }}" >
+                                <button id="btn-add" class="btn btn-sm btn btn-outline-primary mt-1 me-2 py-0 px-1 small">
+                                    Modify
+                                </button>
+                            </a>
+                            @endif
+                        </div>
                     </div>
 
-                </div>
+                    <hr class="my-1" />
 
                     @if ($edit_mode == false)
                         @include('hasob-foundation-core::users.partials.user-display')

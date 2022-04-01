@@ -29,7 +29,7 @@
                 <div class="user-block">
 
                     <div class="row">
-                        <div class="ma-20 col-lg-11">
+                        <div class="ma-20 col-lg-12">
 
                             <form id="frmUserDetails" name="frmUserDetails" class="form-horizontal" novalidate="" method="post" action="{{ route('fc.user.store',[ $edited_user!=null?$edited_user->id:0]) }}" enctype="multipart/form-data" >
 
@@ -59,140 +59,175 @@
 
 								<div class="tab-content">
 
-									<div  class=" tab-pane fade show active" id="details" style="margin-top:15px;">
+									<div  class=" tab-pane fade show active  mt-3" id="details">
+
                                         <div class="row">
-                                            <div class="col-lg-10">
-                                                <div class="mb-3">
-                                                    <label class="col-lg-3 form-label">Title</label>
-                                                    <div class="col-lg-8">
-                                                        <div class="{{ $errors->has('userTitle') ? ' has-error' : '' }}">
-                                                            @php
-                                                                $titles = ["Mr.","Mrs.","Miss.","Dr.","Arc.","Engr.","Alh.","Prof.","QS.","Mal."];
-                                                            @endphp
-                                                            <select id="userTitle" name="userTitle" class="form-select">
-                                                                <option value="">N/A</option>
-                                                                @foreach($titles as $title)
-                                                                <option value="{{$title}}" {{$edited_user!=null&&$title==$edited_user->title?'selected':''}}>{{$title}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="col-lg-9">
 
-                                                <div class="mb-3">
-                                                    <label class="col-lg-3 form-label">Name</label>
-                                                    <div class="col-lg-8">
-                                                        <div class="{{ $errors->has('firstName') ? ' has-error' : '' }}">
-                                                            <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name"  value="{{ $is_edit ? $edited_user->first_name : old('firstName') }}" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <div class="{{ $errors->has('middleName') ? ' has-error' : '' }}">
-                                                            <input type="text" class="form-control" id="middleName" name="middleName"  placeholder="Middle Name"  value="{{ $is_edit ? $edited_user->middle_name : old('middleName')  }}" />
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div class="mb-3">
-                                                    <label class="col-lg-3 form-label">Last Name</label>
-                                                    <div class="col-lg-8">
-                                                        <div class="{{ $errors->has('lastName') ? ' has-error' : '' }}">
-                                                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Surname"  value="{{ $is_edit ? $edited_user->last_name : old('lastName')  }}" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="col-lg-3 form-label">Email Address</label>
-                                                    <div class="col-lg-8">
-                                                        <div class="input-group {{ $errors->has('emailAddress') ? ' has-error' : '' }}" >
-                                                            <input type='text' class="form-control" id="emailAddress" name="emailAddress" value="{{ $is_edit ? $edited_user->email : old('emailAddress')  }}" />
-                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <div class="input-group {{ $errors->has('phoneNumber') ? ' has-error' : '' }}" >
-                                                            <input type='text' class="form-control" id="phoneNumber" name="phoneNumber" value="{{ $is_edit ? $edited_user->telephone : old('phoneNumber')  }}" placeholder="Phone Number" />
-                                                            <span class="input-group-addon"><span class="glyphicon glyphicon-phone-alt"></span></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="col-lg-3 form-label">Password</label>
-                                                    <div class="col-lg-8">
-                                                        <div class="{{ $errors->has('password1') ? ' has-error' : '' }}">
-                                                            <input type="password" class="form-control" id="password1" name="password1"  placeholder="Enter Password" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <div class="{{ $errors->has('password1_confirmation') ? ' has-error' : '' }}">
-                                                            <input type="password" class="form-control" id="password1_confirmation" name="password1_confirmation" placeholder="Re-enter Password" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label class="col-lg-3 form-label">Department</label>
-                                                    <div class="col-lg-8">
-                                                        <div class="{{ $errors->has('department') ? ' has-error' : '' }}">
-                                                            <select id="department" name="department" class="form-control">
-                                                                <option value="">Select a Department</option>
-                                                            @if (isset($departments))
-                                                            @foreach ($departments as $id=>$department)
-                                                                <option value="{{$department->id}}" {{$edited_user!=null&&$department->id==$edited_user->department_id?'selected':''}}>
-                                                                    {{ $department->long_name }}
-                                                                </option>
-                                                            @endforeach
-                                                            @endif
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <div class="input-group {{ $errors->has('jobTitle') ? ' has-error' : '' }}" >
-                                                            <input type='text' class="form-control" id="jobTitle" name="jobTitle" placeholder="Job Title i.e. Director, etc."  value="{{ $is_edit ? $edited_user->job_title : old('jobTitle') }}" />
-                                                            <!-- <span class="input-group-addon"><span class="fa fa-stack-overflow"></span></span> -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            
-                                                <div class="mb-3">
-                                                    <label for="file_profile_image" class="col-lg-3 form-label">Profile Image</label>
-                                                    <div class="col-lg-8">
-                                                        <div class="{{$errors->has('profile_image')?'has-error':''}}">
-                                                            <input id="file_profile_image" 
-                                                                type="file" 
-                                                                class="form-control" 
-                                                                name="file_profile_image"  
-                                                                placeholder="Select File"
-                                                                accept="image/*"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-2">
-                                                
-
-                                                <br/>
-                                                <br/>
-                                                <br/>
-                                                @if ( $edited_user==null || $edited_user->profile_image == null )
+                                                <div class="row g-3">
                                                     
-                                                <img src="{{ asset('imgs/bare-user.png') }}" style="width:100px;height:100px;" />
-                                                <br/><br/>
-                                                <span class="small text-center" style="display:inline-block;">No Profile Image</span>
+                                                    <div class="col-md-2 mt-4">
+                                                        {{-- <label class="col-lg-12 form-label">Title</label> --}}
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('userTitle') ? ' has-error' : '' }}">
+                                                                @php
+                                                                    $titles = ["Mr.","Mrs.","Miss.","Dr.","Arc.","Engr.","Alh.","Prof.","QS.","Mal."];
+                                                                @endphp
+                                                                <select id="userTitle" name="userTitle" class="form-select">
+                                                                    <option value="">N/A</option>
+                                                                    @foreach($titles as $title)
+                                                                    <option value="{{$title}}" {{$edited_user!=null&&$title==$edited_user->title?'selected':''}}>{{$title}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 mt-4">
+                                                        {{-- <label class="col-lg-12 form-label">Name</label> --}}
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('firstName') ? ' has-error' : '' }}">
+                                                                <div class="input-group"> 
+                                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
+                                                                    <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="First Name"  value="{{ $is_edit ? $edited_user->first_name : old('firstName') }}" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 mt-4">
+                                                        {{-- <label class="col-lg-12 form-label">Middle Name</label> --}}
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('middleName') ? ' has-error' : '' }}">
+                                                                <input type="text" class="form-control" id="middleName" name="middleName"  placeholder="Middle Name"  value="{{ $is_edit ? $edited_user->middle_name : old('middleName')  }}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label class="col-lg-12 form-label">Last Name</label>
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('lastName') ? ' has-error' : '' }}">
+                                                                <div class="input-group"> 
+                                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
+                                                                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Surname"  value="{{ $is_edit ? $edited_user->last_name : old('lastName')  }}" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="col-lg-12 form-label">Email Address</label>
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('emailAddress') ? ' has-error' : '' }}" >
+                                                                <div class="input-group"> 
+                                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-envelope-open"></i></span>
+                                                                    <input type='text' class="form-control" id="emailAddress" name="emailAddress" value="{{ $is_edit ? $edited_user->email : old('emailAddress')  }}" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="col-lg-12 form-label">Phone Number</label>
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('phoneNumber') ? ' has-error' : '' }}" >
+                                                                <div class="input-group"> 
+                                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-phone"></i></span>
+                                                                    <input type='text' class="form-control" id="phoneNumber" name="phoneNumber" value="{{ $is_edit ? $edited_user->telephone : old('phoneNumber')  }}" placeholder="Phone Number" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="col-lg-12 form-label">Password</label>
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('password1') ? ' has-error' : '' }}">
+                                                                <div class="input-group"> 
+                                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock-open"></i></span>
+                                                                    <input type="password" class="form-control" id="password1" name="password1"  placeholder="Enter Password" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="col-lg-12 form-label">Confirm Password</label>
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('password1_confirmation') ? ' has-error' : '' }}">
+                                                                <div class="input-group"> 
+                                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock"></i></span>
+                                                                    <input type="password" class="form-control" id="password1_confirmation" name="password1_confirmation" placeholder="Re-enter Password" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="col-lg-12 form-label">Department</label>
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('department') ? ' has-error' : '' }}">
+                                                                <select id="department" name="department" class="form-select">
+                                                                    <option value="">Select a Department</option>
+                                                                @if (isset($departments))
+                                                                @foreach ($departments as $id=>$department)
+                                                                    <option value="{{$department->id}}" {{$edited_user!=null&&$department->id==$edited_user->department_id?'selected':''}}>
+                                                                        {{ $department->long_name }}
+                                                                    </option>
+                                                                @endforeach
+                                                                @endif
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="col-lg-12 form-label">Job Title</label>
+                                                        <div class="col-lg-12">
+                                                            <div class="{{ $errors->has('jobTitle') ? ' has-error' : '' }}" >
+                                                                <div class="input-group"> 
+                                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-label"></i></span>
+                                                                    <input type='text' class="form-control" id="jobTitle" name="jobTitle" placeholder="Job Title i.e. Director, etc."  value="{{ $is_edit ? $edited_user->job_title : old('jobTitle') }}" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="file_profile_image" class="col-lg-12 form-label">Profile Image</label>
+                                                        <div class="col-lg-9">
+                                                            <div class="{{$errors->has('profile_image')?'has-error':''}}">
+                                                                <input id="file_profile_image" 
+                                                                    type="file" 
+                                                                    class="form-control" 
+                                                                    name="file_profile_image"  
+                                                                    placeholder="Select File"
+                                                                    accept="image/*"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            
+                                            </div>
+                                            <div class="col-lg-3">
                                                 
-                                                @else
-                                                    <img style="width:100px;height:100px;" src="{{ route('fc.get-profile-picture',[$edited_user->id]) }}" >
-                                                @endif
-                                                
+                                                <div class="d-flex flex-column align-items-center text-center">
+
+                                                    <br/>
+                                                    <br/>
+                                                    <br/>
+                                                    @if ( $edited_user==null || $edited_user->profile_image == null )
+                                                        
+                                                        <img src="{{ asset('imgs/bare-user.png') }}" class="rounded-circle p-1" style="max-width:100px;max-height:100px;" />
+                                                        <br/><br/>
+                                                        <span class="small text-center" style="display:inline-block;">No Profile Image</span>
+                                                        
+                                                    @else
+                                                        <img class="rounded-circle p-1" style="max-width:100px;max-height:100px;" src="{{ route('fc.get-profile-picture',[$edited_user->id]) }}" >
+                                                    @endif
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
 
                                     @if (FoundationCore::has_feature('user-presence', $organization))
-                                    <div class=" tab-pane fade" id="presence" style="margin-top:15px;">
+                                    <div class=" tab-pane fade mt-3" id="presence">
 
                                         <div class="mb-3">
                                             <label class="col-sm-3 form-label">Current Status</label>
@@ -217,7 +252,7 @@
                                     </div>
                                     @endif
 
-                                    <div  class=" tab-pane fade " id="disable" style="margin-top:15px;">
+                                    <div  class=" tab-pane fade  mt-3" id="disable">
 
                                         <div class="mb-3 form-check">
                                             <label for="cbx_is_disabled" class="col-sm-3 form-check-label">Disabled</label>
@@ -252,18 +287,16 @@
 
                                     </div>
 
-                                    <div  class="tab-pane fade" id="roles" style="margin-top:15px;">
+                                    <div  class="tab-pane fade  mt-3" id="roles">
                                         @if (isset($all_roles) && $all_roles!=null)
-                                        <div class="mb-3">
-                                            <div class="col-xs-12">
+                                        <div class="m-3">
+                                            <div class="row row-cols-3 row-cols-sm-3 row-cols-lg-3 row-cols-xl-3 g-2">
                                             @foreach ($all_roles as $idx=>$role)
-                                                <div class="col-xs-3">
-                                                    <div class="checkbox checkbox-success form-check">
-														<input id='userRole_{{$role->name}}' name='userRole_{{$role->name}}' type="checkbox" value="1" class="roleCbx form-check-input" {{$edited_user!=null&&$edited_user->hasRole($role->name)?'checked':''}} />
-														<label class="form-check-label" for="userRole_{{$role->name}}">
-															{{ $role->name }}
-														</label>
-													</div>
+                                                <div class="col">
+                                                    <input id='userRole_{{$role->name}}' name='userRole_{{$role->name}}' type="checkbox" value="1" class="roleCbx form-check-input" {{$edited_user!=null&&$edited_user->hasRole($role->name)?'checked':''}} />
+                                                    <label class="form-check-label" for="userRole_{{$role->name}}">
+                                                        {{ $role->name }}
+                                                    </label>                                   
                                                 </div>
                                             @endforeach
                                             </div>
@@ -272,7 +305,7 @@
                                     </div>
 
                                     @if (FoundationCore::has_feature('user-active-directory', $organization))
-                                    <div  class="tab-pane fade" id="active-directory" style="margin-top:15px;">
+                                    <div  class="tab-pane fade  mt-3" id="active-directory">
 
                                         <div class="mb-3 form-check">
                                             <label for="cbx_is_ad_import" class="col-sm-3 form-check-label">AD Imported</label>
@@ -305,7 +338,7 @@
                                     </div>
                                     @endif
 
-                                    <div  class=" tab-pane fade" id="others" style="margin-top:15px;">
+                                    <div  class=" tab-pane fade mt-3" id="others">
 
                                         <div class="mb-3">
                                             <label for="txt_website" class="col-sm-3 form-label">Website</label>
@@ -346,7 +379,7 @@
                                     </div>
 
                                     @if($is_edit)
-                                        <div  class=" tab-pane fade" id="raw" style="margin-top:15px;">
+                                        <div  class=" tab-pane fade mt-3" id="raw">
                                         @if ($edited_user != null)
                                             {!! $edited_user->toJson(JSON_PRETTY_PRINT) !!}
                                         @endif
@@ -359,10 +392,10 @@
 
 								<!-- <div style="width: 75%; margin-left: auto"> -->
                                     <div >
-									<button type="submit" class="btn btn-warning me-2" id="save" name="btn_save">Save</button>
+									<button type="submit" class="btn btn-warning me-2 px-5" id="save" name="btn_save">Save</button>
 
 									<a href="{{ route('fc.users.index') }}">
-										<button type="button" class="btn btn-primary" id="cancel" name="btn_cancel">Cancel</button>
+										<button type="button" class="btn btn-primary  px-5" id="cancel" name="btn_cancel">Cancel</button>
 									</a>
 								</div>
 
