@@ -262,8 +262,8 @@
         </select>
     </div>
     <hr/>
-    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('ec.serviceOfferings.show', $taggable->id) }}" class="btn btn-warning btn-default">Cancel</a>
+    {!! Form::submit('Save', ['class' => 'btn btn-primary px-5']) !!}
+    <a href="{{ route('ec.serviceOfferings.show', $taggable->id) }}" class="btn btn-warning btn-default px-5">Cancel</a>
 
 
     @push('page_css')

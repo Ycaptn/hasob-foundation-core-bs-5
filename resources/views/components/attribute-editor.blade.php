@@ -60,7 +60,7 @@
                     <div class="">
                         <div class="email-list ps ps--active-y">
                             @foreach ($artifactables as $item)
-                            <a href="app-emailread.html">
+                            <a href="#">
                                 <div class="d-md-flex align-items-center email-message px-3 py-1">
                                     <div class="d-flex align-items-center email-actions">
                                         <input class="form-check-input" type="checkbox" value="" />
@@ -129,7 +129,7 @@
     
             
                 <div class="modal-footer" id="div-save-mdl-{{$control_id}}-modal">
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-{{$control_id}}-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary px-5" id="btn-save-mdl-{{$control_id}}-modal" value="add">Save</button>
                 </div>
     
             </div>
