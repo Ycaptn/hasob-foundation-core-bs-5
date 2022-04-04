@@ -71,6 +71,7 @@ class UserController extends BaseController
         $zUser = User::find($id);
         if ($zUser==null){
             $zUser = new User();
+            $zUser->organization_id = $org->id;
         }
 
         $validator = $this->validateUserDetailsForm($request);

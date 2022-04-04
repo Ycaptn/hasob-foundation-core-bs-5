@@ -147,11 +147,15 @@ class FoundationCore
         $current_user = Auth::user();
         if ($current_user != null){
 
-            $fc_menu = [
-                'mnu_fc_admin'=>['id'=>'mnu_fc_admin','label'=>'Administration','icon'=>'bx bx-abacus','path'=>'#','route-selector'=>'','is-parent'=>true,
-                    'children' => []
-                ]
-            ];
+            $fc_menu = [];
+
+            if ($current_user->hasRole('admin')){
+                $fc_menu = [
+                    'mnu_fc_admin'=>['id'=>'mnu_fc_admin','label'=>'Administration','icon'=>'bx bx-abacus','path'=>'#','route-selector'=>'','is-parent'=>true,
+                        'children' => []
+                    ]
+                ];
+            }
 
             if ($current_user->hasAnyRole(['admin','sites-admin'])){
                 $fc_menu['mnu_fc_admin']['children']['sites'] = ['id'=>'mnu_fc_sites','label'=>'Sites','icon'=>'bx bx-globe-alt','path'=>route('fc.sites.index'),'route-selector'=>'fc/sites','is-parent'=>false,

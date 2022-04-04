@@ -72,7 +72,7 @@
     </div>
 
     <div class="modal fade" id="{{$control_id}}-new-page-modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
     
                 <div class="modal-header">
@@ -102,7 +102,7 @@
                 </div>
             
                 <div class="modal-footer" id="div-save-mdl-{{$control_id}}-modal">
-                    <button type="button" class="btn btn-primary" id="btn-new-page-{{$control_id}}-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary px-5" id="btn-new-page-{{$control_id}}-modal" value="add">Save</button>
                 </div>
     
             </div>
