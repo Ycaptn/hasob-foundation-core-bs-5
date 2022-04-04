@@ -72,6 +72,10 @@ class Organization extends Model
             config('tetfund-rim-module.hasob_features')!=null ? config('tetfund-rim-module.hasob_features') : [] ,
             config('hasob-foundation-core.hasob_features')!=null ? config('hasob-foundation-core.hasob_features') : [] ,
             config('hasob-scola-gradebook.hasob_features')!=null ? config('hasob-scola-gradebook.hasob_features') : [] ,
+            config('tetfund-fa.hasob_features')!=null ? config('tetfund-fa.hasob_features') : [] ,
+            config('tetfund-me.hasob_features')!=null ? config('tetfund-me.hasob_features') : [] ,
+            config('tetfund-intervention.hasob_features')!=null ? config('tetfund-intervention.hasob_features') : [] ,
+            config('tetfund-beneficiary-mgt.hasob_features')!=null ? config('tetfund-beneficiary-mgt.hasob_features') : [] ,
             config('tetfund-remote-monitoring.hasob_features')!=null ? config('tetfund-remote-monitoring.hasob_features') : [] ,
         );
 
