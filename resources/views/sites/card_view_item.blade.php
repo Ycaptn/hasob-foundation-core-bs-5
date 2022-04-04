@@ -1,22 +1,22 @@
 
 
-<div class="col">
+<div class="col col-md-6 flex-column">
     <div class="card site-item">
         <div class="row g-0">
-            <div class="col-lg-1">
-                <center>
+            <div class="col-lg-1 text-center">
+                <!-- <center> -->
                     <a href="{{ route('fc.sites.show',$data_item->id) }}">
-                        <i class="fa fa-3x fa-paper-plane-o mt-4 ml-3"></i>
+                        <i class="fa fa-3x fa-paper-plane-o mt-4 ml-3 fs-2"></i>
                     </a>
-                </center>
+                <!-- </center> -->
             </div>
             <div class="col-lg-11">
                 <div class="card-body">
                         
     
-                    <div class="d-flex align-items-center">
+                    <div class="d-lg-flex align-items-center">
                         <div><h4 class="card-title mb-0"><a href="{{ route('fc.sites.show',$data_item->id) }}">{{ $data_item->site_name }}</a></h4></div>
-                        <div class="ms-auto"> 
+                        <div class="ms-auto float-end"> 
                             <a data-bs-toggle="tooltip" 
                                 title="Pages" 
                                 data-val="{{$data_item->id}}" 

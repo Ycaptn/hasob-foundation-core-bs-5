@@ -3,7 +3,7 @@
 <div class="modal fade" id="mdl-site-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
-
+        <input type="hidden" value="0" id="txt-site-primary-id">
             <div class="modal-header">
                 <h4 id="lbl-site-modal-title" class="modal-title">Site</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -243,7 +243,7 @@ $(document).ready(function() {
 		//formData.append('site_path', $('#site_path').val());
 		formData.append('description', $('#site_description').val());
 
-
+        console.log(endPointUrl);
         $.ajax({
             url:endPointUrl,
             type: "POST",

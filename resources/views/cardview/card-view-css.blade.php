@@ -7,8 +7,8 @@
         color: #4e44e7;
     }
     .cdv-current-page{
-        background-color: #7c4bee !important;
-        color: #ffffff !important;
+        background-color: #008cff !important;
+        color: #fff !important;
     }
     .disable{
         cursor: not-allowed;

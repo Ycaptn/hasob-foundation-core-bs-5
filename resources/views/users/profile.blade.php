@@ -52,8 +52,8 @@ User Profile
                     @else
                         @include('hasob-foundation-core::users.partials.user-detail')
 
-                        <div class="col-xs-9 col-xs-offset-3 card-text">
-                            <button data-val="{{Auth::id()}}" type="button" class="btn btn-primary" id="btnSaveUserDetails">  <span class="glyphicon glyphicon-ok"></span> &nbsp;Save Changes</button>
+                        <div class="col-xs-9 col-xs-offset-3 card-text mt-3">
+                            <button data-val="{{Auth::id()}}" type="button" class="btn btn-primary" id="save">  <span class="glyphicon glyphicon-ok"></span> &nbsp;Save Changes</button>
 
                             <a href="{{ route('fc.users.profile') }}">
                                 <button type="button" class="btn btn-warning"> <span class="glyphicon glyphicon-remove"></span> Cancel </button>

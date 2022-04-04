@@ -3,8 +3,10 @@
 
 $(document).ready(function(){
     $('#spinner').hide();
+    $('#div-error-container').append('<div id="errorMsgUserDetails" class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
     $('#errorDivUserDetails').hide();
-    $('#errorMsgUserDetails').hide();
+    $('#errorMsgUserDetails').show();
+    
     $('#spinner').hide();
         $('#save').attr("disabled", false);
     
@@ -43,6 +45,7 @@ $(document).ready(function(){
 
         $('#idUserDetails').val($(this).attr('data-val'));
         $.get( "{{ route('fc.user.show',0) }}"+$(this).attr('data-val')).done(function( data ) {
+            //$('#errorMsgUserDetails').hide()
             $('#userTitle').val(data.title);
             $('#firstName').val(data.first_name);
             $('#middleName').val(data.middle_name);
@@ -92,11 +95,14 @@ $(document).ready(function(){
                 'jobTitle':$('#jobTitle').val(),
                 // 'selectedRoles':selectedRoles,
             },
+            
             success: function(data){
                 if(data!=null && data.status=='fail'){
                     $('#errorMsgUserDetails').show();
                     $('#errorMsgUserDetails').empty();
+                    console.log(data);
                     $.each(data.response, function(key, value){
+                        console.log(data.response);
                         $('#errorMsgUserDetails').append('<li class="">'+value+'</li>');
                     });
 
