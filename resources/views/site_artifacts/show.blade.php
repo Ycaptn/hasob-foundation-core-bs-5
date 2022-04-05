@@ -26,7 +26,7 @@ Site Artifact Details
 
 @section('content')
     <div class="card">
-        <div class="card-wrapper collapse in">
+        <!-- <div class="card-wrapper collapse in"> -->
             <div class="card-body">
                 <div class="form-wrap">
                     <div class="row">
@@ -34,6 +34,6 @@ Site Artifact Details
                     </div>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 @endsection

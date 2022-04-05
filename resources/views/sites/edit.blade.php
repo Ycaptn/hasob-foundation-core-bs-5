@@ -12,9 +12,9 @@ Edit Site
 @section('content')
 
         
-    <div class="card card-default card-view">
+    <div class="card">
 
-        <div class="card-wrapper collapse in">
+        <!-- <div class="card-wrapper collapse in"> -->
             <div class="card-body">
 
                 <div class="col-sm-8">
@@ -42,7 +42,7 @@ Edit Site
 
             </div>
 
-        </div>
+        <!-- </div> -->
     </div>
 
 @endsection

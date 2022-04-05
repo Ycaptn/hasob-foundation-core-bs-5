@@ -1,19 +1,19 @@
 
 
 <div class="modal fade" id="mdl-siteArtifact-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 id="lbl-siteArtifact-modal-title" class="modal-title">Site Artifact</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
                 <div id="div-siteArtifact-modal-error" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="frm-siteArtifact-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
-                        <div class="col-lg-12 ma-10">
+                        <div class="col-lg-12">
                             
                             @csrf
                             
@@ -45,7 +45,10 @@
 
             <div id="div-save-mdl-siteArtifact-modal" class="modal-footer">
                 <hr class="light-grey-hr mb-10" />
-                <button type="button" class="btn btn-primary" id="btn-save-mdl-siteArtifact-modal" value="add">Save</button>
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-siteArtifact-modal" value="add">
+                <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span class="visually-hidden">Loading...</span>    
+                Save</button>
             </div>
 
         </div>
@@ -56,8 +59,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
+    $('#btn-save-mdl-siteArtifact-modal span').hide();
     $('.offline').hide();
-
+        // $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-siteArtifact-modal", function(e) {
         $('#div-siteArtifact-modal-error').hide();
@@ -67,7 +71,8 @@ $(document).ready(function() {
 
         $('#div-show-txt-siteArtifact-primary-id').hide();
         $('#div-edit-txt-siteArtifact-primary-id').show();
-
+        
+        
         $("#spinner-site_artifacts").hide();
         $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
     });
@@ -225,8 +230,10 @@ $(document).ready(function() {
             $('.offline').fadeOut(300);
         }
 
-        $("#spinner-site_artifacts").show();
-        $("#div-save-mdl-siteArtifact-modal").attr('disabled', true);
+        $('#btn-save-mdl-siteArtifact-modal span').show();
+        $('#btn-save-mdl-siteArtifact-modal').attr('disabled',true);
+        // $("#spinner-site_artifacts").show();
+        // $("#div-save-mdl-siteArtifact-modal").attr('disabled', true);
 
         let actionType = "POST";
         let endPointUrl = "{{ route('fc-api.siteArtifacts.store') }}";
@@ -275,10 +282,13 @@ $(document).ready(function() {
                     });
                 }else{
                     $('#div-siteArtifact-modal-error').hide();
+                     $('#btn-save-mdl-siteArtifact-modal span').hide();
+                    $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
                     window.setTimeout( function(){
                         //window.alert("The SiteArtifact saved successfully.");
                         //swal("Saved", "SiteArtifact saved successfully.", "success");
-
+                    $('#btn-save-mdl-siteArtifact-modal span').hide();
+                    $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
                         $('#div-siteArtifact-modal-error').hide();
 
                         swal({
@@ -297,13 +307,16 @@ $(document).ready(function() {
                     },20);
                 }
 
+                  $('#btn-save-mdl-siteArtifact-modal span').hide();
+                    $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
                 $("#spinner-site_artifacts").hide();
                 $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
                 
             }, error: function(data){
                 console.log(data);
                 swal("Error", "Oops an error occurred. Please try again.", "error");
-
+                 $('#btn-save-mdl-siteArtifact-modal span').hide();
+                $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
                 $("#spinner-site_artifacts").hide();
                 $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
 

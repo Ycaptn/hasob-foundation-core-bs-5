@@ -5,9 +5,9 @@
     @foreach ($sites as $item)
     <div class="col-sm-4 mb-19">
 
-        <div class="card  card-view">
-            <div class="card-wrapper collapse in">
-                <div class="card-body pt-0">
+        <div class="card">
+            <!-- <div class="card-wrapper collapse in"> -->
+                <div class="card-body">
 
                     <div class="row">
                         <div class="col-lg-2">
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     
-                </div>
+                <!-- </div> -->
             </div>
         </div>
 
@@ -61,7 +61,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <h4 id="lbl-site-modal-title" class="modal-title">Site</h4>
                 </div>
 

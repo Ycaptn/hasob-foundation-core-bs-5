@@ -29,7 +29,7 @@ Site Artifacts
 
     <div class="row">
         <div class="card">
-            <div class="card-wrapper collapse in">
+            <!-- <div class="card-wrapper collapse in"> -->
                 <div class="card-body">
 
                     <div class="table-wrap">
@@ -40,7 +40,7 @@ Site Artifacts
                     </div>
 
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
     </div>
 

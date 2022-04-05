@@ -45,10 +45,10 @@
 $(document).ready(function() {
 
     $('.offline').hide();
+    $('#spinner').hide()
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
-        $('#spinner').hide()
         $('#div-site-modal-error').hide();
         $('#mdl-site-modal').modal('show');
         $('#frm-site-modal').trigger("reset");
@@ -57,6 +57,7 @@ $(document).ready(function() {
         $('#div-show-txt-site-primary-id').hide();
         $('#div-edit-txt-site-primary-id').show();
 
+        
         $("#spinner-sites").hide();
         $("#div-save-mdl-site-modal").attr('disabled', false);
     });

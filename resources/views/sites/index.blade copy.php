@@ -28,8 +28,8 @@ Sites
     </div>
 
     <div class="row">
-        <div class="card card-default card-view">
-            <div class="card-wrapper collapse in">
+        <div class="card">
+            <!-- <div class="card-wrapper collapse in"> -->
                 <div class="card-body">
 
                     <div class="table-wrap">
@@ -40,7 +40,7 @@ Sites
                     </div>
 
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
     </div>
 

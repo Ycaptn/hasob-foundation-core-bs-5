@@ -12,10 +12,10 @@ Edit Site Artifact
 @section('content')
 
         
-    <div class="panel panel-default card-view">
+    <div class="card">
 
-        <div class="panel-wrapper collapse in">
-            <div class="panel-body">
+        <!-- <div class="panel-wrapper collapse in"> -->
+            <div class="card-body">
 
                 <div class="col-sm-8">
                     <div class="form-wrap">
@@ -42,7 +42,7 @@ Edit Site Artifact
 
             </div>
 
-        </div>
+        <!-- </div> -->
     </div>
 
 @endsection

@@ -1,8 +1,8 @@
 
 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-    <div class="card pa-0" style="border-radius:7px;">
-        <div class="card-wrapper collapse in">
-            <div class="card-body pa-0">
+    <div class="card" style="border-radius:7px;">
+        <!-- <div class="card-wrapper collapse in"> -->
+            <div class="card-body">
                 <div class="sm-data-box">
                     <div class="container-fluid">
                         <div class="row">
@@ -46,6 +46,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 </div>

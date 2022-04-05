@@ -2,12 +2,12 @@
 
 <div class="modal fade" id="mdl-page-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <form class="form-horizontal" id="frm-page-modal" role="form" method="POST" enctype="multipart/form-data" action="">
-        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 id="lbl-page-modal-title" class="modal-title">Page Editor</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
@@ -19,7 +19,9 @@
                             
                             <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                             <div id="spinner-pages" class="">
-                                <div class="loader" id="loader-1"></div>
+                                 <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="visually-hidden">Loading...</span>
+                                <!-- <div class="loader" id="loader-1"></div> -->
                             </div>
 
                             <input type="hidden" id="txt-page-primary-id" value="0" />
@@ -58,7 +60,10 @@
 
                 <div id="div-save-mdl-page-modal" class="modal-footer">
                     <hr class="light-grey-hr mb-10" />
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-page-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-page-modal" value="add">
+                    <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                     <span class="visually-hidden">Loading...</span>    
+                    Save</button>
                 </div>
 
             </div>
@@ -89,6 +94,8 @@
 $(document).ready(function() {
 
     $('.offline').hide();
+    $('#spinner-pages spinner').hide()
+    $('#div-save-mdl-page-modal span').hide();
 
     $('#page_contents').summernote({
         height: 300,
@@ -114,10 +121,11 @@ $(document).ready(function() {
         $('#div-show-txt-page-primary-id').hide();
         $('#div-edit-txt-page-primary-id').show();
 
-        $("#spinner-pages").hide();
+         $('div-save-mdl-page-modal span').hide();
         $("#div-save-mdl-page-modal").attr('disabled', false);
     });
 
+   
     //Show Modal for View
     $(document).on('click', ".btn-show-mdl-page-modal", function(e) {
         e.preventDefault();
@@ -135,7 +143,7 @@ $(document).ready(function() {
         $('#mdl-page-modal').modal('show');
         $('#frm-page-modal').trigger("reset");
 
-        $("#spinner-pages").show();
+        $('div-save-mdl-page-modal span').show();
         $("#div-save-mdl-page-modal").attr('disabled', true);
 
         $('#div-show-txt-page-primary-id').show();
@@ -150,6 +158,7 @@ $(document).ready(function() {
             $('#spn_page_content').html(response.data.content);
 
             $("#spinner-pages").hide();
+             $('div-save-mdl-page-modal span').hide();
             $("#div-save-mdl-page-modal").attr('disabled', false);
         });
     });
@@ -248,10 +257,14 @@ $(document).ready(function() {
     });
 
     //Save details
-    $('#btn-save-mdl-page-modal').click(function(e) {
+    $('#div-save-mdl-page-modal').click(function(e) {
         e.preventDefault();
+        console.log('hello from save');
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
+        $('#spinner-pages spinner').show()
+       $('#div-save-mdl-page-modal span').show();
+        $('#div-save-mdl-page-modal').attr('disabled',true);
 
         //check for internet status 
         if (!window.navigator.onLine) {
@@ -260,9 +273,9 @@ $(document).ready(function() {
         }else{
             $('.offline').fadeOut(300);
         }
-
-        $("#spinner-pages").show();
-        $("#div-save-mdl-page-modal").attr('disabled', true);
+  $('#spinner-pages spinner').show()
+       $('#div-save-mdl-page-modal span').show();
+        $('#div-save-mdl-page-modal').attr('disabled',true);
 
         let actionType = "POST";
         let endPointUrl = "{{ route('fc-api.pages.store') }}";
@@ -303,6 +316,7 @@ $(document).ready(function() {
 					$('#div-page-modal-error').show();
                     
                     $.each(result.errors, function(key, value){
+                        console.log(value);
                         $('#div-page-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
@@ -310,8 +324,9 @@ $(document).ready(function() {
                     window.setTimeout( function(){
                         //window.alert("The Page saved successfully.");
                         //swal("Saved", "Page saved successfully.", "success");
-
-                        $('#div-page-modal-error').hide();
+                         $('div-save-mdl-page-modal span').hide();
+                        $('#btn-save-mdl-page-modal').attr('disabled', false);
+                        // $('#div-page-modal-error').hide();
 
                         swal({
                                 title: "Saved",
@@ -329,15 +344,19 @@ $(document).ready(function() {
                     },20);
                 }
 
-                $("#spinner-pages").hide();
-                $("#div-save-mdl-page-modal").attr('disabled', false);
+                // $("#spinner-pages").hide();
+                 $('div-save-mdl-page-modal span').hide();
+                $('#btn-save-mdl-page-modal').attr('disabled', false);
+                // $("#div-save-mdl-page-modal").attr('disabled', false);
                 
             }, error: function(data){
                 console.log(data);
                 swal("Error", "Oops an error occurred. Please try again.", "error");
 
-                $("#spinner-pages").hide();
-                $("#div-save-mdl-page-modal").attr('disabled', false);
+                // $("#spinner-pages").hide();
+                 $('div-save-mdl-page-modal span').hide();
+                $('#btn-save-mdl-page-modal').attr('disabled', false);
+                // $("#div-save-mdl-page-modal").attr('disabled', false);
 
             }
         });

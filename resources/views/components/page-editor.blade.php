@@ -37,7 +37,10 @@
 
             <div class="modal-footer">
                 <hr class="light-grey-hr mb-10" />
-                <button type="button" class="btn btn-primary" id="btn-save-mdl-page-editor-modal" value="add">Save</button>
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-page-editor-modal" value="add">
+                      <span id='spinner' class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span class="visually-hidden">Loading...</span>
+                      Save</button>
             </div>
 
         </div>
