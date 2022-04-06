@@ -1,13 +1,12 @@
 @if ($attachable!=null)
-    
-    <button id='btn-show-attachment-upload' type="button" class="btn btn-xs btn-default">Upload</button>
-
+   
+    <button id='btn-show-attachment-upload' type="button" class="btn btn-xs btn-primary">Upload</button>
     <div class="modal fade" id="attachment-modal" tabindex="-1" role="dialog" aria-labelledby="attachment-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title" id="attachment-modal-label">Add Attachment</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -18,8 +17,8 @@
                 <form class="form-horizontal" id="upload-form" method="post" enctype="multipart/form-data">
                     {!! csrf_field() !!}
 
-                    <div id="div_attachment_file_name" class="form-group">
-                        <label class="col-xs-3 control-label">File Name</label>
+                    <div id="div_attachment_file_name" class="mb-3">
+                        <label class="form-label">File Name</label>
                         <div class="col-xs-9">
                         <div class="{{ $errors->has('attachment_name') ? ' has-error' : '' }}" >
                             <input type='text' class="form-control" id="attachment_name" name="attachment_name" value="{{ old('attachment_name') }}" required />
@@ -27,22 +26,22 @@
                         </div>
                     </div>
 
-                    <div id="div_attachment_comments" class="form-group">
-                    <label class="col-sm-3 control-label">Comments</label>
-                    <div class="col-sm-9">
+                    <div id="div_attachment_comments" class="mb-3">
+                    <label class="form-label">Comments</label>
+                    <!-- <div class="col-sm-9"> -->
                         <div class="{{ $errors->has('attachment_comments') ? ' has-error' : '' }}" >
                         <textarea class="form-control" id="attachment_comments" name="attachment_comments" rows="3" required></textarea>
                         </div>
-                    </div>
+                    <!-- </div> -->
                     </div>
 
-                    <div class="form-group">
-                    <label class="col-sm-3 control-label">Upload File</label>
-                    <div class="col-sm-9">
-                        <div class="btn teal lighten-1">
-                            <input type="file" name="image">
-                        </div>
-                    </div>
+                    <div class="mb-3">
+                    <label class="form-label">Upload File</label>
+                    <!-- <div class="col-sm-9">
+                        <div class="btn btn-primary teal lighten-1"> -->
+                            <input class='form-control' type="file" name="image">
+                        <!-- </div>
+                    </div> -->
                     </div>
 
                 </form>

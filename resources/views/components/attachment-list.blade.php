@@ -30,7 +30,7 @@
                             @endif
                         </p>
                         <span class="block small txt-grey capitalize-font">
-                            <i class="fa fa-upload"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}
+                            <i class="fa fa-upload d-inline-block"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}
                         </span>
                     </div>
                 </a>
@@ -39,7 +39,7 @@
         @endforeach
         </div>
     @else
-        <center class="ma-20">No Files</center>
+        <div class="text-center">No Files</div>
     @endif
 
 @endif

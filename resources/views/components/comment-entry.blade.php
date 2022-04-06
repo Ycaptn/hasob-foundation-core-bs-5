@@ -5,12 +5,12 @@
         {{ csrf_field() }}
         <input type="hidden" id="comment_primary_id" value="0">
         <div class="input-group">
-            <span class="input-group-addon"><span class="fa fa-comments-o"></span></span>
+            <span class="input-group-text"><span class="fa fa-comments-o"></span></span>
             <input id="{{ isset($comment_tag_id)?$comment_tag_id:'comment-text'}}" 
                     type="text" class="form-control input-sm" 
                     placeholder="Type in your comments and press enter to save comments"
             />
-            <span class='input-group-addon' class="btn-send-comment"><a href="#" id="btn-send-comment" class="btn-send-comment"><i class='img-circle img-sm fa fa-paper-plane' style='font-size:25px;padding-top:2px;'></i></a></span>
+            <span class='input-group-text' class="btn-send-comment"><a href="#" id="btn-send-comment" class="btn-send-comment"><i class='img-circle img-sm fa fa-paper-plane' style='font-size:25px;padding-top:2px;'></i></a></span>
         </div>
 
     </div>
