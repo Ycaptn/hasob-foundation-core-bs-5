@@ -122,8 +122,21 @@ System Roles
                                 $('#errorMsgRoleDetails').html('<strong>Error</strong><br/>An error has occurred.');
                             }
                         }else if (data!=null && data.status=='ok'){
-                            alert('Saved Successfully');
-                            location.reload();
+                             swal({
+                                title: "Saved",
+                                text: "Saved Successfully",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
+
                         }else{
                             $('#errorMsgRoleDetails').html('<strong>Error</strong><br/>An error has occurred.');
                         }
