@@ -284,13 +284,13 @@ $(document).ready(function() {
                     $('#div-siteArtifact-modal-error').hide();
                      $('#btn-save-mdl-siteArtifact-modal span').hide();
                     $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
-                    window.setTimeout( function(){
-                        //window.alert("The SiteArtifact saved successfully.");
-                        //swal("Saved", "SiteArtifact saved successfully.", "success");
+                  
                     $('#btn-save-mdl-siteArtifact-modal span').hide();
                     $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
-                        $('#div-siteArtifact-modal-error').hide();
-
+                    $('#div-siteArtifact-modal-error').hide();
+                    
+                    //window.alert("The SiteArtifact saved successfully.");
+                    //swal("Saved", "SiteArtifact saved successfully.", "success");
                         swal({
                                 title: "Saved",
                                 text: "SiteArtifact saved successfully",
@@ -300,11 +300,13 @@ $(document).ready(function() {
                                 confirmButtonClass: "btn-success",
                                 confirmButtonText: "OK",
                                 closeOnConfirm: false
-                            },function(){
+                            })
+                            
+                            setTimeout(function(){
                                 location.reload(true);
-                        });
+                        }, 1000);
 
-                    },20);
+                   
                 }
 
                   $('#btn-save-mdl-siteArtifact-modal span').hide();
