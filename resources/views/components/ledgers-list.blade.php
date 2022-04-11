@@ -161,7 +161,19 @@
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
     
             let itemId = $(this).attr('data-val');
-            if (confirm("Are you sure you want to delete this Ledger?")){
+             swal({
+                title: "Are you sure you want to delete this Ledger?",
+                text: "You will not be able to recover this Ledger record if deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function(isConfirm) {
+                if (isConfirm) {
+            // if (confirm("Are you sure you want to delete this Ledger?")){
     
                 let endPointUrl = "{{ route('fc.ledgers.destroy',0) }}"+itemId;
     
@@ -181,13 +193,25 @@
                         if(result.errors){
                             console.log(result.errors)
                         }else{
-                            window.alert("The Ledger record has been deleted.");
-                            location.reload(true);
+                            // window.alert("The Ledger record has been deleted.");
+                            // location.reload(true);
+                             swal({
+                                        title: "Deleted",
+                                        text: "The Ledger record has been deleted.",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    })
+                                    setTimeout(function(){
+                                        location.reload(true);
+                                }, 1000);
                         }
                     },
                 });            
             }
         });
+    });
     
         //Save details
         $('#btn-save-mdl-ledger-modal').click(function(e) {
@@ -223,11 +247,25 @@
                         $('#div-ledger-modal-error').hide();
                         $('#spinner').hide();
                             $('#btn-save-mdl-ledger-modal').prop("disabled", false);
-                        window.setTimeout( function(){
-                            window.alert("The Ledger record saved successfully.");
                             $('#div-ledger-modal-error').hide();
-                            location.reload(true);
-                        },20);
+                        // window.setTimeout( function(){
+                        //     window.alert("The Ledger record saved successfully.");
+                        //     location.reload(true);
+                        // },20);
+                         swal({
+                                title: "Saved",
+                                text: "The Ledger record saved successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000)
                     }
                 }, error: function(data){
                     $('#spinner').hide();
