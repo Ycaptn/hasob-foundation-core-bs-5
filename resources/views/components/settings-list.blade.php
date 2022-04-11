@@ -344,11 +344,23 @@
                         });
                     }else{
                         $('#div-setting-modal-error').hide();
-                        window.setTimeout( function(){
-                            window.alert("The Setting saved successfully.");
-                            $('#div-setting-modal-error').hide();
-                            location.reload(true);
-                        },20);
+                       
+                           
+                            swal({
+                                title: "Saved",
+                                text: "The Setting saved successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000)
+                        
                     }
 
                     $("#spinner").hide();
