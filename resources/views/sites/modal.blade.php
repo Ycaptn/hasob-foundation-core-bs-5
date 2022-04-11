@@ -183,7 +183,7 @@ $(document).ready(function() {
                                 console.log(result.errors)
                                 swal("Error", "Oops an error occurred. Please try again.", "error");
                             }else{
-                                //swal("Deleted", "Site deleted successfully.", "success");
+                                
                                 swal({
                                         title: "Deleted",
                                         text: "Site deleted successfully",
@@ -191,9 +191,10 @@ $(document).ready(function() {
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",
                                         closeOnConfirm: false
-                                    },function(){
+                                    });
+                                    setTimeout(function(){
                                         location.reload(true);
-                                });
+                                }, 1000);
                             }
                         },
                     });
