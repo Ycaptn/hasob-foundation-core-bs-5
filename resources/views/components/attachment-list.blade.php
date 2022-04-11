@@ -10,13 +10,13 @@
 
             <div class="sl-item small">
                 <a href="javascript:void(0)">
-                    <div class="sl-avatar avatar avatar-sm avatar-circle">
-                        <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank">
+                    <div class="sl-avatar avatar avatar-sm avatar-circle mt-2">
+                        <a href="{{ route('fc.attachment.show', $attach->id) }}"  target="_blank">
                             <i class="fa fa-paperclip fa-3x"></i>
                         </a>
                     </div>
                     <div class="sl-content">
-                        <p class="inline-block small">
+                        <p class="small">
                             <span class="capitalize-font txt-primary mr-5 weight-500">
                                 <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank">
                                     <strong>{{ $attach->label }}</strong>
@@ -30,7 +30,7 @@
                             @endif
                         </p>
                         <span class="block small txt-grey capitalize-font">
-                            <i class="fa fa-upload d-inline-block"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}
+                            <i class="fa fa-upload"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}
                         </span>
                     </div>
                 </a>

@@ -32,13 +32,13 @@ User Profile
                 <div class="card-body">
 
                     <div class="card-title d-flex align-items-center">
-                        <div><i class="fa fa-2x fa-edit fa-fw me-1 font-22 text-primary" aria-hidden="true"></i></div>
                         <h5 class="mb-0 text-primary">Details</h5>
                         <div class="ms-auto">
                             @if ($edit_mode == false)
                             <a href="{{ route('fc.users.profile','edit=1') }}" >
-                                <button id="btn-add" class="btn btn-sm btn btn-outline-primary mt-1 me-2 py-0 px-1 small">
-                                    Modify
+                                
+                                <button id="btn-add" class="btn btn-sm btn btn-outline-primary mt-1 me-2 py-1  px-1 small">
+                                   <i class="fa  fa-edit fa-fw" aria-hidden="true"></i> Modify
                                 </button>
                             </a>
                             @endif

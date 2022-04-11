@@ -49,7 +49,9 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btn-add-attachment" value="add">Upload</button>
+                    <button type="button" class="btn btn-primary" id="btn-add-attachment" value="add">
+                        <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>Upload</button>
                 </div>
             </div>
         </div>
@@ -59,7 +61,7 @@
     @push('page_scripts')
     <script type="text/javascript">
         $(document).ready(function(){
-
+            $('#btn-add-attachment span').hide();
             $('#btn-show-attachment-upload').click(function(){
                 $('#error_div_attachment').hide();
                 $('#upload-form').trigger("reset");
@@ -69,7 +71,8 @@
             $("#btn-add-attachment").click(function(e){
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                 e.preventDefault();
-
+                 $('#btn-add-attachment span').show();
+                 $('#btn-add-attachment').attr('disabled',true);
                 var formData = new FormData();
                 formData.append('file', $('#upload-form')[0][3].files[0]);
                 options = JSON.stringify({
@@ -95,20 +98,28 @@
                                     if ($.isArray(data.response[x])){
                                         $('#error_msg_attachment').html('<strong>Errors</strong><br/>'+data.response[x].join('<br/>'));
                                     }else{
+                                        $('#btn-add-attachment span').hide();
+                                     $('#btn-add-attachment').attr('disabled',false);
                                         $('#error_msg_attachment').html('<strong>Errors</strong><br/>'+data.response[x]);
                                     }
                                 }
                             } else {
+                                $('#btn-add-attachment span').hide();
+                               $('#btn-add-attachment').attr('disabled',false);
                                 $('#error_msg_attachment').html('<strong>Error</strong><br/>An error has occurred.');
                             }
                         }else if (data!=null && data.status=='ok'){
                             alert("File uploaded.")
                             location.reload();
                         }else{
+                            $('#btn-add-attachment span').hide();
+                            $('#btn-add-attachment').attr('disabled',false);
                             $('#error_msg_attachment').html('<strong>Error</strong><br/>An error has occurred.');
                         }
                     },
                     error: function(data){
+                         $('#btn-add-attachment span').hide();
+                         $('#btn-add-attachment').attr('disabled',false);
                         console.log(data);
                     }
                 });
