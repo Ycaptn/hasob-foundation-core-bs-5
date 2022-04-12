@@ -8,9 +8,9 @@ use Validator;
 
 use Hasob\FoundationCore\Models\Site;
 
-use Hasob\FoundationCore\Events\SiteCreated;
-use Hasob\FoundationCore\Events\SiteUpdated;
-use Hasob\FoundationCore\Events\SiteDeleted;
+use Hasob\FoundationCore\Events\SiteCreatedEvent;
+use Hasob\FoundationCore\Events\SiteUpdatedEvent;
+use Hasob\FoundationCore\Events\SiteDeletedEvent;
 
 use Hasob\FoundationCore\Requests\CreateSiteRequest;
 use Hasob\FoundationCore\Requests\UpdateSiteRequest;
@@ -21,6 +21,7 @@ use Hasob\FoundationCore\Controllers\BaseController;
 use Hasob\FoundationCore\Models\Organization;
 
 use Flash;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -85,9 +86,9 @@ class SiteController extends BaseController
             $site->site_path = strtolower(self::generateRandomCode(8));
         }
         $site->save();
-        Flash::success('Site saved successfully.');
-
-        SiteCreated::dispatch($site);
+      //  Flash::success('Site saved successfully.');
+        Session::flash('success','Site saved successfully');
+        SiteCreatedEvent::dispatch($site);
         return redirect(route('fc.sites.index'));
     }
 
@@ -104,8 +105,8 @@ class SiteController extends BaseController
         $site = Site::find($id);
 
         if (empty($site)) {
-            Flash::error('Site not found');
-
+           // Flash::error('Site not found');
+            Session::flash('error','Site not found');
             return redirect(route('fc.sites.index'));
         }
 
@@ -125,8 +126,8 @@ class SiteController extends BaseController
         $site = Site::find($id);
 
         if (empty($site)) {
-            Flash::error('Site not found');
-
+           // Flash::error('Site not found');
+            Session::flash('error','Site not found');
             return redirect(route('fc.sites.index'));
         }
 
@@ -147,17 +148,17 @@ class SiteController extends BaseController
         $site = Site::find($id);
 
         if (empty($site)) {
-            Flash::error('Site not found');
-
+            //Flash::error('Site not found');
+            Session::flash('error','Site not found');
             return redirect(route('fc.sites.index'));
         }
 
         $site->fill($request->all());
         $site->save();
 
-        Flash::success('Site updated successfully.');
-        
-        SiteUpdated::dispatch($site);
+        //Flash::success('Site updated successfully.');
+        Session::flash('success','Site updated successfully');
+        SiteUpdatedEvent::dispatch($site);
         return redirect(route('fc.sites.index'));
     }
 
@@ -176,14 +177,15 @@ class SiteController extends BaseController
         $site = Site::find($id);
 
         if (empty($site)) {
-            Flash::error('Site not found');
-
+            //Flash::error('Site not found');
+            Session::flash('error','Site not found');
             return redirect(route('fc.sites.index'));
         }
 
         $site->delete();
 
-        Flash::success('Site deleted successfully.');
+        //Flash::success('Site deleted successfully.');
+        Session::flash('error','Site deleted successfully.');
         SiteDeleted::dispatch($site);
         return redirect(route('fc.sites.index'));
     }
