@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
+use Hasob\FoundationCore\Requests\CreateLedgerRequest;
+
 use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Ledger;
 use Hasob\FoundationCore\Models\Comment;
@@ -82,7 +84,7 @@ class LedgerController extends BaseController
 
 
     //Store a newly created resource
-    public function store(Organization $org, Request $request){
+    public function store(Organization $org, CreateLedgerRequest $request){
 
         $current_user = Auth::user();
 
