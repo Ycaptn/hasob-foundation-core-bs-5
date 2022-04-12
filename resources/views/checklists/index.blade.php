@@ -196,8 +196,21 @@ $hide_right_panel = true;
                         $('#btn-checklist-creator-save').prop("disabled", false);
 
                     }else if (data!=null && data.status=='ok'){
-                        alert("Checklist saved.")
-                        location.reload();
+                       
+                         swal({
+                                title: "Saved",
+                                text: "Checklist saved.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
                     }else{
                         $('#error_msg_checklist_creator').html('<strong>Error</strong><br/>An error has occurred.');
                     }
@@ -268,8 +281,21 @@ $hide_right_panel = true;
                         $('#btn-checklist-editor-save').prop("disabled", false);
 
                     }else if (data!=null && data.status=='ok'){
-                        alert("Checklist template item saved")
-                        location.reload();
+                       
+                         swal({
+                                title: "Saved",
+                                text: "Checklist template item saved.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
                     }else{
                         $('#error_checklist_editor').html('<strong>Error</strong><br/>An error has occurred.');
                     }
@@ -283,34 +309,66 @@ $hide_right_panel = true;
         });
 
         $('.btn-delete-item').click(function(e){
-            if (confirm('Are you sure you want to delete this item?')){
-
-                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                 e.preventDefault();
-
+             let itemId = $(this).attr('data-val');
+           
+                swal({
+                title: "Are you sure you want to delete this Item?",
+                text: "You will not be able to recover this Item record if deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function(isConfirm) {
+                if (isConfirm) {
+                     
                 $('#spinner1').show();
-                $('#btn-delete-item').prop("disabled", true);
+                 $('.btn-delete-item').prop("disabled", true);
 
                 var formData = new FormData();
                 options = JSON.stringify({
                     'cbx_item_id':$(this).attr('data-val'),
                 });
                 formData.append('options', options);
+                 formData.append('_token', $('input[name="_token"]').val());
+                formData.append('_method', 'DELETE');
 
+               let endPointUrl = "{{url('/')}}/fc/checklist/"+itemId+"/delete";
+               
+            
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('fc.checklist.delete','') }}/"+$('#checklist_id').val(),
+                    url:endPointUrl,
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (data) { },
-                    error: function(data){ console.log('Error:', data); }
-                });
+                     success: function(result){
+                        if(result.errors){
+                            console.log(result.errors)
+                        }else{
+                            
+                             swal({
+                                        title: "Deleted",
+                                        text: "The Item record has been deleted.",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    })
+                                    setTimeout(function(){
+                                        location.reload(true);
+                                }, 1000);
+                            }
+                        },
+                    });           
 
-                location.reload();
-            }
+             }
         });
-
+    })
         $('.btn-edit-item').click(function(){
             $('#frm_checklist_editor').trigger("reset");
             $('#error_checklist_editor').hide();

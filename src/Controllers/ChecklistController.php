@@ -110,6 +110,15 @@ class ChecklistController extends BaseController
     public function update(Organization $org, Request $request){}
     public function edit(Organization $org, Request $request, $id){}
     public function show(Organization $org, Request $request, $id){}
-    public function delete(Organization $org, Request $request, $id){}
+    public function delete(Organization $org, Request $request, $id){
+        $checklist = ChecklistTemplate::find($id);
+
+        if(empty($checklist)){
+            return self::createJSONResponse("ok","failed","Checklist Item Not found",404);
+        }
+
+        $checklist->delete();
+        return self::createJSONResponse("ok","success","Checklist Item Deleted Successfully",200);
+    }
 
 }

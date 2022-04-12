@@ -3,10 +3,10 @@
 <div class="row">
     
     @foreach ($sites as $item)
-    <div class="col-sm-4 mb-19">
+    <div class="col-md-12 mb-19">
 
         <div class="card">
-            <!-- <div class="card-wrapper collapse in"> -->
+          
                 <div class="card-body">
 
                     <div class="row">
@@ -21,9 +21,9 @@
                             </span>
             
                             <a href="#" class="float-end">
-                                <i class="fa fa-edit font-15 pr-3 text-primary" data-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                <i class="fa fa-files-o font-15 pr-3 text-warning" data-toggle="tooltip" title="" data-original-title="Pages"></i>
-                                <i class="fa fa-trash font-15 pr-3 text-danger" data-toggle="tooltip" title="" data-original-title="Delete"></i>
+                                <i class="fa fa-edit font-15 pr-3 text-primary btn-edit-mdl-site-modal" data-val="{{$item->id}}" data-bs-toggle="tooltip" title="" data-original-title="Edit"></i>
+                                <i class="fa fa-files-o font-15 pr-3 text-warning" data-val="{{$item->id}}" data-bs-toggle="tooltip" title="" data-original-title="Pages"></i>
+                                <i class="fa fa-trash font-15 pr-3 text-danger btn-delete-mdl-site-modal" data-val="{{$item->id}}" data-bs-toggle="tooltip" title="" data-original-title="Delete"></i>
                             </a>
 
                             <span class="small">
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     
-                <!-- </div> -->
+                </div>
             </div>
         </div>
 
@@ -61,13 +61,14 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <h4 id="lbl-site-modal-title" class="modal-title">Site</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
                    <div id="div-site-modal-error" class="alert alert-danger alert-dismissible fade show" role="alert">
                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     <form class="form-horizontal" id="frm-site-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                         <div class="row">
                             <div class="col-lg-12 ma-10">
@@ -99,20 +100,21 @@
 
                 <div class="modal-footer">
                     <hr class="light-grey-hr mb-10" />
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-site-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-site-modal" value="add">
+                        <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>Save</button>
                 </div>
 
             </div>
         </div>
-    </div>
+    
 
-</div>
 
 
 @push('page_scripts')
 <script type="text/javascript">
     $(document).ready(function() {
-    #('')
+        $("#spinner").hide();
         //Show Modal for New Entry
         $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
             $('#div-site-modal-error').hide();
@@ -224,6 +226,9 @@
         //Save details
         $('#btn-save-mdl-site-modal').click(function(e) {
             e.preventDefault();
+
+            $("#spinner").show();
+            $('#btn-save-mdl-site-modal').attr('disabled',true);
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
     
             let actionType = "POST";
@@ -242,6 +247,8 @@
             formData.append('_method', actionType);
             formData.append('site_name', $('#site_name').val());
             formData.append('description', $('#site_description').val());
+             formData.append('organiztion_id', "{{$organization->id}}");
+             formData.append('creator_user_id', "{{auth()->user->id}}");
     
             $.ajax({
                 url:endPointUrl,
@@ -257,6 +264,8 @@
                         $('#div-site-modal-error').show();
                         
                         $.each(result.errors, function(key, value){
+                            $("#spinner").hide();
+                            $('#btn-save-mdl-site-modal').attr('disabled',false);
                             $('#div-site-modal-error').append('<li class="">'+value+'</li>');
                         });
                     }else{
@@ -278,6 +287,8 @@
                         }, 1000);
                     }
                 }, error: function(data){
+                    $("#spinner").hide();
+                    $('#btn-save-mdl-site-modal').attr('disabled',false);
                     console.log(data);
                 }
             });

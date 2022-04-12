@@ -135,7 +135,7 @@ $(document).ready(function() {
                     });
                 }else{
                     $('#div-site-modal-error-bku').hide();
-                    window.setTimeout( function(){
+                  
 
                         $('#div-site-modal-error-bku').hide();
                         swal({
@@ -147,11 +147,13 @@ $(document).ready(function() {
                                 confirmButtonClass: "btn-success",
                                 confirmButtonText: "OK",
                                 closeOnConfirm: false
-                            },function(){
-                                location.reload(true);
-                        });
+                            });
 
-                    },20);
+                            setTimeout(,function(){
+                                location.reload(true);
+                        }, 1000);
+
+                    
                 }
 
                 $("#spinner-mdl-bulk-upload-site-modal").hide();
