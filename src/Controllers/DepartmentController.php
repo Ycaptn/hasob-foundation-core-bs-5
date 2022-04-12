@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Hasob\FoundationCore\Requests\CreateDepartmentRequest;
+use Hasob\FoundationCore\Requests\UpdateDepartmentRequest;
 
 use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Comment;
@@ -78,7 +80,7 @@ class DepartmentController extends BaseController
     }
 
     //Update a specific resource
-    public function update(Organization $org, Request $request, $id){
+    public function update(Organization $org, UpdateDepartmentRequest $request, $id){
     
         $item = null;
         if (empty($id) == false){
@@ -101,7 +103,7 @@ class DepartmentController extends BaseController
     }
 
     //Store a newly created resource
-    public function store(Organization $org, Request $request){
+    public function store(Organization $org, CreateDepartmentRequest $request){
 
         
         $current_user = Auth::user();
