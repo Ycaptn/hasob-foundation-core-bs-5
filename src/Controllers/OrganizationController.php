@@ -20,6 +20,8 @@ use Hasob\FoundationCore\Models\Comment;
 use Hasob\FoundationCore\Models\Setting;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
+use Hasob\FoundationCore\Requests\CreateOrganizationRequest;
+use Hasob\FoundationCore\Requests\UpdateOrganizationRequest;
 
 class OrganizationController extends BaseController
 {
@@ -138,7 +140,7 @@ class OrganizationController extends BaseController
     }
 
     //Update a specific resource
-    public function update(Organization $org, Request $request, $id){
+    public function update(Organization $org, UpdateOrganizationRequest $request, $id){
     
         $item = null;
         if (empty($id) == false){
@@ -162,7 +164,7 @@ class OrganizationController extends BaseController
     }
 
     //Store a newly created resource
-    public function store(Organization $org, Request $request){
+    public function store(Organization $org, CreateOrganizationRequest $request){
 
         $current_user = Auth::user();
 
