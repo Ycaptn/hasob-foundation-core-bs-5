@@ -119,7 +119,19 @@
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         
                 let itemId = $(this).attr('data-val');
-                if (confirm("Are you sure you want to delete this Department?")){
+                 swal({
+                title: "Are you sure you want to delete this Department?",
+                text: "You will not be able to recover this Department record if deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function(isConfirm) {
+                if (isConfirm) {
+                // if (confirm("Are you sure you want to delete this Department?")){
         
                     let endPointUrl = "{{ route('fc.departments.destroy','') }}/"+itemId;
         
@@ -136,17 +148,34 @@
                         contentType: false,
                         dataType: 'json',
                         success: function(result){
+                            // if(result.errors){
+                            //     console.log(result.errors)
+                            // }else{
+                            //     window.alert("The Department record has been deleted.");
+                            //     location.reload(true);
+                            // }
                             if(result.errors){
                                 console.log(result.errors)
+                                swal("Error", "Oops an error occurred. Please try again.", "error");
                             }else{
-                                window.alert("The Department record has been deleted.");
-                                location.reload(true);
+                                //swal("Deleted", "Site deleted successfully.", "success");
+                                swal({
+                                        title: "Deleted",
+                                        text: "The Department record has been deleted.",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    })
+                                    setTimeout(function(){
+                                        location.reload(true);
+                                }, 1000);
                             }
                         },
                     });            
                 }
             });
-        
+        });
             //Save details
             $('#btn-save-mdl-department-modal').click(function(e) {
                 e.preventDefault();
@@ -197,11 +226,28 @@
                             $('#div-department-modal-error').hide();
                             $('#spinner').hide();
                             $('#btn-save-mdl-department-modal').prop("disabled", false);
-                            window.setTimeout( function(){
-                                window.alert("The Department record saved successfully.");
-                                $('#div-department-modal-error').hide();
+                            $('#div-department-modal-error').hide();
+                            // window.setTimeout( function(){
+                            //     window.alert("The Department record saved successfully.");
+                            //     location.reload(true);
+                            // },20);
+
+                            
+                        swal({
+                                title: "Saved",
+                                text: "The Department record saved successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
                                 location.reload(true);
-                            },20);
+                        }, 1000);
+
                         }
                     }, error: function(data){
                         $('#spinner').hide();

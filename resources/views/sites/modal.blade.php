@@ -183,7 +183,7 @@ $(document).ready(function() {
                                 console.log(result.errors)
                                 swal("Error", "Oops an error occurred. Please try again.", "error");
                             }else{
-                                //swal("Deleted", "Site deleted successfully.", "success");
+                                
                                 swal({
                                         title: "Deleted",
                                         text: "Site deleted successfully",
@@ -191,9 +191,10 @@ $(document).ready(function() {
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",
                                         closeOnConfirm: false
-                                    },function(){
+                                    });
+                                    setTimeout(function(){
                                         location.reload(true);
-                                });
+                                }, 1000);
                             }
                         },
                     });
@@ -265,11 +266,11 @@ $(document).ready(function() {
                     });
                 }else{
                     $('#div-site-modal-error').hide();
-                    window.setTimeout( function(){
+                    $('#div-site-modal-error').hide();
+                  
                         //window.alert("The Site saved successfully.");
                         //swal("Saved", "Site saved successfully.", "success");
 
-                        $('#div-site-modal-error').hide();
 
                         swal({
                                 title: "Saved",
@@ -280,11 +281,13 @@ $(document).ready(function() {
                                 confirmButtonClass: "btn-success",
                                 confirmButtonText: "OK",
                                 closeOnConfirm: false
-                            },function(){
-                                location.reload(true);
-                        });
+                            })
 
-                    },20);
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
+
+                   
                 }
 
                 $("#spinner-sites").hide();

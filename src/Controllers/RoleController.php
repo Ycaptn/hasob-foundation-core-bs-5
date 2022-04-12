@@ -58,7 +58,7 @@ class RoleController extends BaseController
         } else {
             $zRole = Role::find($request->roleId);
             if ($zRole == null){
-                return Controller::createJSONResponse("fail","error","Invalid Role",200);
+                return $this->createJSONResponse("fail","error","Invalid Role",200);
             }
         }
 
@@ -67,10 +67,10 @@ class RoleController extends BaseController
             $zRole->name = $request->roleName;
             $zRole->save();
 
-            return Controller::createJSONResponse("ok","success",$zRole,200);
+            return $this->createJSONResponse("ok","success",$zRole,200);
         }
 
-        return Controller::createJSONResponse("fail","error",$validator->errors(),200);
+        return $this->createJSONResponse("fail","error",$validator->errors(),200);
     }
 
 

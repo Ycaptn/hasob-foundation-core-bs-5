@@ -222,7 +222,19 @@
                 $('.btn-delete-mdl-organization-modal').attr("disabled", true);
     
             let itemId = $(this).attr('data-val');
-            if (confirm("Are you sure you want to delete this Domain?")){
+            swal({
+                title: "Are you sure you want to delete this Domain?",
+                text: "You will not be able to recover this Domain record if deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function(isConfirm) {
+                if (isConfirm) {
+            
     
                 let endPointUrl = "{{ route('fc.organizations.destroy','') }}/"+itemId;
     
@@ -244,13 +256,25 @@
                 $('.btn-delete-mdl-organization-modal').attr("disabled", false);
                             console.log(result.errors)
                         }else{
-                            window.alert("The Domain record has been deleted.");
-                            location.reload(true);
+                           
+                            swal({
+                                        title: "Deleted",
+                                        text: "The Domain record has been deleted.",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    })
+                                    setTimeout(function(){
+                                        location.reload(true);
+                                }, 1000);
+                            
                         }
                     },
                 });            
             }
         });
+    })
     
         //Save details
         $('#btn-save-mdl-organization-modal').click(function(e) {
@@ -300,11 +324,24 @@
                         $('#div-organization-modal-error').hide();
                         $('#spinner').hide();
                         $('#btn-save-mdl-organization-modal').attr("disabled", false);
-                        window.setTimeout( function(){
-                            window.alert("The Domain saved successfully.");
-                            $('#div-organization-modal-error').hide();
-                            location.reload(true);
-                        },20);
+                       
+                           
+                        
+                            swal({
+                                title: "Saved",
+                                text: "The Domain saved successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
+
                     }
                 }, error: function(data){
                     $('#spinner').hide();
