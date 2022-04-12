@@ -107,6 +107,7 @@
 
             </div>
         </div>
+    </div>
     
 
 
@@ -248,7 +249,7 @@
             formData.append('site_name', $('#site_name').val());
             formData.append('description', $('#site_description').val());
              formData.append('organiztion_id', "{{$organization->id}}");
-             formData.append('creator_user_id', "{{auth()->user->id}}");
+             formData.append('creator_user_id', "{{auth()->user()->id}}");
     
             $.ajax({
                 url:endPointUrl,
