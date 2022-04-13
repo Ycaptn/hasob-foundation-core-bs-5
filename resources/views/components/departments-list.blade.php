@@ -47,17 +47,19 @@
     <script type="text/javascript">
         $(document).ready(function() {
         
+            $('#spinner').hide();
             //Show Modal for New Entry
             $(document).on('click', ".btn-new-mdl-department-modal", function(e) {
-                $('#spinner').hide();
                 $('#div-department-modal-error').hide();
                 $('#mdl-department-modal').modal('show');
                 $('.modal-footer').show();
                 $('#frm-department-modal').trigger("reset");
                 $('#txt-department-primary-id').val(0);
-        
+                
                 $('#div-show-txt-department-primary-id').hide();
                 $('#div-edit-txt-department-primary-id').show();
+                $('#spinner').hide();
+                $('#btn-new-mdl-department-modal').prop("disabled", true);
             });
         
             //Show Modal for View
@@ -148,17 +150,12 @@
                         contentType: false,
                         dataType: 'json',
                         success: function(result){
-                            // if(result.errors){
-                            //     console.log(result.errors)
-                            // }else{
-                            //     window.alert("The Department record has been deleted.");
-                            //     location.reload(true);
-                            // }
+                           
                             if(result.errors){
                                 console.log(result.errors)
                                 swal("Error", "Oops an error occurred. Please try again.", "error");
                             }else{
-                                //swal("Deleted", "Site deleted successfully.", "success");
+                               
                                 swal({
                                         title: "Deleted",
                                         text: "The Department record has been deleted.",
@@ -216,21 +213,22 @@
                             console.log(result.errors);
                             $('#div-department-modal-error').html('');
                             $('#div-department-modal-error').show();
-                            $('#spinner1').hide();
+                            $('#spinner').hide();
                             $('#btn-save-mdl-department-modal').prop("disabled", false);
                             
+                            $('#btn-new-mdl-department-modal').prop("disabled", false);
                             $.each(result.errors, function(key, value){
+                             $('#spinner').hide();
+                            $('#btn-save-mdl-department-modal').prop("disabled", false);
+                            $('#btn-new-mdl-department-modal').prop("disabled", false);
                                 $('#div-department-modal-error').append('<li class="">'+value+'</li>');
                             });
                         }else{
                             $('#div-department-modal-error').hide();
                             $('#spinner').hide();
                             $('#btn-save-mdl-department-modal').prop("disabled", false);
-                            $('#div-department-modal-error').hide();
-                            // window.setTimeout( function(){
-                            //     window.alert("The Department record saved successfully.");
-                            //     location.reload(true);
-                            // },20);
+                            $('#btn-new-mdl-department-modal').prop("disabled", false);
+                           
 
                             
                         swal({
@@ -250,8 +248,9 @@
 
                         }
                     }, error: function(data){
-                        $('#spinner').hide();
-                        $('#btn-save-mdl-department-modal').prop("disabled", false);
+                        $('#spinner1').hide();
+                            $('#btn-save-mdl-department-modal').prop("disabled", false);
+                            $('#btn-new-mdl-department-modal').prop("disabled", false);
                         console.log(data);
                     }
                 });

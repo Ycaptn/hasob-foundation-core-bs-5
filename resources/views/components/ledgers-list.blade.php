@@ -173,7 +173,7 @@
                 closeOnCancel: true
             }, function(isConfirm) {
                 if (isConfirm) {
-            // if (confirm("Are you sure you want to delete this Ledger?")){
+           
     
                 let endPointUrl = "{{ route('fc.ledgers.destroy',0) }}"+itemId;
     
@@ -193,8 +193,7 @@
                         if(result.errors){
                             console.log(result.errors)
                         }else{
-                            // window.alert("The Ledger record has been deleted.");
-                            // location.reload(true);
+                            
                              swal({
                                         title: "Deleted",
                                         text: "The Ledger record has been deleted.",
@@ -241,6 +240,8 @@
                         $('#div-ledger-modal-error').show();
                         
                         $.each(result.errors, function(key, value){
+                            $('#spinner').hide();
+                            $('#btn-save-mdl-ledger-modal').prop("disabled", false);
                             $('#div-ledger-modal-error').append('<li class="">'+value+'</li>');
                         });
                     }else{
@@ -248,10 +249,7 @@
                         $('#spinner').hide();
                             $('#btn-save-mdl-ledger-modal').prop("disabled", false);
                             $('#div-ledger-modal-error').hide();
-                        // window.setTimeout( function(){
-                        //     window.alert("The Ledger record saved successfully.");
-                        //     location.reload(true);
-                        // },20);
+                       
                          swal({
                                 title: "Saved",
                                 text: "The Ledger record saved successfully.",
@@ -269,7 +267,7 @@
                     }
                 }, error: function(data){
                     $('#spinner').hide();
-                        $('#btn-save-mdl-ledger-modal').prop("disabled", false);
+                    $('#btn-save-mdl-ledger-modal').prop("disabled", false);
                     console.log(data);
                 }
             });

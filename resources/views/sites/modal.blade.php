@@ -22,9 +22,11 @@
                 </div>
                 
                 <div id="div-edit-txt-site-primary-id" class="row">
-                    <div class="col-12">
+                    <form id="frm-site-modal">
+                    <div  class="col-12">
                         @include('hasob-foundation-core::sites.fields')
                     </div>
+                    </form>
                 </div>
                 
             </div>
@@ -79,10 +81,8 @@ $(document).ready(function() {
         $('#mdl-site-modal').modal('show');
         $('#frm-site-modal').trigger("reset");
 
-        // $("#spinner-sites").show();
-        // $("#div-save-mdl-site-modal").attr('disabled', true);
-        $("#spinner").show();
-        $("#div-save-mdl-site-modal").attr('disabled', true);
+        
+         $("#div-save-mdl-site-modal").hide()
 
         $('#div-show-txt-site-primary-id').show();
         $('#div-edit-txt-site-primary-id').hide();
@@ -116,6 +116,7 @@ $(document).ready(function() {
         $("#spinner-sites").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
+        $("#div-save-mdl-site-modal").show()
          $("#spinner").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
@@ -268,10 +269,6 @@ $(document).ready(function() {
                     $('#div-site-modal-error').hide();
                     $('#div-site-modal-error').hide();
                   
-                        //window.alert("The Site saved successfully.");
-                        //swal("Saved", "Site saved successfully.", "success");
-
-
                         swal({
                                 title: "Saved",
                                 text: "Site saved successfully",

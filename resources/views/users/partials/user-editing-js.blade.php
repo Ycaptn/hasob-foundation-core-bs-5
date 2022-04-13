@@ -110,8 +110,19 @@ $(document).ready(function(){
                     $('#save').attr("disabled", false);
 
                 }else{
-                    alert('Detail updated successfully');
-                    location.reload();
+                    // alert('Detail updated successfully');
+                    // location.reload();
+                     swal({
+                                        title: "Updated",
+                                        text: "Detail updated successfully.",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    })
+                                    setTimeout(function(){
+                                        location.assign("{{route('fc.users.profile')}}");
+                                }, 1000);
                 }
             },
             error: function(data){ 

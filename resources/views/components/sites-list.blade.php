@@ -22,7 +22,7 @@
             
                             <a href="#" class="float-end">
                                 <i class="fa fa-edit font-15 pr-3 text-primary btn-edit-mdl-site-modal" data-val="{{$item->id}}" data-bs-toggle="tooltip" title="" data-original-title="Edit"></i>
-                                <i class="fa fa-files-o font-15 pr-3 text-warning" data-val="{{$item->id}}" data-bs-toggle="tooltip" title="" data-original-title="Pages"></i>
+                                <i class="fa fa-files-o font-15 pr-3 text-warning btn-show-mdl-site-modal" data-val="{{$item->id}}" data-bs-toggle="tooltip" title="" data-original-title="Pages"></i>
                                 <i class="fa fa-trash font-15 pr-3 text-danger btn-delete-mdl-site-modal" data-val="{{$item->id}}" data-bs-toggle="tooltip" title="" data-original-title="Delete"></i>
                             </a>
 
@@ -52,8 +52,9 @@
             </div>
         </div>
 
+        @endforeach
     </div>
-    @endforeach
+
 
         
     <div class="modal fade" id="mdl-site-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -82,6 +83,7 @@
                                 <div id="div-show-txt-site-primary-id">
                                     <div class="row">
                                         <div class="col-lg-10 ma-10">
+                                             @include('hasob-foundation-core::sites.show_fields')
                                         </div>
                                     </div>
                                 </div>
@@ -107,8 +109,8 @@
 
             </div>
         </div>
-    </div>
-    
+</div>
+
 
 
 
@@ -137,14 +139,16 @@
             let itemId = $(this).attr('data-val');
     
             // $.get( "{{URL::to('/')}}/api/fc_sites/"+itemId).done(function( data ) {
-            $.get( "{{URL::to('/')}}/api/fc_sites/"+itemId).done(function( response ) {
+            $.get( "{{URL::to('/')}}/api/fc-api/sites/"+itemId).done(function( response ) {
                 $('#div-site-modal-error').hide();
                 $('#mdl-site-modal').modal('show');
                 $('#frm-site-modal').trigger("reset");
                 $('#txt-site-primary-id').val(response.data.id);
     
                 // $('#spn_site_').html(response.data.);
-                // $('#spn_site_').html(response.data.);   
+                // $('#spn_site_').html(response.data.);  
+                  $('#spn_site_site_name').val(response.data.site_name);
+                $('#spn_site_description').val(response.data.description);
             });
         });
     
@@ -158,13 +162,17 @@
             let itemId = $(this).attr('data-val');
     
             // $.get( "{{URL::to('/')}}/api/fc_sites/"+itemId).done(function( data ) {
-            $.get( "{{URL::to('/')}}/api/fc_sites/"+itemId).done(function( response ) {            
+            $.get( "{{URL::to('/')}}/api/fc-api/sites/"+itemId).done(function( response ) {            
                 $('#div-site-modal-error').hide();
                 $('#mdl-site-modal').modal('show');
                 $('#frm-site-modal').trigger("reset");
                 $('#txt-site-primary-id').val(response.data.id);
     
-                // $('#').val(response.data.);
+                $('#site_name').val(response.data.site_name);
+                $('#site_description').val(response.data.description);
+               
+                
+
                 // $('#').val(response.data.);
             });
         });
@@ -248,7 +256,7 @@
             formData.append('_method', actionType);
             formData.append('site_name', $('#site_name').val());
             formData.append('description', $('#site_description').val());
-             formData.append('organiztion_id', "{{$organization->id}}");
+             formData.append('organization_id', "{{$organization->id}}");
              formData.append('creator_user_id', "{{auth()->user()->id}}");
     
             $.ajax({
