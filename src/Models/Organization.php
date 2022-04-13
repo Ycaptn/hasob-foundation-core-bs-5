@@ -77,6 +77,7 @@ class Organization extends Model
             config('tetfund-intervention.hasob_features')!=null ? config('tetfund-intervention.hasob_features') : [] ,
             config('tetfund-beneficiary-mgt.hasob_features')!=null ? config('tetfund-beneficiary-mgt.hasob_features') : [] ,
             config('tetfund-remote-monitoring.hasob_features')!=null ? config('tetfund-remote-monitoring.hasob_features') : [] ,
+            config('dmo-savings-bond.hasob_features')!=null ? config('dmo-savings-bond.hasob_features') : [] ,
         );
 
         //Log::debug(config('*.hasob_features'));
