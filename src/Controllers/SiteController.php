@@ -145,7 +145,7 @@ class SiteController extends BaseController
     public function update(Organization $org, $id, UpdateSiteRequest $request)
     {
         /** @var Site $site */
-        $site = Site::find($id);
+       $site = Site::find($id);
 
         if (empty($site)) {
             //Flash::error('Site not found');

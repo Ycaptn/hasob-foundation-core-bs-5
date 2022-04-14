@@ -140,16 +140,19 @@
     
             // $.get( "{{URL::to('/')}}/api/fc_sites/"+itemId).done(function( data ) {
             $.get( "{{URL::to('/')}}/api/fc-api/sites/"+itemId).done(function( response ) {
+            
                 $('#div-site-modal-error').hide();
                 $('#mdl-site-modal').modal('show');
                 $('#frm-site-modal').trigger("reset");
-                $('#txt-site-primary-id').val(response.data.id);
-    
+                $('#txt-site-primary-id').val(response.data.id)
                 // $('#spn_site_').html(response.data.);
+              
                 // $('#spn_site_').html(response.data.);  
-                  $('#spn_site_site_name').val(response.data.site_name);
-                $('#spn_site_description').val(response.data.description);
+                  $('#spn_site_site_name').html(response.data.site_name);
+                $('#spn_site_description').html(response.data.description);
             });
+             $('#div-show-txt-site-primary-id').show();
+            $('#div-edit-txt-site-primary-id').hide();
         });
     
         //Show Modal for Edit
@@ -167,7 +170,6 @@
                 $('#mdl-site-modal').modal('show');
                 $('#frm-site-modal').trigger("reset");
                 $('#txt-site-primary-id').val(response.data.id);
-    
                 $('#site_name').val(response.data.site_name);
                 $('#site_description').val(response.data.description);
                
@@ -183,6 +185,7 @@
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
     
             let itemId = $(this).attr('data-val');
+            console.log(itemId);
             swal({
                 title: "Are you sure you want to delete this Site?",
                 text: "You will not be able to recover this Site record if deleted.",
@@ -196,7 +199,7 @@
             }, function(isConfirm) {
                 if (isConfirm) {
     
-                let endPointUrl = "{{ route('fc.sites.destroy',0) }}"+itemId;
+                let endPointUrl = "{{ route('fc.sites.destroy','') }}/"+itemId;
     
                 let formData = new FormData();
                 formData.append('_token', $('input[name="_token"]').val());
@@ -249,19 +252,21 @@
     
             if (primaryId != "0"){
                 actionType = "PUT";
-                endPointUrl = "{{ route('fc.sites.update','') }}/"+primaryId;
+                endPointUrl = "{{ route('fc-api.sites.update','') }}/"+primaryId;
                 formData.append('id', primaryId);
             }
-            
-            formData.append('_method', actionType);
-            formData.append('site_name', $('#site_name').val());
-            formData.append('description', $('#site_description').val());
-             formData.append('organization_id', "{{$organization->id}}");
-             formData.append('creator_user_id', "{{auth()->user()->id}}");
-    
+  /*           console.log("{{$organization->id}}");
+        console.log("{{Auth::id()}}");
+        console.log( $('#site_name').val()); */
+        formData.append('_method', actionType);
+        formData.append('site_name', $('#site_name').val());
+        formData.append('description', $('#site_description').val());
+        formData.append('organization_id', "{{$organization->id}}");
+        formData.append('creator_user_id', "{{auth()->user()->id}}");
+      
             $.ajax({
                 url:endPointUrl,
-                type: actionType,
+                type: "POST",
                 data: formData,
                 cache: false,
                 processData:false,
@@ -273,6 +278,7 @@
                         $('#div-site-modal-error').show();
                         
                         $.each(result.errors, function(key, value){
+                            console.log(result.errors);
                             $("#spinner").hide();
                             $('#btn-save-mdl-site-modal').attr('disabled',false);
                             $('#div-site-modal-error').append('<li class="">'+value+'</li>');
