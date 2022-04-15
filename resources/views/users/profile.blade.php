@@ -36,9 +36,8 @@ User Profile
                         <div class="ms-auto">
                             @if ($edit_mode == false)
                             <a href="{{ route('fc.users.profile','edit=1') }}" >
-                                
                                 <button id="btn-add" class="btn btn-sm btn btn-outline-primary mt-1 me-2 py-1  px-1 small">
-                                   <i class="fa  fa-edit fa-fw" aria-hidden="true"></i> Modify
+                                   <i class="fa fa-edit fa-fw small" aria-hidden="true"></i> Modify
                                 </button>
                             </a>
                             @endif
