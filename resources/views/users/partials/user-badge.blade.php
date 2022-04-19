@@ -39,12 +39,12 @@ $current_user = Auth::user();
         </div>
         <hr class="my-1" />
         <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+            <li class="list-group-item d-flex align-items-center flex-wrap">
                 @php
                     $userRoles = $current_user->getRoleNames();
                 @endphp
                 @foreach ($userRoles as $idx=>$roleName)
-                    <span class="badge bg-primary">{!! $roleName !!}</span>
+                    <span class="badge bg-primary fw-light pa-1 mx-1 my-1">{!! $roleName !!}</span>
                 @endforeach
             </li>
             @if (isset($current_user->website_url) && empty($current_user->website_url)==false)

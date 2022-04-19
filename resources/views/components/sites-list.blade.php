@@ -136,6 +136,7 @@
     
             $('#div-show-txt-site-primary-id').show();
             $('#div-edit-txt-site-primary-id').hide();
+            $('#btn-save-mdl-site-modal').hide();
             let itemId = $(this).attr('data-val');
     
             // $.get( "{{URL::to('/')}}/api/fc_sites/"+itemId).done(function( data ) {

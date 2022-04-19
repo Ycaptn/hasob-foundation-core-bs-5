@@ -157,19 +157,21 @@ class FoundationCore
                 ];
             }
 
-            if ($current_user->hasAnyRole(['admin','sites-admin'])){
+            
+            if (FoundationCore::has_feature('sites', $current_user->organization) && $current_user->hasAnyRole(['admin','sites-admin'])){
                 $fc_menu['mnu_fc_admin']['children']['sites'] = ['id'=>'mnu_fc_sites','label'=>'Sites','icon'=>'bx bx-globe-alt','path'=>route('fc.sites.index'),'route-selector'=>'fc/sites','is-parent'=>false,
                     'children' => []
                 ];
             }
+            
 
-            if ($current_user->hasAnyRole(['admin','departments-admin'])){
+            if (FoundationCore::has_feature('departments', $current_user->organization) && $current_user->hasAnyRole(['admin','departments-admin'])){
                 $fc_menu['mnu_fc_admin']['children']['depts'] = ['id'=>'mnu_fc_depts','label'=>'Departments','icon'=>'bx bx-collection','path'=>route('fc.departments.index'),'route-selector'=>'fc/departments','is-parent'=>false,
                     'children' => []
                 ];
             }
 
-            if ($current_user->hasAnyRole(['admin','ledgers-admin'])){
+            if (FoundationCore::has_feature('ledgers', $current_user->organization) && $current_user->hasAnyRole(['admin','ledgers-admin'])){
                 $fc_menu['mnu_fc_admin']['children']['ledgers'] = ['id'=>'mnu_fc_ledgers','label'=>'Ledgers','icon'=>'bx bx-wallet-alt','path'=>route('fc.ledgers.index'),'route-selector'=>'fc/ledgers','is-parent'=>false,
                     'children' => []
                 ];
