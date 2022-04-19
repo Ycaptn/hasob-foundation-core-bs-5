@@ -1,6 +1,6 @@
 @if ($attachable!=null)
    
-    <button id='btn-show-attachment-upload' type="button" class="btn btn-xs btn-primary">Upload</button>
+    <button id='btn-show-attachment-upload' type="button" class="btn btn-sm btn-primary">Upload</button>
     <div class="modal fade" id="attachment-modal" tabindex="-1" role="dialog" aria-labelledby="attachment-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -109,8 +109,17 @@
                                 $('#error_msg_attachment').html('<strong>Error</strong><br/>An error has occurred.');
                             }
                         }else if (data!=null && data.status=='ok'){
-                            alert("File uploaded.")
-                            location.reload();
+                            swal({
+                                        title: "Success",
+                                        text: "file uploaded",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                })
+                                window.setTimeout(function(){
+                                location.reload(true);
+                                }, 1000)
                         }else{
                             $('#btn-add-attachment span').hide();
                             $('#btn-add-attachment').attr('disabled',false);

@@ -10,7 +10,15 @@
                     type="text" class="form-control input-sm" 
                     placeholder="Type in your comments and press enter to save comments"
             />
-            <span class='input-group-text' class="btn-send-comment"><a href="#" id="btn-send-comment" class="btn-send-comment"><i class='img-circle img-sm fa fa-paper-plane' style='font-size:25px;padding-top:2px;'></i></a></span>
+            <span class='input-group-text' class="btn-send-comment">
+                <a href="#" id="btn-send-comment" class="">
+                    <span class="spinner">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>
+                    </span>    
+                    <i class='img-circle img-sm fa fa-paper-plane' style='font-size:25px;padding-top:2px;'></i>
+                </a>
+            </span>
         </div>
 
     </div>
@@ -19,6 +27,7 @@
     @push('page_scripts')
     <script type="text/javascript">
         $(document).ready(function(){
+            $('.spinner').hide();
             $('#comment_primary_id').hide()
             $("#comment-text").on('keypress', function(e){
                 if (e.which==13 && $('#comment-text').val().length > 2){
@@ -46,7 +55,7 @@
                     swal({
                         html: true,
                         title: 'Submitting Post Please Wait!',
-                        text:  spinner,
+                        // text:  spinner,
                         showCancelButton: false, 
                         showConfirmButton: false
                     });
@@ -105,13 +114,17 @@
                     }
                    
                     formData.append('options', options);
-                    swal({
-                        html: true,
-                        title: 'Submitting Post Please Wait!',
-                        text:  spinner,
-                        showCancelButton: false, 
-                        showConfirmButton: false
-                    });
+                    // swal({
+                    //     html: true,
+                    //     title: 'Submitting Post Please Wait!',
+                    //     // text:  spinner,
+                    //     // timer: 3000,
+                    //     showCancelButton: false, 
+                    //     showConfirmButton: false
+                    // });
+
+                    $(".spinner").show();
+                    $(".btn-send-comment").attr('disabled', true);
 
                     $.ajax({
                         url: "{{ route('fc.comment-add') }}",
@@ -126,11 +139,24 @@
                                     alert("Error submitting comments "+data.response);
                                 }
                             }else if (data!=null && data.status=='ok'){
-                                setTimeout(() => {
-                                    alert("Comments have been saved.");
-                                    location.reload();
-                                }, 1000);
+                                // setTimeout(() => {
+                                //     alert("Comments have been saved.");
+                                //     location.reload();
+                                // }, 1000);
+                                swal({
+                                        title: "Success",
+                                        text: "Comment sent",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                })
+                                window.setTimeout(function(){
+                                location.reload(true);
+                                }, 1000)
                                 
+                                $(".spinner").hide();
+                                $(".btn-send-comment").attr('disabled', false);
                             }else{
                                 alert("Error submitting comments");
                             }
@@ -138,6 +164,8 @@
                         error: function(data){
                             swal.close();
                             console.log(data);
+                            $(".spinner").hide();
+                            $(".btn-send-comment").attr('disabled', false);
                         }
                     });
                 }
