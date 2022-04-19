@@ -160,7 +160,8 @@
         $(document).on('click', ".btn-edit-mdl-site-modal", function(e) {
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-    
+            
+            $('btn-save-mdl-site-modal').show()
             $('#div-show-txt-site-primary-id').hide();
             $('#div-edit-txt-site-primary-id').show();
             let itemId = $(this).attr('data-val');

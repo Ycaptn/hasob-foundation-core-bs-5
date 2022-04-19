@@ -100,8 +100,18 @@ $current_user = Auth::user();
         });
 
         $("#file-profilePic").change(function(e){
-            if (confirm('Are you sure you want to upload this file?')){
-
+            swal({
+                title: 'Are you sure you want to upload this file?',
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function(isConfirm) {
+                if (isConfirm) {
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                 e.preventDefault();
 
@@ -118,15 +128,48 @@ $current_user = Auth::user();
 
                         if (data!=null && data.status=='fail'){
                             
-                            alert('An error has occurred while uploading the file.');
+                           
+                             swal({
+                                title: "Error",
+                                text: 'An error has occurred while uploading file.',
+                                type: "error",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
                             console.log(data);
                                 
                         }else if (data!=null && data.status=='ok'){
-                            alert("File uploaded.")
-                            location.reload();
+                            swal({
+                                title: "File uploaded.",
+                                text: "File is Uploaded successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
 
                         }else{
-                            alert('An error has occurred while uploading file.');
+
+                          
+                             swal({
+                                title: "Error",
+                                text: 'An error has occurred while uploading file.',
+                                type: "error",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-danger",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
                         }
                     },
                     error: function(data){
@@ -137,6 +180,7 @@ $current_user = Auth::user();
                 });
             }
         });
+    });
 
         $("#btn-add-attachment").click(function(e){
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
@@ -167,8 +211,22 @@ $current_user = Auth::user();
                             $('#error_msg_attachment').html('<strong>Error</strong><br/>An error has occurred.');
                         }
                     }else if (data!=null && data.status=='ok'){
-                        alert("File uploaded.")
-                        location.reload();
+                        // alert("File uploaded.")
+                        // location.reload();
+                         swal({
+                                title: "File uploaded.",
+                                text: "File is Uploaded successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
                     }else{
                         $('#error_msg_attachment').html('<strong>Error</strong><br/>An error has occurred.');
                     }
