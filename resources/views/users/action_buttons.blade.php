@@ -7,7 +7,7 @@
     {!! Form::button('<i class="fa fa-edit"></i>', ['type'=>'button']) !!}
 </a> --}}
 
-<a href="#" data-val='{{$id}}' class='btn-delete-mdl-enrollment-modal'>
+<a href="#" data-val='{{$id}}' class='btn-delete-mdl-user-modal'>
     <i class="fa fa-trash text-danger"></i>
     {{-- {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button', 'onclick' => "return confirm('Are you sure?')"]) !!} --}}
 </a>
