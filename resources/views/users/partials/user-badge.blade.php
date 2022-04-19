@@ -39,12 +39,12 @@ $current_user = Auth::user();
         </div>
         <hr class="my-1" />
         <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex align-items-center flex-wrap">
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 @php
                     $userRoles = $current_user->getRoleNames();
                 @endphp
                 @foreach ($userRoles as $idx=>$roleName)
-                    <span class="badge bg-primary fw-light pa-1 mx-1 my-1">{!! $roleName !!}</span>
+                    <span class="badge bg-primary">{!! $roleName !!}</span>
                 @endforeach
             </li>
             @if (isset($current_user->website_url) && empty($current_user->website_url)==false)
@@ -100,18 +100,6 @@ $current_user = Auth::user();
         });
 
         $("#file-profilePic").change(function(e){
-            swal({
-                title: 'Are you sure you want to upload this file?',
-                text: "",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Yes",
-                cancelButtonText: "No",
-                closeOnConfirm: false,
-                closeOnCancel: true
-            }, function(isConfirm) {
-                if (isConfirm) {
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                 e.preventDefault();
 
@@ -129,22 +117,14 @@ $current_user = Auth::user();
                         if (data!=null && data.status=='fail'){
                             
                            
-                             swal({
-                                title: "Error",
-                                text: 'An error has occurred while uploading file.',
-                                type: "error",
-                                showCancelButton: false,
-                                closeOnConfirm: false,
-                                confirmButtonClass: "btn-danger",
-                                confirmButtonText: "OK",
-                                closeOnConfirm: false
-                            })
+                             swal("Error", "An error has occurred while uploading the file.", "error");
                             console.log(data);
                                 
                         }else if (data!=null && data.status=='ok'){
-                            swal({
-                                title: "File uploaded.",
-                                text: "File is Uploaded successfully.",
+                           
+                             swal({
+                                title: "Uploaded",
+                                text: "File uploaded successfully.",
                                 type: "success",
                                 showCancelButton: false,
                                 closeOnConfirm: false,
@@ -158,18 +138,8 @@ $current_user = Auth::user();
                         }, 1000);
 
                         }else{
-
-                          
-                             swal({
-                                title: "Error",
-                                text: 'An error has occurred while uploading file.',
-                                type: "error",
-                                showCancelButton: false,
-                                closeOnConfirm: false,
-                                confirmButtonClass: "btn-danger",
-                                confirmButtonText: "OK",
-                                closeOnConfirm: false
-                            })
+                            
+                             swal("Error", "An error has occurred while uploading the file.", "error");
                         }
                     },
                     error: function(data){
@@ -178,9 +148,8 @@ $current_user = Auth::user();
                         $('#save').attr("disabled", false);
                     }
                 });
-            }
+            
         });
-    });
 
         $("#btn-add-attachment").click(function(e){
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
@@ -211,11 +180,10 @@ $current_user = Auth::user();
                             $('#error_msg_attachment').html('<strong>Error</strong><br/>An error has occurred.');
                         }
                     }else if (data!=null && data.status=='ok'){
-                        // alert("File uploaded.")
-                        // location.reload();
-                         swal({
-                                title: "File uploaded.",
-                                text: "File is Uploaded successfully.",
+                      
+                        swal({
+                                title: "Uploaded",
+                                text: "File uploaded successfully.",
                                 type: "success",
                                 showCancelButton: false,
                                 closeOnConfirm: false,
