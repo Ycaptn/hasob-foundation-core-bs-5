@@ -46,14 +46,14 @@
             </div>
         </div> --}}
         
-        <div class="d-flex">
+        <div class="d-flex mb-4">
             
             <div>
                 <a href="javascript:void(0)">
                     @if ( $comment->user->profile_image == null )
-                        <img class="user-auth-img card-user-img img-circle float-start" src="{{asset('imgs/user.png')}}" alt="user">
+                        <img width="42" height="42" class="rounded-circle float-start p-1 bg-primary" src="{{asset('imgs/user.png')}}" alt="user">
                     @else
-                        <img class="img-fluid" src="{{ route('fc.get-profile-picture', $comment->user->id) }}" />
+                        <img width="50" height="50" class="rounded-circle p-1 bg-primary float-start" src="{{ route('fc.get-profile-picture', $comment->user->id) }}" />
                     @endif
                 </a>
             </div>
