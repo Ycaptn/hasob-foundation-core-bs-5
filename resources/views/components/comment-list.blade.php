@@ -63,9 +63,9 @@
                         <span class="capitalize-font txt-primary mr-5 weight-500">{{$comment->user->full_name}}</span>
                     </p>
                     
-                    <p>
-                        <span class="$text_color" id="comment_{{$comment->id}}">{{$comment->content}}</span>
-                    </p>
+                    {{-- <p class="text-wrap"> --}}
+                        <span class="$text_color text-wrap" id="comment_{{$comment->id}}">{{$comment->content}}</span>
+                    {{-- </p> --}}
                 </a> 
 			</div> 
             <div class="">  
