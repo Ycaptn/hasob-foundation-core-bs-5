@@ -302,7 +302,7 @@ class FoundationCore
             Route::get('/users', [UserController::class, 'index'])->name('users.index');
             Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
             Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-            Route::get('/user/{id}/delete', [UserController::class, 'delete'])->name('user.delete');
+            Route::delete('/user/{id}/delete', [UserController::class, 'delete'])->name('user.delete');
             Route::post('/user/{id}', [UserController::class, 'update'])->name('user.store');
             Route::put('/user/{id}/disable', [UserController::class, 'disable'])->name('user.disable');
 
@@ -310,7 +310,7 @@ class FoundationCore
             Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
             Route::get('/role/{id}', [RoleController::class, 'show'])->name('role.show');
             Route::get('/role/{id}/edit', [RoleController::class, 'edit'])->name('role.edit');
-            Route::get('/role/{id}/delete', [RoleController::class, 'delete'])->name('role.delete');
+            Route::delete('/role/{id}/delete', [RoleController::class, 'delete'])->name('role.delete');
             Route::post('/role/{id}', [RoleController::class, 'update'])->name('role.store');
 
             //Profile Management

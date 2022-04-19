@@ -162,8 +162,13 @@ class UserController extends BaseController
     }
 
     public function delete(Organization $org, Request $request, $id){
+        $user = User::find($id);
+        if(empty($user)){
+            return self::createJSONResponse("ok","error","User not found",200);
+        }
 
-        return view('hasob-foundation-core::users.index');
+        $user->delete();
+        return self::createJSONResponse("ok","success","User record has been deleted",200);
     }
 
     public function profile(Organization $org, Request $request){
