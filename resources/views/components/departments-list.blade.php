@@ -80,6 +80,7 @@
                     $('#mdl-department-modal').modal('show');
                     $('#frm-department-modal').trigger("reset");
                     $('#txt-department-primary-id').val(response.data.id);
+                    
         
 
                 });
@@ -198,6 +199,7 @@
                 formData.append('long_name', $('#long_name').val());
                 formData.append('telephone', $('#telephone').val());
                 formData.append('parent_id', $('#department_id').val());
+                formData.append('organization_id', $('#div-organization_id').val());
                 formData.append('physical_location', $('#physical_location').val());
         
                 $.ajax({
