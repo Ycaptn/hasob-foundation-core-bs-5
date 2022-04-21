@@ -4,7 +4,7 @@
     <div class="col-sm-7">
         @if ($data_set_group_list != null && count($data_set_group_list)>0)
         @foreach($data_set_group_list as $key=>$group)
-            <button data-val="{{$key}}" class="{{$control_id}}-grp btn btn-xxs btn-primary btn-outline faded mr-5">{{$key}}</button>
+            <button data-val="{{$key}}" class="{{$control_id}}-grp btn btn-sm btn-primary btn-outline faded me-1">{{$key}}</button>
         @endforeach
         @endif
     </div>
@@ -13,7 +13,7 @@
         <div class="input-group mb-3"> 
             <input type="text" id="{{$control_id}}-txt-search" name="{{$control_id}}-txt-search" class="form-control form-control-sm" placeholder="{{ $search_placeholder_text }}" style="">
             <span class="input-group-btn">
-                <button id="{{$control_id}}-btn-search" name="{{$control_id}}-btn-search" type="button" class="btn btn-xs btn-primary btn-outline faded"><i class="fa fa-search"></i></button>
+                <button id="{{$control_id}}-btn-search" name="{{$control_id}}-btn-search" type="button" class="btn btn-sm btn-primary btn-outline faded"><i class="fa fa-search"></i></button>
             </span>
         </div>
         @endif
