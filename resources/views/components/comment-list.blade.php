@@ -58,27 +58,34 @@
                 </a>
             </div>
 			<div class="flex-grow-1 ms-4">
-                <a href="javascript:void(0)">
-                    <p class="mb-0 font-weight-bold">
-                        <span class="capitalize-font txt-primary mr-5 weight-500">{{$comment->user->full_name}}</span>
-                    </p>
-                    
-                    {{-- <p class="text-wrap"> --}}
-                        <span class="$text_color text-wrap" id="comment_{{$comment->id}}">{{$comment->content}}</span>
-                    {{-- </p> --}}
-                </a> 
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="javascript:void(0)">
+                            <p class="mb-0 font-weight-bold">
+                                <span class="capitalize-font txt-primary mr-5 weight-500">{{$comment->user->full_name}}</span>
+                            </p>
+                        </a>
+                    </div>
+                    <div class="float-end">
+                        <span class="block small txt-grey font-12 capitalize-font">{{$comment->getCommentedDateString()}} &nbsp;
+                            @if($comment->user_id == auth()->user()->id)
+                                <a data-toggle="tooltip" 
+                                title="Edit" 
+                                data-val='{{$comment->id}}' 
+                                class="btn-edit-mdl-comment-modal inline-block " href="#">
+                                <i class="zmdi zmdi-border-color txt-warning" style="opacity:80%"></i>
+                                </a> 
+                            @endif  
+                        </span>
+                    </div>
+
+                </div>
+                <a href="javascript:void(0)>
+                    <span class="$text_color text-wrap" id="comment_{{$comment->id}}">{{$comment->content}}</span>
+                </a>
 			</div> 
             <div class="">  
-                <span class="block small txt-grey font-12 capitalize-font">{{$comment->getCommentedDateString()}} &nbsp;
-                    @if($comment->user_id == auth()->user()->id)
-                    <a data-toggle="tooltip" 
-                    title="Edit" 
-                    data-val='{{$comment->id}}' 
-                    class="btn-edit-mdl-comment-modal inline-block " href="#">
-                    <i class="zmdi zmdi-border-color txt-warning" style="opacity:80%"></i>
-                    </a> 
-                    @endif  
-                </span>
+                
            
             </div>
 		</div>
