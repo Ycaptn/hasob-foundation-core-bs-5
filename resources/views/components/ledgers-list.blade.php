@@ -22,10 +22,10 @@
                                 <tr>
                                     <td width="50%">
                                         
-                                        <a href="javascript:void(0)" class="pr-10 text-primary" data-bs-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
-                                            <i class="fa fa-edit btn-edit-mdl-ledger-modal"></i>
+                                        <a href="javascript:void(0)" class="pr-10 text-primary btn-edit-mdl-ledger-modal" data-bs-toggle="tooltip" data-val="{{$item->id}}" title="" data-original-title="Edit" aria-describedby="tooltip563536">
+                                            <i class="fa fa-edit"></i>
                                         </a>
-
+                                
                                         {{$item->name}}
                                     </td>
                                     <td class="text-center">
@@ -135,6 +135,8 @@
         //Show Modal for Edit
         $(document).on('click', ".btn-edit-mdl-ledger-modal", function(e) {
             e.preventDefault();
+            let itemId = $(this).attr('data-val');
+             console.log(itemId);
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
     
             $('#div-show-txt-ledger-primary-id').hide();
@@ -142,9 +144,11 @@
 
             $('#spinner').hide();
                 $('#btn-show-mdl-ledger-modal').prop("disabled", false);
-            let itemId = $(this).attr('data-val');
+            
+           
     
-            $.get( "{{route('fc.ledgers.store','0')}}" ).done(function( response ) {
+            $.get( "{{URL::to('/')}}/api/fc_ledgers/"+itemId).done(function( response ) {
+                console.log(response);
                 $('#div-ledger-modal-error').hide();
                 $('#mdl-ledger-modal').modal('show');
                 $('#frm-ledger-modal').trigger("reset");
@@ -225,6 +229,7 @@
             formData.append('id', primaryId);
             formData.append('name', $('#ledger_name').val());
             formData.append('department_id', $('#ledger_department').val());
+            formData.append('organization_id', $('#organization_id').val());
     
             $.ajax({
                 url: "{{ route('fc.ledgers.store') }}",

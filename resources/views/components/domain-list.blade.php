@@ -173,7 +173,7 @@
             $('#div-show-txt-organization-primary-id').hide();
             $('#div-edit-txt-organization-primary-id').show();
             $('#spinner').hide()
-            $('#btn-save-mdl-organization-modal').attr('disable',false)
+            $('#btn-save-mdl-organization-modal').attr('disabled',false)
         });
     
         //Show Modal for Edit
@@ -184,8 +184,8 @@
             $('#div-show-txt-organization-primary-id').hide();
             $('#div-edit-txt-organization-primary-id').show();
              $('#spinner').hide()
-            $('#btn-save-mdl-organization-modal').attr('disable',false)
-            $('.btn-edit-mdl-organization-modal').attr('disable',false)
+            $('#btn-save-mdl-organization-modal').attr('disabled',false)
+            $('.btn-edit-mdl-organization-modal').attr('disabled',false)
             let itemId = $(this).attr('data-val');
     
             $.get( "{{ route('fc.organizations.show','') }}/"+itemId).done(function( data ) {
