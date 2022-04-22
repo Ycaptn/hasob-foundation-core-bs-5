@@ -44,7 +44,7 @@
                     @endif
                     @if (empty($item->referenced_item_route_name) == false)
                         <br/>
-                        <a href="{{$item->referenced_item_route_name}}" class"small">View</a>
+                        <a href="{{$item->referenced_item_route_name}}" class="small">View</a>
                     @endif
                 </td>
                 <td class="pa-5 text-center">

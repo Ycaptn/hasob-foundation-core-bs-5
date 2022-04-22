@@ -22,10 +22,10 @@
                                 <tr>
                                     <td width="50%">
                                         
-                                        <a href="javascript:void(0)" class="pr-10 text-primary" data-bs-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
-                                            <i class="fa fa-edit btn-edit-mdl-ledger-modal"></i>
+                                        <a href="javascript:void(0)" class="pr-10 text-primary btn-edit-mdl-ledger-modal" data-bs-toggle="tooltip" data-val="{{$item->id}}" title="" data-original-title="Edit" aria-describedby="tooltip563536">
+                                            <i class="fa fa-edit"></i>
                                         </a>
-
+                                
                                         {{$item->name}}
                                     </td>
                                     <td class="text-center">
@@ -136,19 +136,21 @@
         $(document).on('click', ".btn-edit-mdl-ledger-modal", function(e) {
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-    
+             //console.log(itemId);
             $('#div-show-txt-ledger-primary-id').hide();
             $('#div-edit-txt-ledger-primary-id').show();
 
             $('#spinner').hide();
-                $('#btn-show-mdl-ledger-modal').prop("disabled", false);
+                $('#btn-show-mdl-ledger-modal').prop("disabled", false);     
+           
             let itemId = $(this).attr('data-val');
-    
-            $.get( "{{route('fc.ledgers.store','0')}}" ).done(function( response ) {
+            $.get( "{{route('fc.ledgers.show','')}}/"+itemId).done(function(data) {
+                //console.log(itemId);
                 $('#div-ledger-modal-error').hide();
                 $('#mdl-ledger-modal').modal('show');
                 $('#frm-ledger-modal').trigger("reset");
-                $('#txt-ledger-primary-id').val(response.data.id);
+                $('#txt-ledger-primary-id').val(data.response.id);
+                $('#ledger_name').val(data.response.name);
     
                 // $('#').val(response.data.);
                 // $('#').val(response.data.);
@@ -173,7 +175,7 @@
                 closeOnCancel: true
             }, function(isConfirm) {
                 if (isConfirm) {
-            // if (confirm("Are you sure you want to delete this Ledger?")){
+           
     
                 let endPointUrl = "{{ route('fc.ledgers.destroy',0) }}"+itemId;
     
@@ -193,8 +195,7 @@
                         if(result.errors){
                             console.log(result.errors)
                         }else{
-                            // window.alert("The Ledger record has been deleted.");
-                            // location.reload(true);
+                            
                              swal({
                                         title: "Deleted",
                                         text: "The Ledger record has been deleted.",
@@ -220,15 +221,24 @@
             $('#spinner').show();
                 $('#btn-save-mdl-ledger-modal').prop("disabled", true);
             let primaryId = $('#txt-ledger-primary-id').val();
+            let actionType = "POST";
+            let endPointUrl = "{{ route('fc.ledgers.store') }}"
             
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
+            if(primaryId != "0") {
+                actionType = "PUT";
+                endPointUrl = "{{ route('fc.ledgers.update','') }}/"+primaryId;
+                formData.append('id', primaryId);
+            }
+            formData.append('_method', actionType);
             formData.append('id', primaryId);
             formData.append('name', $('#ledger_name').val());
             formData.append('department_id', $('#ledger_department').val());
+            formData.append('organization_id', $('#organization_id').val());
     
             $.ajax({
-                url: "{{ route('fc.ledgers.store') }}",
+                url: endPointUrl,
                 type: "POST",
                 data: formData,
                 cache: false,
@@ -241,6 +251,8 @@
                         $('#div-ledger-modal-error').show();
                         
                         $.each(result.errors, function(key, value){
+                            $('#spinner').hide();
+                            $('#btn-save-mdl-ledger-modal').prop("disabled", false);
                             $('#div-ledger-modal-error').append('<li class="">'+value+'</li>');
                         });
                     }else{
@@ -248,10 +260,7 @@
                         $('#spinner').hide();
                             $('#btn-save-mdl-ledger-modal').prop("disabled", false);
                             $('#div-ledger-modal-error').hide();
-                        // window.setTimeout( function(){
-                        //     window.alert("The Ledger record saved successfully.");
-                        //     location.reload(true);
-                        // },20);
+                       
                          swal({
                                 title: "Saved",
                                 text: "The Ledger record saved successfully.",
@@ -269,7 +278,7 @@
                     }
                 }, error: function(data){
                     $('#spinner').hide();
-                        $('#btn-save-mdl-ledger-modal').prop("disabled", false);
+                    $('#btn-save-mdl-ledger-modal').prop("disabled", false);
                     console.log(data);
                 }
             });

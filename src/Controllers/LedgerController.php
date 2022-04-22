@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
+use Hasob\FoundationCore\Requests\CreateLedgerRequest;
+use Hasob\FoundationCore\Requests\UpdateLedgerRequest;
+
 use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Ledger;
 use Hasob\FoundationCore\Models\Comment;
@@ -47,7 +50,8 @@ class LedgerController extends BaseController
         }
 
         if ($request->expectsJson()){
-			return $ledger;
+            return self::createJSONResponse("ok", "success", $ledger, 200);
+			//return $ledger;
 		}
 
         return view('hasob-foundation-core::ledgers.ledger')
@@ -78,11 +82,37 @@ class LedgerController extends BaseController
 
 
     //Update a specific resource
-    public function update(Organization $org, Request $request, $id){}
+    public function update(Organization $org, UpdateLedgerRequest $request, $id){
+
+        $ledger = null;
+
+        if(empty($id) == false) {
+
+            $ledger = Ledger::find($id);
+        }
+
+        if($ledger == null) {
+
+            abort(404);
+        }
+
+        $ledger->name = $request->name;
+
+        if(empty($request->ledger_department) != false) {
+            $ledger->department_id = $request->ledger_department;
+
+        }
+
+        $ledger->save();
+
+        return self::createJSONResponse("ok", "success", $ledger, 200);
+
+
+    }
 
 
     //Store a newly created resource
-    public function store(Organization $org, Request $request){
+    public function store(Organization $org, CreateLedgerRequest $request){
 
         $current_user = Auth::user();
 
