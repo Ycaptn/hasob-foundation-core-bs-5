@@ -196,8 +196,19 @@ $hide_right_panel = true;
                         $('#btn-checklist-creator-save').prop("disabled", false);
 
                     }else if (data!=null && data.status=='ok'){
-                        alert("Checklist saved.")
-                        location.reload();
+                         swal({
+                                title: "Saved",
+                                text: "Checklist saved",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+                            window.setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
                     }else{
                         $('#error_msg_checklist_creator').html('<strong>Error</strong><br/>An error has occurred.');
                     }
@@ -268,8 +279,19 @@ $hide_right_panel = true;
                         $('#btn-checklist-editor-save').prop("disabled", false);
 
                     }else if (data!=null && data.status=='ok'){
-                        alert("Checklist template item saved")
-                        location.reload();
+                         swal({
+                                title: "Saved",
+                                text: "Checklist template item saved",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+                            window.setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
                     }else{
                         $('#error_checklist_editor').html('<strong>Error</strong><br/>An error has occurred.');
                     }
