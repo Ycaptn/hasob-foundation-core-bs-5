@@ -371,6 +371,7 @@
 
     @include('hasob-foundation-core::pages.modal')
     @include('hasob-foundation-core::site_artifacts.modal')
+    @include('hasob-foundation-core::sites.modal')
 
 @endsection
 
