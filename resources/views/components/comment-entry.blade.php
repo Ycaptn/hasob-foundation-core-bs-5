@@ -61,16 +61,51 @@
                             swal.close();
                             if (data!=null && data.status=='fail'){
                                 if (data.response!=null){     
-                                    alert("Error submitting comments "+data.response);
+                                    swal({
+                                        title: "Saved",
+                                        text: `Error submitting comments ${data.response}`,
+                                        type: "success",
+                                        showCancelButton: false,
+                                        closeOnConfirm: false,
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    });
+                                    window.setTimeout(function(){
+                                        location.reload(true);
+                                    }, 1000);
                                 }
                             }else if (data!=null && data.status=='ok'){
                                 setTimeout(() => {
-                                    alert("Comments have been saved.");
-                                    location.reload();
+                                     swal({
+                                title: "Saved",
+                                text: "Comments have been saved",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+                            window.setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
                                 }, 1000);
                                 
                             }else{
-                                alert("Error submitting comments");
+                                 swal({
+                                title: "Error",
+                                text: "Error submitting comment",
+                                type: "warning",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+                            window.setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
                             }
                         },
                         error: function(data){
@@ -123,16 +158,49 @@
                             swal.close();
                             if (data!=null && data.status=='fail'){
                                 if (data.response!=null){     
-                                    alert("Error submitting comments "+data.response);
+                                     swal({
+                                title: "Error",
+                                text: `Error submitting comments ${data.response}`,
+                                type: "error",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+                            window.setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
                                 }
                             }else if (data!=null && data.status=='ok'){
-                                setTimeout(() => {
-                                    alert("Comments have been saved.");
-                                    location.reload();
-                                }, 1000);
+                                  swal({
+                                title: "Saved",
+                                text: `Comments have been saved`,
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+                            window.setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
                                 
                             }else{
-                                alert("Error submitting comments");
+                                  swal({
+                                title: "Error",
+                                text: `Error submitting comments`,
+                                type: "error",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+                            window.setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
                             }
                         },
                         error: function(data){

@@ -31,6 +31,7 @@ class CardDataView extends Component
     private $data_set_model;
 
     private $json_data_route_name;
+    private $action_buttons_list;
 
 
     public function __construct($model, $template){
@@ -100,6 +101,14 @@ class CardDataView extends Component
 
     public function setDataQuery($query){
         $this->data_set_query = $query;
+        return $this;
+    }
+
+    public function addActionButton($button_text, $button_icon=null, $button_href='#', $button_class=null, $button_data_map=null){
+        if ($this->action_buttons_list == null){
+            $this->action_buttons_list = array();
+        }
+        $this->action_buttons_list[$button_text] = [$button_icon, $button_href, $button_class, $button_data_map];
         return $this;
     }
 
@@ -238,6 +247,7 @@ class CardDataView extends Component
         return view('hasob-foundation-core::cardview.index')
                     ->with('control_id',$this->control_id)
                     ->with('data_set_query',$this->data_set_query)
+                    ->with('action_buttons_list',$this->action_buttons_list)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
                     ->with('data_set_enable_pagination',$this->data_set_enable_pagination)
@@ -251,6 +261,7 @@ class CardDataView extends Component
                     ->with('control_id',$this->control_id)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
+                    ->with('action_buttons_list',$this->action_buttons_list)
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
                     ->with('data_set_enable_pagination',$this->data_set_enable_pagination)
                     ->with('data_set_enable_search',$this->data_set_enable_search)
@@ -263,6 +274,7 @@ class CardDataView extends Component
                     ->with('control_obj',$this)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
+                    ->with('action_buttons_list',$this->action_buttons_list)
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
                     ->with('data_set_enable_pagination',$this->data_set_enable_pagination)
                     ->with('data_set_enable_search',$this->data_set_enable_search)
