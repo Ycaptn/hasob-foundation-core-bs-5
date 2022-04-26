@@ -109,8 +109,19 @@
                                 $('#error_msg_attachment').html('<strong>Error</strong><br/>An error has occurred.');
                             }
                         }else if (data!=null && data.status=='ok'){
-                            alert("File uploaded.")
-                            location.reload();
+                             swal({
+                                title: "Saved",
+                                text: "File Uploaded",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+                            window.setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
                         }else{
                             $('#btn-add-attachment span').hide();
                             $('#btn-add-attachment').attr('disabled',false);

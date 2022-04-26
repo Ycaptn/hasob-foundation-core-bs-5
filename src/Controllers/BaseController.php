@@ -32,6 +32,12 @@ class BaseController extends Controller
         ];
     }
 
+    public static function geoZoneList(){
+        return [
+          "North West", "North Central", "North East",
+          "South West", "South South", "South East"
+        ];
+    }
 
     public static function monthsList(){
         return [

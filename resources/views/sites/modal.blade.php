@@ -232,7 +232,7 @@ $(document).ready(function() {
 
         if (primaryId != "0"){
             actionType = "PUT";
-            endPointUrl = "{{ route('fc.sites.update','') }}/"+primaryId;
+            endPointUrl = "{{ route('fc-api.sites.update','') }}/"+primaryId;
             formData.append('id', primaryId);
         }
         
