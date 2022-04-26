@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Hasob\FoundationCore\Models\SiteArtifact;
 
-use Hasob\FoundationCore\Events\SiteArtifactCreatedEvent;
-use Hasob\FoundationCore\Events\SiteArtifactUpdatedEvent;
-use Hasob\FoundationCore\Events\SiteArtifactDeletedEvent;
+use Hasob\FoundationCore\Events\SiteArtifactCreated;
+use Hasob\FoundationCore\Events\SiteArtifactUpdated;
+use Hasob\FoundationCore\Events\SiteArtifactDeleted;
 
 use Hasob\FoundationCore\Requests\API\CreateSiteArtifactAPIRequest;
 use Hasob\FoundationCore\Requests\API\UpdateSiteArtifactAPIRequest;
@@ -66,7 +66,7 @@ class SiteArtifactAPIController extends AppBaseController
         /** @var SiteArtifact $siteArtifact */
         $siteArtifact = SiteArtifact::create($input);
         
-        SiteArtifactCreated::dispatch($siteArtifact);
+       // SiteArtifactCreated::dispatch($siteArtifact);
         return $this->sendResponse($siteArtifact->toArray(), 'Site Artifact saved successfully');
     }
 
@@ -111,7 +111,7 @@ class SiteArtifactAPIController extends AppBaseController
         $siteArtifact->fill($request->all());
         $siteArtifact->save();
         
-        SiteArtifactUpdated::dispatch($siteArtifact);
+       //SiteArtifactUpdated::dispatch($siteArtifact);
         return $this->sendResponse($siteArtifact->toArray(), 'SiteArtifact updated successfully');
     }
 
@@ -135,7 +135,7 @@ class SiteArtifactAPIController extends AppBaseController
         }
 
         $siteArtifact->delete();
-        SiteArtifactDeleted::dispatch($siteArtifact);
+        //SiteArtifactDeleted::dispatch($siteArtifact);
         return $this->sendSuccess('Site Artifact deleted successfully');
     }
 }
