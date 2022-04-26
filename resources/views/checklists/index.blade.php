@@ -146,6 +146,7 @@ $hide_right_panel = true;
     $(document).ready(function(){
 
         $('.spinner').hide();
+        $('.offline').hide();
 
         $('#btn-new-template').click(function(){
             $('#frm_checklist_creator').trigger("reset");
@@ -305,32 +306,97 @@ $hide_right_panel = true;
         });
 
         $('.btn-delete-item').click(function(e){
-            if (confirm('Are you sure you want to delete this item?')){
 
-                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-                e.preventDefault();
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+            e.preventDefault();
 
-                $('#spinner1').show();
-                $('#btn-delete-item').prop("disabled", true);
+            $('#spinner1').show();
+            $('#btn-delete-item').prop("disabled", true);
 
-                var formData = new FormData();
-                options = JSON.stringify({
-                    'cbx_item_id':$(this).attr('data-val'),
-                });
-                formData.append('options', options);
-
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('fc.checklist.delete','') }}/"+$('#checklist_id').val(),
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (data) { },
-                    error: function(data){ console.log('Error:', data); }
-                });
-
-                location.reload();
+            //check for internet status 
+            if (!window.navigator.onLine) {
+                $('.offline').fadeIn(300);
+                return;
+            }else{
+                $('.offline').fadeOut(300);
             }
+
+            let itemId = $(this).attr('data-val');
+            swal({
+                title: "Are you sure you want to delete this item?",
+                text: "You will not be able to recover this item if deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function(isConfirm) {
+                if (isConfirm) {
+
+                    var formData = new FormData();
+                    options = JSON.stringify({
+                        'cbx_item_id':$(this).attr('data-val'),
+                    });
+                    formData.append('options', options);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('fc.checklist.delete','') }}/"+$('#checklist_id').val(),
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if(result.errors){
+                                console.log(result.errors)
+                                swal("Error", "Oops an error occurred. Please try again.", "error");
+                            }else{
+                                //swal("Deleted", "Rating deleted successfully.", "success");
+                                swal({
+                                        title: "Deleted",
+                                        text: "item deleted successfully",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    },function(){
+                                        location.reload(true);
+                                });
+                            }
+                        },
+                        error: function(data){ console.log('Error:', data); }
+                    });
+                }
+            });
+
+            // if (swal('Are you sure you want to delete this item?')){
+
+            //     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+            //     e.preventDefault();
+
+            //     $('#spinner1').show();
+            //     $('#btn-delete-item').prop("disabled", true);
+
+            //     var formData = new FormData();
+            //     options = JSON.stringify({
+            //         'cbx_item_id':$(this).attr('data-val'),
+            //     });
+            //     formData.append('options', options);
+
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "{{ route('fc.checklist.delete','') }}/"+$('#checklist_id').val(),
+            //         data: formData,
+            //         processData: false,
+            //         contentType: false,
+            //         success: function (data) { },
+            //         error: function(data){ console.log('Error:', data); }
+            //     });
+
+            //     location.reload();
+            // }
+
         });
 
         $('.btn-edit-item').click(function(){
