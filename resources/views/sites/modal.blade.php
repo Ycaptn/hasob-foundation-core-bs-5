@@ -112,6 +112,7 @@ $(document).ready(function() {
         $('#div-site-modal-error').hide();
         $('#mdl-site-modal').modal('show');
         $('#frm-site-modal').trigger("reset");
+        
 
         $("#spinner-sites").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
