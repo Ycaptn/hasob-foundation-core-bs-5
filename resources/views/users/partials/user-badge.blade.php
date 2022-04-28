@@ -44,7 +44,7 @@ $current_user = Auth::user();
                     $userRoles = $current_user->getRoleNames();
                 @endphp
                 @foreach ($userRoles as $idx=>$roleName)
-                    <span class="badge bg-primary">{!! $roleName !!}</span>
+                    <span class="mb-1 badge bg-primary">{!! $roleName !!}</span>
                 @endforeach
             </li>
             @if (isset($current_user->website_url) && empty($current_user->website_url)==false)
