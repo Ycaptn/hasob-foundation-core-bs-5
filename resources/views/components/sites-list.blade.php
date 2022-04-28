@@ -112,7 +112,7 @@
 @push('page_scripts')
 <script type="text/javascript">
     $(document).ready(function() {
-    #('')
+    
         //Show Modal for New Entry
         $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
             $('#div-site-modal-error').hide();
@@ -173,6 +173,18 @@
     
             let itemId = $(this).attr('data-val');
             if (confirm("Are you sure you want to delete this Site?")){
+           swal({
+                title: "Are you sure you want to delete this Site?",
+                text: "You will not be able to recover this Site record if deleted.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: true
+           }, function(isConfirm) {
+                if (isConfirm) {
     
                 let endPointUrl = "{{ route('fc.sites.destroy',0) }}"+itemId;
     
@@ -192,14 +204,23 @@
                         if(result.errors){
                             console.log(result.errors)
                         }else{
-                            window.alert("The Site record has been deleted.");
-                            location.reload(true);
-                        }
-                    },
-                });            
-            }
+                             swal({
+                                        title: "Deleted",
+                                        text: "The Site record has been deleted.",
+                                        type: "success",
+                                        confirmButtonClass: "btn-success",
+                                        confirmButtonText: "OK",
+                                        closeOnConfirm: false
+                                    })
+                                    setTimeout(function(){
+                                        location.reload(true);
+                                }, 1000);
+                            }
+                        },
+                    });            
+                }
+            });
         });
-    
         //Save details
         $('#btn-save-mdl-site-modal').click(function(e) {
             e.preventDefault();
@@ -221,6 +242,8 @@
             formData.append('_method', actionType);
             formData.append('site_name', $('#site_name').val());
             formData.append('description', $('#site_description').val());
+            formData.append('organiztion_id', "{{$organization->id}}");
+            formData.append('creator_user_id', "{{auth()->user()->id}}");
     
             $.ajax({
                 url:endPointUrl,
@@ -240,11 +263,20 @@
                         });
                     }else{
                         $('#div-site-modal-error').hide();
-                        window.setTimeout( function(){
-                            window.alert("The Site record saved successfully.");
-                            $('#div-site-modal-error').hide();
-                            location.reload(true);
-                        },20);
+                        swal({
+                                title: "Saved",
+                                text: "The Site record saved successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
                     }
                 }, error: function(data){
                     console.log(data);

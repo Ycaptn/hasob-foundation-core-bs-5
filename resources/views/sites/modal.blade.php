@@ -45,10 +45,11 @@
 $(document).ready(function() {
 
     $('.offline').hide();
-    $('#spinner').hide()
+    $('#spinner').hide();
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
+         $("#btn-save-mdl-site-modal.btn").show();
         $('#div-site-modal-error').hide();
         $('#mdl-site-modal').modal('show');
         $('#frm-site-modal').trigger("reset");
@@ -64,6 +65,7 @@ $(document).ready(function() {
 
     //Show Modal for View
     $(document).on('click', ".btn-show-mdl-site-modal", function(e) {
+        $("#btn-save-mdl-site-modal.btn").hide();
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
@@ -105,7 +107,9 @@ $(document).ready(function() {
     });
 
     //Show Modal for Edit
+    
     $(document).on('click', ".btn-edit-mdl-site-modal", function(e) {
+         $('.btn').show();
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
@@ -125,6 +129,7 @@ $(document).ready(function() {
         let itemId = $(this).attr('data-val');
 
         $.get( "{{ route('fc-api.sites.show','') }}/"+itemId).done(function( response ) {     
+            $("#spinner").hide();
 			$('#txt-site-primary-id').val(response.data.id);
             // $('#').val(response.data.);
             $('#site_name').val(response.data.site_name);
@@ -133,7 +138,6 @@ $(document).ready(function() {
 
             $("#spinner-sites").hide();
             $("#div-save-mdl-site-modal").attr('disabled', false);
-             $("#spinner").hide();
             $("#div-save-mdl-site-modal").attr('disabled', false);
         });
     });
@@ -185,23 +189,25 @@ $(document).ready(function() {
                                 swal("Error", "Oops an error occurred. Please try again.", "error");
                             }else{
                                 //swal("Deleted", "Site deleted successfully.", "success");
-                                swal({
+                               swal({
                                         title: "Deleted",
-                                        text: "Site deleted successfully",
+                                        text: "The Site record has been deleted.",
                                         type: "success",
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",
                                         closeOnConfirm: false
-                                    },function(){
+                                    })
+                                    setTimeout(function(){
                                         location.reload(true);
-                                });
+                                }, 1000);
                             }
                         },
-                    });
+                    });            
                 }
             });
+        });
 
-    });
+   
 
     //Save details
     $('#btn-save-mdl-site-modal').click(function(e) {
@@ -267,10 +273,6 @@ $(document).ready(function() {
                 }else{
                     $('#div-site-modal-error').hide();
                     $('#div-site-modal-error').hide();
-                  
-                        //window.alert("The Site saved successfully.");
-                        //swal("Saved", "Site saved successfully.", "success");
-
 
                         swal({
                                 title: "Saved",
