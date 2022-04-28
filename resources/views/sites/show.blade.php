@@ -96,6 +96,9 @@
                                                     <th width="150px" class="pa-0"></th>
                                                 </tr>    
                                             </thead>
+                                            @php
+                                            $components = DB::table('fc_site_artifacts')->orderBy('created_at', 'desc')->get();
+                                            @endphp
                                             @if (isset($components) && !empty($components) && $components->count() > 0)
                                             <tbody> 
                                                 @foreach ($components as $item)
