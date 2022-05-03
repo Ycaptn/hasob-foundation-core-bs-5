@@ -152,7 +152,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
 
         $app_settings = [
-            
+
             'portal_app_name'       =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Application Name','display_ordinal'=>1],
             'portal_contact_name'   =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Name on Portal Support','display_ordinal'=>2],
             'portal_contact_phone'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Phone Number on Portal Support','display_ordinal'=>3],
@@ -172,6 +172,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'portal_file_icon_picture'      =>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'Icon Image of Portal','display_ordinal'=>2],
             'portal_file_landing_page_picture'=>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'Image on Landing Page of Portal','display_ordinal'=>3],
 
+
+            'portal_seo_description'    =>['group_name'=>'Tracking & SEO','display_type'=>'string','display_name'=>'SEO Description','display_ordinal'=>1],
+            'portal_seo_keywords'       =>['group_name'=>'Tracking & SEO','display_type'=>'string','display_name'=>'SEO Keywords','display_ordinal'=>2],
+            'portal_analytics_code'     =>['group_name'=>'Tracking & SEO','display_type'=>'textarea','display_name'=>'Tracking Embed Code','display_ordinal'=>3],
+            
 
             'push_notification_enabled' =>['group_name'=>'Push Notification','display_type'=>'boolean','display_name'=>'Enable Push Notification','display_ordinal'=>0],
             'firebase_messaging_key'    =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Firebase Cloud Messaging Key','display_ordinal'=>1],
