@@ -200,9 +200,10 @@ $(document).ready(function() {
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",
                                         closeOnConfirm: false
-                                    },function(){
-                                        location.reload(true);
-                                });
+                                    });
+                                    window.setTimeout(function(){
+                                    location.reload(true);
+                                    }, 1000);
                             }
                         },
                     });
