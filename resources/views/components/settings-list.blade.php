@@ -2,84 +2,88 @@
     <div class="card">
         <div class="card-body">
             @if (isset($settings) && count($settings)>0)
-                <ul class="nav nav-tabs nav-primary" role="tablist" id="settings_tab">
-                    @foreach($groups as $idx=>$group)
-                        @if($group)
+                <div class="row">
+                    <div class="col-3 border-end border-0 border-3 border-info">
+                        <div class="nav nav-tabs flex-column" role="tablist" id="settings_tab" aria-orientation="vertical">
+                            @foreach($groups as $idx=>$group)
+                                @if($group)
+                                    @php
+                                        $active_str = "";
+                                        if ($idx == 0){
+                                            $active_str = "active";
+                                        }
+                                    @endphp
+                                    <a id="tab_{{$idx}}" class="nav-link {{ $active_str }}" data-bs-toggle="tab" href="#settings_tab_{{$idx}}" role="tab" aria-selected="true">
+                                        <div class="d-flex">
+                                            <div class="tab-title">{{ $group }}</div>
+                                            <div class="flex-grow-1 ml-auto text-end"> <i class="bx bx-plus text-primary"></i></div>
+                                        </div>
+                                    </a>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="tab-content py-3" id="settins_tab_content">
+                            @foreach($groups as $idx=>$group)
                             @php
                                 $active_str = "";
                                 if ($idx == 0){
                                     $active_str = "active";
                                 }
                             @endphp
-                            <li class="nav-item" role="presentation">
-                                <a id="tab_{{$idx}}" class="nav-link {{ $active_str }}" data-bs-toggle="tab" href="#settings_tab_{{$idx}}" role="tab" aria-selected="true">
-                                    <div class="d-flex align-items-center">
-                                        {{-- <div class="tab-icon"><i class="bx bx-home font-18 me-1"></i></div> --}}
-                                        <div class="tab-title">{{ $group }} </div>
-                                    </div>
-                                </a>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-                <div class="tab-content py-3" id="settins_tab_content">
-                    @foreach($groups as $idx=>$group)
-                    @php
-                        $active_str = "";
-                        if ($idx == 0){
-                            $active_str = "active";
-                        }
-                    @endphp
-                    <div id="settings_tab_{{$idx}}" class="tab-pane fade show {{ $active_str }}" role="tabpanel">
-                        <div class="table-wrap">
-                            <div class="table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <tbody>
-                                        @foreach ($settings as $item)
-                                        @php
-                                            if ($item->group_name != $group){
-                                                continue;
-                                            }
-                                        @endphp
-                                        <tr>
-                                            <td width="20px" class="text-center">
-                                                <a href="javascript:void(0)" class="pr-5 text-primary btn-edit-mdl-setting-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <em>{{$item->display_name}}</em>
-                                                @if (empty($item->value))
-                                                    &nbsp;<span class="txt-danger small"> - No value set</span>
-                                                @else
-                                                    <blockquote class="ma-5 small pa-10">
-                                                        @if($item->display_type=="boolean")
-                                                            @if (filter_var($item->value,FILTER_VALIDATE_BOOLEAN)==true)
-                                                            Selected - Enabled
-                                                            @else
-                                                            Disenabled
-                                                            @endif
-                                                        @elseif($item->display_type=="file-select")
-                                                            <div class="size-container">
-                                                                <img src="{{ route('fc.attachment.show', $item->value) }}" />
-                                                            </div>
-                                                            <a target="_blank" class="small txt-danger ma-5" href="{{ route('fc.attachment.show', $item->value) }}">View Full Image</a>
-                                                        @elseif($item->display_type=="textarea")
-                                                            {!! nl2br($item->value) !!}
+                            <div id="settings_tab_{{$idx}}" class="tab-pane fade show {{ $active_str }}" role="tabpanel">
+                                <div class="table-wrap">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            <tbody>
+                                                @foreach ($settings as $item)
+                                                @php
+                                                    if ($item->group_name != $group){
+                                                        continue;
+                                                    }
+                                                @endphp
+                                                <tr>
+                                                    <td width="20px" class="text-center">
+                                                        <a href="javascript:void(0)" class="pr-5 text-primary btn-edit-mdl-setting-modal" data-val="{{$item->id}}" data-toggle="tooltip" title="" data-original-title="Edit" aria-describedby="tooltip563536">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <em>{{$item->display_name}}</em>
+                                                        @if (empty($item->value))
+                                                            &nbsp;<span class="txt-danger small"> - No value set</span>
                                                         @else
-                                                            {{ $item->value }}
+                                                            <blockquote class="ma-5 small pa-10">
+                                                                @if($item->display_type=="boolean")
+                                                                    @if (filter_var($item->value,FILTER_VALIDATE_BOOLEAN)==true)
+                                                                    Selected - Enabled
+                                                                    @else
+                                                                    Disenabled
+                                                                    @endif
+                                                                @elseif($item->display_type=="file-select")
+                                                                    <div class="size-container">
+                                                                        <img src="{{ route('fc.attachment.show', $item->value) }}" />
+                                                                    </div>
+                                                                    <a target="_blank" class="small txt-danger ma-5" href="{{ route('fc.attachment.show', $item->value) }}">View Full Image</a>
+                                                                @elseif($item->display_type=="textarea")
+                                                                    {!! nl2br($item->value) !!}
+                                                                @else
+                                                                    {{ $item->value }}
+                                                                @endif
+                                                            </blockquote>
                                                         @endif
-                                                    </blockquote>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
-                    @endforeach
                 </div>
             @else
                 <p>No Settings, use the add button to add a setting.</p>
@@ -92,7 +96,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h4 class="modal-title">Application Setting </h4>
+                    <h4 class="modal-title">Application Setting</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 

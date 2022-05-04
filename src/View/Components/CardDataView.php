@@ -32,6 +32,9 @@ class CardDataView extends Component
 
     private $json_data_route_name;
     private $action_buttons_list;
+    private $model_join_list;
+    private $field_group_list;
+    private $field_select_query;
 
 
     public function __construct($model, $template){
@@ -112,6 +115,27 @@ class CardDataView extends Component
         return $this;
     }
 
+    public function addModelJoin($joined_table, $left_field, $operation, $right_field){
+        if ($this->model_join_list == null){
+            $this->model_join_list = array();
+        }
+        $this->model_join_list[$joined_table] = [$left_field, $operation, $right_field];
+        return $this;
+    }
+
+    public function addGroupField($group_field){
+        if ($this->field_group_list == null){
+            $this->field_group_list = array();
+        }
+        $this->field_group_list[] = $group_field;
+        return $this;
+    }
+
+    public function addSelectField($select_field){
+        $this->field_select_query = $select_field;
+        return $this;
+    }
+
     public function addDataGroup($group_name, $query_field, $query_value, $query_operator='='){
         if ($this->data_set_group_list == null){
             $this->data_set_group_list = array();
@@ -139,10 +163,15 @@ class CardDataView extends Component
 
             $model_query = new $this->data_set_model();
 
-            if (is_array($this->data_set_query) && $this->data_set_query != null){
+            if ($this->field_select_query != null){
+                $model_query = $model_query->selectRaw($this->field_select_query);
+            }
+
+            if ($this->data_set_query!=null && is_array($this->data_set_query)){
                 $model_query = $model_query->where($this->data_set_query);
             }
-            if (is_array($this->query_relationship)){
+
+            if ($this->query_relationship!=null && is_array($this->query_relationship)){
                 foreach ($this->query_relationship as $key => $fields) {
                     if(is_array($fields)){
                         $model_query =   $model_query->whereHas($key, function($q) use ($fields){
@@ -158,6 +187,16 @@ class CardDataView extends Component
                 foreach($this->data_set_order_list as $order_field=>$order_type){
                     $model_query = $model_query->orderBy($order_field, $order_type);
                 }
+            }
+
+            if ($this->model_join_list != null && is_array($this->model_join_list)){
+                foreach($this->model_join_list as $join_table=>$join_parameters){
+                    $model_query = $model_query->join($join_table, $join_parameters[0], $join_parameters[1], $join_parameters[2]);
+                }
+            }
+
+            if ($this->field_group_list != null && is_array($this->field_group_list)){
+                $model_query = $model_query->groupBy(implode(",", $this->field_group_list));
             }
 
             if (empty($search_term)==false && $this->search_fields!=null && is_array($this->search_fields)){

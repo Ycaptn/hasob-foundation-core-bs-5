@@ -152,28 +152,55 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
 
         $app_settings = [
-            'portal_app_name'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Application Name','display_ordinal'=>1],
-            'portal_contact_name'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Name on Portal Support','display_ordinal'=>2],
-            'portal_contact_phone'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Phone Number on Portal Support','display_ordinal'=>3],
-            'portal_contact_email'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Email on Portal Support','display_ordinal'=>4],
 
-            'portal_email_sender_name'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Name for Sending Email','display_ordinal'=>5],
-            'portal_email_sender_email'=>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Email Address for Sending Email','display_ordinal'=>6],
+            'portal_app_name'       =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Application Name','display_ordinal'=>1],
+            'portal_contact_name'   =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Name on Portal Support','display_ordinal'=>2],
+            'portal_contact_phone'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Phone Number on Portal Support','display_ordinal'=>3],
+            'portal_contact_email'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Email on Portal Support','display_ordinal'=>4],
+
+
+            'portal_email_sender_name'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Name for Sending Email','display_ordinal'=>5],
+            'portal_email_sender_email' =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Email Address for Sending Email','display_ordinal'=>6],
             
-            'portal_welcome_text'=>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Welcome text on Landing Page of Portal','display_ordinal'=>1],
-            'portal_login_text'=>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Login Page','display_ordinal'=>2],
-            'portal_registration_text'=>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Registration Page','display_ordinal'=>3],
+
+            'portal_welcome_text'       =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Welcome text on Landing Page of Portal','display_ordinal'=>1],
+            'portal_login_text'         =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Login Page','display_ordinal'=>2],
+            'portal_registration_text'  =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Registration Page','display_ordinal'=>3],
             
-            'portal_file_high_res_picture'=>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'High Resolution Image of Portal Logo','display_ordinal'=>1],
-            'portal_file_icon_picture'=>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'Icon Image of Portal','display_ordinal'=>2],
+
+            'portal_file_high_res_picture'  =>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'High Resolution Image of Portal Logo','display_ordinal'=>1],
+            'portal_file_icon_picture'      =>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'Icon Image of Portal','display_ordinal'=>2],
             'portal_file_landing_page_picture'=>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'Image on Landing Page of Portal','display_ordinal'=>3],
 
-            'portal_long_name'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Institution Name','display_ordinal'=>2],
-            'portal_short_name'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Institution Abbreviation','display_ordinal'=>3],
-            'portal_official_website'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Official Institution Website','display_ordinal'=>4],
-            'portal_official_email'=>['group_name'=>'Application','display_type'=>'email','display_name'=>'Official Institution Email','display_ordinal'=>5],
-            'portal_official_phone'=>['group_name'=>'Application','display_type'=>'number','display_name'=>'Official Institution Phone Number','display_ordinal'=>6],
-            'portal_official_address'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Official Institution Address','display_ordinal'=>7],
+
+            'portal_seo_description'    =>['group_name'=>'Tracking & SEO','display_type'=>'string','display_name'=>'SEO Description','display_ordinal'=>1],
+            'portal_seo_keywords'       =>['group_name'=>'Tracking & SEO','display_type'=>'string','display_name'=>'SEO Keywords','display_ordinal'=>2],
+            'portal_analytics_code'     =>['group_name'=>'Tracking & SEO','display_type'=>'textarea','display_name'=>'Tracking Embed Code','display_ordinal'=>3],
+            
+
+            'push_notification_enabled' =>['group_name'=>'Push Notification','display_type'=>'boolean','display_name'=>'Enable Push Notification','display_ordinal'=>0],
+            'firebase_messaging_key'    =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Firebase Cloud Messaging Key','display_ordinal'=>1],
+            'firebase_api_key'          =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'API Key','display_ordinal'=>2],
+            'firebase_auth_domain'      =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Auth Domain','display_ordinal'=>3],
+            'firebase_database_url'     =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Database URL','display_ordinal'=>4],
+            'firebase_project_id'       =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Project ID','display_ordinal'=>5],
+            'firebase_storage_bucket'   =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Storage Bucket','display_ordinal'=>6],
+            'firebase_sender_id'        =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Sender ID','display_ordinal'=>7],
+            'firebase_application_id'   =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Application ID','display_ordinal'=>8],
+            'firebase_measurement_id'   =>['group_name'=>'Push Notification','display_type'=>'string','display_name'=>'Measurement ID','display_ordinal'=>9],
+
+
+            'auth_social_enabled'   =>['group_name'=>'Social Authentication','display_type'=>'boolean','display_name'=>'Enable Social Authentication','display_ordinal'=>0],
+            'auth_facebook_enabled' =>['group_name'=>'Social Authentication','display_type'=>'boolean','display_name'=>'Enable Facebook Authentication','display_ordinal'=>1],
+            'auth_facebook_app_id'  =>['group_name'=>'Social Authentication','display_type'=>'string','display_name'=>'Facebook Application ID','display_ordinal'=>2],
+            'auth_facebook_secret'  =>['group_name'=>'Social Authentication','display_type'=>'string','display_name'=>'Facebook Application Secret','display_ordinal'=>3],
+            'auth_twitter_enabled'  =>['group_name'=>'Social Authentication','display_type'=>'boolean','display_name'=>'Enable Twitter Authentication','display_ordinal'=>4],
+            'auth_twitter_app_id'   =>['group_name'=>'Social Authentication','display_type'=>'string','display_name'=>'Twitter Application ID','display_ordinal'=>5],
+            'auth_twitter_secret'   =>['group_name'=>'Social Authentication','display_type'=>'string','display_name'=>'Twitter Application Secret','display_ordinal'=>6],
+            'auth_google_enabled'   =>['group_name'=>'Social Authentication','display_type'=>'boolean','display_name'=>'Enable Google Authentication','display_ordinal'=>7],
+            'auth_google_app_id'    =>['group_name'=>'Social Authentication','display_type'=>'string','display_name'=>'Google Application ID','display_ordinal'=>8],
+            'auth_google_secret'    =>['group_name'=>'Social Authentication','display_type'=>'string','display_name'=>'Google Application Secret','display_ordinal'=>9],
+
         ];
 
         if (Schema::hasTable('fc_organizations') && Schema::hasTable('fc_settings')){
