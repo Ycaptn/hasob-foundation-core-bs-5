@@ -1,6 +1,6 @@
 @if ($attachable!=null)
    
-    <button id='btn-show-attachment-upload' type="button" class="btn btn-xs btn-primary">Upload</button>
+    <button id='btn-show-attachment-upload' type="button" class="btn btn-sm btn-primary">Upload</button>
     <div class="modal fade" id="attachment-modal" tabindex="-1" role="dialog" aria-labelledby="attachment-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

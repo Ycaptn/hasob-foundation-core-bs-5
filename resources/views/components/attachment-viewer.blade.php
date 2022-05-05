@@ -28,7 +28,7 @@
 
     @if (count($attachments) > 0)
 
-        <button class="btn btn-xs btn-danger float-end" id="{{$control_id}}_btnShowAttachmentViewer">Viewer</button>
+        <button class="btn btn-sm btn-danger" id="{{$control_id}}_btnShowAttachmentViewer">Viewer</button>
 
         <div class="modal fade" id="{{$control_id}}_attachment-viewer-modal" role="dialog" aria-labelledby="attachment-viewer-label" aria-hidden="true">
             <div class="modal-dialog modal-xl">
