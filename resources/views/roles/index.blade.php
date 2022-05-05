@@ -27,6 +27,13 @@ System Roles
         </div>
     </div>
 
+    <style>
+        #dataTableBuilder_filter{
+            float: right;
+            padding-bottom: 15px
+        }
+    </style>
+
     <!-- Modal -->
     <div class="modal fade in" id="mdlRoleDetails" tabindex="-1" role="dialog" aria-labelledby="lblRoleDetails">
         <div class="modal-dialog" role="document">

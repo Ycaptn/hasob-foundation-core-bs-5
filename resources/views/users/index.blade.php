@@ -24,11 +24,21 @@ System Users
 
 @section('content')
 
+
+
 <div class="card">
     <div class="card-body">
         {!! $dataTable->table(['width' => '100%', 'class' => 'table table-striped table-bordered mt-3']) !!}
     </div>
 </div>
+
+<style>
+
+#dataTableBuilder_filter{
+    float: right;
+    padding-bottom: 15px
+}
+</style>
 
 @stop
 
