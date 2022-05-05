@@ -5,37 +5,27 @@
     @endphp
 
     @if (count($attachments)>0)
-        <div class="streamline user-activity mt-10">
+        <div class="list-group mt-3">
         @foreach ($attachments as $idx => $attach)
+            <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank" class="list-group-item list-group-item-action">
 
-            <div class="sl-item small">
-                <a href="javascript:void(0)">
-                    <div class="sl-avatar avatar avatar-sm avatar-circle mt-2">
-                        <a href="{{ route('fc.attachment.show', $attach->id) }}"  target="_blank">
-                            <i class="fa fa-paperclip fa-3x"></i>
-                        </a>
-                    </div>
-                    <div class="sl-content">
-                        <p class="small">
-                            <span class="capitalize-font txt-primary mr-5 weight-500">
-                                <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank">
-                                    <strong>{{ $attach->label }}</strong>
-                                </a>
-                            </span>
+
+                <div class="d-flex align-items-center">
+                    <i class="fa fa-paperclip fa-2x"></i>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="mt-0 mb-0">{{ $attach->label }}</p>
+                        <p class="mb-1 $text_color">
                             @if (empty($attach->description) == false)
-                            <br/>
-                            <span class="$text_color">
                                 {{ $attach->description }}
-                            </span>
                             @endif
+                            <small class="text-muted">
+                                <small><i class="fa fa-upload"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}</small>
+                            </small>
                         </p>
-                        <span class="block small txt-grey capitalize-font">
-                            <i class="fa fa-upload"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}
-                        </span>
                     </div>
-                </a>
-            </div>
+                </div>
 
+            </a>
         @endforeach
         </div>
     @else
