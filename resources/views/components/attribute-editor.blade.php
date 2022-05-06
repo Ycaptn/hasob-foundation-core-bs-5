@@ -41,7 +41,7 @@
                         </button>
                     </div>
                     <div class="">
-                        <button type="button" class="btn btn-white ms-2">
+                        <button type="button" id="delete-btn" class="btn btn-white ms-2">
                             <i class="bx bx-trash me-0"></i>
                         </button>
                     </div>
@@ -63,7 +63,7 @@
                             <a href="#">
                                 <div class="d-md-flex align-items-center email-message px-3 py-1">
                                     <div class="d-flex align-items-center email-actions">
-                                        <input class="form-check-input" type="checkbox" value="" />
+                                        <input class="form-check-input me-1" type="checkbox" value="" />
                                         <p class="mb-0"><b>{{ $item->key }}</b></p>
                                     </div>
                                     <div class="">
@@ -129,7 +129,12 @@
     
             
                 <div class="modal-footer" id="div-save-mdl-{{$control_id}}-modal">
-                    <button type="button" class="btn btn-primary px-5" id="btn-save-mdl-{{$control_id}}-modal" value="add">Save</button>
+                    <button type="button" class="btn btn-primary px-5" id="btn-save-mdl-{{$control_id}}-modal" value="add">Save
+                   
+                        <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>
+                       
+                    </button>
                 </div>
     
             </div>
@@ -140,7 +145,9 @@
     @push('page_scripts')
         <script type="text/javascript">
             $(document).ready(function() {
-            
+            $("#spinner").hide();
+            $('#btn-save-mdl-{{$control_id}}-modal').attr('disabled',false);
+            $(".alert-danger").hide();
                 function hide_attribute_card(){
                     $("#div-{{$control_id}}-modal-error").html('');
                     $("#div-{{$control_id}}-modal-error").hide();
@@ -177,6 +184,9 @@
                 $('#btn-save-mdl-{{$control_id}}-modal').click(function(e) {
 
                     e.preventDefault();
+                    $("#spinner").show();
+                     $('.alert-danger').hide();
+                    $('#btn-save-mdl-{{$control_id}}-modal').attr('disabled',true);
                     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                     
                     let formData = new FormData();
@@ -201,15 +211,19 @@
                         success: function(result){
                             if(result.errors){
                                 $('#div-{{$control_id}}-modal-error').html('');
-                                $('#div-{{$control_id}}-modal-error').show();
+                                 $('#div-{{$control_id}}-modal-error').show();
+                                 $(".alert-danger").show();
+                                 $("#spinner").hide();
+                                  $('#btn-save-mdl-{{$control_id}}-modal').attr('disabled',false);
                                 $.each(result.errors, function(key, value){
-                                    $('#div-{{$control_id}}-modal-error').append('<li class="">'+value+'</li>');
+                                    // $('#div-{{$control_id}}-modal-error').append('<li class="">'+value+'</li>');
+                                    $('.alert-danger').append('<li class="">'+value+'</li>');
                                 });
                             }else{
+                                 $(".alert-danger").hide();
                                 $('#div-{{$control_id}}-modal-error').hide();
 
-                                window.setTimeout( function(){
-                                    $('#div-{{$control_id}}-modal-error').hide();
+                              
                                     swal({
                                             title: "Saved",
                                             text: "Attribute saved successfully",
@@ -217,17 +231,24 @@
                                             showCancelButton: false,
                                             confirmButtonClass: "btn-success",
                                             confirmButtonText: "OK",
-                                            closeOnConfirm: true
+                                            closeOnConfirm: false
                                         },function(){
+                                            setTimeout(function(){
+                                           location.reload(true);
+                                }, 1000);
                                             //Refresh the attribute list
                                             //Close the modal screen
                                             //$('#{{$control_id}}-new-page-modal').modal('hide');
                                         }
                                     );
-                                },20);
+                                
                             }
                             
                         }, error: function(data){
+                             $("#div-{{$control_id}}-modal-error").show();
+                             $("#spinner").hide();
+                              $('#btn-save-mdl-{{$control_id}}-modal').attr('disabled',false);
+                            $('#btn-save-mdl-{{$control_id}}-modal').attr('disabled',false);
                             console.log(data);
                             swal("Error", "Oops an error occurred. Please try again.", "error");
 
