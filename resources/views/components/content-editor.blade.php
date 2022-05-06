@@ -9,13 +9,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-grid mb-2"> 
-                        <a id="{{$control_id}}-add-page" href="javascript:;" class="btn btn-sm btn-primary">+ Add Content Page</a>
+                        <a id="{{$control_id}}-add-page" href="javascript:;" class="btn btn-sm btn-primary">+ Add Page</a>
                     </div>
                     <div class="fm-menu">
                         <div id="{{$control_id}}-page-list" class="list-group list-group-flush"> 
                             @if ($pages!=null && count($pages)>0)
                                 @foreach($pages as $idx=>$page)
-                                <a href="javascript:;" class="list-group-item py-1 page-editor-page-selected" data-val="{{$page->id}}">
+                                <a href="javascript:;" class="list-group-item p-0 ps-1 pt-1 page-editor-page-selected fw-normal" data-val="{{$page->id}}">
                                     <i class="bx bx-file me-2"></i><span>{{$page->page_name}}</span>
                                 </a>
                                 @endforeach

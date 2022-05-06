@@ -106,10 +106,23 @@ class ChecklistController extends BaseController
 
         return self::createJSONResponse("ok","success","Checklist Item Created",200);
     }
-    
+
+    public function deleteTemplateItem(Organization $org, Request $request, $id){
+        $options = json_decode($request->options, true);
+        if(isset($options['cbx_item_id']) && !empty($options['cbx_item_id'])){
+            $cbx = ChecklistTemplate::find($options['cbx_item_id']);
+
+            if($cbx == null){
+                $err_msg = ['The checklist item is not valid'];
+                return self::createJSONResponse("fail", "error", $err_msg, 200);
+            }
+        $cbx->delete();
+        return self::createJSONResponse("ok","success", "Deletion was successful", 200);
+        }
+    return self::createJSONResponse("fail", "error", "Deletion was not successful", 200);
+}   
     public function update(Organization $org, Request $request){}
     public function edit(Organization $org, Request $request, $id){}
     public function show(Organization $org, Request $request, $id){}
     public function delete(Organization $org, Request $request, $id){}
-
 }

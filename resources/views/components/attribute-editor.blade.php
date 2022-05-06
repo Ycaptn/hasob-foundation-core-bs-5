@@ -13,7 +13,7 @@
                         <i class="bx bx-menu"></i>
                     </div>
                     <div class="">
-                        <button id="{{$control_id}}-add-attribute" type="button" class="btn btn-primary me-2 ms-2">
+                        <button id="{{$control_id}}-add-attribute" type="button" class="btn btn-sm btn-primary me-2 ms-2">
                             <i class="bx bx-plus me-0"></i> New Attribute
                         </button>
                     </div>

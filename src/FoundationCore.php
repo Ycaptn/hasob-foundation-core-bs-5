@@ -275,7 +275,7 @@ class FoundationCore
             Route::get('/checklist/{id}', [ChecklistController::class, 'index'])->name('checklist.show');
             Route::get('/checklist/{id}/edit', [ChecklistController::class, 'index'])->name('checklist.edit');
             Route::post('/checklist/{id}/edit', [ChecklistController::class, 'index'])->name('checklist.store');
-            Route::post('/checklist/{id}/delete', [ChecklistController::class, 'index'])->name('checklist.delete');
+            Route::post('/checklist/delete/{id}', [ChecklistController::class, 'deleteTemplateItem'])->name('checklist.delete');
             Route::post('/checklist-template', [ChecklistController::class, 'updateTemplate'])->name('checklist-template.store');
             Route::post('/checklist-template-item', [ChecklistController::class, 'updateTemplateItem'])->name('checklist-template-item.store');
 
