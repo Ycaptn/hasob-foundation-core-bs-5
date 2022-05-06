@@ -5,11 +5,11 @@ $current_user = Auth::user();
 <form id="frmUserDetails" name="frmUserDetails" class="form-horizontal" novalidate="">
 
     {{ csrf_field() }}
-
+    
     <input type='hidden' id="idUserDetails" name="idUserDetails" />
-
+    
     <div class="mb-3 d-flex " style="padding-top:7px">
-    <div class='me-3'>
+        <div class='me-3'>
         <strong>Name</strong>
 
     </div>
