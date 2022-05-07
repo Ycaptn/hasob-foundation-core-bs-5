@@ -74,7 +74,14 @@ class Department extends Model
     }
    
     public function members(){
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'department_id', 'id');
+    }
+
+    public function is_manager(User $user){
+        if ($user != null){
+            return ($user->hasRole('department-manager') == true && $user->department_id == $this->id);
+        }
+        return false;
     }
 
     public static function all_departments(Organization $org = null){

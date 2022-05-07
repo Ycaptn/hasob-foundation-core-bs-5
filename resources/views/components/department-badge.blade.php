@@ -1,60 +1,33 @@
-<div class="card department-item">
-    <div class="row g-0">
-        <div class="col-lg-2">
-            <center>
-                <a href="{{ route('fc.departments.show',$department->id) }}">
-                    @if ( $department->logo_image != null )
-                        <img class="mx-2 my-4 img-fluid" alt="..." src="../imgs/logo.png" />
-                    @else
-                        <i class="fa fa-3x fa-hospital-o mt-4 ml-3"></i>
-                    @endif
-                </a>
-            </center>
-        </div>
-        <div class="col-lg-10">
-            <div class="card-body">
-                    
 
-                <div class="d-flex align-items-center">
-                    <div><h4 class="card-title"><a href="{{ route('fc.departments.show',$department->id) }}">{{ $department->long_name }}</a></h4></div>
-                    @if (\Auth::user()!=null && \Auth::user()->hasAnyRole('admin','department-admin'))
-                    <div class="ms-auto"> 
-                        <a data-toggle="tooltip" 
-                            title="Edit" 
-                            data-val="{{$department->id}}" 
-                            data-toggle="tooltip" 
-                            data-original-title="Edit"
-                            class="btn-edit-mdl-department-modal inline-block mr-5" href="#">
-                            <i class="bx bxs-edit txt-warning" style="opacity:80%"></i>
-                        </a>
 
-                        <a data-toggle="tooltip" 
-                            title="Delete" 
-                            data-val="{{$department->id}}" 
-                            data-toggle="tooltip" 
-                            data-original-title="Delete"
-                            class="btn-delete-mdl-department-modal inline-block mr-5" href="#">
-                            <i class="bx bxs-trash-alt txt-danger" style="opacity:80%"></i>
+    <div class="col-12 col-md-12">
+         <div class="card department-item">
+            <div class="row g-0 align-items-center">
+                
+                <div class="col-xs-12 col-md-12">
+                    <div class="card-body">
+                        <a href="{{ route('fc.departments.show',$department->id) }}">
+                            <h3 class="h6 card-title mb-0">{{ $department->long_name }}</h3>
                         </a>
+                        <p class="card-text mb-0">{!! $department->physical_location !!}</p>
+                                                    
+                        @if (isset($department->telephone) && empty($department->telephone) == false)
+                            <a href="tel:{{$department->telephone}}">
+                                <span class="card-text small">
+                                    <i class="fa fa-phone-square gray-200"></i> {!! $department->telephone !!}
+                                </span>
+                            </a>
+                            <br/>
+                        @endif
+
+                        @if (isset($department->email) && empty($department->email) == false)
+                            <a href="mailto:{{$department->email}}">
+                                <span class="card-text small"><i class="fa fa-envelope gray-200"></i> {!! $department->email !!}</span>
+                            </a>
+                        @endif
                     </div>
-                    @endif
-                </div>
-
-                <div class="clearfix">
-                    <p class="mb-0 fw-bold"> {!! $department->physical_location !!}</p>
-                    <p class="mb-0 fst-italic">
-                        <span>
-                            @if (isset($department->telephone) && empty($department->telephone) == false)
-                                {!! $department->telephone !!} 
-                            @endif
-                            @if (isset($department->email) && empty($department->email) == false)
-                                {!! $department->email !!}
-                            @endif
-                        </span>
-                    </p>
                 </div>
 
             </div>
         </div>
     </div>
-</div>

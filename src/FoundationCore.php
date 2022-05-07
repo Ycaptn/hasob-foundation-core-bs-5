@@ -281,6 +281,8 @@ class FoundationCore
 
             //Resource Routes
             Route::resource('departments', DepartmentController::class);
+            Route::get('/departments/{id}/settings', [DepartmentController::class, 'show_settings'])->name('departments.settings');
+
             Route::resource('ledgers', LedgerController::class);
             Route::resource('sites', SiteController::class);
             Route::resource('tags', TagController::class);
