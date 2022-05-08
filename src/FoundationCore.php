@@ -257,6 +257,22 @@ class FoundationCore
 
         //Settings
         Route::get('/app-settings',[OrganizationController::class,'app_settings'])->name('fc.app-settings');
+
+        Route::get('/user/{id}/avatar', function ($id) {
+            $user = \Hasob\FoundationCore\Models\User::find($id);
+            $content_type = (new \finfo(FILEINFO_MIME))->buffer($user->profile_image);
+            $response = response(trim($user->profile_image))->header('Content-Type', $content_type);
+            ob_end_clean();
+            return $response;
+        })->name('fc.get-profile-picture');
+            
+        Route::get('/dept/{id}/avatar', function ($id) {
+            $dept = \Hasob\FoundationCore\Models\Department::find($id);
+            $content_type = (new \finfo(FILEINFO_MIME))->buffer($dept->logo_image);
+            $response = response(trim($dept->logo_image))->header('Content-Type', $content_type);
+            ob_end_clean();
+            return $response;
+        })->name('fc.get-dept-picture');
     }
 
     public function routes(){
@@ -325,23 +341,6 @@ class FoundationCore
             Route::get('/org-settings',[OrganizationController::class,'displaySettings'])->name('org-settings');
             Route::get('/org-features',[OrganizationController::class,'displayFeatures'])->name('org-features');
             Route::post('/org-features',[OrganizationController::class,'processFeatures'])->name('org-features-process');
-
-
-            Route::get('/user/{id}/avatar', function ($id) {
-                $user = \Hasob\FoundationCore\Models\User::find($id);
-                $content_type = (new \finfo(FILEINFO_MIME))->buffer($user->profile_image);
-                $response = response(trim($user->profile_image))->header('Content-Type', $content_type);
-                ob_end_clean();
-                return $response;
-            })->name('get-profile-picture');
-                
-            Route::get('/dept/{id}/avatar', function ($id) {
-                $dept = \Hasob\FoundationCore\Models\Department::find($id);
-                $content_type = (new \finfo(FILEINFO_MIME))->buffer($dept->logo_image);
-                $response = response(trim($dept->logo_image))->header('Content-Type', $content_type);
-                ob_end_clean();
-                return $response;
-            })->name('get-dept-picture');
 
         });
 

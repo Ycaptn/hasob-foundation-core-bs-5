@@ -136,21 +136,8 @@
                                                         </label>
                                                     </div>
                                                 
-                                                    <div id="div-file-select" class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                        <div class="form-control" data-trigger="fileinput"> 
-                                                            <i class="glyphicon glyphicon-file fileinput-exists"></i> 
-                                                            <span class="fileinput-filename"></span>
-                                                        </div>
-                                                        <span class="input-group-addon fileupload btn btn-primary btn-anim btn-file">
-                                                            <i class="fa fa-upload"></i> 
-                                                            <span class="fileinput-new btn-text">Select file
-                                                        </span> 
-                                                        <span class="fileinput-exists btn-text">Change</span>
-                                                            <input type="hidden"><input id="value-file" type="file" name="...">
-                                                        </span> 
-                                                        <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput">
-                                                            <i class="fa fa-trash"></i><span class="btn-text"> Remove</span>
-                                                        </a> 
+                                                    <div id="div-file-select" class="mb-3">
+                                                        <input class="form-control form-control-sm" id="value-file" type="file">
                                                     </div>
 
                                                 </div>
