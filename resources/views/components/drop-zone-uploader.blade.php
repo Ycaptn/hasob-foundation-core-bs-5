@@ -4,14 +4,16 @@
 <link rel="stylesheet" href="{{ asset('hasob-foundation-core/vendor/dropzone-5.7.0/dist/dropzone.css') }}" />
 @endpush
 
-<button type="button" class="btn btn-xs btn-danger" id="btnNewUpload" data-toggle="tooltip" title="Upload File"> <span class="fa fa-cloud-upload"></span> Upload</button>
+<button type="button" class="btn btn-sm btn-danger mb-2" id="btnNewUpload" data-toggle="tooltip" title="Upload File"> 
+    <i class="fa fa-cloud-upload-alt"></i> Upload
+</button>
 
 <div class="modal fade" id="file-upload-zone-modal" tabindex="-1" role="dialog" aria-labelledby="file-upload-zone-modal-label" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 id="lbl-beneficiary-modal-title" class="modal-title">Pictures</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 

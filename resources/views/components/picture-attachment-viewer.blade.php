@@ -32,7 +32,7 @@
         <div class="col-xs-7">
             @if ($show_tags==true && $attachable->tags!=null && count($attachable->tags)>0)
             @foreach($attachable->tags as $key=>$tag)
-                <button data-val="{{$tag->id}}" class="{{$tag->id}}-grp btn btn-xxs btn-primary btn-outline faded mr-5">{{$tag->name}}</button>
+                <button data-val="{{$tag->id}}" class="{{$tag->id}}-grp btn btn-sm btn-primary btn-outline faded me-5">{{$tag->name}}</button>
             @endforeach
             @endif
         </div>
@@ -44,12 +44,11 @@
                 <div class="row">
                     
                     @foreach($attachments as $key=>$attachment)
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12  file-box">
-                        <div class="file">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-sm-12 mb-3">
+                        <div class="h-75 d-inline-block text-center">
                             <a href="#" class="{{$control_id}}_picture-box-view" data-val-image-path="{{route('fc.attachment.show', $attachment->id)}}">
-                                
-                                <div class="image" style="background-image:url({{route('fc.attachment.show', $attachment->id)}})"></div>
-                                <div class="file-name">
+                                <img src="{{route('fc.attachment.show', $attachment->id)}}" class="img-thumbnail" style="max-height:120px;">
+                                <div class="small file-name">
                                     {{ $attachment->label }}
                                     <br>
                                     <span class="small">
@@ -75,9 +74,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <center>
-                                <img id="{{$control_id}}_picture-box" class="img-responsive" />
-                            </center>
+                            
+                                <img id="{{$control_id}}_picture-box" class="img-fluid" />
                         </div>
                     </div>
                 </div>
