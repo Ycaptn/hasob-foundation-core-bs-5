@@ -9,10 +9,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-grid mb-2">
-                        {{-- <a id="{{$control_id}}-add-page" href="javascript:;" class="btn btn-sm btn-primary">+ Add Content Page</a> --}}
-                        <button id="btn-{{ $control_id }}-add-new-page" type="button" class="btn btn-sm btn-primary">
-                            + Add Content Page
-                        </button>
+                        <a id="btn-{{ $control_id }}-add-new-page" href="javascript:;" class="btn btn-sm btn-primary">+ Add Page</a>
                     </div>
                     <div class="fm-menu">
                         <div id="{{ $control_id }}-page-list" class="list-group list-group-flush">

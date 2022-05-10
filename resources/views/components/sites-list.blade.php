@@ -3,7 +3,7 @@
 <div class="row">
     
     @foreach ($sites as $item)
-    <div class="col-sm-4 mb-19">
+    <div class="col-sm-4 col-md-6 mb-19">
 
         <div class="card">
             <!-- <div class="card-wrapper collapse in"> -->
@@ -107,7 +107,7 @@
     </div>
 
 </div>
-
+</div>
 
 @push('page_scripts')
 <script type="text/javascript">

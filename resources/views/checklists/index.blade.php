@@ -321,7 +321,7 @@ $hide_right_panel = true;
                 $('.offline').fadeOut(300);
             }
 
-            let itemId = $(this).attr('data-val');
+            let cbx_item_id = $(this).attr('data-val');
             swal({
                 title: "Are you sure you want to delete this item?",
                 text: "You will not be able to recover this item if deleted.",
@@ -337,17 +337,17 @@ $hide_right_panel = true;
 
                     var formData = new FormData();
                     options = JSON.stringify({
-                        'cbx_item_id':$(this).attr('data-val'),
+                        'cbx_item_id':cbx_item_id,
                     });
                     formData.append('options', options);
 
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('fc.checklist.delete','') }}/"+$('#checklist_id').val(),
+                        url: "{{ route('fc.checklist.delete','') }}/"+cbx_item_id,
                         data: formData,
                         processData: false,
                         contentType: false,
-                        success: function (data) {
+                        success: function (result) {
                             if(result.errors){
                                 console.log(result.errors)
                                 swal("Error", "Oops an error occurred. Please try again.", "error");
@@ -355,7 +355,7 @@ $hide_right_panel = true;
                                 //swal("Deleted", "Rating deleted successfully.", "success");
                                 swal({
                                         title: "Deleted",
-                                        text: "item deleted successfully",
+                                        text: "Item deleted successfully",
                                         type: "success",
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",

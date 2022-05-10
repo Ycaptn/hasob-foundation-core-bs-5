@@ -157,19 +157,19 @@ class FoundationCore
                 ];
             }
 
-            if ($current_user->hasAnyRole(['admin','sites-admin'])){
+            if (\FoundationCore::has_feature('sites', $current_user->organization) && $current_user->hasAnyRole(['admin','sites-admin'])){
                 $fc_menu['mnu_fc_admin']['children']['sites'] = ['id'=>'mnu_fc_sites','label'=>'Sites','icon'=>'bx bx-globe-alt','path'=>route('fc.sites.index'),'route-selector'=>'fc/sites','is-parent'=>false,
                     'children' => []
                 ];
             }
 
-            if ($current_user->hasAnyRole(['admin','departments-admin'])){
+            if (\FoundationCore::has_feature('departments', $current_user->organization) && $current_user->hasAnyRole(['admin','departments-admin'])){
                 $fc_menu['mnu_fc_admin']['children']['depts'] = ['id'=>'mnu_fc_depts','label'=>'Departments','icon'=>'bx bx-collection','path'=>route('fc.departments.index'),'route-selector'=>'fc/departments','is-parent'=>false,
                     'children' => []
                 ];
             }
 
-            if ($current_user->hasAnyRole(['admin','ledgers-admin'])){
+            if (\FoundationCore::has_feature('ledgers', $current_user->organization) && $current_user->hasAnyRole(['admin','ledgers-admin'])){
                 $fc_menu['mnu_fc_admin']['children']['ledgers'] = ['id'=>'mnu_fc_ledgers','label'=>'Ledgers','icon'=>'bx bx-wallet-alt','path'=>route('fc.ledgers.index'),'route-selector'=>'fc/ledgers','is-parent'=>false,
                     'children' => []
                 ];
@@ -257,6 +257,22 @@ class FoundationCore
 
         //Settings
         Route::get('/app-settings',[OrganizationController::class,'app_settings'])->name('fc.app-settings');
+
+        Route::get('/user/{id}/avatar', function ($id) {
+            $user = \Hasob\FoundationCore\Models\User::find($id);
+            $content_type = (new \finfo(FILEINFO_MIME))->buffer($user->profile_image);
+            $response = response(trim($user->profile_image))->header('Content-Type', $content_type);
+            ob_end_clean();
+            return $response;
+        })->name('fc.get-profile-picture');
+            
+        Route::get('/dept/{id}/avatar', function ($id) {
+            $dept = \Hasob\FoundationCore\Models\Department::find($id);
+            $content_type = (new \finfo(FILEINFO_MIME))->buffer($dept->logo_image);
+            $response = response(trim($dept->logo_image))->header('Content-Type', $content_type);
+            ob_end_clean();
+            return $response;
+        })->name('fc.get-dept-picture');
     }
 
     public function routes(){
@@ -275,12 +291,14 @@ class FoundationCore
             Route::get('/checklist/{id}', [ChecklistController::class, 'index'])->name('checklist.show');
             Route::get('/checklist/{id}/edit', [ChecklistController::class, 'index'])->name('checklist.edit');
             Route::post('/checklist/{id}/edit', [ChecklistController::class, 'index'])->name('checklist.store');
-            Route::post('/checklist/{id}/delete', [ChecklistController::class, 'index'])->name('checklist.delete');
+            Route::post('/checklist/delete/{id}', [ChecklistController::class, 'deleteTemplateItem'])->name('checklist.delete');
             Route::post('/checklist-template', [ChecklistController::class, 'updateTemplate'])->name('checklist-template.store');
             Route::post('/checklist-template-item', [ChecklistController::class, 'updateTemplateItem'])->name('checklist-template-item.store');
 
             //Resource Routes
             Route::resource('departments', DepartmentController::class);
+            Route::get('/departments/{id}/settings', [DepartmentController::class, 'show_settings'])->name('departments.settings');
+
             Route::resource('ledgers', LedgerController::class);
             Route::resource('sites', SiteController::class);
             Route::resource('tags', TagController::class);
@@ -323,23 +341,6 @@ class FoundationCore
             Route::get('/org-settings',[OrganizationController::class,'displaySettings'])->name('org-settings');
             Route::get('/org-features',[OrganizationController::class,'displayFeatures'])->name('org-features');
             Route::post('/org-features',[OrganizationController::class,'processFeatures'])->name('org-features-process');
-
-
-            Route::get('/user/{id}/avatar', function ($id) {
-                $user = \Hasob\FoundationCore\Models\User::find($id);
-                $content_type = (new \finfo(FILEINFO_MIME))->buffer($user->profile_image);
-                $response = response(trim($user->profile_image))->header('Content-Type', $content_type);
-                ob_end_clean();
-                return $response;
-            })->name('get-profile-picture');
-                
-            Route::get('/dept/{id}/avatar', function ($id) {
-                $dept = \Hasob\FoundationCore\Models\Department::find($id);
-                $content_type = (new \finfo(FILEINFO_MIME))->buffer($dept->logo_image);
-                $response = response(trim($dept->logo_image))->header('Content-Type', $content_type);
-                ob_end_clean();
-                return $response;
-            })->name('get-dept-picture');
 
         });
 

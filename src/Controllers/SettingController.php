@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -127,7 +128,7 @@ class SettingController extends BaseController
             abort(404);
         }
 
-        if ($item->display_type == "file-select"){
+        if (strtolower(trim($item->display_type))=="file-select"){
 
             $attachment = $item->create_attachment(
                 Auth::guard()->user(),$item->key,"",$request->value

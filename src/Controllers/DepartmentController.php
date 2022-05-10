@@ -25,9 +25,29 @@ class DepartmentController extends BaseController
 
     public function index(Organization $org, Request $request){
 
-        return view('hasob-foundation-core::departments.index')
-                    ->with('departments', Department::all_departments($org, Auth()->user()));
 
+        $current_user = Auth()->user();
+
+        $cdv_departments = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.department-item");
+        $cdv_departments->setDataQuery(['organization_id'=>$org->id])
+                        ->addDataGroup('All','deleted_at', null)
+                        ->addDataGroup('Departments','field','value')
+                        ->addDataGroup('Units','field','value')
+                        ->setSearchFields(['long_name','key','email','physical_location'])
+                        //->addDataOrder('display_ordinal','DESC')
+                        //->addDataOrder('id','DESC')
+                        ->enableSearch(true)
+                        ->enablePagination(true)
+                        ->setPaginationLimit(20)
+                        ->setSearchPlaceholder('Search Departments');
+
+        if (request()->expectsJson()){
+            return $cdv_departments->render();
+        }
+
+        return view('hasob-foundation-core::departments.index')
+                    ->with('current_user', $current_user)
+                    ->with('cdv_departments', $cdv_departments);
     }
 
     //Display the specific resource
@@ -51,6 +71,42 @@ class DepartmentController extends BaseController
                     ->with('department', $item)
                     ->with('organization', $org)
                     ->with('current_user', $current_user);
+    }
+
+
+    public function show_settings(Organization $org, Request $request, $id){
+        $current_user = Auth::user();
+        
+        $item = null;
+        if (empty($id) == false){
+            $item = Department::find($id);
+        }
+
+        if ($item == null){
+            abort(404);
+        }
+
+        $cdv_child_departments = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.department-item");
+        $cdv_child_departments->setDataQuery(['organization_id'=>$org->id, 'parent_id'=>$id])
+                        ->addActionButton('Add New', 'fa fa-folder-open','#', 'btn-new-mdl-department-modal', [])
+                        ->addDataGroup('All','deleted_at', null)
+                        ->addDataGroup('Departments','field','value')
+                        ->addDataGroup('Units','field','value')
+                        ->setSearchFields(['long_name','key','email','physical_location'])
+                        ->enableSearch(true)
+                        ->enablePagination(true)
+                        ->setPaginationLimit(20)
+                        ->setSearchPlaceholder('Search');
+
+        if (request()->expectsJson()){
+            return $cdv_child_departments->render();
+        }
+        
+        return view('hasob-foundation-core::departments.settings')
+                    ->with('department', $item)
+                    ->with('organization', $org)
+                    ->with('current_user', $current_user)
+                    ->with('cdv_child_departments', $cdv_child_departments);
     }
 
     //Display creation of a new resource
