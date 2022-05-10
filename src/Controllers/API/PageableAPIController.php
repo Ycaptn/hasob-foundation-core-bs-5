@@ -5,6 +5,7 @@ namespace Hasob\FoundationCore\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Hasob\FoundationCore\Models\Pageable;
+use Hasob\FoundationCore\Models\Page;
 
 use Hasob\FoundationCore\Controllers\BaseController;
 use Hasob\FoundationCore\Models\Organization;
@@ -23,8 +24,8 @@ class PageableAPIController extends BaseController
         if ($request->get('limit')) {
             $query->limit($request->get('limit'));
         }
-        
-        if ($organization != null){
+
+        if ($organization != null) {
             $query->where('organization_id', $organization->id);
         }
 
@@ -39,7 +40,7 @@ class PageableAPIController extends BaseController
 
         $page = Pageable::create($input);
         $page->save();
-        
+
         return $this->sendResponse($page->toArray(), 'Page saved successfully');
     }
 
@@ -64,19 +65,21 @@ class PageableAPIController extends BaseController
 
         $page->fill($request->all());
         $page->save();
-        
+
         return $this->sendResponse($page->toArray(), 'Page updated successfully');
     }
 
     public function destroy($id, Organization $organization)
     {
-        $page = Pageable::find($id);
+        $page = Pageable::where('page_id', $id)->first();
 
         if (empty($page)) {
             return $this->sendError('Page not found');
         }
 
         $page->delete();
+        Page::find($id)->delete();
+
         return $this->sendSuccess('Page deleted successfully');
     }
 }
