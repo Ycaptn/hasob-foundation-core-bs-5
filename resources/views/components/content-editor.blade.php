@@ -9,25 +9,34 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-grid mb-2">
-                        <a id="btn-{{ $control_id }}-add-new-page" href="javascript:;" class="btn btn-sm btn-primary">+ Add Page</a>
+                        <a id="btn-{{ $control_id }}-add-new-page" href="javascript:;" class="btn btn-sm btn-primary">+
+                            Add Page</a>
                     </div>
+
                     <div class="fm-menu">
-                        <div id="{{ $control_id }}-page-list" class="list-group list-group-flush">
+                        <div id="{{ $control_id }}-page-list" class="">
                             @if ($pages != null && count($pages) > 0)
                                 @foreach ($pages as $idx => $page)
-                                    <div class="d-flex align-items-center justify-content-between my-1">
-                                        <a href="javascript:;" class="list-group-item py-1 page-editor-page-selected"
-                                            data-val="{{ $page->id }}">
-                                            <i class="bx bx-file me-2"></i><span>{{ $page->page_name }}</span>
-
-                                        </a>
-                                        <span>
-                                            <a href="javascript:;" class="{{ $control_id }}-delete-page" id=""
+                                    <div class="card">
+                                        {{-- <div class="list-group list-group-flush"> --}}
+                                        <div class="d-flex align-items-center justify-content-between p-2">
+                                            <a href="javascript:;"
+                                                class="py-1 page-editor-page-selected"
                                                 data-val="{{ $page->id }}">
-                                                <i class="text-danger fa fa-trash fa-fw"></i>
-                                            </a>
-                                        </span>
+                                                <i class="bx bx-file me-2"></i><span>{{ $page->page_name }}</span>
 
+
+                                                {{-- <a href="javascript:;" class="{{ $control_id }}-delete-page" id=""
+                                                            data-val="{{ $page->id }}">
+                                                            <i class="text-danger fa fa-trash fa-fw"></i>
+                                                        </a> --}}
+                                                <a href="#" class="{{ $control_id }}-delete-page">
+                                                    <i class="text-danger fa fa-trash fa-fw me-3"
+                                                        data-val="{{ $page->id }}"></i></a>
+                                                </a>
+
+                                        </div>
+                                        {{-- </div> --}}
                                     </div>
                                 @endforeach
                             @else
@@ -43,7 +52,7 @@
         <div class="col-12 col-lg-9">
             <div class="card">
                 <div id="div-{{ $control_id }}-page-editor" class="card-body">
-                     <div class="row">
+                    <div class="row">
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -83,7 +92,7 @@
                                 <div id="div-save-page-{{ $control_id }}" class="col-lg-3 mb-2 text-end">
                                     <button type="button" class="btn btn-primary"
                                         id="btn-{{ $control_id }}-save-page" value="add">
-                                        <span class="spinner">
+                                        <span class="editor-spinner">
                                             <span class="spinner-border spinner-border-sm" role="status"
                                                 aria-hidden="true"></span>
                                             <span class="visually-hidden">Loading...</span>
@@ -164,7 +173,9 @@
         <script type="text/javascript">
             $(document).ready(function() {
 
-                $('.spinner').hide()
+                $('.spinner').hide();
+                $('.editor-spinner').hide();
+
                 $(window).keydown(function(event) {
                     if (event.keyCode == 13) {
                         event.preventDefault();
@@ -181,19 +192,19 @@
                 hide_editor_card();
 
                 $('#{{ $control_id }}-text-page_contents').summernote({
-                     height: 200,
-                     toolbar: [
-                         ['style', ['style']],
-                         ['font', ['bold', 'underline', 'clear']],
-                         ['fontname', ['fontname']],
-                         //['color', ['color']],
-                         ['para', ['ul', 'ol', 'paragraph']],
-                         ['table', ['table']],
-                         ['view', ['codeview']]
-                         //['insert', ['link', 'picture']],
-                         //['view', ['fullscreen', 'codeview']],
-                     ],
-                 });
+                    height: 200,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        //['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['view', ['codeview']]
+                        //['insert', ['link', 'picture']],
+                        //['view', ['fullscreen', 'codeview']],
+                    ],
+                });
 
                 //Show add new page modal
                 $("#btn-{{ $control_id }}-add-new-page").click(function(e) {
@@ -329,16 +340,18 @@
 
                     let pagePrimaryId = $("#{{ $control_id }}-selected-page-id").val();
 
-                    $(".spinner").show();
+                    $(".editor-spinner").show();
                     $("#btn-{{ $control_id }}-save-page").prop('disabled', true);
-                    $("#{{ $control_id }}-text-page_contents").prop('disabled', true);
+                    // $("#{{ $control_id }}-text-page_contents").attr('disabled', 'disabled');
+                    $('#{{ $control_id }}-text-page_contents').summernote('disable');
                     console.log(pagePrimaryId);
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
                     formData.append('_method', "PUT");
                     formData.append('id', pagePrimaryId);
                     formData.append('page_name', $('#{{ $control_id }}-page-text-name').val());
-                    formData.append('content', $('#{{ $control_id }}-text-page_contents').summernote('code'));
+                    formData.append('content', $('#{{ $control_id }}-text-page_contents').summernote(
+                        'code'));
                     //formData.append('is_hidden', $('#{{ $control_id }}-page-text-is_hidden').val());
                     //formData.append('is_published', $('#{{ $control_id }}-page-text-is_published').val());
                     formData.append('creator_user_id', "{{ Auth::id() }}");
@@ -380,17 +393,17 @@
                                     location.reload(true);
                                 }, 1000);
                             }
-                            $(".spinner").hide();
+                            $(".editor-spinner").hide();
                             $("#btn-{{ $control_id }}-save-page").prop('disabled', false);
-                            $("#{{ $control_id }}-text-page_contents").prop('disabled', false);
+                            $('#{{ $control_id }}-text-page_contents').summernote('enable');
 
                         },
                         error: function(data) {
                             console.log(data);
                             swal("Error", "Oops an error occurred. Please try again.", "error");
-                            $(".spinner").hide();
+                            $(".editor-spinner").hide();
                             $("#btn-{{ $control_id }}-save-page").prop('disabled', false);
-                            $("#{{ $control_id }}-text-page_contents").prop('disabled', false);
+                             $('#{{ $control_id }}-text-page_contents').summernote('enable');
 
                         }
                     });
