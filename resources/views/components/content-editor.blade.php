@@ -18,25 +18,18 @@
                             @if ($pages != null && count($pages) > 0)
                                 @foreach ($pages as $idx => $page)
                                     <div class="card">
-                                        {{-- <div class="list-group list-group-flush"> --}}
                                         <div class="d-flex align-items-center justify-content-between p-2">
-                                            <a href="javascript:;"
-                                                class="py-1 page-editor-page-selected"
+                                            <a href="javascript:;" class="py-1 page-editor-page-selected"
                                                 data-val="{{ $page->id }}">
                                                 <i class="bx bx-file me-2"></i><span>{{ $page->page_name }}</span>
 
 
-                                                {{-- <a href="javascript:;" class="{{ $control_id }}-delete-page" id=""
-                                                            data-val="{{ $page->id }}">
-                                                            <i class="text-danger fa fa-trash fa-fw"></i>
-                                                        </a> --}}
-                                                <a href="#" class="{{ $control_id }}-delete-page">
-                                                    <i class="text-danger fa fa-trash fa-fw me-3"
-                                                        data-val="{{ $page->id }}"></i></a>
-                                                </a>
+                                                <a href="javascript:;" class="{{ $control_id }}-delete-page" id=""
+                                                    data-val="{{ $page->id }}">
+                                                    <i class="text-danger fa fa-trash fa-fw"></i>
+
 
                                         </div>
-                                        {{-- </div> --}}
                                     </div>
                                 @endforeach
                             @else
@@ -403,7 +396,7 @@
                             swal("Error", "Oops an error occurred. Please try again.", "error");
                             $(".editor-spinner").hide();
                             $("#btn-{{ $control_id }}-save-page").prop('disabled', false);
-                             $('#{{ $control_id }}-text-page_contents').summernote('enable');
+                            $('#{{ $control_id }}-text-page_contents').summernote('enable');
 
                         }
                     });
