@@ -156,7 +156,7 @@
                 });
 
                 //Load attribute details in editor on click
-                $(document).on('click', ".page-editor-page-selected", function(e) {
+                $(document).on('click', ".attribute-editor-page-selected", function(e) {
                     
                     hide_attribute_card();
 
