@@ -26,7 +26,7 @@
 
 <div class="mb-3">
     <!-- <label class="col-sm-3 mb-10 form-control">Department</label>  -->
-    <label class="form-label">Department</label> <span class="input-group-addon"><span class="fa fa-institution"></span></span>
+    <label class="form-label">Department</label>
     <div class="col-sm-12">
         <div class="input-group">
 
@@ -40,6 +40,7 @@
                 @endif
             </select>
            
+            <span class="input-group-text"><span class="fa fa-institution"></span></span>
 
         </div>
     </div>

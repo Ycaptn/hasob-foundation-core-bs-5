@@ -11,6 +11,7 @@ use Hasob\FoundationCore\Events\SiteUpdatedEvent;
 use Hasob\FoundationCore\Events\SiteDeletedEvent;
 
 use Hasob\FoundationCore\Traits\GuidId;
+use Hasob\FoundationCore\Traits\Pageable;
 use Hasob\FoundationCore\Traits\Attachable;
 use Hasob\FoundationCore\Traits\Commentable;
 use Hasob\FoundationCore\Traits\Socialable;
@@ -29,6 +30,7 @@ class Site extends Model
     use Taggable;
     use Disable;
     use GuidId;
+    use Pageable;
 
     public $table = 'fc_sites';
     
@@ -93,9 +95,9 @@ class Site extends Model
         return $this->belongsTo(Organization::class);
     }
     
-    public function pages(){
-        return $this->hasMany(Page::class);
-    }
+    // public function pages(){
+    //     return $this->hasMany(Page::class);
+    // }
 
     public function site_artifacts(){
         return $this->hasMany(SiteArtifact::class);
