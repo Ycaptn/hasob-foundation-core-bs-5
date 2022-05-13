@@ -124,14 +124,24 @@ $(document).ready(function() {
             processData:false,
             contentType: false,
             dataType: 'json',
-            success: function(result){
-                if(result.errors){
-					$('#div-department-members-modal-error').html('');
-					$('#div-department-members-modal-error').show();
-                    
-                    $.each(result.errors, function(key, value){
-                        $('#div-department-members-modal-error').append('<li class="">'+value+'</li>');
-                    });
+            success: function(data){
+                if(data!=null && data.status=='fail'){
+                    $('#div-department-members-modal-error').empty();
+                    $('#div-department-members-modal-error').show();
+                    if(data.response!=null){
+                        if($.isArray(data.response)){
+                            $('#div-department-members-modal-error').append('<strong>Error</strong>');
+                               $.each(data.response,function(key, value) {
+                                   $('#div-department-members-modal-error').append(value+'<br>');
+                               });
+                        }else{
+                            $('#div-department-members-modal-error').html('<strong>Error</strong><br>'+data.response);
+                        }
+
+                    }else{
+                        $('#div-department-members-modal-error').html('<strong>Error</strong><br>An Error has occurred');
+                    }
+				
                 }else{
                     $('#div-department-members-modal-error').hide();
 
@@ -213,15 +223,14 @@ $(document).ready(function() {
                                         })
                                         setTimeout(function(){
                                             location.reload(true);
-                                    }, 1000);
-                                }
-                            },
-                        });
-
-                    }
+                             }, 1000);
+                         }
+                    },
                 });
-            });
 
+            }
+        });
+    });
 });
 </script>
 @endpush

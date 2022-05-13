@@ -128,18 +128,18 @@ class DepartmentController extends BaseController
 
         $current_user = Auth()->user();
         if($current_user != null && !$current_user->hasAnyRole(['departments-admin', 'admin'])){
-            return $this->sendError('You are not authorized to select members from this department');
+            return self::createJsonResponse("fail", "error", "You are not authorized to perform this action.", 200);
         }
 
         $selected_member = User::find($request->member_id);
         $selected_department = Department::find($request->department_id);
 
         if($selected_member == null){
-            return self::createJsonResponse("fail", "error", 'An invalid member was selected', 200);
+            return self::createJsonResponse("fail", "error", 'An invalid member was selected.', 200);
         }
-
+      
         if($selected_department == null){
-            return $this->sendError('An invalid department was selected');
+            return self::createJsonResponse("fail", "error", "An invalid department was selected.", 200);
         }
 
         $selected_member->department_id = $selected_department->id;

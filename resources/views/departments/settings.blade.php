@@ -130,7 +130,7 @@
                                     </table>
                                 </div>
                             @else
-                                <p class="small text-center m-2">No Members in this Department.</p>
+                                <p class="small text-center m-2">No Member selected for this Department.</p>
                             @endif
                         </div>
 
