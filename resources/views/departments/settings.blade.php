@@ -30,14 +30,17 @@
             class="btn btn-sm btn-primary btn-edit-mdl-department-modal" href="#">
             <i class="bx bxs-edit"></i> Edit
         </a>
-
-        @include('hasob-foundation-core::departments.modal')
+        @include('hasob-foundation-core::departments.modal') 
+        @include('hasob-foundation-core::departments.members-selector')
+        
+        
     @endif
 @stop
 
 
 @section('app_css')
     {!! $cdv_child_departments->render_css() !!}
+    {!! $cdv_department_members->render_css() !!}
 @stop
 
 @section('content')
@@ -78,6 +81,7 @@
                         </div>
 
                         <div id="tab_members" class="tab-pane fade show" role="tabpanel">
+                           {{ $cdv_department_members->render() }}      
                             @if (count($department->members) > 0)
                                 <div class="table-responsive">
                                     <table class="table table-hover mb-0">
@@ -112,9 +116,13 @@
                                                         </a>
                                                     @endif
                                                 </div>
+                                               {{--  <a href="#" data-toggle="tooltip" title="Edit" data-val="" data-toggle="tooltip" data-original-title="Edit"
+                                                class="btn btn-sm btn-primary" href="#">
+                                                <i class="bx bxs-edit"></i> Edit</a>&nbsp;--}}
 
-                                                <a href="#" class="btn btn-sm btn-danger">Remove</a>
-
+                                                <a href="#" data-togggle="tooltip" title="Delete" data-val=""
+                                                data-original-title="Delete" class="btn btn-sm btn-danger">
+                                                <i class="bx bxs-trash"></i>&nbsp;Delete</a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -122,7 +130,7 @@
                                     </table>
                                 </div>
                             @else
-                                <p class="small text-center m-2">No Persons in this Department</p>
+                                <p class="small text-center m-2">No Members in this Department.</p>
                             @endif
                         </div>
 
@@ -151,4 +159,5 @@
 
 @push('page_scripts')
     {!! $cdv_child_departments->render_js() !!}
+    {!! $cdv_department_members->render_js() !!}
 @endpush
