@@ -25,14 +25,17 @@
             data-original-title="Edit" class="btn btn-sm btn-primary btn-edit-mdl-department-modal" href="#">
             <i class="bx bxs-edit"></i> Edit
         </a>
-
-        @include('hasob-foundation-core::departments.modal')
+        @include('hasob-foundation-core::departments.modal') 
+        @include('hasob-foundation-core::departments.members-selector')
+        
+        
     @endif
 @stop
 
 
 @section('app_css')
     {!! $cdv_child_departments->render_css() !!}
+    {!! $cdv_department_members->render_css() !!}
 @stop
 
 @section('content')
@@ -76,6 +79,7 @@
                         </div>
 
                         <div id="tab_members" class="tab-pane fade show" role="tabpanel">
+                           {{ $cdv_department_members->render() }}      
                             @if (count($department->members) > 0)
                                 <div class="table-responsive">
                                     <table class="table table-hover mb-0">
@@ -91,42 +95,37 @@
                                                             <img width="42" height="42" class="rounded-circle p-1 border"
                                                                 src="{{ route('fc.get-profile-picture', $member->id) }}" />
                                                         @endif
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <p class="mt-0 mb-1 fs-6">{{ $member->full_name }}
-                                                                @if (isset($member->job_title) && empty($member->job_title) == false)
-                                                                    ({!! $member->job_title !!})
-                                                                @endif
-                                                            </p>
+                                                    </p>
+                                                    
+                                                    @if (isset($member->telephone) && empty($member->telephone) == false)
+                                                        <a href="tel:{{$member->telephone}}" class="me-2">
+                                                            <span class="card-text small">
+                                                                <i class="fa fa-phone-square gray-200"></i> {!! $member->telephone !!}
+                                                            </span>
+                                                        </a>
+                                                    @endif
 
-                                                            @if (isset($member->telephone) && empty($member->telephone) == false)
-                                                                <a href="tel:{{ $member->telephone }}"
-                                                                    class="me-2">
-                                                                    <span class="card-text small">
-                                                                        <i class="fa fa-phone-square gray-200"></i>
-                                                                        {!! $member->telephone !!}
-                                                                    </span>
-                                                                </a>
-                                                            @endif
+                                                    @if (isset($member->email) && empty($member->email) == false)
+                                                        <a href="mailto:{{$member->email}}">
+                                                            <span class="card-text small"><i class="fa fa-envelope gray-200"></i> {!! $member->email !!}</span>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                               {{--  <a href="#" data-toggle="tooltip" title="Edit" data-val="" data-toggle="tooltip" data-original-title="Edit"
+                                                class="btn btn-sm btn-primary" href="#">
+                                                <i class="bx bxs-edit"></i> Edit</a>&nbsp;--}}
 
-                                                            @if (isset($member->email) && empty($member->email) == false)
-                                                                <a href="mailto:{{ $member->email }}">
-                                                                    <span class="card-text small"><i
-                                                                            class="fa fa-envelope gray-200"></i>
-                                                                        {!! $member->email !!}</span>
-                                                                </a>
-                                                            @endif
-                                                        </div>
-
-                                                        <a href="#" class="btn btn-sm btn-danger">Remove</a>
-
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                                <a href="#" data-togggle="tooltip" title="Delete" data-val=""
+                                                data-original-title="Delete" class="btn btn-sm btn-danger">
+                                                <i class="bx bxs-trash"></i>&nbsp;Delete</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             @else
-                                <p class="small text-center m-2">No Persons in this Department</p>
+                                <p class="small text-center m-2">No Member selected for this Department.</p>
                             @endif
                         </div>
 
@@ -155,4 +154,5 @@
 
 @push('page_scripts')
     {!! $cdv_child_departments->render_js() !!}
+    {!! $cdv_department_members->render_js() !!}
 @endpush

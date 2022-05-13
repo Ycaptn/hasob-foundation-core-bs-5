@@ -18,9 +18,9 @@
 
             <!-- Parent Field -->
             <div id="div-parent" class="mb-3">
-                <label class="form-label">Parent</label>
+                {{-- <label class="form-label">Parent</label> --}}
                 <div class="input-group">
-                    <select id="department_id" name="department_id" class="form-select form-select-md">
+                    <select id="department_id" name="department_id" class="form-select form-select-md" hidden>
                         <option value="">None</option>
                         @if (isset($departments) && $departments != null)
                             @foreach ($departments as $idx=>$dept)
@@ -28,7 +28,7 @@
                             @endforeach
                         @endif
                     </select>
-                    <span class="input-group-text"><i class="fa fa-institution"></i></span>
+                    {{-- <span class="input-group-text"><i class="fa fa-institution"></i></span> --}}
                 </div>
             </div>
 

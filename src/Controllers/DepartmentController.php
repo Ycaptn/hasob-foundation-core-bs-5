@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
+use Hasob\FoundationCore\Requests\CreateDepartmentRequest;
+use Hasob\FoundationCore\Requests\UpdateDepartmentRequest;
 use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Comment;
 use Hasob\FoundationCore\Models\Department;
@@ -98,15 +100,53 @@ class DepartmentController extends BaseController
                         ->setPaginationLimit(20)
                         ->setSearchPlaceholder('Search');
 
+        $cdv_department_members = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.department-item");
+        $cdv_department_members->setDataQuery(['organization_id'=>$org->id, 'department_id'=>$id])
+                        ->addActionButton('Add New', 'fa fa-folder-open','#', 'btn-new-mdl-department-members', [])
+                        ->addDataGroup('All','deleted_at', null)
+                        //->addDataGroup('Departments','field','value')
+                        //->addDataGroup('Units','field','value')
+                        ->setSearchFields(['first_name', 'last_name'])
+                        ->enableSearch(true)
+                        ->enablePagination(true)
+                        ->setPaginationLimit(20)
+                        ->setSearchPlaceholder('Search Members');
+
         if (request()->expectsJson()){
             return $cdv_child_departments->render();
         }
-        
+         
         return view('hasob-foundation-core::departments.settings')
                     ->with('department', $item)
                     ->with('organization', $org)
                     ->with('current_user', $current_user)
-                    ->with('cdv_child_departments', $cdv_child_departments);
+                    ->with('cdv_child_departments', $cdv_child_departments)
+                    ->with('cdv_department_members', $cdv_department_members);
+    }
+
+    public function processMemberSelection(Request $request, Organization $org, $member_id){
+
+        $current_user = Auth()->user();
+        if($current_user != null && !$current_user->hasAnyRole(['departments-admin', 'admin'])){
+            return self::createJsonResponse("fail", "error", "You are not authorized to perform this action.", 200);
+        }
+
+        $selected_member = User::find($request->member_id);
+        $selected_department = Department::find($request->department_id);
+
+        if($selected_member == null){
+            return self::createJsonResponse("fail", "error", 'An invalid member was selected.', 200);
+        }
+      
+        if($selected_department == null){
+            return self::createJsonResponse("fail", "error", "An invalid department was selected.", 200);
+        }
+
+        $selected_member->department_id = $selected_department->id;
+        $selected_member->save();
+
+        return $this->sendResponse($selected_member, 'Member selection has been saved');
+
     }
 
     //Display creation of a new resource
@@ -134,7 +174,7 @@ class DepartmentController extends BaseController
     }
 
     //Update a specific resource
-    public function update(Organization $org, Request $request, $id){
+    public function update(Organization $org, UpdateDepartmentRequest $request, $id){
     
         $item = null;
         if (empty($id) == false){
@@ -157,7 +197,7 @@ class DepartmentController extends BaseController
     }
 
     //Store a newly created resource
-    public function store(Organization $org, Request $request){
+    public function store(Organization $org, CreateDepartmentRequest $request){
 
         
         $current_user = Auth::user();

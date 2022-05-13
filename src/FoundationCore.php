@@ -208,6 +208,7 @@ class FoundationCore
             Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
             Route::resource('pageables', \Hasob\FoundationCore\Controllers\API\PageableAPIController::class);
             Route::resource('attributes', \Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class);
+            Route::put('/attributes/display_ordinal/{id}', [\Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class,'changeDisplayOrdinal'])->name('attributes.changeDisplayOrdinal');
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
 
             Route::resource('batches', \Hasob\FoundationCore\Controllers\API\BatchAPIController::class);
@@ -273,13 +274,14 @@ class FoundationCore
             ob_end_clean();
             return $response;
         })->name('fc.get-dept-picture');
+
+        Route::get('/attachment/{id}', [AttachmentController::class, 'show'])->name('fc.attachment.show');
     }
 
     public function routes(){
         Route::name('fc.')->prefix('fc')->group(function(){
 
             //Attachment Management
-            Route::get('/attachment/{id}', [AttachmentController::class, 'show'])->name('attachment.show');
             Route::post('/attachment', [AttachmentController::class, 'update'])->name('attachment.store');
             Route::delete('/attachment/{id}', [AttachmentController::class, 'destroy'])->name('attachment.destroy');
 
@@ -298,6 +300,7 @@ class FoundationCore
             //Resource Routes
             Route::resource('departments', DepartmentController::class);
             Route::get('/departments/{id}/settings', [DepartmentController::class, 'show_settings'])->name('departments.settings');
+            Route::post('/select/member/{id}', [DepartmentController::class, 'processMemberSelection'])->name('select-members');
 
             Route::resource('ledgers', LedgerController::class);
             Route::resource('sites', SiteController::class);
