@@ -23,7 +23,7 @@
             data-val="{{$department->id}}" 
             data-toggle="tooltip" 
             data-original-title="Edit"
-            class="btn btn-sm btn-primary btn-edit-mdl-department-modal" href="#">
+            class="btn btn-sm btn-primary btn-edit-mdl-department-modal me-2" href="#">
             <i class="bx bxs-edit"></i> Edit
         </a>
 

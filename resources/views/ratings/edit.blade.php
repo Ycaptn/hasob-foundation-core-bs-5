@@ -19,7 +19,7 @@ Edit Rating
 
 @section('page_title_buttons')
 <a href="{{ route('fc.ratings.create') }}" id="btn-new-ratings" class="btn btn-primary">
-    <i class="bx bx-book-add mr-1"></i>New Rating
+    <i class="bx bx-book-add me-1"></i>New Rating
 </a>
 @stop
 

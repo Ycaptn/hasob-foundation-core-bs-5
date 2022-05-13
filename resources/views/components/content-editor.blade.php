@@ -17,17 +17,20 @@
                         <div id="{{ $control_id }}-page-list" class="">
                             @if ($pages != null && count($pages) > 0)
                                 @foreach ($pages as $idx => $page)
-                                    <div class="card">
+                                    <div class="card mb-2">
                                         <div class="d-flex align-items-center justify-content-between p-2">
                                             <a href="javascript:;" class="py-1 page-editor-page-selected"
                                                 data-val="{{ $page->id }}">
                                                 <i class="bx bx-file me-2"></i><span>{{ $page->page_name }}</span>
 
+                                                <span>
 
-                                                <a href="javascript:;" class="{{ $control_id }}-delete-page" id=""
-                                                    data-val="{{ $page->id }}">
-                                                    <i class="text-danger fa fa-trash fa-fw"></i>
+                                                    <a href="javascript:;" class="{{ $control_id }}-delete-page" id=""
+                                                        data-val="{{ $page->id }}">
+                                                        <i class="text-danger fa fa-trash fa-fw"></i>
 
+                                                    </a>
+                                                </span>
 
                                         </div>
                                     </div>

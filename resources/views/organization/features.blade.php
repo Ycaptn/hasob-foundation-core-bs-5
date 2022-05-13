@@ -32,7 +32,7 @@ Features
                         <tbody>
                             @foreach ($features as $item=>$value)
                             <tr>
-                                <td class="pa-0 pl-10" width="40%">
+                                <td class="pa-0 ps-10" width="40%">
                                     {{ ucwords($item) }}
                                 </td>
                                 <td class="pa-0" width="60%">
