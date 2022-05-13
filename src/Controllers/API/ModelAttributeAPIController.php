@@ -71,6 +71,20 @@ class ModelAttributeAPIController extends BaseController
         return $this->sendResponse($attribute->toArray(), 'Attribute updated successfully');
     }
 
+    public function changeDisplayOrdinal($id,Request $request, Organization $organization)
+    {
+        $attribute = ModelArtifact::find($id);
+
+        if (empty($attribute)) {
+            return $this->sendError('Attribute not found');
+        }
+
+        $attribute->fill($request->all());
+        $attribute->save();
+        
+        return $this->sendResponse($attribute->toArray(), 'Attribute updated successfully');
+    }
+
     public function destroy($id, Organization $organization)
     {
         $attribute = ModelArtifact::find($id);

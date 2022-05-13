@@ -208,6 +208,7 @@ class FoundationCore
             Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
             Route::resource('pageables', \Hasob\FoundationCore\Controllers\API\PageableAPIController::class);
             Route::resource('attributes', \Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class);
+            Route::put('/attributes/display_ordinal/{id}', [\Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class,'changeDisplayOrdinal'])->name('attributes.changeDisplayOrdinal');
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
 
             Route::resource('batches', \Hasob\FoundationCore\Controllers\API\BatchAPIController::class);

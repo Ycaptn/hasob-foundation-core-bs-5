@@ -1,7 +1,7 @@
 @if ($artifactable != null)
 
     @php
-        $artifactables = $artifactable->artifacts();
+        $artifactables = $artifactable->artifacts()->sortBy([['display_ordinal', 'asc']]);
     @endphp
 
 
@@ -22,22 +22,24 @@
                         <input class="form-check-input" type="checkbox">
                     </div>
                     <div class="">
-                        <button type="button" class="btn btn-white ms-2">
+                        <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-refresh-attribute">
                             <i class="bx bx-refresh me-0"></i>
                         </button>
                     </div>
                     <div class="">
-                        <button type="button" id="{{ $control_id }}-show-attribute" class="btn btn-white ms-2" value="up" id="up-vote">
+                        <button type="button" id="{{ $control_id }}-upmove-attribute" class="btn btn-white ms-2"
+                            value="up" id="up-vote">
                             <i class="bx bx-upvote me-0"></i>
                         </button>
                     </div>
                     <div class="">
-                        <button type="button" class="btn btn-white ms-2" value="down" id="down-vote">
+                        <button type="button" class="btn btn-white ms-2" value="down"
+                            id="{{ $control_id }}-downmove-attribute">
                             <i class="bx bx-downvote me-0"></i>
                         </button>
                     </div>
                     <div class="d-none d-md-flex">
-                        <button type="button" class="btn btn-white ms-2">
+                        <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-copy-attribute">
                             <i class="bx bx-file me-0"></i>
                         </button>
                     </div>
@@ -57,20 +59,20 @@
                     </div>
                 </div>
             </div>
-            <div class="collection">
+            <div class="">
                 @if (count($artifactables) > 0)
                     <div class="">
                         <div class="email-list ps ps--active-y">
                             @foreach ($artifactables as $item)
-                                <a href="#">
+                                <a href="#" class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
                                     <div class="d-md-flex align-items-center email-message px-3 py-1">
                                         <div class="d-flex align-items-center email-actions">
-                                            <input class="form-check-input me-1 model_artifact_attribute"
-                                                type="checkbox" value="" data-val="{{ $item->id }}" />
+                                            <input class="form-check-input me-2 model_artifact_attribute" type="radio"
+                                                value="" data-val="{{ $item->id }}" name='radio' />
                                             <p class="mb-0"><b>{{ $item->key }}</b></p>
                                         </div>
                                         <div class="">
-                                            <p class="mb-0">{{ $item->value }}</p>
+                                            <p class="mb-0 attr-val">{{ $item->value }}</p>
                                         </div>
                                         <div class="ms-auto">
                                             <p class="mb-0 email-time">5:56 PM</p>
@@ -102,7 +104,7 @@
         aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
-
+                <input id="{{ $control_id }}-selected-attribute-id" type="hidden" value="0" />
                 <div class="modal-header">
                     <h5 id="lbl-{{ $control_id }}-modal-title" class="modal-title">New Attribute</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -162,97 +164,184 @@
     @push('page_scripts')
         <script type="text/javascript">
             $(document).ready(function() {
-                        $("#spinner").hide();
-                        $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
-                        $(".alert-danger").hide();
+                $("#spinner").hide();
+                $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
+                $(".alert-danger").hide();
 
-                        function hide_attribute_card() {
-                            $("#div-{{ $control_id }}-modal-error").html('');
-                            $("#div-{{ $control_id }}-modal-error").hide();
+                function hide_attribute_card() {
+                    $("#div-{{ $control_id }}-modal-error").html('');
+                    $("#div-{{ $control_id }}-modal-error").hide();
+                }
+
+                hide_attribute_card();
+
+                //Show add new attribute modal
+                $(document).on('click', "#{{ $control_id }}-add-attribute", function(e) {
+                    hide_attribute_card();
+                    $('#{{ $control_id }}-attribute-modal').modal('show');
+                    $('#frm-{{ $control_id }}-modal').trigger("reset");
+                });
+
+                //Load attribute details in editor on click
+                $(document).on('click', ".page-editor-page-selected", function(e) {
+
+                    hide_attribute_card();
+
+                    let itemId = $(this).attr('data-val');
+                    $.get("{{ route('fc-api.attributes.show', '') }}/" + itemId).done(function(response) {
+
+                        $("#div-{{ $control_id }}-page-editor").show();
+
+                        $("#{{ $control_id }}-selected-attribute-id").val(response.data.id);
+                        $("#{{ $control_id }}-page-text-name").val(response.data.page_name);
+                        $("#{{ $control_id }}-page_contents").summernote("code", response.data
+                            .content);
+
+                    });
+
+                });
+
+
+                //New attribute save button
+                $('#btn-save-mdl-{{ $control_id }}-modal').click(function(e) {
+
+                    e.preventDefault();
+                    $("#spinner").show();
+                    $('.alert-danger').hide();
+                    $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', true);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                        }
+                    });
+
+                    let formData = new FormData();
+                    formData.append('_token', $('input[name="_token"]').val());
+                    formData.append('model_primary_id', '{{ $artifactable->id }}');
+                    formData.append('model_name', String.raw`{{ get_class($artifactable) }}`);
+                    formData.append('key', $('#{{ $control_id }}-attribute-name').val());
+                    formData.append('value', $('#{{ $control_id }}-attribute-value').val());
+                    formData.append('creator_user_id', "{{ Auth::id() }}");
+                    @if (isset($organization) && $organization != null)
+                        formData.append('organization_id', '{{ $organization->id }}');
+                    @endif
+
+                    $.ajax({
+                        url: "{{ route('fc-api.attributes.store') }}",
+                        type: "POST",
+                        data: formData,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.errors) {
+                                $('#div-{{ $control_id }}-modal-error').html('');
+                                $('#div-{{ $control_id }}-modal-error').show();
+                                $(".alert-danger").show();
+                                $("#spinner").hide();
+                                $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled',
+                                    false);
+                                $.each(result.errors, function(key, value) {
+
+                                    $('.alert-danger').append('<li class="">' + value +
+                                        '</li>');
+                                });
+                            } else {
+                                $(".alert-danger").hide();
+                                $('#div-{{ $control_id }}-modal-error').hide();
+
+
+                                swal({
+                                    title: "Saved",
+                                    text: "Attribute saved successfully",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "OK",
+                                    closeOnConfirm: false
+
+                                });
+                                setTimeout(function() {
+                                    location.reload(true);
+                                }, 1000);
+
+                            }
+
+                        },
+                        error: function(data) {
+                            $("#div-{{ $control_id }}-modal-error").show();
+                            $("#spinner").hide();
+                            $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
+                            $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
+                            console.log(data);
+                            swal("Error", "Oops an error occurred. Please try again.", "error");
+
+                        }
+                    });
+                });
+
+                //update action for display_ordinal
+
+                $('#{{ $control_id }}-upmove-attribute').click(function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                        }
+                    });
+
+                    let parent_anchor = $('.model-artifacts-a');
+
+                    let current_position = [];
+
+                    let model_artifacts = $('.model_artifact_attribute');
+                    // console.log(model_artifacts);
+                    let artifacts = model_artifacts.filter(function(k) {
+                        return $(this).prop('checked') == true;
+                    })
+
+                    for (let index = 0; index < artifacts.length; index++) {
+                        current_position.push(model_artifacts.index(artifacts[index]));
+
+                    }
+
+                    if (artifacts.length > 0) {
+
+                        for (let index = 0; index < current_position.length; index++) {
+                            if (current_position[index] != 0) {
+
+                                if (current_position[index] == 1) {
+                                    let id = $('.model-artifacts-a')[current_position[index] - 1].id;
+                                    $(parent_anchor[current_position[index]]).insertBefore($('#' + id));
+                                } else {
+                                    let id = $('.model-artifacts-a')[current_position[index] - 2].id;
+                                    $(parent_anchor[current_position[index]]).insertAfter($('#' + id));
+                                }
+
+                            }
+
+
                         }
 
-                        hide_attribute_card();
 
-                        //Show add new attribute modal
-                        $(document).on('click', "#{{ $control_id }}-add-attribute", function(e) {
-                            hide_attribute_card();
-                            $('#{{ $control_id }}-attribute-modal').modal('show');
-                            $('#frm-{{ $control_id }}-modal').trigger("reset");
-                        });
 
-                        //Load attribute details in editor on click
-                        $(document).on('click', ".page-editor-page-selected", function(e) {
+                        $('.model_artifact_attribute').each(function(key, v) {
 
-                            hide_attribute_card();
 
                             let itemId = $(this).attr('data-val');
-                            $.get("{{ route('fc-api.attributes.show', '') }}/" + itemId).done(function(response) {
-
-                                $("#div-{{ $control_id }}-page-editor").show();
-
-                                $("#{{ $control_id }}-selected-page-id").val(response.data.id);
-                                $("#{{ $control_id }}-page-text-name").val(response.data.page_name);
-                                $("#{{ $control_id }}-page_contents").summernote("code", response.data
-                                    .content);
-
-                            });
-
-                        });
-                        $('#{{ $control_id }}-show-attribute').click(function(e){
-                            e.preventDefault();
-                            $.ajaxSetup({
-                                headers:{
-                                    'X-CSRF_TOKEN': $('input[name="_token"]').val()
-                                }
-                            })
-                            
-                        //     let model_artifacts = $('.model_artifact_attribute');
-                           
-                        //     let artifacts = model_artifacts.filter(function(k) {
-                        //         return $(this).prop('checked') == true;
-                        //     })
-                        //     if (model_artifacts.length > 0) {
-                        //         console.log('hello');
-                        //     }
-                        //      let itemId = $(this).attr('data-val');
-                        //                     let endPointUrl =
-                        //                         "{{ route('fc-api.attributes.show', '') }}/" +
-                        //                         itemId
-                        //                         console.log(itemId);
-
-                        //                     let formData = new FormData();
-                        //                     formData.append('_token', $('input[name="_token"]').val());
-                        //                     formData.append('_method', 'GET');
-                        //                     console.log(formData);
-                                         
-                           
-                        // })
-                        //New attribute save button
-                        $('#btn-save-mdl-{{ $control_id }}-modal').click(function(e) {
-
-                            e.preventDefault();
-                            $("#spinner").show();
-                            $('.alert-danger').hide();
-                            $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', true);
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('input[name="_token"]').val()
-                                }
-                            });
+                            let endPointUrl =
+                                "{{ route('fc-api.attributes.changeDisplayOrdinal', '') }}/" +
+                                itemId
 
                             let formData = new FormData();
                             formData.append('_token', $('input[name="_token"]').val());
-                            formData.append('model_primary_id', '{{ $artifactable->id }}');
-                            formData.append('model_name', String.raw`{{ get_class($artifactable) }}`);
-                            formData.append('key', $('#{{ $control_id }}-attribute-name').val());
-                            formData.append('value', $('#{{ $control_id }}-attribute-value').val());
-                            formData.append('creator_user_id', "{{ Auth::id() }}");
-                            @if (isset($organization) && $organization != null)
-                                formData.append('organization_id', '{{ $organization->id }}');
-                            @endif
+                            formData.append('organization_id', '{{ $organization->id }}');
+                            formData.append('display_ordinal', key);
+                            formData.append('_method', 'PUT');
 
                             $.ajax({
-                                url: "{{ route('fc-api.attributes.store') }}",
+                                url: endPointUrl,
                                 type: "POST",
                                 data: formData,
                                 cache: false,
@@ -261,208 +350,306 @@
                                 dataType: 'json',
                                 success: function(result) {
                                     if (result.errors) {
-                                        $('#div-{{ $control_id }}-modal-error').html('');
-                                        $('#div-{{ $control_id }}-modal-error').show();
-                                        $(".alert-danger").show();
-                                        $("#spinner").hide();
-                                        $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled',
-                                            false);
-                                        $.each(result.errors, function(key, value) {
-                                            // $('#div-{{ $control_id }}-modal-error').append('<li class="">'+value+'</li>');
-                                            $('.alert-danger').append('<li class="">' + value +
-                                                '</li>');
-                                        });
+                                        $('#spinner').hide();
+                                        $('#{{ $control_id }}-delete-attribute')
+                                            .attr("disabled", false);
+                                        console.log(result.errors);
                                     } else {
-                                        $(".alert-danger").hide();
-                                        $('#div-{{ $control_id }}-modal-error').hide();
-
-
-                                        swal({
-                                            title: "Saved",
-                                            text: "Attribute saved successfully",
-                                            type: "success",
-                                            showCancelButton: false,
-                                            confirmButtonClass: "btn-success",
-                                            confirmButtonText: "OK",
-                                            closeOnConfirm: false
-                                        }, function() {
-                                            setTimeout(function() {
-                                                location.reload(true);
-                                            }, 1000);
-
-                                        });
 
                                     }
-
-                                },
-                                error: function(data) {
-                                    $("#div-{{ $control_id }}-modal-error").show();
-                                    $("#spinner").hide();
-                                    $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
-                                    $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
-                                    console.log(data);
-                                    swal("Error", "Oops an error occurred. Please try again.", "error");
-
                                 }
-                            });
-                        });
-                      
-                       
-
-                        //Delete action
-                        $('#{{ $control_id }}-delete-attribute').click(function(e) {
-
-                            e.preventDefault();
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('input[name="_token"]').val()
-                                }
-                            });
-
-                            $('#spinner').show();
-                            $('#{{ $control_id }}-delete-attribute').attr("disabled", true);
-                            let model_artifacts = $('.model_artifact_attribute');
-                            // console.log(model_artifacts);
-                            let artifacts = model_artifacts.filter(function(k) {
-                                return $(this).prop('checked') == true;
                             })
-                            if (model_artifacts.length > 0) {
+                        })
+                    }
+                })
+                //down-vote attr
+                $('#{{ $control_id }}-downmove-attribute').click(function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                        }
+                    });
 
+                    let parent_anchor = $('.model-artifacts-a');
 
-                                swal({
-                                    title: "Are you sure you want to delete this Attributes?",
-                                    text: "You will not be able to recover this Attributes record if deleted.",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonClass: "btn-danger",
-                                    confirmButtonText: "Yes",
-                                    cancelButtonText: "No",
-                                    closeOnConfirm: false,
-                                    closeOnCancel: true
-                                }, function(isConfirm) {
-                                    if (isConfirm) {
-                                        artifacts.each(function() {
+                    let current_position = [];
 
-                                            let itemId = $(this).attr('data-val');
-                                            let endPointUrl =
-                                                "{{ route('fc-api.attributes.destroy', '') }}/" +
-                                                itemId
+                    let model_artifacts = $('.model_artifact_attribute');
 
-                                            let formData = new FormData();
-                                            formData.append('_token', $('input[name="_token"]').val());
-                                            formData.append('_method', 'DELETE');
+                    let artifacts = model_artifacts.filter(function() {
+                        return $(this).prop('checked') == true;
+                    })
 
-                                            $.ajax({
-                                                url: endPointUrl,
-                                                type: "POST",
-                                                data: formData,
-                                                cache: false,
-                                                processData: false,
-                                                contentType: false,
-                                                dataType: 'json',
-                                                success: function(result) {
-                                                    if (result.errors) {
-                                                        $('#spinner').hide();
-                                                        $('#{{ $control_id }}-delete-attribute')
-                                                            .attr("disabled", false);
-                                                        console.log(result.errors);
-                                                    } else {
-                                                        swal({
-                                                            title: "Deleted",
-                                                            text: "The Domain record has been deleted.",
-                                                            type: "success",
-                                                            confirmButtonClass: "btn-success",
-                                                            confirmButtonText: "OK",
-                                                            closeOnConfirm: false
-                                                        })
-                                                        setTimeout(function() {
-                                                            location.reload(true);
-                                                        }, 1000);
-                                                    }
-                                                },
-                                            });
-                                        });
-                                    }
+                    for (let index = 0; index < artifacts.length; index++) {
+                        current_position.push(model_artifacts.index(artifacts[index]));
 
-                                })
+                    }
+
+                    if (artifacts.length > 0) {
+
+                        for (let index = 0; index < current_position.length; index++) {
+                            if (current_position[index] < (model_artifacts.length - 1)) {
+
+                                let id = $('.model-artifacts-a')[current_position[index] + 1].id;
+                                $(parent_anchor[current_position[index]]).insertAfter($('#' + id));
+
 
                             }
 
 
-                        })
+                        }
 
 
-                        //Save attribute details
-                        $('#{{ $control_id }}-save-page').click(function(e) {
-                                e.preventDefault();
-                                $.ajaxSetup({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+
+                        $('.model_artifact_attribute').each(function(key, v) {
+
+
+                            let itemId = $(this).attr('data-val');
+                            let endPointUrl =
+                                "{{ route('fc-api.attributes.changeDisplayOrdinal', '') }}/" +
+                                itemId
+
+                            let formData = new FormData();
+                            formData.append('_token', $('input[name="_token"]').val());
+                            formData.append('organization_id', '{{ $organization->id }}');
+                            formData.append('display_ordinal', key);
+                            formData.append('_method', 'PUT');
+
+                            $.ajax({
+                                url: endPointUrl,
+                                type: "POST",
+                                data: formData,
+                                cache: false,
+                                processData: false,
+                                contentType: false,
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.errors) {
+                                        $('#spinner').hide();
+                                        $('#{{ $control_id }}-delete-attribute')
+                                            .attr("disabled", false);
+                                        console.log(result.errors);
+                                    } else {
+
                                     }
-                                });
+                                }
+                            })
+                        })
+                    }
+                })
+                //copy button triggers a modal
+                $("#{{ $control_id }}-copy-attribute").click(function(e) {
+                    let itemToCopy = [];
 
-                                let pagePrimaryId = $("#{{ $control_id }}-selected-page-id").val();
+                    let model_artifacts = $('.model_artifact_attribute');
+                    let artifacts = model_artifacts.filter(function() {
+                        return $(this).prop('checked') == true;
+                    })
+                    for (let index = 0; index < artifacts.length; index++) {
+                        itemToCopy.push(model_artifacts.index(artifacts[index]));
 
-                                let formData = new FormData();
-                                formData.append('_token', $('input[name="_token"]').val());
-                                formData.append('_method', "PUT");
-                                formData.append('id', pagePrimaryId);
-                                formData.append('page_name', $('#{{ $control_id }}-page-text-name').val());
-                                formData.append('content', $('#{{ $control_id }}-page_contents').summernote('code'));
-                                //formData.append('is_hidden', $('#{{ $control_id }}-page-text-is_hidden').val());
-                                //formData.append('is_published', $('#{{ $control_id }}-page-text-is_published').val());
-                                formData.append('creator_user_id', "{{ Auth::id() }}");
-                                @if (isset($organization) && $organization != null)
-                                    formData.append('organization_id', '{{ $organization->id }}');
-                                @endif
+                        if (model_artifacts.length > 0) {
+                            let id = $('.model-artifacts-a')[itemToCopy[index]].id;
+                            $('#{{ $control_id }}-attribute-modal').modal('show');
+                            let attribute_name = $('#' + id).find('p').find('b').html();
+                            let attribute_value = $('#' + id).find('p.attr-val').html();
+                            $('#{{ $control_id }}-attribute-name').val(attribute_name)
+                            $('#{{ $control_id }}-attribute-value').val(attribute_value)
+                        }
+                        $("#{{ $control_id }}-selected-attribute-id")
+                            .val('0');
 
-                                $.ajax({
-                                        url: "{{ route('fc-api.attributes.update', '') }}/" + pagePrimaryId,
+                    }
+
+
+                })
+                //Delete action
+                $('#{{ $control_id }}-delete-attribute').click(function(e) {
+
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                        }
+                    });
+
+                    $('#spinner').show();
+                    $('#{{ $control_id }}-delete-attribute').attr("disabled",
+                        true);
+                    let model_artifacts = $('.model_artifact_attribute');
+                    // console.log(model_artifacts);
+                    let artifacts = model_artifacts.filter(function(k) {
+                        return $(this).prop('checked') == true;
+                    })
+                    if (model_artifacts.length > 0) {
+
+
+                        swal({
+                            title: "Are you sure you want to delete this Attributes?",
+                            text: "You will not be able to recover this Attributes record if deleted.",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                            closeOnConfirm: false,
+                            closeOnCancel: true
+                        }, function(isConfirm) {
+                            if (isConfirm) {
+                                artifacts.each(function() {
+
+                                    let itemId = $(this).attr(
+                                        'data-val');
+                                    let endPointUrl =
+                                        "{{ route('fc-api.attributes.destroy', '') }}/" +
+                                        itemId
+
+                                    let formData = new FormData();
+                                    formData.append('_token', $(
+                                        'input[name="_token"]'
+                                    ).val());
+                                    formData.append('_method',
+                                        'DELETE');
+
+                                    $.ajax({
+                                        url: endPointUrl,
                                         type: "POST",
                                         data: formData,
                                         cache: false,
                                         processData: false,
                                         contentType: false,
                                         dataType: 'json',
-                                        success: function(result) {
-                                            if (result.errors) {
-                                                $('#div-{{ $control_id }}-page-text-error').html('');
-                                                $('#div-{{ $control_id }}-page-text-error').show();
-
-                                                $.each(result.errors, function(key, value) {
-                                                    $('#div-{{ $control_id }}-page-text-error').append(
-                                                        '<li class="">' + value + '</li>');
-                                                });
+                                        success: function(
+                                            result) {
+                                            if (result
+                                                .errors
+                                            ) {
+                                                $('#spinner')
+                                                    .hide();
+                                                $('#{{ $control_id }}-delete-attribute')
+                                                    .attr(
+                                                        "disabled",
+                                                        false
+                                                    );
+                                                console
+                                                    .log(
+                                                        result
+                                                        .errors
+                                                    );
                                             } else {
-                                                $('#div-{{ $control_id }}-page-text-error').hide();
-
                                                 swal({
-                                                        title: "Saved",
-                                                        text: "Page saved successfully",
-                                                        type: "success",
-                                                        showCancelButton: false,
-                                                        confirmButtonClass: "btn-success",
-                                                        confirmButtonText: "OK",
-                                                        closeOnConfirm: true
-                                                    })
-                                                    setTimeout(function() {
-                                                        location.reload(true);
-                                                    }, 1000);
-                                                }
-
-                                            }, error: function(data) {
-                                                console.log(data);
-                                                swal("Oops an error occurred. Please try again.");
-                                                $('#{{ $control_id }}-delete-attribute').attr("disabled",
-                                                    false);
-
-
-
+                                                    title: "Deleted",
+                                                    text: "The Attribute record has been deleted.",
+                                                    type: "success",
+                                                    confirmButtonClass: "btn-success",
+                                                    confirmButtonText: "OK",
+                                                    closeOnConfirm: false
+                                                })
+                                                setTimeout(function() {
+                                                    location.reload(true);
+                                                }, 1000);
                                             }
-                                        });
+                                        },
+                                    });
                                 });
+                            }
 
-                        });
+                        })
+
+                    }
+
+
+                })
+
+
+                //Save attribute details
+                $('#{{ $control_id }}-save-page').click(function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                        }
+                    });
+
+                    let pagePrimaryId = $("#{{ $control_id }}-selected-attribute-id")
+                        .val();
+
+                    let formData = new FormData();
+                    formData.append('_token', $('input[name="_token"]').val());
+                    formData.append('_method', "PUT");
+                    formData.append('id', pagePrimaryId);
+                    formData.append('page_name', $(
+                        '#{{ $control_id }}-page-text-name').val());
+                    formData.append('content', $(
+                        '#{{ $control_id }}-page_contents').summernote(
+                        'code'));
+                    //formData.append('is_hidden', $('#{{ $control_id }}-page-text-is_hidden').val());
+                    //formData.append('is_published', $('#{{ $control_id }}-page-text-is_published').val());
+                    formData.append('creator_user_id', "{{ Auth::id() }}");
+                    @if (isset($organization) && $organization != null)
+                        formData.append('organization_id',
+                            '{{ $organization->id }}');
+                    @endif
+
+                    $.ajax({
+                        url: "{{ route('fc-api.attributes.update', '') }}/" +
+                            pagePrimaryId,
+                        type: "POST",
+                        data: formData,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.errors) {
+                                $('#div-{{ $control_id }}-page-text-error')
+                                    .html('');
+                                $('#div-{{ $control_id }}-page-text-error')
+                                    .show();
+
+                                $.each(result.errors, function(key,
+                                    value) {
+                                    $('#div-{{ $control_id }}-page-text-error')
+                                        .append(
+                                            '<li class="">' +
+                                            value + '</li>');
+                                });
+                            } else {
+                                $('#div-{{ $control_id }}-page-text-error')
+                                    .hide();
+
+                                swal({
+                                    title: "Saved",
+                                    text: "Page saved successfully",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "OK",
+                                    closeOnConfirm: true
+                                })
+                                setTimeout(function() {
+                                    location.reload(true);
+                                }, 1000);
+                            }
+
+                        },
+                        error: function(data) {
+                            console.log(data);
+                            swal(
+                                "Oops an error occurred. Please try again."
+                            );
+                            $('#{{ $control_id }}-delete-attribute')
+                                .attr("disabled",
+                                    false);
+
+
+
+                        }
+                    });
+                });
+
+            });
         </script>
     @endpush
 
