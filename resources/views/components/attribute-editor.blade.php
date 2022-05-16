@@ -19,12 +19,12 @@
                             <i class="bx bx-plus me-0"></i> New Attribute
                         </button>
                     </div>
-                    <div class="">
+                    {{-- <div class="">
                         <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-edit-attribute">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </button>
-                        {{-- <input class="form-check-input" type="checkbox"> --}}
-                    </div>
+
+                    </div> --}}
                     <div class="">
                         <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-refresh-attribute">
                             <i class="bx bx-refresh me-0"></i>
@@ -77,15 +77,15 @@
                                 <a href="#" class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
                                     <div class="row d-md-flex align-items-center email-message px-3 py-1">
                                         <div class="col-md-3 d-flex align-items-center email-actions">
-                                            <input class="form-check-input me-2 model_artifact_attribute" type="radio"
+                                            <input class="form-check-input me-2 model_artifact_attribute" style="min-width:13px !important;" type="radio"
                                                 value="" data-val="{{ $item->id }}" name='radio' />
-                                            <p class="mb-0"><b>{{ $item->key }}</b></p>
+                                            <p class="mb-0 text-break"><b>{{ $item->key }}</b></p>
                                         </div>
                                         <div class="col-md-7">
-                                            <p class="mb-0 attr-val">{{ $item->value }}</p>
+                                            <p class="mb-0 attr-val text-break">{{ $item->value }}</p>
                                         </div>
                                         <div class="col-md-2 ms-auto text-center">
-                                            <p class="mb-0 email-time">{{ $item->created_at->format('H:i:a') }}</p>
+                                            <p class="mb-0 email-time text-break">{{ $item->created_at->format('Y-m-d H:i:a') }}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -213,7 +213,6 @@
 
                 });
 
-
                 //New attribute save button
                 $('#btn-save-mdl-{{ $control_id }}-modal').click(function(e) {
 
@@ -286,7 +285,7 @@
                             $("#spinner").hide();
                             $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
                             $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
-                          
+
                             swal("Error", "Oops an error occurred. Please try again.", "error");
 
                         }
@@ -312,7 +311,7 @@
                     let current_position = [];
 
                     let model_artifacts = $('.model_artifact_attribute');
-                    
+
                     let artifacts = model_artifacts.filter(function(k) {
                         return $(this).prop('checked') == true;
                     })
@@ -339,7 +338,7 @@
 
 
                         }
-                     
+
 
 
                         $('.model_artifact_attribute').each(function(key, v) {
@@ -464,7 +463,9 @@
                 })
 
                 //edit attribute action
-                $("#{{ $control_id }}-edit-attribute").click(function(e) {
+                // $("#{{ $control_id }}-edit-attribute").click(function(e) {
+                $(".model_artifact_attribute").click(function(e) {
+
                     let itemToCopy = [];
 
                     let model_artifacts = $('.model_artifact_attribute');
@@ -482,7 +483,7 @@
                             $('#{{ $control_id }}-attribute-name').val(attribute_name)
                             $('#{{ $control_id }}-attribute-value').val(attribute_value)
                             let attribute_id = $('#' + id).find('input').attr('data-val');
-                           
+
                             $("#{{ $control_id }}-selected-attribute-id")
                                 .val(attribute_id);
                         }
@@ -592,7 +593,7 @@
                                                         "disabled",
                                                         false
                                                     );
-                                               
+
                                             } else {
                                                 swal({
                                                     title: "Deleted",
@@ -621,7 +622,8 @@
 
                 //Save attribute details
                 $('#btn-save-mdl-{{ $control_id }}-attributes-save').click(function(e) {
-
+                    $("#spinner").show();
+                    $('#btn-save-mdl-{{ $control_id }}-attributes-save').attr('disabled', true);
 
                     e.preventDefault();
                     $.ajaxSetup({
@@ -667,6 +669,10 @@
                                     .html('');
                                 $('#div-{{ $control_id }}-page-text-error')
                                     .show();
+                                $("#spinner").hide();
+                                $('#btn-save-mdl-{{ $control_id }}-attributes-save').attr(
+                                    'disabled',
+                                    false);
 
                                 $.each(result.errors, function(key,
                                     value) {
@@ -695,13 +701,13 @@
 
                         },
                         error: function(data) {
-                           
+
                             swal(
                                 "Oops an error occurred. Please try again."
                             );
-                            $('#{{ $control_id }}-delete-attribute')
-                                .attr("disabled",
-                                    false);
+                            $('#{{ $control_id }}-delete-attribute').attr("disabled", false);
+
+
 
 
 
