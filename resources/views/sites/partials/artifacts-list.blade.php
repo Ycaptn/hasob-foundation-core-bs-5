@@ -1,4 +1,4 @@
-<div class="col-md-12 mb-15">
+<div class="col-md-12 m-2">
     <table class="table table-hover mb-0 small">
         <thead>
             <tr>

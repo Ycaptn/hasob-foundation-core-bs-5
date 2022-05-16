@@ -101,7 +101,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 mb-15">
+                                        <div class="col-md-12 mb-15 p-2">
                                             @include('hasob-foundation-core::sites.partials.artifacts-list', ['artifacts'=>$components])
                                         </div>
                                     </div>
@@ -176,7 +176,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 mb-15">
+                                        <div class="col-md-12 mb-15 p-2">
                                             @include('hasob-foundation-core::sites.partials.artifacts-list', ['artifacts'=>$menus])
                                         </div>
                                     </div>
@@ -208,7 +208,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 mb-15">
+                                        <div class="col-md-12 mb-15 p-2">
                                             @include('hasob-foundation-core::sites.partials.artifacts-list', ['artifacts'=>$templates])
                                         </div>
                                     </div>
