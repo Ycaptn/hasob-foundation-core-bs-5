@@ -66,16 +66,13 @@
                             @foreach ($artifactables as $item)
                                 <a href="#" class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
                                     <div class="d-md-flex align-items-center email-message px-3 py-1">
-                                        <div class="d-flex align-items-center email-actions">
-                                            <input class="form-check-input me-2 model_artifact_attribute" type="radio"
+                                        <div class="d-flex align-items-center email-actions m-2">
+                                            <input class="form-check-input m-0 me-2 model_artifact_attribute" type="radio"
                                                 value="" data-val="{{ $item->id }}" name='radio' />
                                             <p class="mb-0"><b>{{ $item->key }}</b></p>
                                         </div>
-                                        <div class="">
+                                        <div class="ms-auto m-2">
                                             <p class="mb-0 attr-val">{{ $item->value }}</p>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <p class="mb-0 email-time">5:56 PM</p>
                                         </div>
                                     </div>
                                 </a>

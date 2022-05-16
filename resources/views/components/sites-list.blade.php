@@ -1,12 +1,10 @@
-<div class="row">
+<div class="row row-cols-2 g-3">
 
     @foreach ($sites as $item)
-        <div class="col-sm-4 col-md-6 mb-19">
+        <div class="col">
 
             <div class="card">
-                <!-- <div class="card-wrapper collapse in"> -->
                 <div class="card-body">
-
                     <div class="row">
                         <div class="col-lg-2">
                             <a href="{{ route('fc.sites.show', $item->id) }}">
@@ -48,14 +46,11 @@
 
                         </div>
                     </div>
-
-                    <!-- </div> -->
                 </div>
             </div>
 
         </div>
     @endforeach
-
 
     <div class="modal fade" id="mdl-site-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -113,163 +108,107 @@
         </div>
 
     </div>
+
 </div>
 
 @push('page_scripts')
     <script type="text/javascript">
         $(document).ready(function() {
 
-                    //Show Modal for New Entry
-                    $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
-                        $('#div-site-modal-error').hide();
-                        $('#mdl-site-modal').modal('show');
-                        $('#frm-site-modal').trigger("reset");
-                        $('#txt-site-primary-id').val(0);
+            //Show Modal for New Entry
+            $(document).on('click', ".btn-new-mdl-site-modal", function(e) {
+                $('#div-site-modal-error').hide();
+                $('#mdl-site-modal').modal('show');
+                $('#frm-site-modal').trigger("reset");
+                $('#txt-site-primary-id').val(0);
 
-                        $('#div-show-txt-site-primary-id').hide();
-                        $('#div-edit-txt-site-primary-id').show();
-                    });
+                $('#div-show-txt-site-primary-id').hide();
+                $('#div-edit-txt-site-primary-id').show();
+            });
 
-                    //Show Modal for View
-                    $(document).on('click', ".btn-show-mdl-site-modal", function(e) {
-                        e.preventDefault();
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('input[name="_token"]').val()
-                            }
-                        });
+            //Show Modal for View
+            $(document).on('click', ".btn-show-mdl-site-modal", function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                    }
+                });
 
-                        $('#div-show-txt-site-primary-id').show();
-                        $('#div-edit-txt-site-primary-id').hide();
-                        let itemId = $(this).attr('data-val');
+                $('#div-show-txt-site-primary-id').show();
+                $('#div-edit-txt-site-primary-id').hide();
+                let itemId = $(this).attr('data-val');
 
-                        // $.get( "{{ URL::to('/') }}/api/fc_sites/"+itemId).done(function( data ) {
-                        $.get("{{ URL::to('/') }}/api/fc_sites/" + itemId).done(function(response) {
-                            $('#div-site-modal-error').hide();
-                            $('#mdl-site-modal').modal('show');
-                            $('#frm-site-modal').trigger("reset");
-                            $('#txt-site-primary-id').val(response.data.id);
+                // $.get( "{{ URL::to('/') }}/api/fc_sites/"+itemId).done(function( data ) {
+                $.get("{{ URL::to('/') }}/api/fc_sites/" + itemId).done(function(response) {
+                    $('#div-site-modal-error').hide();
+                    $('#mdl-site-modal').modal('show');
+                    $('#frm-site-modal').trigger("reset");
+                    $('#txt-site-primary-id').val(response.data.id);
 
-                            // $('#spn_site_').html(response.data.);
-                            // $('#spn_site_').html(response.data.);   
-                        });
-                    });
+                    // $('#spn_site_').html(response.data.);
+                    // $('#spn_site_').html(response.data.);   
+                });
+            });
 
-                    //Show Modal for Edit
-                    $(document).on('click', ".btn-edit-mdl-site-modal", function(e) {
-                        e.preventDefault();
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('input[name="_token"]').val()
-                            }
-                        });
+            //Show Modal for Edit
+            $(document).on('click', ".btn-edit-mdl-site-modal", function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                    }
+                });
 
-                        $('#div-show-txt-site-primary-id').hide();
-                        $('#div-edit-txt-site-primary-id').show();
-                        let itemId = $(this).attr('data-val');
+                $('#div-show-txt-site-primary-id').hide();
+                $('#div-edit-txt-site-primary-id').show();
+                let itemId = $(this).attr('data-val');
 
-                        // $.get( "{{ URL::to('/') }}/api/fc_sites/"+itemId).done(function( data ) {
-                        $.get("{{ URL::to('/') }}/api/fc_sites/" + itemId).done(function(response) {
-                            $('#div-site-modal-error').hide();
-                            $('#mdl-site-modal').modal('show');
-                            $('#frm-site-modal').trigger("reset");
-                            $('#txt-site-primary-id').val(response.data.id);
+                // $.get( "{{ URL::to('/') }}/api/fc_sites/"+itemId).done(function( data ) {
+                $.get("{{ URL::to('/') }}/api/fc_sites/" + itemId).done(function(response) {
+                    $('#div-site-modal-error').hide();
+                    $('#mdl-site-modal').modal('show');
+                    $('#frm-site-modal').trigger("reset");
+                    $('#txt-site-primary-id').val(response.data.id);
 
-                            // $('#').val(response.data.);
-                            // $('#').val(response.data.);
-                        });
-                    });
+                    // $('#').val(response.data.);
+                    // $('#').val(response.data.);
+                });
+            });
 
-                    //Delete action
-                    $(document).on('click', ".btn-delete-mdl-site-modal", function(e) {
-                            e.preventDefault();
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('input[name="_token"]').val()
-                                }
-                            });
+            //Delete action
+            $(document).on('click', ".btn-delete-mdl-site-modal", function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                    }
+                });
 
-                            let itemId = $(this).attr('data-val');
-                            if (confirm("Are you sure you want to delete this Site?")) {
-                                swal({
-                                    title: "Are you sure you want to delete this Site?",
-                                    text: "You will not be able to recover this Site record if deleted.",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonClass: "btn-danger",
-                                    confirmButtonText: "Yes",
-                                    cancelButtonText: "No",
-                                    closeOnConfirm: false,
-                                    closeOnCancel: true
-                                }, function(isConfirm) {
-                                    if (isConfirm) {
+                let itemId = $(this).attr('data-val');
+                if (confirm("Are you sure you want to delete this Site?")) {
+                    swal({
+                        title: "Are you sure you want to delete this Site?",
+                        text: "You will not be able to recover this Site record if deleted.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes",
+                        cancelButtonText: "No",
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    }, function(isConfirm) {
+                        if (isConfirm) {
 
-                                        let endPointUrl = "{{ route('fc.sites.destroy', 0) }}" + itemId;
-
-                                        let formData = new FormData();
-                                        formData.append('_token', $('input[name="_token"]').val());
-                                        formData.append('_method', 'DELETE');
-
-                                        $.ajax({
-                                            url: endPointUrl,
-                                            type: "POST",
-                                            data: formData,
-                                            cache: false,
-                                            processData: false,
-                                            contentType: false,
-                                            dataType: 'json',
-                                            success: function(result) {
-                                                if (result.errors) {
-                                                    console.log(result.errors)
-                                                } else {
-                                                    swal({
-                                                        title: "Deleted",
-                                                        text: "The Site record has been deleted.",
-                                                        type: "success",
-                                                        confirmButtonClass: "btn-success",
-                                                        confirmButtonText: "OK",
-                                                        closeOnConfirm: false
-                                                    })
-                                                    setTimeout(function() {
-                                                        location.reload(true);
-                                                    }, 1000);
-                                                }
-                                            },
-                                        });
-                                    }
-                                });
-                            });
-                        //Save details
-                        $('#btn-save-mdl-site-modal').click(function(e) {
-                            e.preventDefault();
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('input[name="_token"]').val()
-                                }
-                            });
-
-                            let actionType = "POST";
-                            let endPointUrl = "{{ route('fc.sites.store') }}";
-                            let primaryId = $('#txt-site-primary-id').val();
+                            let endPointUrl = "{{ route('fc.sites.destroy', 0) }}" + itemId;
 
                             let formData = new FormData();
                             formData.append('_token', $('input[name="_token"]').val());
-
-                            if (primaryId != "0") {
-                                actionType = "PUT";
-                                endPointUrl = "{{ route('fc.sites.update', '') }}/" + primaryId;
-                                formData.append('id', primaryId);
-                            }
-
-                            formData.append('_method', actionType);
-                            formData.append('site_name', $('#site_name').val());
-                            formData.append('description', $('#site_description').val());
-                            formData.append('organiztion_id', "{{ $organization->id }}");
-                            formData.append('creator_user_id', "{{ auth()->user()->id }}");
+                            formData.append('_method', 'DELETE');
 
                             $.ajax({
                                 url: endPointUrl,
-                                type: actionType,
+                                type: "POST",
                                 data: formData,
                                 cache: false,
                                 processData: false,
@@ -277,37 +216,96 @@
                                 dataType: 'json',
                                 success: function(result) {
                                     if (result.errors) {
-                                        $('#div-site-modal-error').html('');
-                                        $('#div-site-modal-error').show();
-
-                                        $.each(result.errors, function(key, value) {
-                                            $('#div-site-modal-error').append('<li class="">' +
-                                                value + '</li>');
-                                        });
+                                        console.log(result.errors)
                                     } else {
-                                        $('#div-site-modal-error').hide();
                                         swal({
-                                            title: "Saved",
-                                            text: "The Site record saved successfully.",
+                                            title: "Deleted",
+                                            text: "The Site record has been deleted.",
                                             type: "success",
-                                            showCancelButton: false,
-                                            closeOnConfirm: false,
                                             confirmButtonClass: "btn-success",
                                             confirmButtonText: "OK",
                                             closeOnConfirm: false
                                         })
-
                                         setTimeout(function() {
                                             location.reload(true);
                                         }, 1000);
                                     }
                                 },
-                                error: function(data) {
-                                    console.log(data);
-                                }
                             });
-                        });
-
+                        }
                     });
+                }
+            });
+
+            //Save details
+            $('#btn-save-mdl-site-modal').click(function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                    }
+                });
+
+                let actionType = "POST";
+                let endPointUrl = "{{ route('fc.sites.store') }}";
+                let primaryId = $('#txt-site-primary-id').val();
+
+                let formData = new FormData();
+                formData.append('_token', $('input[name="_token"]').val());
+
+                if (primaryId != "0") {
+                    actionType = "PUT";
+                    endPointUrl = "{{ route('fc.sites.update', '') }}/" + primaryId;
+                    formData.append('id', primaryId);
+                }
+
+                formData.append('_method', actionType);
+                formData.append('site_name', $('#site_name').val());
+                formData.append('description', $('#site_description').val());
+                formData.append('organiztion_id', "{{ $organization->id }}");
+                formData.append('creator_user_id', "{{ auth()->user()->id }}");
+
+                $.ajax({
+                    url: endPointUrl,
+                    type: actionType,
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(result) {
+                        if (result.errors) {
+                            $('#div-site-modal-error').html('');
+                            $('#div-site-modal-error').show();
+
+                            $.each(result.errors, function(key, value) {
+                                $('#div-site-modal-error').append('<li class="">' +
+                                    value + '</li>');
+                            });
+                        } else {
+                            $('#div-site-modal-error').hide();
+                            swal({
+                                title: "Saved",
+                                text: "The Site record saved successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function() {
+                                location.reload(true);
+                            }, 1000);
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+        });
     </script>
 @endpush
