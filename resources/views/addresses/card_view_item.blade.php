@@ -9,7 +9,7 @@
                             <div class="col-xs-12 pa-10">
 
                                 <div class="float-start">
-                                    <div class="float-start user-img-wrap mr-15">
+                                    <div class="float-start user-img-wrap me-15">
                                         <img class="user-auth-img card-user-img img-circle float-start" src="{{asset('imgs/user.png')}}" alt="user">
                                     </div>
                                     <div class="float-start user-detail-wrap pt-5">	
@@ -27,14 +27,14 @@
                                     <a data-toggle="tooltip" 
                                         title="Edit" 
                                         data-val='{{$data_item->id}}' 
-                                        class="btn-edit-mdl-address-modal inline-block mr-5" href="#">
+                                        class="btn-edit-mdl-address-modal inline-block me-2" href="#">
                                         <i class="zmdi zmdi-border-color txt-warning" style="opacity:80%"></i>
                                     </a>
 
                                     <a data-toggle="tooltip" 
                                         title="Delete" 
                                         data-val='{{$data_item->id}}' 
-                                        class="btn-delete-mdl-address-modal inline-block mr-5" href="#">
+                                        class="btn-delete-mdl-address-modal inline-block me-2" href="#">
                                         <i class="zmdi zmdi-delete txt-danger" style="opacity:80%"></i>
                                     </a>
                                 </div>

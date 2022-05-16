@@ -34,13 +34,13 @@
                             <a href="javascript:void(0)">
                                 <p class="mb-0 font-weight-bold">
                                     <span
-                                        class="capitalize-font txt-primary mr-5 weight-500">{{ $comment->user->full_name }}</span>
+                                        class="capitalize-font txt-primary me-2 weight-500">{{ $comment->user->full_name }}</span>
                                 </p>
                             </a>
                         </div>
                         <div>
                             <span
-                                class="block small txt-grey font-12 capitalize-font">{{ $comment->getCommentedDateString() }}
+                                class="block small text-secondary font-12 capitalize-font">{{ $comment->getCommentedDateString() }}
                                 &nbsp;
                                 @if ($comment->user_id == auth()->user()->id)
                                     <a data-toggle="tooltip" title="Edit" data-val='{{ $comment->id }}'

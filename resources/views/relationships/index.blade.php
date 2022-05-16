@@ -19,7 +19,7 @@ Edit Relationship
 
 @section('page_title_buttons')
 <a id="btn-new-mdl-relationship-modal" class="btn btn-primary btn-new-mdl-relationship-modal">
-    <i class="bx bx-book-add mr-1"></i>New Relationship
+    <i class="bx bx-book-add me-1"></i>New Relationship
 </a>
 @if (Auth()->user()->hasAnyRole(['','admin']))
     @include('hasob-foundation-core::pages.relationships.bulk-upload-modal')

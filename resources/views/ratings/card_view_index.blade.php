@@ -20,7 +20,7 @@ Ratings
 
 @section('page_title_buttons')
 <a id="btn-new-mdl-rating-modal" class="btn btn-primary btn-new-mdl-rating-modal">
-    <i class="bx bx-book-add mr-1"></i>New Rating
+    <i class="bx bx-book-add me-1"></i>New Rating
 </a>
 @if (Auth()->user()->hasAnyRole(['','admin']))
     @include('hasob-foundation-core::pages.ratings.bulk-upload-modal')

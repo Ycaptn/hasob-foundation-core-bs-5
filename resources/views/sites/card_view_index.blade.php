@@ -32,10 +32,12 @@ Sites
         {{-- Summary Row --}}
     </div>
 
-    <div>
-
-        {{ $cdv_sites->render() }} 
-
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                {{ $cdv_sites->render() }} 
+            </div>
+        </div>
     </div>
 
 

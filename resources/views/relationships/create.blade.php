@@ -20,7 +20,7 @@ Create Relationship
 @section('page_title_buttons')
 {{--
 <a id="btn-new-xyz" class="btn btn-outline-primary">
-    <i class="bx bx-book-add mr-1"></i>New Action
+    <i class="bx bx-book-add me-1"></i>New Action
 </a>
 --}}
 @stop

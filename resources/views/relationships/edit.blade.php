@@ -19,7 +19,7 @@ Edit Relationship
 
 @section('page_title_buttons')
 <a href="{{ route('fc.relationships.create') }}" id="btn-new-relationships" class="btn btn-primary">
-    <i class="bx bx-book-add mr-1"></i>New Relationship
+    <i class="bx bx-book-add me-1"></i>New Relationship
 </a>
 @stop
 
