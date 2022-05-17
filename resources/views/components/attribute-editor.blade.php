@@ -75,7 +75,7 @@
                         <div class="email-list ps ps--active-y">
                             @foreach ($artifactables as $item)
                                 <a href="#" class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
-                                    <div class="row d-md-flex align-items-center email-message px-3 py-1">
+                                    <div class="d-md-flex align-items-center email-message px-3 py-1">
                                         <div class="col-md-3 d-flex align-items-center email-actions">
                                             <input class="form-check-input me-2 model_artifact_attribute" style="min-width:13px !important;" type="radio"
                                                 value="" data-val="{{ $item->id }}" name='radio' />
@@ -84,8 +84,13 @@
                                         <div class="col-md-7">
                                             <p class="mb-0 attr-val text-break">{{ $item->value }}</p>
                                         </div>
-                                        <div class="col-md-2 ms-auto text-center">
-                                            <p class="mb-0 email-time text-break">{{ $item->created_at->format('Y-m-d H:i:a') }}</p>
+                                        <div class="col-md-2 text-center">
+                                            <p class="mb-0 email-time text-break">
+                                                {{ $item->created_at->format('Y-m-d') }}
+                                            </p>
+                                            <p class="mb-0 email-time text-break">
+                                                {{ $item->created_at->format('H:i:a') }}
+                                            </p>
                                         </div>
                                     </div>
                                 </a>
