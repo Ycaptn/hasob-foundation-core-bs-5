@@ -33,7 +33,7 @@ class ChecklistController extends BaseController
         $selected_name = $request->name;
         if ($selected_name!=null){
             $selected_template_items = ChecklistTemplate::where('list_name',$selected_name)
-                                                            ->orderBy('ordinal')
+                                                            ->orderBy('ordinal','asc')
                                                             ->get();
         }
 

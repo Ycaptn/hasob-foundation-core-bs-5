@@ -104,8 +104,7 @@ class SiteController extends BaseController
         $site = Site::find($id);
 
         if (empty($site)) {
-            Flash::error('Site not found');
-
+            //Flash::error('Site not found');
             return redirect(route('fc.sites.index'));
         }
 
