@@ -65,17 +65,16 @@
 
         //Show Modal for New Entry
         $(document).on('click', ".btn-new-mdl-siteArtifact-modal", function(e) {
-            $('#div-siteArtifact-modal-error').hide();
-            $('#mdl-siteArtifact-modal').modal('show');
-            $('#frm-siteArtifact-modal').trigger("reset");
-            $('#txt-siteArtifact-primary-id').val(0);
+            // $('#div-siteArtifact-modal-error').hide();
+            // $('#mdl-siteArtifact-modal').modal('show');
+            // $('#frm-siteArtifact-modal').trigger("reset");
+            // $('#txt-siteArtifact-primary-id').val(0);
 
-            $('#div-show-txt-siteArtifact-primary-id').hide();
-            $('#div-edit-txt-siteArtifact-primary-id').show();
+            // $('#div-show-txt-siteArtifact-primary-id').hide();
+            // $('#div-edit-txt-siteArtifact-primary-id').show();
             
-            
-            $("#spinner-site_artifacts").hide();
-            $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
+            // $("#spinner-site_artifacts").hide();
+            // $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
         });
 
         //Show Modal for View
@@ -103,13 +102,11 @@
             let itemId = $(this).attr('data-val');
 
             $.get( "{{ route('fc-api.siteArtifacts.show','') }}/"+itemId).done(function( response ) {
-            //$.get( "{{URL::to('/')}}/api/v1/gb-api/fc_site_artifacts/"+itemId).done(function( response ) {
-                
-                // $('#spn_siteArtifact_').html(response.data.);
                 $('#txt-siteArtifact-primary-id').val(response.data.id);
                 $('#spn_siteArtifact_headline').html(response.data.headline);
                 $('#spn_siteArtifact_type').html(response.data.type);
                 $('#spn_siteArtifact_content').html(response.data.content);
+
                 $('#spn_siteArtifact_display_start_date').html(response.data.display_start_date);
                 $('#spn_siteArtifact_display_end_date').html(response.data.display_end_date);
                 $('#spn_siteArtifact_specific_display_date').html(response.data.specific_display_date);
@@ -136,16 +133,21 @@
             let itemId = $(this).attr('data-val');
 
             $.get("{{ route('fc-api.siteArtifacts.show','') }}/"+itemId).done(function( response ) {     
-            //$.get( "{{URL::to('/')}}/api/v1/gb-api/fc_site_artifacts/"+itemId).done(function( response ) {
-
-                // $('#').val(response.data.);
+            
                 $('#txt-siteArtifact-primary-id').val(response.data.id);
                 $('#headline').val(response.data.headline);
                 $('#type').val(response.data.type);
                 $('#content').val(response.data.content);
-                $('#display_start_date').val(response.data.display_start_date);
-                $('#display_end_date').val(response.data.display_end_date);
-                $('#specific_display_date').val(response.data.specific_display_date);
+
+                if (response.data.display_start_date != null){
+                    $('#display_start_date').val(response.data.display_start_date);
+                }
+                if (response.data.display_end_date != null){
+                    $('#display_end_date').val(response.data.display_end_date);
+                }
+                if (response.data.specific_display_date != null){
+                    $('#specific_display_date').val(response.data.specific_display_date);
+                }
 
                 $("#spinner-site_artifacts").hide();
                 $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
@@ -223,7 +225,6 @@
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-
             //check for internet status 
             if (!window.navigator.onLine) {
                 $('.offline').fadeIn(300);
@@ -234,8 +235,6 @@
 
             $('#btn-save-mdl-siteArtifact-modal span').show();
             $('#btn-save-mdl-siteArtifact-modal').attr('disabled',true);
-            // $("#spinner-site_artifacts").show();
-            // $("#div-save-mdl-siteArtifact-modal").attr('disabled', true);
 
             let actionType = "POST";
             let endPointUrl = "{{ route('fc-api.siteArtifacts.store') }}";
@@ -254,17 +253,24 @@
             @if (isset($organization) && $organization!=null)
                 formData.append('organization_id', '{{$organization->id}}');
             @endif
-            formData.append('headline', $('#headline').val());
-            formData.append('type', $('#type').val());
-            formData.append('content', $('#content').val());
-            formData.append('display_start_date', $('#display_start_date').val());
-            formData.append('display_end_date', $('#display_end_date').val());
-            formData.append('specific_display_date', $('#specific_display_date').val());
-            formData.append('creator_user_id', "{{Auth::id()}}");
             @if (isset($site) && $site!=null)
-            formData.append('site_id', "{{$site->id}}");
+                formData.append('site_id', "{{$site->id}}");
             @endif
 
+            formData.append('headline', $('#headline').val());
+            formData.append('content', $('#content').val());
+            formData.append('creator_user_id', "{{Auth::id()}}");
+            formData.append('type', $('#type').val());
+
+            if ($('#display_start_date')!=null && $('#display_start_date').val()!=null){
+                formData.append('display_start_date', $('#display_start_date').val());
+            }
+            if ($('#display_end_date')!=null && $('#display_end_date').val()!=null){
+                formData.append('display_end_date', $('#display_end_date').val());
+            }
+            if ($('#specific_display_date')!=null && $('#specific_display_date').val()!=null){
+                formData.append('specific_display_date', $('#specific_display_date').val());
+            }
 
             $.ajax({
                 url:endPointUrl,
@@ -291,28 +297,25 @@
                         $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
                         $('#div-siteArtifact-modal-error').hide();
                         
-                        //window.alert("The SiteArtifact saved successfully.");
-                        //swal("Saved", "SiteArtifact saved successfully.", "success");
-                            swal({
-                                    title: "Saved",
-                                    text: "SiteArtifact saved successfully",
-                                    type: "success",
-                                    showCancelButton: false,
-                                    closeOnConfirm: false,
-                                    confirmButtonClass: "btn-success",
-                                    confirmButtonText: "OK",
-                                    closeOnConfirm: false
-                                })
-                                
-                                setTimeout(function(){
-                                    location.reload(true);
-                            }, 1000);
-
-                    
+                        swal({
+                                title: "Saved",
+                                text: "SiteArtifact saved successfully",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+                            
+                            setTimeout(function(){
+                                location.reload(true);
+                        }, 1000);
                     }
 
                     $('#btn-save-mdl-siteArtifact-modal span').hide();
-                        $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
+                    $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
+
                     $("#spinner-site_artifacts").hide();
                     $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
                     
@@ -323,7 +326,6 @@
                     $('#btn-save-mdl-siteArtifact-modal').attr('disabled',false);
                     $("#spinner-site_artifacts").hide();
                     $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
-
                 }
             });
         });

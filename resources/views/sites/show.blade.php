@@ -31,20 +31,16 @@
 @section('content')
 
     @php
-    $pages = $site->pages();
-    $artifacts = $site->site_artifacts;
-
-    $components = $artifacts->filter(function ($value, $key) {
-        return strtolower($value->type) == 'component';
-    });
-
-    $menus = $artifacts->filter(function ($value, $key) {
-        return strtolower($value->type) == 'menu';
-    });
-
-    $templates = $artifacts->filter(function ($value, $key) {
-        return strtolower($value->type) == 'template';
-    });
+        $artifacts = $site->site_artifacts;
+        $components = $artifacts->filter(function ($value, $key) {
+            return strtolower($value->type) == 'component';
+        });
+        $menus = $artifacts->filter(function ($value, $key) {
+            return strtolower($value->type) == 'menu-item';
+        });
+        $templates = $artifacts->filter(function ($value, $key) {
+            return strtolower($value->type) == 'template';
+        });
     @endphp
 
     <div class="card">
@@ -86,7 +82,6 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card p-3">
-                                <!-- <div class="card-wrapper collapse in"> -->
                                 <div class="card-body pt-0">
                                     <div class="row">
                                         <div class="col-md-9 mb-15">
@@ -95,73 +90,30 @@
                                                 component is displayed.</span>
                                         </div>
                                         <div class="col-md-3 mb-15">
-                                            <a id="btn-site-add-component" href="#"
-                                                class="float-end btn btn-primary btn-sm btn-new-mdl-component-modal"
-                                                data-bs-toggle="tooltip" title="Add New Component" style=""><span
-                                                    class="fa fa-plus-square me-2"></span> Add New Component</a>
+                                            <a id="btn-site-add-component" 
+                                                href="#"
+                                                class="float-end btn btn-primary btn-sm btn-site-add-artifact"
+                                                data-artifact-type="component"
+                                                data-bs-toggle="tooltip" 
+                                                title="Add New Component" >
+                                                <span class="fa fa-plus-square me-2"></span> Add New Component
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 mb-15">
-                                            <table class="table table-hover mb-0 small">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="pa-0"></th>
-                                                        <th width="150px" class="pa-0"></th>
-                                                    </tr>
-                                                </thead>
-                                                @php
-                                                    $components = DB::table('fc_site_artifacts')
-                                                        ->orderBy('created_at', 'desc')
-                                                        ->get();
-                                                @endphp
-                                                @if (isset($components) && !empty($components) && $components->count() > 0)
-                                                    <tbody>
-                                                        @foreach ($components as $item)
-                                                            <tr>
-                                                                <td>{{ $item->headline }}</td>
-                                                                <td>
-                                                                    <a data-val="{{ $item->id }}"
-                                                                        id="btn-component-options" href="#"
-                                                                        class="text-primary" data-bs-toggle="tooltip"
-                                                                        title="Settings" style=""><span
-                                                                            class="fa fa-cogs me-2"></span></a>
-                                                                    <a data-val="{{ $item->id }}"
-                                                                        id="btn-component-edit" href="#"
-                                                                        class="text-primary" data-bs-toggle="tooltip"
-                                                                        title="Edit" style=""><span
-                                                                            class="fa fa-edit me-2"></span></a>
-                                                                    <a data-val="{{ $item->id }}"
-                                                                        id="btn-component-delete" href="#"
-                                                                        class="text-primary" data-bs-toggle="tooltip"
-                                                                        title="Delete" style=""><span
-                                                                            class="fa fa-trash me-2"></span></a>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                @else
-                                                    <tr>
-                                                        <td colspan="2" class="text-danger">
-                                                            No components for this site, to add a new component, click on
-                                                            the "Add New Component" button.
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            </table>
+                                        <div class="col-md-12 mb-15 p-2">
+                                            @include('hasob-foundation-core::sites.partials.artifacts-list', ['artifacts'=>$components])
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- </div> -->
                 </div>
                 <div class="tab-pane fade" id="pages" role="tabpanel" aria-labelledby="pages-tab">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card p-3">
-                                <!-- <div class="card-wrapper collapse in"> -->
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 mb-15">
@@ -173,49 +125,17 @@
                                     <div class="row">
                                         <div class="col-md-12 p-3">
                                             <x-hasob-foundation-core::content-editor :pageable="$site" />
-                                            {{-- <table class="table table-hover mb-0 small">
-                                                <thead> 
-                                                    <tr>
-                                                        <th class="pa-0"></th>
-                                                        <th width="150px" class="pa-0"></th>
-                                                        <th width="150px" class="pa-0"></th>
-                                                    </tr>    
-                                                </thead>
-                                                @if (isset($pages) && !empty($pages) && $pages->count() > 0)
-                                                <tbody> 
-                                                    @foreach ($pages as $item)
-                                                        <tr>
-                                                            <td>{{$item->page_name}}</td>
-                                                            <td></td>
-                                                            <td>
-                                                                <a data-val="{{$item->id}}" id="btn-page-options" href="#" class="text-primary" data-bs-toggle="tooltip" title="Settings" style=""><span class="fa fa-cogs me-2"></span></a>    
-                                                                <a data-val="{{$item->id}}" id="btn-page-edit" href="#" class="text-primary" data-bs-toggle="tooltip" title="Edit" style=""><span class="fa fa-edit me-2"></span></a>    
-                                                                <a data-val="{{$item->id}}" id="btn-page-delete" href="#" class="text-primary" data-bs-toggle="tooltip" title="Delete" style=""><span class="fa fa-trash me-2"></span></a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                                @else
-                                                <tr>
-                                                    <td colspan="2" class="text-danger">
-                                                        No pages for this site, to add a new page, click on the "Add New Page" button.
-                                                    </td>
-                                                </tr>
-                                                @endif
-                                            </table> --}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- </div> -->
                 </div>
                 <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card p-3">
-                                <!-- <div class="card-wrapper collapse in"> -->
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 mb-15">
@@ -233,13 +153,11 @@
                             </div>
                         </div>
                     </div>
-                    <!-- </div> -->
                 </div>
                 <div class="tab-pane fade" id="site_menu" role="tabpanel" aria-labelledby="menu-tab">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card p-3">
-                                <!-- <div class="card-wrapper collapse in"> -->
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-9 mb-15">
@@ -247,65 +165,30 @@
                                                 users to sepcific pages.</span>
                                         </div>
                                         <div class="col-md-3 mb-15">
-                                            <a id="btn-site-add-menu" href="#"
-                                                class="float-end btn btn-primary btn-sm btn-new-mdl-menu-modal"
-                                                data-bs-toggle="tooltip" title="Add New Menu" style=""><span
-                                                    class="fa fa-plus-square me-2"></span> Add New Menu</a>
+                                            <a id="btn-site-add-menu" 
+                                                href="#" 
+                                                class="float-end btn btn-primary btn-sm btn-site-add-artifact"
+                                                data-artifact-type="menu-item"
+                                                data-bs-toggle="tooltip" 
+                                                title="Add New Menu">
+                                                <span class="fa fa-plus-square me-2"></span> Add New Menu
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 mb-15">
-                                            <table class="table table-condensed table-hover mb-0 small">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="pa-0"></th>
-                                                        <th width="150px" class="pa-0"></th>
-                                                    </tr>
-                                                </thead>
-                                                @if (isset($menus) && !empty($menus) && $menus->count() > 0)
-                                                    <tbody>
-                                                        @foreach ($menus as $item)
-                                                            <tr>
-                                                                <td>{{ $item->headline }}</td>
-                                                                <td>
-                                                                    <a data-val="{{ $item->id }}" id="btn-menu-options"
-                                                                        href="#" class="text-primary"
-                                                                        data-bs-toggle="tooltip" title="Settings"
-                                                                        style=""><span class="fa fa-cogs me-2"></span></a>
-                                                                    <a data-val="{{ $item->id }}" id="btn-menu-edit"
-                                                                        href="#" class="text-primary"
-                                                                        data-bs-toggle="tooltip" title="Edit" style=""><span
-                                                                            class="fa fa-edit me-2"></span></a>
-                                                                    <a data-val="{{ $item->id }}" id="btn-menu-delete"
-                                                                        href="#" class="text-primary"
-                                                                        data-bs-toggle="tooltip" title="Delete"
-                                                                        style=""><span class="fa fa-trash me-2"></span></a>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                @else
-                                                    <tr>
-                                                        <td colspan="2" class="text-danger">
-                                                            No menu for this site, to add a new menu, click on the "Add New
-                                                            Menu" button.
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            </table>
+                                        <div class="col-md-12 mb-15 p-2">
+                                            @include('hasob-foundation-core::sites.partials.artifacts-list', ['artifacts'=>$menus])
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- </div> -->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="templates" role="tabpanel" aria-labelledby="templates-tab">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card p-3">
-                                <!-- <div class="card-wrapper collapse in"> -->
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-9 mb-15">
@@ -314,76 +197,40 @@
                                                 part of a site.</span>
                                         </div>
                                         <div class="col-md-3 mb-15">
-                                            <a id="btn-site-add-template" href="#"
-                                                class="float-end btn btn-primary btn-sm btn-new-mdl-template-modal"
-                                                data-bs-toggle="tooltip" title="Add New Template" style=""><span
-                                                    class="fa fa-plus-square me-2"></span> Add New Template</a>
+                                            <a id="btn-site-add-template" 
+                                                href="#"
+                                                class="float-end btn btn-primary btn-sm btn-site-add-artifact"
+                                                data-bs-toggle="tooltip" 
+                                                data-artifact-type="template"
+                                                title="Add New Template" >
+                                                <span class="fa fa-plus-square me-2"></span> Add New Template
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 mb-15">
-                                            <table class="table table-condensed table-hover mb-0 small">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="pa-0"></th>
-                                                        <th width="150px" class="pa-0"></th>
-                                                    </tr>
-                                                </thead>
-                                                @if (isset($templates) && !empty($templates) && $templates->count() > 0)
-                                                    <tbody>
-                                                        @foreach ($templates as $item)
-                                                            <tr>
-                                                                <td>{{ $item->headline }}</td>
-                                                                <td>
-                                                                    <a data-val="{{ $item->id }}"
-                                                                        id="btn-template-options" href="#"
-                                                                        class="text-primary" data-bs-toggle="tooltip"
-                                                                        title="Settings" style=""><span
-                                                                            class="fa fa-cogs me-2"></span></a>
-                                                                    <a data-val="{{ $item->id }}"
-                                                                        id="btn-template-edit" href="#"
-                                                                        class="text-primary" data-bs-toggle="tooltip"
-                                                                        title="Edit" style=""><span
-                                                                            class="fa fa-edit me-2"></span></a>
-                                                                    <a data-val="{{ $item->id }}"
-                                                                        id="btn-template-delete" href="#"
-                                                                        class="text-primary" data-bs-toggle="tooltip"
-                                                                        title="Delete" style=""><span
-                                                                            class="fa fa-trash me-2"></span></a>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                @else
-                                                    <tr>
-                                                        <td colspan="2" class="text-danger">
-                                                            No template for this site, to add a new template, click on the
-                                                            "Add New Template" button.
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            </table>
+                                        <div class="col-md-12 mb-15 p-2">
+                                            @include('hasob-foundation-core::sites.partials.artifacts-list', ['artifacts'=>$templates])
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- </div> -->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="access" role="tabpanel" aria-labelledby="access-tab">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card p-3">
-                                <!-- <div class="card-wrapper collapse in"> -->
-                                <div class="card-body pt-0">
+                                <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 mb-15">
+                                            <span class="fw-bold">Site View Restricted:</span> No <br/>
+                                            <span class="fw-bold">Roles with View Access:</span> None <br/>
+                                            <span class="fw-bold">Users with View Access:</span> None <br/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -391,16 +238,16 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card p-3">
-                                <!-- <div class="card-wrapper collapse in"> -->
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 mb-15">
+                                            <span class="fw-bold">Blade Rendered:</span> No <br/>
+                                            <span class="fw-bold">Blade File Path:</span> N/A <br/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- </div> -->
                     </div>
                 </div>
             </div>
@@ -433,22 +280,22 @@
                 $("#div-save-mdl-siteArtifact-modal").attr('disabled', false);
             }
 
-            function preparePagesModalForm() {
-                $('#div-page-modal-error').hide();
-                $('#mdl-page-modal').modal('show');
-                $('#frm-page-modal').trigger("reset");
-                $('#txt-page-primary-id').val(0);
+            $(document).on('click', ".btn-site-add-artifact", function(e) {
 
-                $('#div-show-txt-page-primary-id').hide();
-                $('#div-edit-txt-page-primary-id').show();
+                let artifactType = $(this).attr('data-artifact-type');
+                $('#type').val(artifactType);
 
-                $("#spinner-pages").hide();
-                $("#div-save-mdl-page-modal").attr('disabled', false);
-            }
+                if (artifactType == "component"){
+                    $('#lbl-siteArtifact-modal-title').html("Add New Component");
+                }else if (artifactType == "menu-item"){
+                    $('#lbl-siteArtifact-modal-title').html("Add New Menu");
+                }else if (artifactType == "template"){
+                    $('#lbl-siteArtifact-modal-title').html("Add New Template");   
+                }
 
-            $(document).on('click', "#btn-site-add-component", function(e) {
                 prepareArtifactsModalForm();
             });
+
 
         });
     </script>

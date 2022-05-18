@@ -1,5 +1,5 @@
 <div class="row mb-15">
-    <div class="col-xs-12 col-md-7 mb-1 ms-1">
+    <div class="col-xs-12 col-md-7 mb-1">
         @if (isset($action_buttons_list) && $action_buttons_list != null && count($action_buttons_list) > 0)
             @foreach ($action_buttons_list as $key => $account_button)
                 @php
@@ -31,11 +31,11 @@
             @endforeach
         @endif
     </div>
-    <div class="col-xs-12 col-md-5 mt-2 mb-1 ms-1">
+    <div class="col-xs-12 col-md-5 mb-1">
         @if ($data_set_enable_search == true)
             <div class="input-group mb-3">
                 <input type="text" id="{{ $control_id }}-txt-search" name="{{ $control_id }}-txt-search"
-                    class="form-control form-control-sm" placeholder="{{ $search_placeholder_text }}" style="">
+                    class="form-control form-control-sm" placeholder="{{ $search_placeholder_text }}">
                 <span class="input-group-btn">
                     <button id="{{ $control_id }}-btn-search" name="{{ $control_id }}-btn-search" type="button"
                         class="h-100 btn btn-xs btn-primary btn-outline faded"><i class="fa fa-search d-inline"></i></button>

@@ -1,7 +1,8 @@
 @if ($artifactable != null)
 
     @php
-        $artifactables = $artifactable->artifacts()->sortBy([['display_ordinal', 'asc']]);
+        $artifactables = $artifactable->artifacts();
+        $model_name = str_replace('\\', '\\\\', get_class($artifactable));
     @endphp
 
 
@@ -18,9 +19,12 @@
                             <i class="bx bx-plus me-0"></i> New Attribute
                         </button>
                     </div>
-                    <div class="btn btn-white">
-                        <input class="form-check-input" type="checkbox">
-                    </div>
+                    {{-- <div class="">
+                        <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-edit-attribute">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </button>
+
+                    </div> --}}
                     <div class="">
                         <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-refresh-attribute">
                             <i class="bx bx-refresh me-0"></i>
@@ -30,12 +34,18 @@
                         <button type="button" id="{{ $control_id }}-upmove-attribute" class="btn btn-white ms-2"
                             value="up" id="up-vote">
                             <i class="bx bx-upvote me-0"></i>
+                            <span class="spinner-border spinner-border-sm text-primary" id="spinner1" role="status"
+                                aria-hidden="true"></span>
+                            <span class="visually-hidden">Loading...</span>
                         </button>
                     </div>
                     <div class="">
                         <button type="button" class="btn btn-white ms-2" value="down"
                             id="{{ $control_id }}-downmove-attribute">
                             <i class="bx bx-downvote me-0"></i>
+                            <span class="spinner-border spinner-border-sm text-primary" id="spinner2" role="status"
+                                aria-hidden="true"></span>
+                            <span class="visually-hidden">Loading...</span>
                         </button>
                     </div>
                     <div class="d-none d-md-flex">
@@ -66,16 +76,21 @@
                             @foreach ($artifactables as $item)
                                 <a href="#" class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
                                     <div class="d-md-flex align-items-center email-message px-3 py-1">
-                                        <div class="d-flex align-items-center email-actions">
-                                            <input class="form-check-input me-2 model_artifact_attribute" type="radio"
+                                        <div class="col-md-3 d-flex align-items-center email-actions">
+                                            <input class="form-check-input me-2 model_artifact_attribute" style="min-width:13px !important;" type="radio"
                                                 value="" data-val="{{ $item->id }}" name='radio' />
-                                            <p class="mb-0"><b>{{ $item->key }}</b></p>
+                                            <p class="mb-0 text-break"><b>{{ $item->key }}</b></p>
                                         </div>
-                                        <div class="">
-                                            <p class="mb-0 attr-val">{{ $item->value }}</p>
+                                        <div class="col-md-7">
+                                            <p class="mb-0 attr-val text-break">{{ $item->value }}</p>
                                         </div>
-                                        <div class="ms-auto">
-                                            <p class="mb-0 email-time">5:56 PM</p>
+                                        <div class="col-md-2 text-center">
+                                            <p class="mb-0 email-time text-break">
+                                                {{ $item->created_at->format('Y-m-d') }}
+                                            </p>
+                                            <p class="mb-0 email-time text-break">
+                                                {{ $item->created_at->format('H:i:a') }}
+                                            </p>
                                         </div>
                                     </div>
                                 </a>
@@ -146,8 +161,8 @@
 
 
                 <div class="modal-footer" id="div-save-mdl-{{ $control_id }}-modal">
-                    <button type="button" class="btn btn-primary px-5" id="btn-save-mdl-{{ $control_id }}-modal"
-                        value="add">Save
+                    <button type="button" class="btn btn-primary px-5"
+                        id="btn-save-mdl-{{ $control_id }}-attributes-save" value="add">Save
 
                         <span class="spinner-border spinner-border-sm" id="spinner" role="status"
                             aria-hidden="true"></span>
@@ -165,6 +180,8 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $("#spinner").hide();
+                $("#spinner1").hide();
+                $("#spinner2").hide();
                 $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
                 $(".alert-danger").hide();
 
@@ -200,7 +217,6 @@
                     });
 
                 });
-
 
                 //New attribute save button
                 $('#btn-save-mdl-{{ $control_id }}-modal').click(function(e) {
@@ -274,16 +290,20 @@
                             $("#spinner").hide();
                             $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
                             $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
-                            console.log(data);
+
                             swal("Error", "Oops an error occurred. Please try again.", "error");
 
                         }
                     });
                 });
 
+
+
                 //update action for display_ordinal
 
                 $('#{{ $control_id }}-upmove-attribute').click(function(e) {
+                    $("#spinner1").show();
+                    $('#{{ $control_id }}-upmove-attribute').attr('disabled', true)
                     e.preventDefault();
                     $.ajaxSetup({
                         headers: {
@@ -296,7 +316,7 @@
                     let current_position = [];
 
                     let model_artifacts = $('.model_artifact_attribute');
-                    // console.log(model_artifacts);
+
                     let artifacts = model_artifacts.filter(function(k) {
                         return $(this).prop('checked') == true;
                     })
@@ -351,11 +371,15 @@
                                 success: function(result) {
                                     if (result.errors) {
                                         $('#spinner').hide();
+
+                                        $('#{{ $control_id }}-upmove-attribute').attr(
+                                            'disabled', false)
                                         $('#{{ $control_id }}-delete-attribute')
                                             .attr("disabled", false);
-                                        console.log(result.errors);
                                     } else {
-
+                                        $("#spinner1").hide();
+                                        $('#{{ $control_id }}-upmove-attribute').attr(
+                                            'disabled', false)
                                     }
                                 }
                             })
@@ -364,6 +388,8 @@
                 })
                 //down-vote attr
                 $('#{{ $control_id }}-downmove-attribute').click(function(e) {
+                    $("#spinner2").show();
+                    $('#{{ $control_id }}-downmove-attribute').attr('disabled', true);
                     e.preventDefault();
                     $.ajaxSetup({
                         headers: {
@@ -400,7 +426,7 @@
 
                         }
 
-
+                        console.log('current_position', current_position)
 
                         $('.model_artifact_attribute').each(function(key, v) {
 
@@ -431,12 +457,48 @@
                                             .attr("disabled", false);
                                         console.log(result.errors);
                                     } else {
-
+                                        $("#spinner2").hide();
+                                        $('#{{ $control_id }}-downmove-attribute').attr(
+                                            'disabled', false);
                                     }
                                 }
                             })
                         })
                     }
+                })
+
+                //edit attribute action
+                // $("#{{ $control_id }}-edit-attribute").click(function(e) {
+                $(".model_artifact_attribute").click(function(e) {
+
+                    let itemToCopy = [];
+
+                    let model_artifacts = $('.model_artifact_attribute');
+                    let artifacts = model_artifacts.filter(function() {
+                        return $(this).prop('checked') == true;
+                    })
+                    for (let index = 0; index < artifacts.length; index++) {
+                        itemToCopy.push(model_artifacts.index(artifacts[index]));
+
+                        if (model_artifacts.length > 0) {
+                            let id = $('.model-artifacts-a')[itemToCopy[index]].id;
+                            $('#{{ $control_id }}-attribute-modal').modal('show');
+                            let attribute_name = $('#' + id).find('p').find('b').html();
+                            let attribute_value = $('#' + id).find('p.attr-val').html();
+                            $('#{{ $control_id }}-attribute-name').val(attribute_name)
+                            $('#{{ $control_id }}-attribute-value').val(attribute_value)
+                            let attribute_id = $('#' + id).find('input').attr('data-val');
+
+                            $("#{{ $control_id }}-selected-attribute-id")
+                                .val(attribute_id);
+                        }
+
+
+
+
+                    }
+
+
                 })
                 //copy button triggers a modal
                 $("#{{ $control_id }}-copy-attribute").click(function(e) {
@@ -463,6 +525,10 @@
                     }
 
 
+                })
+                //refresh action 
+                $('#{{ $control_id }}-refresh-attribute').click(function(e) {
+                    location.reload(true);
                 })
                 //Delete action
                 $('#{{ $control_id }}-delete-attribute').click(function(e) {
@@ -532,11 +598,7 @@
                                                         "disabled",
                                                         false
                                                     );
-                                                console
-                                                    .log(
-                                                        result
-                                                        .errors
-                                                    );
+
                                             } else {
                                                 swal({
                                                     title: "Deleted",
@@ -564,26 +626,32 @@
 
 
                 //Save attribute details
-                $('#{{ $control_id }}-save-page').click(function(e) {
+                $('#btn-save-mdl-{{ $control_id }}-attributes-save').click(function(e) {
+                    $("#spinner").show();
+                    $('#btn-save-mdl-{{ $control_id }}-attributes-save').attr('disabled', true);
+
                     e.preventDefault();
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('input[name="_token"]').val()
                         }
                     });
-
+                    let formData = new FormData();
+                    let endPointUrl = "{{ route('fc-api.attributes.store') }}"
                     let pagePrimaryId = $("#{{ $control_id }}-selected-attribute-id")
                         .val();
+                    if (pagePrimaryId != "0") {
+                        formData.append('_method', "PUT");
+                        endPointUrl = "{{ route('fc-api.attributes.update', '') }}/" + pagePrimaryId
+                    }
 
-                    let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
-                    formData.append('_method', "PUT");
                     formData.append('id', pagePrimaryId);
-                    formData.append('page_name', $(
-                        '#{{ $control_id }}-page-text-name').val());
-                    formData.append('content', $(
-                        '#{{ $control_id }}-page_contents').summernote(
-                        'code'));
+                    formData.append('model_name', "{{ $model_name }}")
+                    formData.append('model_primary_id', "{{ $artifactable->id }}")
+                    formData.append('key', $(
+                        '#{{ $control_id }}-attribute-name').val());
+                    formData.append('value', $('#{{ $control_id }}-attribute-value').val());
                     //formData.append('is_hidden', $('#{{ $control_id }}-page-text-is_hidden').val());
                     //formData.append('is_published', $('#{{ $control_id }}-page-text-is_published').val());
                     formData.append('creator_user_id', "{{ Auth::id() }}");
@@ -593,8 +661,7 @@
                     @endif
 
                     $.ajax({
-                        url: "{{ route('fc-api.attributes.update', '') }}/" +
-                            pagePrimaryId,
+                        url: endPointUrl,
                         type: "POST",
                         data: formData,
                         cache: false,
@@ -607,6 +674,10 @@
                                     .html('');
                                 $('#div-{{ $control_id }}-page-text-error')
                                     .show();
+                                $("#spinner").hide();
+                                $('#btn-save-mdl-{{ $control_id }}-attributes-save').attr(
+                                    'disabled',
+                                    false);
 
                                 $.each(result.errors, function(key,
                                     value) {
@@ -635,13 +706,13 @@
 
                         },
                         error: function(data) {
-                            console.log(data);
+
                             swal(
                                 "Oops an error occurred. Please try again."
                             );
-                            $('#{{ $control_id }}-delete-attribute')
-                                .attr("disabled",
-                                    false);
+                            $('#{{ $control_id }}-delete-attribute').attr("disabled", false);
+
+
 
 
 
