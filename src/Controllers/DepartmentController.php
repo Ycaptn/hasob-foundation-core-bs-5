@@ -33,8 +33,8 @@ class DepartmentController extends BaseController
         $cdv_departments = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.department-item");
         $cdv_departments->setDataQuery(['organization_id'=>$org->id])
                         ->addDataGroup('All','deleted_at', null)
-                        ->addDataGroup('Departments','field','value')
-                        ->addDataGroup('Units','field','value')
+                        ->addDataGroup('Departments','parent_id', null)
+                        ->addDataGroup('Units','field', 'value')
                         ->setSearchFields(['long_name','key','email','physical_location'])
                         //->addDataOrder('display_ordinal','DESC')
                         //->addDataOrder('id','DESC')
@@ -88,11 +88,11 @@ class DepartmentController extends BaseController
             abort(404);
         }
 
-        $cdv_child_departments = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.department-item");
+        $cdv_child_departments = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.unit-item");
         $cdv_child_departments->setDataQuery(['organization_id'=>$org->id, 'parent_id'=>$id])
                         ->addActionButton('Add New', 'fa fa-plus','#', 'btn-new-mdl-department-unit-modal', [])
                         ->addDataGroup('All','deleted_at', null)
-                        ->addDataGroup('Departments','field','value')
+                        ->addDataGroup('Departments','field', 'value')
                         ->addDataGroup('Units','field','value')
                         ->setSearchFields(['long_name','key','email','physical_location'])
                         ->enableSearch(true)
@@ -100,7 +100,7 @@ class DepartmentController extends BaseController
                         ->setPaginationLimit(20)
                         ->setSearchPlaceholder('Search');
 
-        $cdv_department_members = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.department-item");
+        $cdv_department_members = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.unit-item");
         $cdv_department_members->setDataQuery(['organization_id'=>$org->id, 'department_id'=>$id])
                         ->addActionButton('Add New', 'fa fa-plus','#', 'btn-new-mdl-department-members', [])
                         ->addDataGroup('All','deleted_at', null)
@@ -110,7 +110,7 @@ class DepartmentController extends BaseController
                         ->enableSearch(true)
                         ->enablePagination(true)
                         ->setPaginationLimit(20)
-                        ->setSearchPlaceholder('Search Members');
+                        ->setSearchPlaceholder('Search');
 
         if (request()->expectsJson()){
             return $cdv_child_departments->render();
@@ -152,15 +152,25 @@ class DepartmentController extends BaseController
     public function processDepartmentUnitSave(Organization $org, CreateDepartmentRequest $request){
         $current_user = Auth::user();
         $department = new Department();
-        $department->email = $request->email;
-        $department->is_unit = false;
-        $department->key = self::generateRandomCode(8);
-        $department->long_name = $request->long_name;
-        $department->telephone = $request->telephone;
-        $department->parent_id = $request->parent_id;
-        $department->physical_location = $request->physical_location;
-        $department->organization_id = $org->id;
-        $department->save();
+        $email = $request->email;
+        $is_unit = false;
+        $key = self::generateRandomCode(8);
+        $long_name = $request->long_name;
+        $telephone = $request->telephone;
+        $parent_id = $request->parent_id;
+        $physical_location = $request->physical_location;
+        $organization_id = $org->id; 
+        
+       $department->parent()->create([
+           'email' => $email,
+           'is_unit' => $is_unit,
+           'key' => $key,
+           'long_name' => $long_name,
+           'telephone' => $telephone,
+           'parent_id' => $parent_id,
+           'physical_location' => $physical_location,
+           'organization_id' => $organization_id,
+       ]);
 
         return self::createJSONResponse("ok","success",$department,200);
 

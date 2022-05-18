@@ -21,11 +21,12 @@
 
 @section('page_title_buttons')
     @if (Auth()->user()->hasAnyRole(['departments-admin', 'admin']) || $department->is_manager(Auth()->user()))
-        <a href="#" data-toggle="tooltip" title="Edit" data-val="{{ $department->id }}" data-toggle="tooltip"
+        {{-- <a href="#" data-toggle="tooltip" title="Edit" data-val="{{ $department->id }}" data-toggle="tooltip"
             data-original-title="Edit" class="btn btn-sm btn-primary btn-edit-mdl-department-modal" href="#">
             <i class="bx bxs-edit"></i> Edit
-        </a>
-        @include('hasob-foundation-core::departments.modal') 
+        </a> --}}
+       {{--  @include('hasob-foundation-core::departments.modal')  --}}
+        @include('hasob-foundation-core::departments.departments-units-modal')
         @include('hasob-foundation-core::departments.members-selector')
         
         
@@ -86,7 +87,7 @@
                                         <tbody>
                                             @foreach ($department->members as $idx => $member)
                                                 <tr>
-                                                    <td class="d-flex align-items-center border-top border-bottom pb-2">
+                                                    <td class="d-flex align-items-center justify-content-between border-top border-bottom pb-2">
 
                                                         @if ($member->profile_image == null)
                                                             <img width="42" height="42" class="rounded-circle p-1 border"
