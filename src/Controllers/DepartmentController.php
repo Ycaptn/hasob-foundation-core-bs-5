@@ -90,7 +90,7 @@ class DepartmentController extends BaseController
 
         $cdv_child_departments = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.unit-item");
         $cdv_child_departments->setDataQuery(['organization_id'=>$org->id, 'parent_id'=>$id])
-                        ->addActionButton('Add New', 'fa fa-plus','#', 'btn-new-mdl-department-unit-modal', [])
+                        ->addActionButton('Add Unit', 'fa fa-plus','#', 'btn-new-mdl-department-unit-modal', [])
                         ->addDataGroup('All','deleted_at', null)
                         ->addDataGroup('Departments','field', 'value')
                         ->addDataGroup('Units','field','value')
@@ -102,7 +102,7 @@ class DepartmentController extends BaseController
 
         $cdv_department_members = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.unit-item");
         $cdv_department_members->setDataQuery(['organization_id'=>$org->id, 'department_id'=>$id])
-                        ->addActionButton('Add New', 'fa fa-plus','#', 'btn-new-mdl-department-members', [])
+                        ->addActionButton('Add Member', 'fa fa-plus','#', 'btn-new-mdl-department-members', [])
                         ->addDataGroup('All','deleted_at', null)
                         //->addDataGroup('Departments','field','value')
                         //->addDataGroup('Units','field','value')
