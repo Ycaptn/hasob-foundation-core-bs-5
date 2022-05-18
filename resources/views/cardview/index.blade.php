@@ -53,7 +53,7 @@
 @if ($data_set_enable_pagination == true)
     <div class="row">
         <div class="col-xs-12">
-            <ul id="{{ $control_id }}-pagination" class="pagination ma-0"></ul>
+            <ul id="{{ $control_id }}-pagination" class="pagination"></ul>
         </div>
     </div>
 @endif
