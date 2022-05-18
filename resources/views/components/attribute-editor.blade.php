@@ -19,20 +19,22 @@
                             <i class="bx bx-plus me-0"></i> New Attribute
                         </button>
                     </div>
-                    {{-- <div class="">
-                        <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-edit-attribute">
+                    <div class="">
+                        <button type="button" class="btn btn-white ms-2" data-bs-toggle="tooltip" data-bs-html="true"
+                            title="Edit" id="{{ $control_id }}-edit-attribute">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </button>
 
-                    </div> --}}
+                    </div>
                     <div class="">
-                        <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-refresh-attribute">
+                        <button type="button" class="btn btn-white ms-2" data-bs-toggle="tooltip" data-bs-html="true"
+                            title="Refresh" id="{{ $control_id }}-refresh-attribute">
                             <i class="bx bx-refresh me-0"></i>
                         </button>
                     </div>
                     <div class="">
                         <button type="button" id="{{ $control_id }}-upmove-attribute" class="btn btn-white ms-2"
-                            value="up" id="up-vote">
+                            value="up" id="up-vote" data-bs-toggle="tooltip" data-bs-html="true" title="MoveUp">
                             <i class="bx bx-upvote me-0"></i>
                             <span class="spinner-border spinner-border-sm text-primary" id="spinner1" role="status"
                                 aria-hidden="true"></span>
@@ -41,7 +43,8 @@
                     </div>
                     <div class="">
                         <button type="button" class="btn btn-white ms-2" value="down"
-                            id="{{ $control_id }}-downmove-attribute">
+                            id="{{ $control_id }}-downmove-attribute" data-bs-toggle="tooltip" data-bs-html="true"
+                            title="MoveDown">
                             <i class="bx bx-downvote me-0"></i>
                             <span class="spinner-border spinner-border-sm text-primary" id="spinner2" role="status"
                                 aria-hidden="true"></span>
@@ -49,13 +52,14 @@
                         </button>
                     </div>
                     <div class="d-none d-md-flex">
-                        <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-copy-attribute">
+                        <button type="button" class="btn btn-white ms-2" id="{{ $control_id }}-copy-attribute"
+                            data-bs-toggle="tooltip" data-bs-html="true" title="Copy">
                             <i class="bx bx-file me-0"></i>
                         </button>
                     </div>
                     <div class="">
                         <button type="button" id="{{ $control_id }}-delete-attribute" class="btn btn-white ms-2"
-                            val="">
+                            val="" data-bs-toggle="tooltip" data-bs-html="true" title="Delete">
                             <i class="bx bx-trash me-0"></i>
                         </button>
                     </div>
@@ -72,25 +76,22 @@
             <div class="">
                 @if (count($artifactables) > 0)
                     <div class="">
-                        <div class="email-list ps ps--active-y">
+                        <div class="email-list ps ps--active-y" style="overflow-y:scroll !important;overflow-x:hidden !important;">
                             @foreach ($artifactables as $item)
                                 <a href="#" class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
                                     <div class="d-md-flex align-items-center email-message px-3 py-1">
                                         <div class="col-md-3 d-flex align-items-center email-actions">
-                                            <input class="form-check-input me-2 model_artifact_attribute" style="min-width:13px !important;" type="radio"
-                                                value="" data-val="{{ $item->id }}" name='radio' />
+                                            <input class="form-check-input me-2 model_artifact_attribute"
+                                                style="min-width:13px !important;" type="radio" value=""
+                                                data-val="{{ $item->id }}" name='radio' />
                                             <p class="mb-0 text-break"><b>{{ $item->key }}</b></p>
                                         </div>
                                         <div class="col-md-7">
                                             <p class="mb-0 attr-val text-break">{{ $item->value }}</p>
                                         </div>
-                                        <div class="col-md-2 text-center">
+                                        <div class="col-md-2 ms-auto text-center">
                                             <p class="mb-0 email-time text-break">
-                                                {{ $item->created_at->format('Y-m-d') }}
-                                            </p>
-                                            <p class="mb-0 email-time text-break">
-                                                {{ $item->created_at->format('H:i:a') }}
-                                            </p>
+                                                {{ $item->created_at->format('Y-m-d H:i:a') }}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -98,15 +99,17 @@
                             <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
                                 <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
                             </div>
-                            <div class="ps__rail-y" style="top: 0px; height: 530px; right: 0px;">
-                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 233px;"></div>
+                            <div class="ps__rail-y"
+                                style="top: 0px; height: 530px; right: 0px;overflow-y:hidden !important;width:0 !important;">
+                                <div class="ps__thumb-y" tabindex="0"
+                                    style="top: 0px; height: 233px;overflow-y:hidden !important;"></div>
                             </div>
                         </div>
                     </div>
                 @else
                     <div class="">
                         <div class="ps ps--active-y">
-                            <h6 class="text-center mt-20" style="margin-top:20px!important;">No Attributes</h6>
+                            <h6 class="text-sm-start text-center mt-20" style="margin-top:20px!important;">No Attributes</h6>
                         </div>
                     </div>
                 @endif
@@ -184,6 +187,8 @@
                 $("#spinner2").hide();
                 $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
                 $(".alert-danger").hide();
+                // $('#frm-{{ $control_id }}-modal').trigger("reset");
+                $('.form-horizontal').trigger("reset");
 
                 function hide_attribute_card() {
                     $("#div-{{ $control_id }}-modal-error").html('');
@@ -193,10 +198,17 @@
                 hide_attribute_card();
 
                 //Show add new attribute modal
+                // $('.form-horizontal').trigger("reset");
                 $(document).on('click', "#{{ $control_id }}-add-attribute", function(e) {
                     hide_attribute_card();
+                    // $('#frm-{{ $control_id }}-modal').trigger("reset");
+                    $('.form-horizontal').trigger("reset");
+
+
                     $('#{{ $control_id }}-attribute-modal').modal('show');
-                    $('#frm-{{ $control_id }}-modal').trigger("reset");
+
+
+
                 });
 
                 //Load attribute details in editor on click
@@ -220,7 +232,8 @@
 
                 //New attribute save button
                 $('#btn-save-mdl-{{ $control_id }}-modal').click(function(e) {
-
+                    $('.form-horizontal').trigger("reset");
+                    $('.form-horizontal')[0].reset();
                     e.preventDefault();
                     $("#spinner").show();
                     $('.alert-danger').hide();
@@ -251,6 +264,7 @@
                         contentType: false,
                         dataType: 'json',
                         success: function(result) {
+                            $('.form-horizontal').trigger("reset");
                             if (result.errors) {
                                 $('#div-{{ $control_id }}-modal-error').html('');
                                 $('#div-{{ $control_id }}-modal-error').show();
@@ -260,7 +274,8 @@
                                     false);
                                 $.each(result.errors, function(key, value) {
 
-                                    $('.alert-danger').append('<li class="">' + value +
+                                    $('.alert-danger').append('<li class="list-unstyled">' +
+                                        value +
                                         '</li>');
                                 });
                             } else {
@@ -468,8 +483,8 @@
                 })
 
                 //edit attribute action
-                // $("#{{ $control_id }}-edit-attribute").click(function(e) {
-                $(".model_artifact_attribute").click(function(e) {
+                $("#{{ $control_id }}-edit-attribute").click(function(e) {
+                    // $(".model_artifact_attribute").click(function(e) {
 
                     let itemToCopy = [];
 
@@ -670,22 +685,32 @@
                         dataType: 'json',
                         success: function(result) {
                             if (result.errors) {
-                                $('#div-{{ $control_id }}-page-text-error')
-                                    .html('');
-                                $('#div-{{ $control_id }}-page-text-error')
-                                    .show();
                                 $("#spinner").hide();
                                 $('#btn-save-mdl-{{ $control_id }}-attributes-save').attr(
                                     'disabled',
                                     false);
+                                $('#div-{{ $control_id }}-modal-error')
+                                    .html('');
+                                $('#div-{{ $control_id }}-modal-error')
+                                    .show();
+                                $('.alert.alert-danger').html('');
+                                $('.alert.alert-danger').show();
 
                                 $.each(result.errors, function(key,
                                     value) {
-                                    $('#div-{{ $control_id }}-page-text-error')
+                                    console.log(value);
+                                    // $('#div-{{ $control_id }}-page-text-error')
+                                    $('.alert.alert-danger')
                                         .append(
-                                            '<li class="">' +
-                                            value + '</li>');
+                                            `<li class="list-unstyled"> ${value} </li>`);
+
+
+
+                                    // $('.alert.alert-danger').show();
+                                    // $('#div-{{ $control_id }}-modal-error').show()
                                 });
+
+
                             } else {
                                 $('#div-{{ $control_id }}-page-text-error')
                                     .hide();
@@ -706,6 +731,7 @@
 
                         },
                         error: function(data) {
+                            console.log(data);
 
                             swal(
                                 "Oops an error occurred. Please try again."

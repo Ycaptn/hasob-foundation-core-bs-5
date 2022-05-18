@@ -38,7 +38,7 @@
                     class="form-control form-control-sm" placeholder="{{ $search_placeholder_text }}">
                 <span class="input-group-btn">
                     <button id="{{ $control_id }}-btn-search" name="{{ $control_id }}-btn-search" type="button"
-                        class="btn btn-sm btn-primary btn-outline faded"><i class="fa fa-search"></i></button>
+                        class="h-100 btn btn-xs btn-primary btn-outline faded"><i class="fa fa-search d-inline"></i></button>
                 </span>
             </div>
         @endif
@@ -53,7 +53,7 @@
 @if ($data_set_enable_pagination == true)
     <div class="row">
         <div class="col-xs-12">
-            <ul id="{{ $control_id }}-pagination" class="pagination ma-0"></ul>
+            <ul id="{{ $control_id }}-pagination" class="pagination"></ul>
         </div>
     </div>
 @endif
