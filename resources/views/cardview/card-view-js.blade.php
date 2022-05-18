@@ -40,15 +40,15 @@
                 if (response != null && response.paginate && response.result_count > 0){
                     // $("#{{$control_id}}-pagination").append("<li><span class='pre'> <a href='#' id='pre' data-type='pre' class='{{$control_id}}-pg'><i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i></a></span></li>"); 
                     $("#{{$control_id}}-pagination").append(`<nav aria-label="Page navigation">
-                        <ul class="pagination"><li class="page-item ${current_page == 1 && 'disabled'}"><span class='pre'> <a href='#' id='pre' data-type='pre'  class='{{$control_id}}-pg page-link'><i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i></a></span></li> </ul>
+                        <ul class="pagination h-100"><li class="h-100 page-item ${current_page == 1 && 'disabled'}"><span class='h-auto pre '> <a href='#' id='pre' data-type='pre'  class='{{$control_id}}-pg page-link d-inline'><i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i></a></span></li> </ul>
                         </nav>`); 
                     for(let pg=1;pg<=response.pages_total;pg++){
-                        $("#{{$control_id}}-pagination").append(`<li class="page-item"><a data-val='${pg}' data-type='pg' class='{{$control_id}}-pg pg-${pg} page-link' href='#'>${pg}</a></li>`);
+                        $("#{{$control_id}}-pagination").append(`<li class="page-item"><a data-val='${pg}' data-type='pg' class='{{$control_id}}-pg pg-${pg} page-link d-inline' href='#'>${pg}</a></li>`);
                         (current_page == pg) ? $('.pg-'+pg).addClass('cdv-current-page') : $('.pg-'+pg).addClass('text-primary');
                     }
                     // $("#{{$control_id}}-pagination").append("<li><span class='nxt'><a href='#' id='nxt' data-type='nxt'  class='{{$control_id}}-pg'><i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i></a></span></li>");
                     $("#{{$control_id}}-pagination").append(`<nav aria-label="Page navigation">
-                        <ul class="pagination"><li class="page-item ${page_total == current_page && 'disabled'}"><span class='nxt'><a href='#' id='nxt' data-type='nxt'  class='{{$control_id}}-pg page-link'><i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i></a></span></li> </ul>
+                        <ul class="pagination"><li class="page-item ${page_total == current_page && 'disabled'}"><span class='nxt'><a href='#' id='nxt' data-type='nxt'  class='{{$control_id}}-pg page-link d-inline'><i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i></a></span></li> </ul>
                         </nav>`);
                     if(current_page == 1){
                         $('.pre').addClass('disable');

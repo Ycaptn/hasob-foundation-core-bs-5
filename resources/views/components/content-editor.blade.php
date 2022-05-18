@@ -64,17 +64,17 @@
                                     {!! Form::text("{$control_id}-page-text-name", null, ['id' => "{$control_id}-page-text-name", 'class' => 'form-control', 'minlength' => 1, 'maxlength' => 1000]) !!}
                                 </div>
                                 <div class="col-lg-2 mb-2">
-                                    <div class="form-check form-switch pt-2">
+                                    <div class="form-check form-switch pt-2 ">
                                         <input class="form-check-input" type="checkbox"
-                                            id="{{ $control_id }}-page-text-is_hidden" checked="">
+                                            id="{{ $control_id }}-page-text-is_hidden"  >
                                         <label class="form-check-label"
                                             for="{{ $control_id }}-page-text-is_hidden">Hidden</label>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 mb-2">
-                                    <div class="form-check form-switch pt-2">
+                                    <div class="form-check form-switch pt-2" id = "checkPublished">
                                         <input class="form-check-input" type="checkbox"
-                                            id="{{ $control_id }}-page-text-is_published" checked="">
+                                            id="{{ $control_id }}-page-text-is_published"  >
                                         <label class="form-check-label"
                                             for="{{ $control_id }}-page-text-is_published">Published</label>
                                     </div>
@@ -183,7 +183,9 @@
                     $("#div-{{ $control_id }}-page-editor").hide();
                     $('#div-{{ $control_id }}-modal-error').html('');
                     $("#div-{{ $control_id }}-page-text-error").hide();
-                }
+                };
+
+                
 
                 hide_editor_card();
 
@@ -224,7 +226,16 @@
                         $("#{{ $control_id }}-page-text-name").val(response.data.page_name);
                         $("#{{ $control_id }}-text-page_contents").summernote("code", response.data
                             .content);
-
+                       if (response.data.is_hidden === true) {
+                           $('#{{ $control_id }}-page-text-is_hidden').prop('checked', true); // Checks it
+                        }else{
+                            $('#{{ $control_id }}-page-text-is_hidden').prop('checked', false); // Unchecks it
+                        }
+                        if (response.data.is_published === true) {
+                            $('#{{ $control_id }}-page-text-is_published').prop('checked', true); // Checks it 
+                        } else {
+                            $('#{{ $control_id }}-page-text-is_published').prop('checked', false); // Unchecks it
+                       }
                     });
 
                 });
@@ -335,6 +346,40 @@
                     });
 
                     let pagePrimaryId = $("#{{ $control_id }}-selected-page-id").val();
+                    let checkIsHidden = $('#{{ $control_id }}-page-text-is_hidden').val()
+                    let checkIsPublished = $('#{{ $control_id }}-page-text-is_published').val()
+                    
+                    console.log(checkIsHidden, "hidden before condition");
+                    console.log(checkIsPublished, "published before condition");
+
+                    if($('#{{ $control_id }}-page-text-is_hidden').is(':checked')){
+                        checkIsHidden = "1"
+                    }else{
+                        checkIsHidden = "0"
+                    }
+                    console.log(checkIsHidden, "hidden after condition")
+                    if($('#{{ $control_id }}-page-text-is_published').is(':checked')){
+                        checkIsPublished = "1"
+                    }else{
+                        checkIsPublished = "0"
+                    }
+                    console.log(checkIsPublished, "published after condition")
+                    
+                    // if( $('#checkHidden:checkbox:checked')){
+                        //    
+                    // }else{
+                    //     checkIsHidden = "0";
+                    // }
+                    
+                    // console.log(checkIsHidden)
+                     
+                    
+                    // if(){
+                    //     checkIsPublished = "1";
+                    // }else{
+                    //     checkIsPublished = "0";
+                    // }
+                    // console.log(checkIsPublished)
 
                     $(".editor-spinner").show();
                     $("#btn-{{ $control_id }}-save-page").prop('disabled', true);
@@ -348,8 +393,8 @@
                     formData.append('page_name', $('#{{ $control_id }}-page-text-name').val());
                     formData.append('content', $('#{{ $control_id }}-text-page_contents').summernote(
                         'code'));
-                    //formData.append('is_hidden', $('#{{ $control_id }}-page-text-is_hidden').val());
-                    //formData.append('is_published', $('#{{ $control_id }}-page-text-is_published').val());
+                    formData.append('is_hidden', checkIsHidden);
+                    formData.append('is_published', checkIsPublished);
                     formData.append('creator_user_id', "{{ Auth::id() }}");
                     @if (isset($organization) && $organization != null)
                         formData.append('organization_id', '{{ $organization->id }}');

@@ -38,7 +38,7 @@
                     class="form-control form-control-sm" placeholder="{{ $search_placeholder_text }}" style="">
                 <span class="input-group-btn">
                     <button id="{{ $control_id }}-btn-search" name="{{ $control_id }}-btn-search" type="button"
-                        class="btn btn-xs btn-primary btn-outline faded"><i class="fa fa-search"></i></button>
+                        class="h-100 btn btn-xs btn-primary btn-outline faded"><i class="fa fa-search d-inline"></i></button>
                 </span>
             </div>
         @endif
