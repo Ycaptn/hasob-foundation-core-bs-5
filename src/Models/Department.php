@@ -84,6 +84,15 @@ class Department extends Model
         return false;
     }
 
+    public function children(){
+
+        $model = new Department();
+        $query = $model->newQuery();
+        $query->where('organization_id', $this->organization_id)->where('parent_id', $this->id);
+    
+        return $query->get();
+    }
+
     public static function all_departments(Organization $org = null){
 
         $model = new Department();

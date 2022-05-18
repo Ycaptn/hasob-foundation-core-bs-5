@@ -31,17 +31,15 @@ class DepartmentController extends BaseController
         $current_user = Auth()->user();
 
         $cdv_departments = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.department-item");
-        $cdv_departments->setDataQuery(['organization_id'=>$org->id])
+        $cdv_departments->setDataQuery(['organization_id'=>$org->id, 'parent_id'=>null])
                         ->addDataGroup('All','deleted_at', null)
                         ->addDataGroup('Departments','parent_id', null)
-                        ->addDataGroup('Units','field', 'value')
+                        ->addDataGroup('Units','is_unit', true)
                         ->setSearchFields(['long_name','key','email','physical_location'])
-                        //->addDataOrder('display_ordinal','DESC')
-                        //->addDataOrder('id','DESC')
                         ->enableSearch(true)
                         ->enablePagination(true)
                         ->setPaginationLimit(20)
-                        ->setSearchPlaceholder('Search Departments');
+                        ->setSearchPlaceholder('Search');
 
         if (request()->expectsJson()){
             return $cdv_departments->render();

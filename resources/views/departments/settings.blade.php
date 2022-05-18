@@ -21,15 +21,10 @@
 
 @section('page_title_buttons')
     @if (Auth()->user()->hasAnyRole(['departments-admin', 'admin']) || $department->is_manager(Auth()->user()))
-        {{-- <a href="#" data-toggle="tooltip" title="Edit" data-val="{{ $department->id }}" data-toggle="tooltip"
-            data-original-title="Edit" class="btn btn-sm btn-primary btn-edit-mdl-department-modal" href="#">
-            <i class="bx bxs-edit"></i> Edit
-        </a> --}}
-       {{--  @include('hasob-foundation-core::departments.modal')  --}}
+
         @include('hasob-foundation-core::departments.departments-units-modal')
         @include('hasob-foundation-core::departments.members-selector')
-        
-        
+                
     @endif
 @stop
 
@@ -46,7 +41,7 @@
 
 
             <div class="row">
-                <div class="col-3 border-end border-0 border-3 border-info">
+                <div class="col-2 border-end border-0 border-3 border-info">
                     <div class="nav nav-tabs flex-column" role="tablist" id="settings_tab" aria-orientation="vertical">
                         <a id="tab_sub_units_label" class="nav-link active" data-bs-toggle="tab" href="#tab_sub_units"
                             role="tab" aria-selected="true">
@@ -72,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="col-9">
+                <div class="col-10">
                     <div class="tab-content py-3" id="settins_tab_content">
 
                         <div id="tab_sub_units" class="tab-pane fade show active" role="tabpanel">

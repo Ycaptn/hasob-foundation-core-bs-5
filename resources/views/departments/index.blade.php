@@ -9,6 +9,10 @@ Departments
 Departments
 @stop
 
+@section('page_title_suffix')
+All
+@stop
+
 @section('app_css')
     {!! $cdv_departments->render_css() !!}
 @stop
@@ -20,7 +24,7 @@ Departments
 @stop
 
 @section('page_title_buttons')
-    @if (Auth()->user()->hasAnyRole(['site-admin','admin']))
+    @if (Auth()->user()->hasAnyRole(['departments-admin','admin']))
     <a href="#" class="btn btn-sm btn-primary float-end btn-new-mdl-department-modal">Add Department</a>
     @endif
 @stop
