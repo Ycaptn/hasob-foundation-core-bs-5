@@ -6,6 +6,14 @@
 @stop
 
 @section('page_title')
+    @if ($department->is_unit)
+    Unit
+    @else
+    Department
+    @endif
+@stop
+
+@section('page_title_suffix')
     {{ $department->long_name }}
 @stop
 
