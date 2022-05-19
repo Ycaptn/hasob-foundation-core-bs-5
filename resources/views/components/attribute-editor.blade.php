@@ -78,7 +78,7 @@
                     <div class="">
                         <div class="email-list ps ps--active-y" style="overflow-y:scroll !important;overflow-x:hidden !important;">
                             @foreach ($artifactables as $item)
-                                <a href="#" class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
+                                <div class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
                                     <div class="d-md-flex align-items-center email-message px-3 py-1">
                                         <div class="col-md-3 d-flex align-items-center email-actions">
                                             <input class="form-check-input me-2 model_artifact_attribute"
@@ -94,7 +94,7 @@
                                                 {{ $item->created_at->format('Y-m-d H:i:a') }}</p>
                                         </div>
                                     </div>
-                                </a>
+</div>
                             @endforeach
                             <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
                                 <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>

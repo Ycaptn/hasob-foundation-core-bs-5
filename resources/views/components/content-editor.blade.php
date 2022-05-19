@@ -172,6 +172,17 @@
                 $('.spinner').hide();
                 $('.editor-spinner').hide();
 
+                let curr_user_id = "{{ auth()->user()->id }}";
+                $(document).on('click', 'a[data-bs-toggle="tab"]', function(e) {
+                    sessionStorage.setItem('registrations_activeTab_' +
+                    curr_user_id, $(this).attr('href'));
+                });
+                let activeTab = sessionStorage.getItem('registrations_activeTab_' + curr_user_id );
+                if (activeTab) 
+                {
+                    $('#tab_registrations a[href="' + activeTab + '"]').tab('show');
+                }
+
                 $(window).keydown(function(event) {
                     if (event.keyCode == 13) {
                         event.preventDefault();
@@ -226,16 +237,16 @@
                         $("#{{ $control_id }}-page-text-name").val(response.data.page_name);
                         $("#{{ $control_id }}-text-page_contents").summernote("code", response.data
                             .content);
-                       if (response.data.is_hidden === true) {
-                           $('#{{ $control_id }}-page-text-is_hidden').prop('checked', true); // Checks it
-                        }else{
-                            $('#{{ $control_id }}-page-text-is_hidden').prop('checked', false); // Unchecks it
-                        }
-                        if (response.data.is_published === true) {
-                            $('#{{ $control_id }}-page-text-is_published').prop('checked', true); // Checks it 
-                        } else {
-                            $('#{{ $control_id }}-page-text-is_published').prop('checked', false); // Unchecks it
-                       }
+                       response.data.is_hidden ? 
+                        $('#{{ $control_id }}-page-text-is_hidden').prop('checked', true) // Checks it
+                        :
+                        $('#{{ $control_id }}-page-text-is_hidden').prop('checked', false) // Unchecks it
+                        
+                        response.data.is_published ? 
+                        $('#{{ $control_id }}-page-text-is_published').prop('checked', true) // Checks it 
+                        :
+                        $('#{{ $control_id }}-page-text-is_published').prop('checked', false) // Unchecks it
+                       
                     });
 
                 });
@@ -349,43 +360,23 @@
                     let checkIsHidden = $('#{{ $control_id }}-page-text-is_hidden').val()
                     let checkIsPublished = $('#{{ $control_id }}-page-text-is_published').val()
                     
-                    console.log(checkIsHidden, "hidden before condition");
-                    console.log(checkIsPublished, "published before condition");
-
+                    //check is_hidden
                     if($('#{{ $control_id }}-page-text-is_hidden').is(':checked')){
                         checkIsHidden = "1"
                     }else{
                         checkIsHidden = "0"
                     }
-                    console.log(checkIsHidden, "hidden after condition")
+                    //check is_published
                     if($('#{{ $control_id }}-page-text-is_published').is(':checked')){
                         checkIsPublished = "1"
                     }else{
                         checkIsPublished = "0"
                     }
-                    console.log(checkIsPublished, "published after condition")
                     
-                    // if( $('#checkHidden:checkbox:checked')){
-                        //    
-                    // }else{
-                    //     checkIsHidden = "0";
-                    // }
-                    
-                    // console.log(checkIsHidden)
-                     
-                    
-                    // if(){
-                    //     checkIsPublished = "1";
-                    // }else{
-                    //     checkIsPublished = "0";
-                    // }
-                    // console.log(checkIsPublished)
-
                     $(".editor-spinner").show();
                     $("#btn-{{ $control_id }}-save-page").prop('disabled', true);
-                    // $("#{{ $control_id }}-text-page_contents").attr('disabled', 'disabled');
                     $('#{{ $control_id }}-text-page_contents').summernote('disable');
-                    console.log(pagePrimaryId);
+                    
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
                     formData.append('_method', "PUT");
@@ -496,7 +487,6 @@
                                             "Oops an error occurred. Please try again.",
                                             "error");
                                     } else {
-                                        //swal("Deleted", "SchoolRegistration deleted successfully.", "success");
                                         swal({
                                             title: "Deleted",
                                             text: "Content page deleted successfully",
