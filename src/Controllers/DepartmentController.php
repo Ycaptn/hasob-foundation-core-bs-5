@@ -150,25 +150,18 @@ class DepartmentController extends BaseController
     public function processDepartmentUnitSave(Organization $org, CreateDepartmentRequest $request){
         $current_user = Auth::user();
         $department = new Department();
-        $email = $request->email;
-        $is_unit = false;
-        $key = self::generateRandomCode(8);
-        $long_name = $request->long_name;
-        $telephone = $request->telephone;
-        $parent_id = $request->parent_id;
-        $physical_location = $request->physical_location;
-        $organization_id = $org->id; 
+        $input = [
+            'email' => $request->email,
+            'is_unit' => false,
+            'key' => self::generateRandomCode(8),
+            'long_name' => $request->long_name,
+            'telephone' => $request->telephone,
+            'parent_id' => $request->parent_id,
+            'physical_location' => $request->physical_location,
+            'organization_id' => $request->org_id
+        ];
         
-       $department->parent()->create([
-           'email' => $email,
-           'is_unit' => $is_unit,
-           'key' => $key,
-           'long_name' => $long_name,
-           'telephone' => $telephone,
-           'parent_id' => $parent_id,
-           'physical_location' => $physical_location,
-           'organization_id' => $organization_id,
-       ]);
+        $department->parent()->create($input);
 
         return self::createJSONResponse("ok","success",$department,200);
 
