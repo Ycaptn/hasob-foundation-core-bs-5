@@ -151,15 +151,15 @@ class DepartmentController extends BaseController
         $current_user = Auth::user();
         $department = new Department();
         $input = [
-            'email' => $request->email,
-            'is_unit' => false,
-            'key' => self::generateRandomCode(8),
-            'long_name' => $request->long_name,
-            'telephone' => $request->telephone,
-            'parent_id' => $request->parent_id,
-            'physical_location' => $request->physical_location,
-            'organization_id' => $request->org_id
-        ];
+        'email' => $request->email,
+        'is_unit' => false,
+        'key' => self::generateRandomCode(8),
+        'long_name' => $request->long_name,
+        'telephone' => $request->telephone,
+        'parent_id' => $request->parent_id,
+        'physical_location' => $request->physical_location,
+        'organization_id' => $request->org_id
+         ];
         
         $department->parent()->create($input);
 
