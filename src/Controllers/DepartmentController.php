@@ -158,7 +158,7 @@ class DepartmentController extends BaseController
         'telephone' => $request->telephone,
         'parent_id' => $request->parent_id,
         'physical_location' => $request->physical_location,
-        'organization_id' => $request->org_id
+        'organization_id' => $org->id
          ];
         
         $department->parent()->create($input);
