@@ -79,12 +79,7 @@
                                             for="{{ $control_id }}-page-text-is_published">Published</label>
                                     </div>
                                 </div>
-                                {{-- <div class="col-lg-3 mb-2 text-end">
-                                    <button id="btn-{{$control_id}}-save-page" class="btn btn-sm btn-primary">
-                                        Save
-                                    </button>
-                                    <a id="{{$control_id}}-delete-page" href="javascript:;" class="btn btn-sm btn-danger">Delete</a>
-                                </div> --}}
+                               
                                 <div id="div-save-page-{{ $control_id }}" class="col-lg-3 mb-2 text-end">
                                     <button type="button" class="btn btn-primary"
                                         id="btn-{{ $control_id }}-save-page" value="add">
@@ -139,9 +134,6 @@
                     </form>
                 </div>
 
-                {{-- <div class="modal-footer" id="div-save-page-{{$control_id}}-modal">
-                    <button type="button" class="btn btn-primary px-5" id="btn-save-page-{{$control_id}}-modal" value="add">Save</button>
-                </div> --}}
                 <div id="div-save-page-{{ $control_id }}-modal" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="btn-save-page-{{ $control_id }}-modal"
@@ -173,14 +165,19 @@
                 $('.editor-spinner').hide();
 
                 let curr_user_id = "{{ auth()->user()->id }}";
+                
                 $(document).on('click', 'a[data-bs-toggle="tab"]', function(e) {
                     sessionStorage.setItem('registrations_activeTab_' +
-                    curr_user_id, $(this).attr('href'));
+                    curr_user_id, $(this).attr('href'), $(this).attr('data-val'));
                 });
                 let activeTab = sessionStorage.getItem('registrations_activeTab_' + curr_user_id );
                 if (activeTab) 
                 {
                     $('#tab_registrations a[href="' + activeTab + '"]').tab('show');
+                    if(activeTab == '#tab_pages'){
+                        getSelectedPage(sessionStorage.getItem('edited_page_id_'+curr_user_id));
+                    }
+                   
                 }
 
                 $(window).keydown(function(event) {
@@ -229,7 +226,15 @@
                     hide_editor_card();
 
                     let itemId = $(this).attr('data-val');
-                    $.get("{{ route('fc-api.pages.show', '') }}/" + itemId).done(function(response) {
+                    getSelectedPage(itemId);
+                    console.log(itemId, "item id")
+
+                });
+
+                //get selected page to show populated
+                function getSelectedPage(itemId){
+
+                        $.get("{{ route('fc-api.pages.show', '') }}/" + itemId).done(function(response) {
 
                         $("#div-{{ $control_id }}-page-editor").show();
 
@@ -248,8 +253,7 @@
                         $('#{{ $control_id }}-page-text-is_published').prop('checked', false) // Unchecks it
                        
                     });
-
-                });
+                }
 
                 //New page save button
                 $('#btn-save-page-{{ $control_id }}-modal').click(function(e) {
@@ -357,20 +361,22 @@
                     });
 
                     let pagePrimaryId = $("#{{ $control_id }}-selected-page-id").val();
-                    let checkIsHidden = $('#{{ $control_id }}-page-text-is_hidden').val()
-                    let checkIsPublished = $('#{{ $control_id }}-page-text-is_published').val()
+                    let checkIsHidden = $('#{{ $control_id }}-page-text-is_hidden').val();
+                    let checkIsPublished = $('#{{ $control_id }}-page-text-is_published').val();
                     
+                    console.log(pagePrimaryId, "\"primaryid\"")
+
                     //check is_hidden
                     if($('#{{ $control_id }}-page-text-is_hidden').is(':checked')){
-                        checkIsHidden = "1"
+                        checkIsHidden = "1";
                     }else{
-                        checkIsHidden = "0"
+                        checkIsHidden = "0";
                     }
                     //check is_published
                     if($('#{{ $control_id }}-page-text-is_published').is(':checked')){
-                        checkIsPublished = "1"
+                        checkIsPublished = "1";
                     }else{
-                        checkIsPublished = "0"
+                        checkIsPublished = "0";
                     }
                     
                     $(".editor-spinner").show();
@@ -410,6 +416,8 @@
                                 });
                             } else {
                                 $('#div-{{ $control_id }}-page-text-error').hide();
+                                sessionStorage.setItem('edited_page_id_' +
+                                curr_user_id, pagePrimaryId);
                                 swal({
                                         title: "Saved",
                                         text: "Page saved successfully",
@@ -419,12 +427,15 @@
                                         confirmButtonText: "OK",
                                         closeOnConfirm: true
                                     },
-                                    function() {}
+                                    function() {
+                                        
+                                    }
                                 );
                                 window.setTimeout(function() {
-                                    location.reload(true);
-                                }, 1000);
+                                            location.reload(true);
+                                        }, 1000);
                             }
+
                             $(".editor-spinner").hide();
                             $("#btn-{{ $control_id }}-save-page").prop('disabled', false);
                             $('#{{ $control_id }}-text-page_contents').summernote('enable');
