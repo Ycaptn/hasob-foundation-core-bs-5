@@ -2,64 +2,74 @@
 
 namespace Hasob\FoundationCore\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Hasob\FoundationCore\Traits\GuidId;
+use Hasob\FoundationCore\Traits\Ledgerable;
+use Hasob\FoundationCore\Traits\Artifactable;
+use Hasob\FoundationCore\Traits\OrganizationalConstraint;
+
+use Eloquent as Model;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Hasob\FoundationCore\Traits\GuidId;
-use Hasob\FoundationCore\Traits\Attachable;
-use Hasob\FoundationCore\Traits\Commentable;
-use Hasob\FoundationCore\Traits\Socialable;
-use Hasob\FoundationCore\Traits\Taggable;
-use Hasob\FoundationCore\Traits\Disable;
-use Hasob\FoundationCore\Traits\Artifactable;
-
-
+/**
+ * Class DisabledItem
+ * @package Hasob\FoundationCore\Models
+ * @version June 4, 2022, 12:01 pm UTC
+ *
+ * @property \Hasob\FoundationCore\Models\User $user
+ * @property string $id
+ * @property string $organization_id
+ * @property string $disable_id
+ * @property string $disable_reason
+ * @property string $disabling_user_id
+ */
 class DisabledItem extends Model
 {
-    use SoftDeletes;
-    use Artifactable;
     use GuidId;
+    use OrganizationalConstraint;
+    
+    use SoftDeletes;
+
+    use HasFactory;
 
     public $table = 'fc_disabled_items';
     
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at'
-    ];
+
+    protected $dates = ['deleted_at'];
+
+
 
     public $fillable = [
+        'id',
+        'organization_id',
         'disable_id',
-        'disable_type',
-        'is_disabled',
         'disable_reason',
-        'disabled_at',
-        'disabling_user_id',
-        'organization_id'       
+        'disabling_user_id'
     ];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
     protected $casts = [
-        'id' => 'string',
         'disable_id' => 'string',
         'disable_type' => 'string',
         'is_disabled' => 'boolean',
+        'is_current' => 'boolean',
         'disable_reason' => 'string',
-        'disabled_at' => 'date',
-        'disabling_user_id' => 'string',
-        'organization_id' => 'string'
+        'wf_status' => 'string',
+        'wf_meta_data' => 'string'
     ];
 
-    public function disable(){
-        return $this->morphTo();
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function user()
+    {
+        return $this->hasOne(\Hasob\FoundationCore\Models\User::class, 'disabling_user_id');
     }
 
-    public function disabling_user(){
-        return $this->hasOne(User::class,'id','disabling_user_id');
-    }
-
-    public function organization(){
-        return $this->belongsTo(Organization::class);
-    }
-    
 }

@@ -8,12 +8,13 @@ class TagSelector extends Component
 {
     public $control_id;
     public $taggable;
-    public $file_types;
+    public $possible_tags;
 
     public function __construct($taggable)
     {
         $this->control_id = "age_".time();
         $this->taggable = $taggable;
+        $this->possible_tags = $taggable->tags();
     }
 
     public function render()

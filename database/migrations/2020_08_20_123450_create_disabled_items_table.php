@@ -21,7 +21,7 @@ class CreateDisabledItemsTable extends Migration
 
             $table->uuid('disable_id');
             $table->string('disable_type');
-
+            $table->boolean('is_current')->default(false);
             $table->boolean('is_disabled')->default(false);
             $table->text('disable_reason')->nullable();
             $table->dateTime('disabled_at')->nullable();
