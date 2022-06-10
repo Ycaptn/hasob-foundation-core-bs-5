@@ -44,7 +44,7 @@ class CreateRatingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $organization_id;
+    //public $organization_id;
 
     /**
     * @OA\Property(
@@ -53,7 +53,7 @@ class CreateRatingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $status;
+    //public $status;
 
     /**
     * @OA\Property(
@@ -62,7 +62,7 @@ class CreateRatingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $ratable_id;
+    //public $ratable_id;
 
     /**
     * @OA\Property(
@@ -71,7 +71,7 @@ class CreateRatingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $ratable_type;
+    //public $ratable_type;
 
     /**
     * @OA\Property(
@@ -80,7 +80,7 @@ class CreateRatingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $description;
+    //public $description;
 
     /**
     * @OA\Property(
@@ -89,7 +89,7 @@ class CreateRatingAPIRequest extends AppBaseFormRequest
     *     type="integer"
     * )
     */
-    public $score;
+    //public $score;
 
     /**
     * @OA\Property(
@@ -98,7 +98,7 @@ class CreateRatingAPIRequest extends AppBaseFormRequest
     *     type="integer"
     * )
     */
-    public $max_score;
+    //public $max_score;
 
     /**
     * @OA\Property(
@@ -107,7 +107,7 @@ class CreateRatingAPIRequest extends AppBaseFormRequest
     *     type="string"
     * )
     */
-    public $creator_user_id;
+    //public $creator_user_id;
 
 
 }

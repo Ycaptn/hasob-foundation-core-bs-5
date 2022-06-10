@@ -66,6 +66,7 @@ class RatingAPIController extends AppBaseController
     public function store(CreateRatingAPIRequest $request, Organization $organization)
     {
         $input = $request->all();
+        
 
         /** @var Rating $rating */
         $rating = Rating::create($input);
@@ -107,6 +108,7 @@ class RatingAPIController extends AppBaseController
     {
         /** @var Rating $rating */
         $rating = Rating::find($id);
+        
 
         if (empty($rating)) {
             return $this->sendError('Rating not found');

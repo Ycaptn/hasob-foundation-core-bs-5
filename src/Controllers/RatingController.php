@@ -83,7 +83,7 @@ class RatingController extends BaseController
      */
     public function store(Organization $org, CreateRatingRequest $request)
     {
-        $input = $request->all();
+         $input = $request->all();
 
         /** @var Rating $rating */
         $rating = Rating::create($input);
@@ -148,6 +148,7 @@ class RatingController extends BaseController
     {
         /** @var Rating $rating */
         $rating = Rating::find($id);
+       
 
         if (empty($rating)) {
             //Flash::error('Rating not found');
