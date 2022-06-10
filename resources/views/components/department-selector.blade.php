@@ -40,7 +40,7 @@
 
                                       <div class="input-group">
                 
-                                        <select name="pm_department" class="form-select">
+                                        <select name="pm_department" id="selected_department" class="form-select">
                                             <option value="">Select Department</option>
                                             @if (isset($available_departments) && $available_departments != null)
                                                 @foreach ($available_departments as $idx=>$dept)
@@ -58,9 +58,15 @@
                 </div>
 
                 <div class="modal-footer">
-                    <hr class="light-grey-hr mb-10" />
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-department-selector-modal" value="add">Save</button>
-                </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-department-selector-modal" value="add">
+                        <span class="spinner">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
+                    Save
+                </button>
+            </div>
 
             </div>
         </div>
@@ -69,6 +75,8 @@
     @push('page_scripts')
     <script type="text/javascript">
         $(document).ready(function(){
+
+            $('.spinner').hide();
 
             $(document).on('click', ".btn-department-selector", function(e){
                 e.preventDefault();
@@ -86,13 +94,26 @@
                 e.preventDefault();
                 $.ajaxSetup({headers:{'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
+                $(".spinner").show();
+                $("#btn-save-mdl-department-selector-modal").prop('disabled', true);
+                //implement
+                
+                //call endpoint to update user password
+                let actionType = "POST";
+                let endPointUrl = "{{ route('fc.select-members','') }}/"+user_id
+                
+                //get user id
+                let user_id = $(this).attr('data-val')
+                
+                //get new department
+                const newDepartment = $('#selected_department').val()
+
                 let formData = new FormData();
                 formData.append('_token', $('input[name="_token"]').val());
+                formData.append('member_id', user_id);
+                formData.append('department_id', newDepartment)
 
-                //implement
-                //get user id
-                //get new department
-                //call endpoint to update user password
+
 
                 $.ajax({
                     url: endPointUrl,
@@ -105,6 +126,13 @@
                     success: function(result) {
                         if (result.errors) {
                             //implement
+                             $('#div-department-selector-modal-error').html('');
+                            $('#div-department-selector-modal-error').show();
+                            $.each(result.errors, function(key, value) {
+                                $('#div-department-selector-modal-error').append(
+                                    '<li class="">' + value + '</li>'
+                                );
+                            });
                         } else {
                             swal({
                                 title: "Saved",
@@ -121,9 +149,17 @@
                                 location.reload(true);
                             }, 1000);
                         }
+                        $(".spinner").hide();
+                        $("#btn-save-mdl-department-selector-modal").prop('disabled', false);
                     },
                     error: function(data) {
                         console.log(data);
+                        swal("Error",
+                                    "Oops an error occurred. Please try again.",
+                                    "error");
+
+                                $(".spinner").hide();
+                                $("#btn-save-mdl-department-selector-modal").prop('disabled', false);
                     }
                 });
             });
