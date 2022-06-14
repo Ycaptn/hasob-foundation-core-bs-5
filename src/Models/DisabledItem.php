@@ -45,6 +45,8 @@ class DisabledItem extends Model
         'organization_id',
         'disable_id',
         'disable_reason',
+        'is_disabled',
+        'disable_type',
         'disabling_user_id'
     ];
 
