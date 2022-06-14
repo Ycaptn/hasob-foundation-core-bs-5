@@ -41,7 +41,10 @@ class Rating extends Model
     public $fillable = [
         'id',
         'organization_id',
-        'creator_user_id'
+        'creator_user_id',
+        'ratable_id',
+        'ratable_type',
+        'score'
     ];
 
     /**
