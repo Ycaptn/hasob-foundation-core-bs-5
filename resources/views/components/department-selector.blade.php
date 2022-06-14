@@ -98,19 +98,20 @@
                 $("#btn-save-mdl-department-selector-modal").prop('disabled', true);
                 //implement
                 
+                //get user id
+                let user_id = $(this).attr('data-val');
+                
                 //call endpoint to update user password
                 let actionType = "POST";
                 let endPointUrl = "{{ route('fc.select-members','') }}/"+user_id
                 
-                //get user id
-                let user_id = $(this).attr('data-val')
                 
                 //get new department
                 const newDepartment = $('#selected_department').val()
 
                 let formData = new FormData();
-                formData.append('_token', $('input[name="_token"]').val());
                 formData.append('member_id', user_id);
+                formData.append('_token', $('input[name="_token"]').val());
                 formData.append('department_id', newDepartment)
 
 
