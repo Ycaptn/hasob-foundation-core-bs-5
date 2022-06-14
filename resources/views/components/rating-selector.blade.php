@@ -3,7 +3,8 @@
     @php
         $ratableType = str_replace('\\', '\\', get_class($ratable));
     @endphp
-  <div id="div-rating-modal-error" type='visually-hidden' class="alert alert-danger" role="alert"></div> 
+  
+     <div id="div-rating-modal-error"></div>
 <div id='ratingDiv'>
         <a  href="#" 
             title="Rating 1" 
@@ -52,6 +53,8 @@
             <i id="btn-{{$control_id}}-4" class="bx bx-star font-20 email-star"></i>
         </a>
         <input type="hidden" name="ratingId" id="ratingId" value='0'>
+
+       
 </div>
 
 @endif
@@ -162,7 +165,7 @@
                             $('#div-rating-modal-error').html('');
                            $('#div-rating-modal-error').show();
                             $.each(result.errors, function(key, value) {
-                                $('#div-rating-modal-error').append('<li class="">' +
+                                $('#div-rating-modal-error').append('<li class="alert alert-danger" role="alert">' +
                                     value + '</li>');
                             });
                         } else {
