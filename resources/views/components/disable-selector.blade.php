@@ -2,7 +2,7 @@
     <a  href="#" 
         title="Disable" 
         id="btn-{{$control_id}}"
-        class="btn-disable-selector me-1"
+        class="btn-disable-selector me-2"
         data-toggle="tooltip" 
         data-val-id="{{$disabled_item->id}}"
         data-val-type="{{get_class($disabled_item)}}">

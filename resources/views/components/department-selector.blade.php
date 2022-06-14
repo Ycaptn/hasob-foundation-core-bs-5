@@ -2,7 +2,7 @@
     <a  href="#" 
         title="Department Selection" 
         id="btn-{{$control_id}}"
-        class="btn-department-selector me-1"
+        class="btn-department-selector me-2"
         data-toggle="tooltip" 
         data-val-id="{{$department_user->id}}">
             <i class="fa fa-unlink text-success small"></i>
@@ -100,7 +100,7 @@
                 
                 //get user id
                 let user_id = $(this).attr('data-val');
-                
+
                 //call endpoint to update user password
                 let actionType = "POST";
                 let endPointUrl = "{{ route('fc.select-members','') }}/"+user_id
