@@ -407,11 +407,12 @@ $hide_right_panel = true;
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",
                                         closeOnConfirm: false
-                                    }, function() {
-                                        location.reload(true);
                                     });
-                                }
-                            },
+                                     window.setTimeout(function() {
+                                        location.reload(true);
+                                        }, 1000);
+                                    }
+                               },
                             error: function(data) {
                                 console.log('Error:', data);
                             }
