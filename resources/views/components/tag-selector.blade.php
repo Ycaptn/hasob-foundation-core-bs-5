@@ -6,9 +6,12 @@
 
     <div class="mt-3 mb-5">
         <label class="form-label">Select Tags or Enter a New Tag</label>
-        <select id="{{$control_id}}" name="{{$control_id}}[]" class="form-control" style="width: 100%" placeholder="Select a Tag" multiple="multiple">
+        <select id="{{$control_id}}" name="{{$control_id}}[]" class="form-select" style="width: 100%" placeholder="Select a Tag" multiple aria-label="Select a Tag">
             @foreach($possible_tags as $possible_tag)
-            <option value="{{$possible_tag->name}}">{{$possible_tag->name}}</option>
+            @if($possible_tag != null)
+                <option selected="{{$possible_tag->id}}" value="{{$possible_tag->id}}">{{$possible_tag->name}}</option>
+            @endif
+            
             @endforeach
         </select>
     </div>
@@ -43,7 +46,20 @@
                     if(result.errors){
                     }else{
                         taggable_func(e,result.data);
-                        swal("Success", "Tag saved.", "success");
+                         swal({
+                                title: "Saved",
+                                text: "Tag saved successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            })
+
+                            setTimeout(function() {
+                             location.reload(true);
+                            }, 1000);
                     }
                 }, error: function(data){
                     swal("Error", "Oops an error occurred. Please try again.", "error");
@@ -90,17 +106,71 @@
                 tags: [],
                 tokenSeparators: [","," "],
                 allowClear: true,
-            });
+            })
 
             $("select[id='{{$control_id}}']").on('select2:select', function (e){
                 save_tag(e, save_taggable);
             });
 
             $("select[id='{{$control_id}}']").on('select2:unselect', function (e){
-                var data = e.params.data;
-                //alert(data.text);
-                //AJAX call to remove the tag from the taggable object
+                let data = e.params.data;
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                    }
+                });
+                
+                 let itemId =data.id;
+        
+                        swal({
+                            title: "Are you sure you want to remove this tag?",
+                        text: "You will not be able to recover this tag record if removed.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes",
+                        cancelButtonText: "No",
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                        },function(isConfirm){
+                            if(isConfirm){
 
+                                let endPointUrl = "{{route('fc-api.tags.destroy','')}}/" + itemId;
+                                let formData = new FormData();
+                                formData.append('_token', $('input[name="_token"]').val());
+                                formData.append('_method','DELETE');
+
+                                $.ajax({
+                                    url:endPointUrl,
+                                    type:'POST',
+                                    data:formData,
+                                    cache:false,
+                                    processData:false,
+                                    contentType:false,
+                                    dataType:'json',
+                                    success:function(result){
+                        
+                                        if(result.errors){
+                                            console.log(result.errors);
+                                        }else{
+                                            swal({
+                                            title: "Deleted",
+                                            text: "The tag record has been deleted.",
+                                            type: "success",
+                                            confirmButtonClass: "btn-success",
+                                            confirmButtonText: "OK",
+                                            closeOnConfirm: false
+                                        })
+                                        setTimeout(function() {
+                                            location.reload(true);
+                                        }, 1000);
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    
             });
         });
 
