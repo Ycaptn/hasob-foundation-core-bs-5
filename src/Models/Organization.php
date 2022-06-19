@@ -78,6 +78,7 @@ class Organization extends Model
             config('tetfund-beneficiary-mgt.hasob_features')!=null ? config('tetfund-beneficiary-mgt.hasob_features') : [] ,
             config('tetfund-remote-monitoring.hasob_features')!=null ? config('tetfund-remote-monitoring.hasob_features') : [] ,
             config('hasob-lab-manager.hasob_features')!=null ? config('hasob-lab-manager.hasob_features') : [] ,
+            config('iterum-biz-engine.hasob_features')!=null ? config('iterum-biz-engine.hasob_features') : [] ,
         );
 
         //Log::debug(config('*.hasob_features'));

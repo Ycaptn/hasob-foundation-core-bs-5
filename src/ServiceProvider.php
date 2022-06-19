@@ -153,6 +153,15 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $app_settings = [
 
+
+            'portal_long_name'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Business Name','display_ordinal'=>2],
+            'portal_short_name'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Business Abbreviation','display_ordinal'=>3],
+            'portal_official_website'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Official Business Website','display_ordinal'=>4],
+            'portal_official_email'=>['group_name'=>'Application','display_type'=>'email','display_name'=>'Official Business Email','display_ordinal'=>5],
+            'portal_official_phone'=>['group_name'=>'Application','display_type'=>'number','display_name'=>'Official Business Phone Number','display_ordinal'=>6],
+            'portal_official_address'=>['group_name'=>'Application','display_type'=>'string','display_name'=>'Official Business Address','display_ordinal'=>7],
+
+
             'portal_app_name'       =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Application Name','display_ordinal'=>1],
             'portal_contact_name'   =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Name on Portal Support','display_ordinal'=>2],
             'portal_contact_phone'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Phone Number on Portal Support','display_ordinal'=>3],

@@ -30,12 +30,9 @@ class OrganizationManager {
         if ($identifier == "127.0.0.1" || $identifier == "localhost"){
 
             //this is local development
-            Log::debug("Local development environment detected.");
             $default_org_id = env('DEFAULT_ORGANIZATION', null);
 
             if ($default_org_id != null){
-                
-                Log::debug("Identified Organization from env settings => {$default_org_id}");
                 $tenant = Organization::find($default_org_id);
 
             }else{
@@ -43,12 +40,10 @@ class OrganizationManager {
                 $tenant = Organization::where('is_local_default_organization', true)->first();
                 if ($tenant) {
                     $default_org_id = $tenant->id;
-                    Log::debug("Identified Organization from default organization selected in DB => {$default_org_id}");
                 }
             }
 
             if ($tenant) {
-                Log::debug("Organization Loaded in Tenant Manager => {$tenant->org}/{$tenant->domain}");
                 $this->setTenant($tenant);
                 return $tenant;
             }
@@ -56,8 +51,6 @@ class OrganizationManager {
             
             $tenant = Organization::query()->where('full_url', 'LIKE', "%{$identifier}%")->first();
             if ($tenant) {
-                Log::debug("Organization Found for Host {$identifier}");
-                Log::debug("Organization Loaded in Tenant Manager => {$tenant->id} => {$tenant->org}/{$tenant->domain}");
                 $this->setTenant($tenant);
                 return $tenant;
             }
