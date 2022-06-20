@@ -5,6 +5,7 @@ namespace Hasob\FoundationCore\Controllers;
 use Carbon;
 use Session;
 use Validator;
+use Hash;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -324,6 +325,20 @@ class UserController extends BaseController
 
         //Create a validator for the data in the request
         return Validator::make($request->all(), $validation_rules, $validation_messages);
+    }
+
+    public function resetPassword(Request $request, $id)
+    {
+        $user = User::find($id);
+        if(!$user){
+            return response()->json([
+                "error" => "Not Found"
+            ]);
+        }
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return $this->sendResponse($user, 'Selected User has been saved');
     }
 
 }
