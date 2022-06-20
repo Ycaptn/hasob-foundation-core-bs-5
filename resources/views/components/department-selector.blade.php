@@ -83,7 +83,6 @@
                 $.ajaxSetup({headers:{'X-CSRF-TOKEN':$('input[name="_token"]').val()}});
 
                 let itemId = $(this).attr('data-val-id');
-                console.log(itemId, "itemId")
                 $('#department-selector-user-id').val(itemId);
 
                 $('#mdl-department-selector-modal').modal('show');
@@ -100,9 +99,7 @@
                 //implement
                 
                 //get user id
-                let user_id = $(this).attr('data-val-id');
-
-                console.log(user_id, "user_id")
+                let user_id = $('#department-selector-user-id').val();
 
                 //call endpoint to update user password
                 let actionType = "POST";
@@ -111,14 +108,12 @@
                 
                 //get new department
                 const newDepartment = $('#selected_department').val();
-                console.log(newDepartment)
 
                 let formData = new FormData();
                 formData.append('member_id', user_id);
                 formData.append('_token', $('input[name="_token"]').val());
                 formData.append('department_id', newDepartment)
 
-                console.log(formData, "formData")
 
                 $.ajax({
                     url: endPointUrl,
@@ -151,7 +146,7 @@
                             })
 
                             setTimeout(function() {
-                                // location.reload(true);
+                                location.reload(true);
                             }, 1000);
                         }
                         $(".spinner").hide();
