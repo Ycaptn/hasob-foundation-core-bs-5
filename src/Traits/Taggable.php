@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 
 
 use Hasob\FoundationCore\Models\Tag;
+use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Taggable as TaggableModel;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;

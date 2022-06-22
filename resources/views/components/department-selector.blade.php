@@ -59,7 +59,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-department-selector-modal" value="add">
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-department-selector-modal" value="add" data-val-id="{{$department_user->department_id}}">
                         <span class="spinner">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span class="visually-hidden">Loading...</span>
@@ -99,7 +99,7 @@
                 //implement
                 
                 //get user id
-                let user_id = $(this).attr('data-val');
+                let user_id = $('#department-selector-user-id').val();
 
                 //call endpoint to update user password
                 let actionType = "POST";
@@ -107,13 +107,12 @@
                 
                 
                 //get new department
-                const newDepartment = $('#selected_department').val()
+                const newDepartment = $('#selected_department').val();
 
                 let formData = new FormData();
                 formData.append('member_id', user_id);
                 formData.append('_token', $('input[name="_token"]').val());
                 formData.append('department_id', newDepartment)
-
 
 
                 $.ajax({

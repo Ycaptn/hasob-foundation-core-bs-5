@@ -4,7 +4,84 @@
     $(document).ready(function() {
         let page_total = 0;
         let current_page = 0;
+
         {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
+
+
+        //get page list 
+        
+        function getPageList(totalPages, page, maxLength) {
+            if (maxLength < 5) throw "maxLength must be at least 5";
+
+            function range(start, end) {
+                return Array.from(Array(end - start + 1), (_, i) => i + start); 
+            }
+
+            let sideWidth = maxLength < 9 ? 1 : 2;
+            let leftWidth = (maxLength - sideWidth*2 - 3) >> 1;
+            let rightWidth = (maxLength - sideWidth*2 - 2) >> 1;
+            if (totalPages <= maxLength) {
+                // no breaks in list
+                return range(1, totalPages);
+            }
+            if (page <= maxLength - sideWidth - 1 - rightWidth) {
+                // no break on left of page
+                return range(1, maxLength - sideWidth - 1)
+                    .concat(0, range(totalPages - sideWidth + 1, totalPages));
+            }
+            if (page >= totalPages - sideWidth - 1 - rightWidth) {
+                // no break on right of page
+                return range(1, sideWidth)
+                    .concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+            }
+            // Breaks on both sides
+            return range(1, sideWidth)
+                .concat(0, range(page - leftWidth, page + rightWidth),
+                        0, range(totalPages - sideWidth + 1, totalPages));
+        }
+
+        //show page
+        function showPage(whichPage,totalPages,paginationSize) {
+            if (whichPage < 1 || whichPage > totalPages) return false;
+            let currentPage = whichPage;
+
+                // Include the prev button
+            $("#{{$control_id}}-pagination").prepend(
+                    $("<li>").addClass("page-item").attr({ id: "previous-page" }).append(
+                    $("<a>").addClass("page-link {{$control_id}}-pg").attr({
+                    href: "javascript:void(0)"}).text("Prev").attr('data-type','pre')
+                )
+            )
+            getPageList(totalPages, currentPage, paginationSize).forEach( item => {
+                $("#{{$control_id}}-pagination").append(
+                    `<li class="page-item">
+                        <a 
+                            data-val='${item === 0 ? currentPage : item}'
+                            data-type='pg' 
+                            class='{{$control_id}}-pg pg-${item} page-link' ${item ? "currentPage" : "disabled"}'
+                            href =' javascript:void(0)'
+                        >
+                            ${item || "..."}
+                        </a>
+                    </li>
+                    `);
+                    (currentPage == item) ? $('.pg-'+item).addClass('cdv-current-page').addClass("active").addClass("bg-primary text-white") : $('.pg-'+item).addClass('text-primary');
+            })
+                        
+                        
+                        
+            // include next button:
+            $("#{{$control_id}}-pagination").append(
+                $("<li>").addClass("page-item").attr({ id: "next-page" }).append(
+                $("<a>").addClass("page-link").addClass("{{$control_id}}-pg").attr({
+                    href: "javascript:void(0)"}).text("Next").attr('data-type','nxt')
+                )
+            ); 
+            // Disable prev/next when at first/last page:
+            $("#previous-page").toggleClass("disabled", currentPage === 1);                
+            $("#next-page").toggleClass("disabled", currentPage === totalPages);            
+                                    
+        }
 
         function {{$control_id}}_display_results(endpoint_url){
             $.ajaxSetup({
@@ -23,11 +100,12 @@
             $("#spinner-{{$control_id}}").show();
             $('#{{$control_id}}-div-card-view').empty();
             $('#{{$control_id}}-div-card-view').append("<span class='text-center ma-20 pa-20'>Loading.....</span>");
-
+           
             $.get(endpoint_url).done(function( response ) {
-                console.log(response);
                 current_page = parseInt(response.page_number);
                 page_total = parseInt(response.pages_total);
+               
+            
                 if (response != null && response.cards_html != null){
                     $('#{{$control_id}}-div-card-view').empty();
                     $('#{{$control_id}}-div-card-view').append(response.cards_html);
@@ -38,31 +116,11 @@
                 }
                 $("#{{$control_id}}-pagination").empty();
                 if (response != null && response.paginate && response.result_count > 0){
-                    // $("#{{$control_id}}-pagination").append("<li><span class='pre'> <a href='#' id='pre' data-type='pre' class='{{$control_id}}-pg'><i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i></a></span></li>"); 
-                    $("#{{$control_id}}-pagination").append(`<nav aria-label="Page navigation">
-                        <ul class="pagination h-100"><li class="h-100 page-item ${current_page == 1 && 'disabled'}"><span class='h-auto pre '> <a href='#' id='pre' data-type='pre'  class='{{$control_id}}-pg page-link d-inline'><i class='fa fa-angle-left'></i><i class='fa fa-angle-left'></i></a></span></li> </ul>
-                        </nav>`); 
-                    for(let pg=1;pg<=response.pages_total;pg++){
-                        $("#{{$control_id}}-pagination").append(`<li class="page-item"><a data-val='${pg}' data-type='pg' class='{{$control_id}}-pg pg-${pg} page-link d-inline' href='#'>${pg}</a></li>`);
-                        (current_page == pg) ? $('.pg-'+pg).addClass('cdv-current-page') : $('.pg-'+pg).addClass('text-primary');
-                    }
-                    // $("#{{$control_id}}-pagination").append("<li><span class='nxt'><a href='#' id='nxt' data-type='nxt'  class='{{$control_id}}-pg'><i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i></a></span></li>");
-                    $("#{{$control_id}}-pagination").append(`<nav aria-label="Page navigation">
-                        <ul class="pagination"><li class="page-item ${page_total == current_page && 'disabled'}"><span class='nxt'><a href='#' id='nxt' data-type='nxt'  class='{{$control_id}}-pg page-link d-inline'><i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i></a></span></li> </ul>
-                        </nav>`);
-                    if(current_page == 1){
-                        $('.pre').addClass('disable');
-                        $('#pre').addClass('disable-link');
-                    }
-                    if(page_total == current_page){
-                        $('.nxt').addClass('disable');
-                        $('#nxt').addClass('disable-link');
-                    }  
-                           
-                    
-                    $("#{{$control_id}}-pagination").show();
+                    $(".pagination li").slice(1, -1).remove();
+                    showPage(current_page, page_total,7)
+
                   
-                    //$("#{{$control_id}}-pagination").show();
+                    $("#{{$control_id}}-pagination").show();
                 }
                 $("#spinner-{{$control_id}}").hide();
             });
@@ -88,13 +146,17 @@
             
         });
 
+        //next and previous button listener
         $(document).on('click', ".{{$control_id}}-pg", function(e) {
             e.preventDefault();
-            console.log(e);
+
             let page_number = 1;
+            
             $("#{{$control_id}}-pagination").hide();
             if($(this).attr('data-type') == 'pg'){
                 page_number = $(this).attr('data-val');
+            } else if($(this).attr('data-type') == '#'){
+                console.log(" For null")
             }
             if($(this).attr('data-type') == 'pre'){
                page_number = parseInt(current_page) - 1;
@@ -104,6 +166,7 @@
             }
            
             {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?pg="+page_number);
+            
         });
         
     });
