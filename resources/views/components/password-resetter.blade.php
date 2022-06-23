@@ -170,7 +170,7 @@
             function passwordChecker() {
                 let password = $("#password1").val();
                 let confirmPassword = $("#password1_confirmation").val();
-                    if (password.length > 0 && password != confirmPassword){
+                    if ((password.length > 0 && password != confirmPassword) || (confirmPassword != password)){
                         $("#CheckPasswordMatch").html("Password does not match !").css("color", "red");
                         $("#btn-save-mdl-password-reset-modal").prop('disabled', true);
                     }
@@ -203,7 +203,7 @@
 
             })
 
-             $("#password1_confirmation").on('keyup', function() {
+             $("#password1_confirmation, #password1").on('keyup', function() {
                 passwordChecker();
             });
 
@@ -275,7 +275,7 @@
                                 })
 
                                 setTimeout(function() {
-                                    // location.reload(true);
+                                    location.reload(true);
                                 }, 1000);
                             }
 
