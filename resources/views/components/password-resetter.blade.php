@@ -22,6 +22,12 @@
 
                 <div class="modal-body">
                     <div id="div-password-reset-modal-error" class="alert alert-danger" role="alert"></div>
+                    <div id="password_validation_error" class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" id="close_button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <form class="form-horizontal" id="frm-password-reset-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                         <div class="row">
                             <div class="col-lg-12">
@@ -43,14 +49,14 @@
                                         <div class="col-lg-9">
                                             <div class="{{ $errors->has('password1') ? ' has-error' : '' }}">
                                                 <div class="input-group"> 
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock-open"></i></span>
-                                                    <input type="password" class="form-control" id="password1" name="password1"  placeholder="Enter Password" />
+                                                    <span class="input-group-text bg-transparent"><i id="lock" class="bx bxs-lock"></i></span>
+                                                    <input type="password" class="form-control" id="password1" name="password1"  placeholder="Enter Password" required/>
                                                         <span class="input-group-text">
                                                             <a href="#" class="toggle_hide_password">
                                                                 <i 
                                                                     class="fa fa-eye-slash mb-2 pe-auto bg-transparent" 
                                                                     aria-hidden="true" 
-                                                                    {{-- style="cursor: pointer; margin-top:10px;"  --}}
+                                                                    id="icon"
                                                                     >
                                                                 </i>
                                                             </a>
@@ -66,13 +72,16 @@
                                         <div class="col-lg-9">
                                             <div class="{{ $errors->has('password1_confirmation') ? ' has-error' : '' }}">
                                                 <div class="input-group"> 
-                                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock"></i></span>
-                                                    <input type="password" class="form-control" id="password1_confirmation" name="password1_confirmation" placeholder="Re-enter Password" />
+                                                    <span class="input-group-text bg-transparent">
+                                                        <i id="lock" class="bx bxs-lock"></i>
+                                                    </span>
+                                                    <input type="password" class="form-control" id="password1_confirmation" name="password1_confirmation" placeholder="Re-enter Password" required/>
                                                      <span class="input-group-text">
                                                             <a href="#" class="toggle_hide_password">
                                                                 <i 
-                                                                    class="fa fa-eye-slash mb-2 pe-auto bg-transparent" 
+                                                                    class="fa fa-eye-slash mb-2 pe-auto" 
                                                                     aria-hidden="true" 
+                                                                    id="icon"
                                                                     >
                                                                 </i>
                                                             </a>
@@ -84,6 +93,7 @@
                                 </div>
 
                             </div>
+                            <div class="mt-3;" id="CheckPasswordMatch"></div>
                         </div>
                     </form>
                 </div>
@@ -125,6 +135,7 @@
                 e.preventDefault();
                 $('#password1, #password1_confirmation').val(Password.generate(16))
                 // $('').val($('#password1').val())
+                passwordChecker();
             });
 
             let Password = {
@@ -156,6 +167,20 @@
                 }
             };
 
+            function passwordChecker() {
+                let password = $("#password1").val();
+                let confirmPassword = $("#password1_confirmation").val();
+                    if (password.length > 0 && password != confirmPassword){
+                        $("#CheckPasswordMatch").html("Password does not match !").css("color", "red");
+                        $("#btn-save-mdl-password-reset-modal").prop('disabled', true);
+                    }
+                    else{
+                        $("#CheckPasswordMatch").html("Password match !").css("color", "green");
+                        $("#btn-save-mdl-password-reset-modal").prop('disabled', false);
+                    }
+                
+            }
+
             $(".toggle_hide_password").on('click', function(e) {
                 e.preventDefault()
 
@@ -166,14 +191,22 @@
                 const input = input_group.find('input.form-control')
 
                 // find the icon, within the input group
-                const icon = input_group.find('i')
+                const icon = input_group.find('#icon');
+                const lock = input_group.find('#lock')
 
                 // toggle field type
                 input.attr('type', input.attr("type") === "text" ? 'password' : 'text')
 
                 // toggle icon class
-                icon.toggleClass('fa-eye-slash fa-eye')
+                icon.toggleClass('fa-eye-slash fa-eye');
+                lock.toggleClass('bx bxs-lock-open bx bxs-lock')
+
             })
+
+             $("#password1_confirmation").on('keyup', function() {
+                passwordChecker();
+            });
+
 
             //Save details
             $('#btn-save-mdl-password-reset-modal').click(function(e) {
@@ -184,83 +217,86 @@
                 $(".spinner").show();
                 $("#btn-save-mdl-password-reset-modal").prop('disabled', true);
                 
-                //implement
-                //get user id
-                let user_id =  $('#password-reset-user-id').val();
-                
-                //call endpoint to update user password
-                let actionType = "POST";
-                let endPointUrl = "{{ route('fc.user.reset-password','') }}/"+user_id;
+                if($("#password1").val().length === 0){
+                    $('#password_validation_error').html('');
+                    $('#password_validation_error').show();
+                    $('#password_validation_error').append(
+                        `Password cannot be blank`
+                    );
+                }else{
+                    //implement
+                    //get user id
+                    let user_id =  $('#password-reset-user-id').val();
+                    
+                    //call endpoint to update user password
+                    let actionType = "POST";
+                    let endPointUrl = "{{ route('fc.user.reset-password','') }}/"+user_id;
 
 
-                let formData = new FormData();
-                formData.append('_token', $('input[name="_token"]').val());
-                formData.append('_method', 'PUT');
-                @if (isset($organization) && $organization != null)
-                    formData.append('organization_id', '{{ $organization->id }}');
-                @endif
-                if ($.trim($("#password1").val()) != $.trim($("#password1_confirmation").val())) {
-                   swal("Oops!", "Passwords do not match!", "error");
-                   setTimeout(function() {
-                        location.reload(true);
-                    }, 1000);
-                    return false;
-                } else {
+                    let formData = new FormData();
+                    formData.append('_token', $('input[name="_token"]').val());
+                    formData.append('_method', 'PUT');
+                    @if (isset($organization) && $organization != null)
+                        formData.append('organization_id', '{{ $organization->id }}');
+                    @endif
+                    
                     formData.append('password', $('#password1').val());
+
+                    $.ajax({
+                        url: endPointUrl,
+                        type: actionType,
+                        data: formData,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function(result) {
+                            console.log(result, result)
+                            if (result.errors) {
+                                //implement
+                                $('#div-password-reset-modal-error').html('');
+                                $('#div-password-reset-modal-error').show();
+                                $.each(result.errors, function(key, value) {
+                                    $('#div-password-reset-modal-error').append(
+                                        '<li class="">' + value + '</li>'
+                                    );
+                                });
+                            } 
+                            else {
+                                swal({
+                                    title: "Saved",
+                                    text: "Password updated successfully.",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    closeOnConfirm: false,
+                                    confirmButtonClass: "btn-success",
+                                    confirmButtonText: "OK",
+                                    closeOnConfirm: false
+                                })
+
+                                setTimeout(function() {
+                                    // location.reload(true);
+                                }, 1000);
+                            }
+
+                                    $(".spinner").hide();
+                                    $("#btn-save-mdl-password-reset-modal")
+                                        .prop('disabled',
+                                            false);
+                        },
+                        error: function(data) {
+                                console.log(data);
+                                swal("Error",
+                                            "Oops an error occurred. Please try again.",
+                                            "error");
+
+                                        $(".spinner").hide();
+                                        $("#btn-save-mdl-password-reset-modal")
+                                            .prop('disabled',
+                                                false);
+                            }
+                        });
                 }
-
-                $.ajax({
-                    url: endPointUrl,
-                    type: actionType,
-                    data: formData,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: function(result) {
-                        if (result.errors) {
-                            //implement
-                             $('#div-password-reset-modal-error').html('');
-                            $('#div-password-reset-modal-error').show();
-                            $.each(result.errors, function(key, value) {
-                                $('#div-password-reset-modal-error').append(
-                                    '<li class="">' + value + '</li>'
-                                );
-                            });
-                        } else {
-                            swal({
-                                title: "Saved",
-                                text: "Password updated successfully.",
-                                type: "success",
-                                showCancelButton: false,
-                                closeOnConfirm: false,
-                                confirmButtonClass: "btn-success",
-                                confirmButtonText: "OK",
-                                closeOnConfirm: false
-                            })
-
-                            setTimeout(function() {
-                                location.reload(true);
-                            }, 1000);
-                        }
-
-                                $(".spinner").hide();
-                                $("#btn-save-mdl-password-reset-modal")
-                                    .prop('disabled',
-                                        false);
-                    },
-                    error: function(data) {
-                        console.log(data);
-                        swal("Error",
-                                    "Oops an error occurred. Please try again.",
-                                    "error");
-
-                                $(".spinner").hide();
-                                $("#btn-save-mdl-password-reset-modal")
-                                    .prop('disabled',
-                                        false);
-                    }
-                });
             });
 
 
