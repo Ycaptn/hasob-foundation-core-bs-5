@@ -55,7 +55,8 @@
 
                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-disable-selector-modal" value="add">
+                    
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-disable-selector-modal" value="add" data-val-id="{{$disabled_item->id}}">
                         <span class="spinner">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span class="visually-hidden">Loading...</span>
@@ -72,6 +73,7 @@
         $(document).ready(function(){
             $('spinner').hide();
             // let is_disabled = true;
+            
             $(document).on('click', ".btn-disable-selector", function(e){
                 e.preventDefault();
                 $.ajaxSetup({headers:{'X-CSRF-TOKEN':$('input[name="_token"]').val()}});
@@ -84,39 +86,61 @@
                 console.log($('#cbx_is_disabled').val())
 
                 //Implement
-
+                console.log(itemId, "item id")
+                console.log(itemType, "item type")
                  $.get("{{ route('fc-api.disabled_items.index','') }}?disable_id="+itemId+"&disable_type="+itemType).done(function(response) {
                    if (response.data){
+                        // console.log(response.data, "response")
                        if (Object.keys(response.data) > 0){
                            //disabled
+                           $('#disabled_item_id').val('1')
+                           console.log($('#disabled_item_id').val(), "disabled");
                            Object.keys(response.data).map(element =>{
+                                console.log(response.data[element], 'element')
                                 $('#disabled_item_id').val(response.data[element].id);
+                                // console.log()
                                 if(response.data[element].is_disabled == true){
                                     $('#disable-selector-status').html("Disabled");
                                     $('#cbx_is_disabled').val("1")
                                     $('#label_status').html('Enable')
+                                    console.log("true")
                                 }else{
                                     $('#disable-selector-status').html("Enabled");
                                     $('#cbx_is_disabled').val("0")
                                     $('#label_status').html('Disable')
+                                    console.log("false")
                                 }
                                 
                            });
                         }else{
                             console.log("no");
+                            $('#disabled_item_id').val('0')
                             $('#disable-selector-status').html("Enabled");
                             $('#cbx_is_disabled').val("0")
                             $('#label_status').html('Disable')
-                         
-                       } 
-                   }
-               }).fail(function(error) {
+                            
+                        } 
+                    }
+                }).fail(function(error) {
                     console.log(error);// or whatever
                 });
-
+                
                 $('#mdl-disable-selector-modal').modal('show');
                 $('#frm-disable-selector-modal').trigger("reset");
+                // if (!$('#cbx_is_disabled').is(':checked')) {
+                //     $("#btn-save-mdl-disable-selector-modal").prop('disabled', true);
+                // }
+                console.log($('#disabled_item_id').val(), "check");
+                
             });
+
+            // $('#cbx_is_disabled').click(function() {
+            //     if ($(this).is(":checked")) {
+            //         $("#btn-save-mdl-disable-selector-modal").removeAttr("disabled");
+            //     } else {
+            //         $("#btn-save-mdl-disable-selector-modal").attr("disabled", "disabled");
+            //     }
+            // });
 
             //Save details
             $('#btn-save-mdl-disable-selector-modal').click(function(e) {
@@ -124,6 +148,8 @@
                 let itemType = $(this).attr('data-val-type');
                 e.preventDefault();
                 $.ajaxSetup({headers:{'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+                
 
                 $(".spinner").show();
                 $("#btn-save-mdl-disable-selector-modal").prop('disabled', true);
@@ -139,7 +165,7 @@
                             formData.append('organization_id',
                                 '{{ $organization->id }}');
                 @endif
-            
+                console.log($('#disabled_item_id').val(), "disabled_save");
                if($('#cbx_is_disabled').is(':checked')){
                     if($('#cbx_is_disabled').val() == "1"){
                      formData.append('is_disabled', "0");
@@ -179,7 +205,15 @@
                                     '<li class="">' + value + '</li>'
                                 );
                             });
-                        } else {
+                        } else if(!$('#cbx_is_disabled').is(':checked')){
+                            swal("Error",
+                                        "Oops an error occurred. Please try again.",
+                                        "error");
+
+                                    $(".spinner").hide();
+                                    $("#btn-save-mdl-disable-selector-modal").prop('disabled', false);
+                        }
+                        else {
                             swal({
                                 title: "Saved",
                                 text: "Saved successfully.",
