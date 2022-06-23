@@ -54,13 +54,12 @@
                 </div>
 
                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-disable-selector-modal" value="add" data-val-id="{{$disabled_item->id}}">
-                        <span class="spinner">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span class="visually-hidden">Loading...</span>
-                        </span>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-disable-selector-modal" value="add">
+                    <span class="spinner">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="visually-hidden">Loading...</span>
+                    </span>
                     Save
                 </button>
             </div>
@@ -71,7 +70,7 @@
     @push('page_scripts')
     <script type="text/javascript">
         $(document).ready(function(){
-            $('spinner').hide();
+            $('.spinner').hide();
             // let is_disabled = true;
             
             $(document).on('click', ".btn-disable-selector", function(e){
@@ -127,20 +126,9 @@
                 
                 $('#mdl-disable-selector-modal').modal('show');
                 $('#frm-disable-selector-modal').trigger("reset");
-                // if (!$('#cbx_is_disabled').is(':checked')) {
-                //     $("#btn-save-mdl-disable-selector-modal").prop('disabled', true);
-                // }
-                console.log($('#disabled_item_id').val(), "check");
                 
             });
 
-            // $('#cbx_is_disabled').click(function() {
-            //     if ($(this).is(":checked")) {
-            //         $("#btn-save-mdl-disable-selector-modal").removeAttr("disabled");
-            //     } else {
-            //         $("#btn-save-mdl-disable-selector-modal").attr("disabled", "disabled");
-            //     }
-            // });
 
             //Save details
             $('#btn-save-mdl-disable-selector-modal').click(function(e) {

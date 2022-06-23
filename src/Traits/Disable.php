@@ -18,7 +18,7 @@ trait Disable
 
         $disabled_item = DisabledItem::where('disable_id', $this->id)
                                             ->where('disable_type', self::class)
-                                            ->where('is_current', true)
+                                            ->where('is_disabled', true)
                                             ->first();
 
         if ($disabled_item != null){
@@ -30,9 +30,9 @@ trait Disable
     public function is_enabled(){
 
         $disabled_item = DisabledItem::where('disable_id', $this->id)
-                                        ->where('disable_type', self::class)
-                                        ->where('is_current', true)
-                                        ->first();
+            ->where('disable_type', self::class)
+            ->where('is_current', true)
+            ->first();
 
         if ($disabled_item != null){
             return ($disabled_item->is_disabled==false);
