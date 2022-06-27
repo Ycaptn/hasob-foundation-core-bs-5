@@ -155,7 +155,7 @@
                             })
 
                             setTimeout(function() {
-                                // location.reload(true);
+                                location.reload(true);
                             }, 1000);
                         }
                         $(".spinner").hide();
