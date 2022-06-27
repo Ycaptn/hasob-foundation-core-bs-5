@@ -71,7 +71,6 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $('.spinner').hide();
-            // let is_disabled = true;
             
             $(document).on('click', ".btn-disable-selector", function(e){
                 e.preventDefault();
@@ -82,43 +81,20 @@
                 let itemType = $(this).attr('data-val-type');
                 $('#disable-selector-item-id').val(itemId);
                 $('#disable-selector-item-type').val(itemType);
-                console.log($('#cbx_is_disabled').val())
 
                 //Implement
-                console.log(itemId, "item id")
-                console.log(itemType, "item type")
-                 $.get("{{ route('fc-api.disabled_items.index','') }}?disable_id="+itemId+"&disable_type="+itemType).done(function(response) {
-                   if (response.data){
-                        // console.log(response.data, "response")
-                       if (Object.keys(response.data) > 0){
-                           //disabled
-                           $('#disabled_item_id').val('1')
-                           console.log($('#disabled_item_id').val(), "disabled");
-                           Object.keys(response.data).map(element =>{
-                                console.log(response.data[element], 'element')
-                                $('#disabled_item_id').val(response.data[element].id);
-                                // console.log()
-                                if(response.data[element].is_disabled == true){
-                                    $('#disable-selector-status').html("Disabled");
-                                    $('#cbx_is_disabled').val("1")
-                                    $('#label_status').html('Enable')
-                                    console.log("true")
-                                }else{
-                                    $('#disable-selector-status').html("Enabled");
-                                    $('#cbx_is_disabled').val("0")
-                                    $('#label_status').html('Disable')
-                                    console.log("false")
-                                }
-                                
-                           });
-                        }else{
-                            console.log("no");
-                            $('#disabled_item_id').val('0')
-                            $('#disable-selector-status').html("Enabled");
-                            $('#cbx_is_disabled').val("0")
-                            $('#label_status').html('Disable')
-                            
-                        } 
+                 $.get("{{ route('fc.user.show', '') }}/" + itemId).done(function(response) {
+                   if (response){
+                            if(response.is_disabled == '1'){
+                                $('#disable-selector-status').html("Disabled");
+                                $('#cbx_is_disabled').val("1")
+                                $('#label_status').html('Enable')
+                            }else {
+                                $('#disable-selector-status').html("Enabled");
+                                $('#cbx_is_disabled').val("0")
+                                $('#label_status').html('Disable')
+                            }
+                       
                     }
                 }).fail(function(error) {
                     console.log(error);// or whatever
@@ -153,7 +129,6 @@
                             formData.append('organization_id',
                                 '{{ $organization->id }}');
                 @endif
-                console.log($('#disabled_item_id').val(), "disabled_save");
                if($('#cbx_is_disabled').is(':checked')){
                     if($('#cbx_is_disabled').val() == "1"){
                      formData.append('is_disabled', "0");
@@ -164,7 +139,6 @@
                    formData.append('is_disabled', $('#cbx_is_disabled').val());
                }  
                let disabledId = $('#disabled_item_id').val();
-               console.log(disabledId);
                if(disabledId != "0"){
                     formData.append('_method',"PUT");
                     formData.append('id',disabledId);
@@ -183,7 +157,6 @@
                     contentType: false,
                     dataType: 'json',
                     success: function(result) {
-                        console.log(result);
                         if (result.errors) {
                             //implement
                              $('#div-disable-selector-modal-error').html('');
@@ -214,7 +187,7 @@
                             })
 
                             setTimeout(function() {
-                              location.reload(true);
+                            //   location.reload(true);
                             }, 1000);
                         }
                         $(".spinner").hide();

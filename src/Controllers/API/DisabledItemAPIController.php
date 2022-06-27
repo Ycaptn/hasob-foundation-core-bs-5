@@ -2,6 +2,7 @@
 
 namespace Hasob\FoundationCore\Controllers\API;
 
+use Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Hasob\FoundationCore\Models\DisabledItem;
@@ -17,6 +18,8 @@ use Hasob\FoundationCore\Traits\ApiResponder;
 use Hasob\FoundationCore\Models\Organization;
 
 use Hasob\FoundationCore\Controllers\BaseController as AppBaseController;
+use Hasob\FoundationCore\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DisabledItemController
@@ -69,8 +72,22 @@ class DisabledItemAPIController extends AppBaseController
 
         /** @var DisabledItem $disabledItem */
         $disabledItem = DisabledItem::create($input);
-        
-        DisabledItemCreated::dispatch($disabledItem);
+
+        if (isset($disabledItem) && !empty($disabledItem)) {
+            $user_id = $disabledItem->disable_id;
+            $user = User::find($user_id);
+
+            if (empty($user)) {
+                return $this->sendError(('User not Found'));
+            }
+
+            $user->is_disabled = $disabledItem->is_disabled;
+            $user->disabling_user_id = Auth()->user()->id;
+            $user->disabled_at = Carbon\Carbon::now()->format('Y-m-d H:i:s');
+            $user->save();
+        }
+
+        // DisabledItemCreated::dispatch($disabledItem);
         return $this->sendResponse($disabledItem->toArray(), 'Disabled Item saved successfully');
     }
 
@@ -115,7 +132,22 @@ class DisabledItemAPIController extends AppBaseController
         $disabledItem->fill($request->all());
         $disabledItem->save();
         
-        DisabledItemUpdated::dispatch($disabledItem);
+
+        if(isset($disabledItem) && !empty($disabledItem)){
+            $user_id = $disabledItem->disable_id;
+            $user = User::find($user_id);
+
+            if(empty($user)){
+                return $this->sendError(('User not Found'));
+            }
+
+            $user->is_disabled = $disabledItem->is_disabled;
+            $user->disabling_user_id = Auth()->user()->id;
+            $user->disabled_at = Carbon\Carbon::now()->format('Y-m-d H:i:s');
+            $user->save();
+        }
+
+        // DisabledItemUpdated::dispatch($disabledItem);
         return $this->sendResponse($disabledItem->toArray(), 'DisabledItem updated successfully');
     }
 
