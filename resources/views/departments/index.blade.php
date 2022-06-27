@@ -32,12 +32,12 @@ All
 
 @section('content')
     
-    <div class="card border-top border-0 border-4 border-primary">
+    <div class="card  border-top  border-4 border-primary">
         <div class="card-body">
             {{ $cdv_departments->render() }}
         </div>
     </div>
-
+@include('hasob-foundation-core::departments.modal')
 @stop
 
 
@@ -45,4 +45,3 @@ All
     {!! $cdv_departments->render_js() !!}
 @endpush
 
-@include('hasob-foundation-core::departments.modal')
