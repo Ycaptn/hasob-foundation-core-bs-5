@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 use Hasob\FoundationCore\Models\User;
+use Hasob\FoundationCore\Models\DisabledItem;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
 
@@ -179,10 +180,11 @@ class UserController extends BaseController
 
     public function disable(Organization $org, Request $request, $id){
         $user = User::find($id);
+        $disabled = DisabledItem::create($request->all());
         if (empty($user)) {
             return self::createJSONResponse("ok", "failed", "User Not found" ,404);
         }
-        $input = array_merge($request->all(), ['disabling_user_id' => Auth::user()->id,'disabled_at' => Carbon\Carbon::now()->format('Y-m-d H:i:s')]);
+        $input = array_merge($request->all(), ['disabling_user_id' => Auth::user()->id, 'is_disabled' => $disabled->is_disabled, 'disabled_at' => Carbon\Carbon::now()->format('Y-m-d H:i:s')]);
         $user->fill($input);
         $user->save();
 

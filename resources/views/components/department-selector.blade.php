@@ -5,6 +5,7 @@
         class="btn-department-selector me-2"
         data-toggle="tooltip" 
         data-val-id="{{$department_user->id}}">
+        {{-- data-val="" --}}
             <i class="fa fa-unlink text-success small"></i>
     </a>
 @endif
@@ -84,6 +85,13 @@
 
                 let itemId = $(this).attr('data-val-id');
                 $('#department-selector-user-id').val(itemId);
+                console.log( $('#department-selector-user-id').val())
+
+                // /departments/{id}/settings
+                $.get("{{ route('fc.user.show', '') }}/" + itemId).done(function(response) {
+                    console.log(response)
+                     $('#selected_department').val(response.department_id);
+                 });
 
                 $('#mdl-department-selector-modal').modal('show');
                 $('#frm-department-selector-modal').trigger("reset");
