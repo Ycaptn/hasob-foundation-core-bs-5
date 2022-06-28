@@ -121,7 +121,7 @@
                     $(stars[i]).html('<i class="bx bxs-star font-20 email-star"></i>');
                 }
                  
-                let actionType ="POST";
+                //let actionType ="POST";
                 let endPointUrl = "{{ route('fc-api.ratings.store')}}";
                 let itemId = $(this).attr('data-val-id');
                 let ratingType = $(this).attr('data-val-type');
@@ -133,12 +133,12 @@
                 /*commented code is for the update functionality which gives error when uncommented
                 still working on it
                 */
-            //    if (ratingId === '0') {
-            //         actionType = "PUT";
-            //         endPointUrl = "{{ route('fc-api.ratings.update','') }}/"+itemId;
-            //         formData.append('id', ratingId);
-            //     } 
-                 formData.append('_method', actionType);
+               if (ratingId != '0') {
+                  let  actionType = "PUT";
+                    endPointUrl = "{{ route('fc-api.ratings.update','') }}/"+ratingId ;
+                    formData.append('id', ratingId);
+                    formData.append('_method', actionType);
+                } 
                  formData.append('ratable_id', itemId);
                  formData.append('ratable_type', ratingType);
                  formData.append('score', ratingScore);
@@ -151,7 +151,7 @@
 
                 $.ajax({
                     url: endPointUrl,
-                    type: actionType,
+                    type: 'Post',
                     data: formData,
                     cache: false,
                     processData: false,

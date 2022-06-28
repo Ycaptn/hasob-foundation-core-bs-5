@@ -2,7 +2,7 @@
     <a  href="#" 
         title="Change Role" 
         id="btn-{{$control_id}}"
-        class="btn-role-selector me-1"
+        class="btn-role-selector me-2"
         data-toggle="tooltip" 
         data-val-id="{{$role_user->id}}">
             <i class="fa fa-wrench small"></i>
@@ -38,12 +38,13 @@
                                 <div class="row row-cols-2 row-cols-sm-2">
                                     @if (isset($roles) && $roles!=null)
                                     @foreach ($roles as $idx => $role)
-                                        <div class="col form-check">
-                                            <input id='userRole-{{$role->id}}' 
+                                        <div class="col form-check" >
+                                            <input 
+                                                id='userRole-{{$role->id}}' 
                                                 name='userRole-{{$role->id}}' 
                                                 type="checkbox" 
-                                                value="0" 
-                                                class="role-selector-roles user-role-{{$role->id}}"
+                                                value={{ $role->id }} 
+                                                class="role-selector-roles user-role-{{$role->id}} role_checkbox"
                                             />
                                             <span for="userRole-{{$role->id}}">{{ $role->name }}</span>
                                         </div>
@@ -56,10 +57,20 @@
                     </form>
                 </div>
 
-                <div class="modal-footer">
+                {{-- <div class="modal-footer">
                     <hr class="light-grey-hr mb-10" />
                     <button type="button" class="btn btn-primary" id="btn-save-mdl-role-selector-modal" value="add">Save</button>
-                </div>
+                </div> --}}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-role-selector-modal" value="add" data-val-id="{{$role_user->id}}">
+                        <span class="spinner">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="visually-hidden">Loading...</span>
+                        </span>
+                    Save
+                </button>
+            </div>
 
             </div>
         </div>
@@ -68,6 +79,7 @@
     @push('page_scripts')
     <script type="text/javascript">
         $(document).ready(function(){
+            $('.spinner').hide();
 
             $(document).on('click', ".btn-role-selector", function(e){
                 e.preventDefault();
@@ -75,8 +87,9 @@
 
                 let itemId = $(this).attr('data-val-id');
                 $('#role-select-user-id').val(itemId);
-
                 $('.role-selector-roles').removeAttr('checked');
+
+                
 
                 $.get("{{ route('fc.user.show','') }}/" + itemId).done(function(response) {
                     $('#mdl-role-selector-modal').modal('show');
@@ -87,30 +100,48 @@
                 });
             });
 
-            //Save details
-            $('#btn-save-mdl-role-selector-modal').click(function(e) {
-                e.preventDefault();
-                $.ajaxSetup({headers:{'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+            function getUserDetails(formData, user_id, endPointUrl, actionType) {
+                const user = $('#role-select-user-id').val();
+                
 
-                let formData = new FormData();
-                formData.append('_token', $('input[name="_token"]').val());
-
-                //implement
-                //get user id
-                //get selected roles
-                //call endpoint to update user roles
 
                 $.ajax({
-                    url: endPointUrl,
-                    type: actionType,
-                    data: formData,
-                    cache: false,
-                    processData: false,
+                    url: "{{ route('fc.user.show','') }}/" + user,
+                    type: "GET",
+                    data: "string",
+                    async: true,
                     contentType: false,
                     dataType: 'json',
-                    success: function(result) {
+                    success: function(response) {
+                       if(response){
+                          formData.append('phoneNumber', response.telephone)
+                          formData.append('emailAddress', response.email)
+                          formData.append('department', response.department_id)
+                          formData.append('jobTitle', response.job_title)
+                          formData.append('title', response.title)
+                          formData.append('firstName', response.first_name)
+                          formData.append('middleName', response.middle_name)
+                          formData.append('lastName', response.last_name);
+
+
+                        $.ajax({
+                        url: endPointUrl,
+                        type: actionType,
+                        data: formData,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function(result) {
                         if (result.errors) {
                             //implement
+                             $('#div-role-selector-modal-error').html('');
+                            $('#div-role-selector-modal-error').show();
+                            $.each(result.errors, function(key, value) {
+                                $('#div-role-selector-modal-error').append(
+                                    '<li class="">' + value + '</li>'
+                                );
+                            });
                         } else {
                             swal({
                                 title: "Saved",
@@ -127,11 +158,76 @@
                                 location.reload(true);
                             }, 1000);
                         }
+                        $(".spinner").hide();
+                                $("#btn-save-mdl-role-selector-modal")
+                                    .prop('disabled',
+                                        false);
                     },
                     error: function(data) {
                         console.log(data);
+                         swal("Error",
+                                    "Oops an error occurred. Please try again.",
+                                    "error");
+
+                                $(".spinner").hide();
+                                $("#btn-save-mdl-role-selector-modal")
+                                    .prop('disabled',
+                                        false);
                     }
-                });
+                })
+                       }
+
+                    }
+                })
+
+            }
+
+            // getUserDetails();
+
+            //Save details
+            $('#btn-save-mdl-role-selector-modal').click(function(e) {
+                e.preventDefault();
+                $.ajaxSetup({headers:{'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+
+                let itemId = $(this).attr('data-val-id');
+                $('#role-select-user-id').val(itemId);
+
+
+                $(".spinner").show();
+                $("#btn-save-mdl-role-selector-modal").prop('disabled', true);
+
+
+
+                let user_id = $('#role-select-user-id').val();
+                let actionType = "POST";
+                let endPointUrl = "{{ route('fc.user.store', '') }}/"+user_id;
+                
+                //get user id
+                
+                //get selected roles
+                let selectedRoles = [];
+
+                const checkedRole = $('.role_checkbox:checked');
+
+                $(checkedRole).each(function() {
+                    selectedRoles.push($(this).val())
+                })
+
+
+                let formData = new FormData();
+                formData.append('_token', $('input[name="_token"]').val());
+                @if (isset($organization) && $organization != null)
+                    formData.append('organization_id', '{{ $organization->id }}');
+                @endif
+                formData.append('role_key', selectedRoles);
+                
+                getUserDetails(formData, user_id, endPointUrl, actionType);
+                
+
+                //implement
+                //call endpoint to update user roles
+
             });
 
 

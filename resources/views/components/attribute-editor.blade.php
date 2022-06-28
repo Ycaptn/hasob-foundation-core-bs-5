@@ -77,7 +77,7 @@
                 @if (count($artifactables) > 0)
                     <div class="">
                         <div class="email-list ps ps--active-y" style="overflow-y:scroll !important;overflow-x:hidden !important;">
-                            @foreach ($artifactables as $item)
+                            @foreach ($artifactables->sortBy('display_ordinal') as $item)
                                 <div class="model-artifacts-a" id="model_artifact-{{ $item->id }}">
                                     <div class="d-md-flex align-items-center email-message px-3 py-1">
                                         <div class="col-md-3 d-flex align-items-center email-actions">
@@ -91,7 +91,8 @@
                                         </div>
                                         <div class="col-md-2 ms-auto text-center">
                                             <p class="mb-0 email-time text-break">
-                                                {{ $item->created_at->format('Y-m-d H:i:a') }}</p>
+                                                <!-- {{ $item->created_at->format('Y-m-d H:i:a') }}</p> -->
+                                                {{ $item->created_at->diffForHumans() }}</p>
                                         </div>
                                     </div>
 </div>
@@ -182,30 +183,32 @@
     @push('page_scripts')
         <script type="text/javascript">
             $(document).ready(function() {
-                $("#spinner").hide();
+                $('#{{ $control_id }}-upmove-attribute').attr('disabled',true);
+                $('#{{ $control_id }}-downmove-attribute').attr('disabled',true);
+                $(".spinner-border").hide();
                 $("#spinner1").hide();
                 $("#spinner2").hide();
                 $('#btn-save-mdl-{{ $control_id }}-modal').attr('disabled', false);
                 $(".alert-danger").hide();
                 // $('#frm-{{ $control_id }}-modal').trigger("reset");
                 $('.form-horizontal').trigger("reset");
-
                 function hide_attribute_card() {
                     $("#div-{{ $control_id }}-modal-error").html('');
                     $("#div-{{ $control_id }}-modal-error").hide();
                 }
 
                 hide_attribute_card();
-
+                
+                
                 //Show add new attribute modal
                 // $('.form-horizontal').trigger("reset");
                 $(document).on('click', "#{{ $control_id }}-add-attribute", function(e) {
                     hide_attribute_card();
-                    // $('#frm-{{ $control_id }}-modal').trigger("reset");
                     $('.form-horizontal').trigger("reset");
-
-
+                    
+                    
                     $('#{{ $control_id }}-attribute-modal').modal('show');
+                    $('.modal-header').find('#lbl-{{ $control_id }}-modal-title').html('<h5>New Attribute</h5>');
 
 
 
@@ -312,11 +315,16 @@
                     });
                 });
 
-
+                //enable up and down move icon
+                $('.form-check-input').change(function() {
+                $('#{{ $control_id }}-downmove-attribute').prop('disabled', !$('.form-check-input:checked').length);
+                $('#{{ $control_id }}-upmove-attribute').prop('disabled', !$('.form-check-input:checked').length);
+                });
 
                 //update action for display_ordinal
-
+                
                 $('#{{ $control_id }}-upmove-attribute').click(function(e) {
+                  
                     $("#spinner1").show();
                     $('#{{ $control_id }}-upmove-attribute').attr('disabled', true)
                     e.preventDefault();
@@ -325,27 +333,28 @@
                             'X-CSRF-TOKEN': $('input[name="_token"]').val()
                         }
                     });
-
+                    
                     let parent_anchor = $('.model-artifacts-a');
-
+                    
                     let current_position = [];
-
+                    
                     let model_artifacts = $('.model_artifact_attribute');
-
+                    
                     let artifacts = model_artifacts.filter(function(k) {
                         return $(this).prop('checked') == true;
                     })
-
+                    
+                    
                     for (let index = 0; index < artifacts.length; index++) {
                         current_position.push(model_artifacts.index(artifacts[index]));
-
+                     
                     }
-
-                    if (artifacts.length > 0) {
-
+                    
+                    if (artifacts.length > 0 ) {
+                       
                         for (let index = 0; index < current_position.length; index++) {
                             if (current_position[index] != 0) {
-
+                                
                                 if (current_position[index] == 1) {
                                     let id = $('.model-artifacts-a')[current_position[index] - 1].id;
                                     $(parent_anchor[current_position[index]]).insertBefore($('#' + id));
@@ -368,7 +377,7 @@
                             let endPointUrl =
                                 "{{ route('fc-api.attributes.changeDisplayOrdinal', '') }}/" +
                                 itemId
-
+                            
                             let formData = new FormData();
                             formData.append('_token', $('input[name="_token"]').val());
                             formData.append('organization_id', '{{ $organization->id }}');
@@ -441,16 +450,14 @@
 
                         }
 
-                        console.log('current_position', current_position)
-
-                        $('.model_artifact_attribute').each(function(key, v) {
+                         $('.model_artifact_attribute').each(function(key, v) {
 
 
                             let itemId = $(this).attr('data-val');
                             let endPointUrl =
                                 "{{ route('fc-api.attributes.changeDisplayOrdinal', '') }}/" +
                                 itemId
-
+                            
                             let formData = new FormData();
                             formData.append('_token', $('input[name="_token"]').val());
                             formData.append('organization_id', '{{ $organization->id }}');
@@ -467,14 +474,15 @@
                                 dataType: 'json',
                                 success: function(result) {
                                     if (result.errors) {
-                                        $('#spinner').hide();
+                                         $("#spinner2").hide();
+                                        $('#{{ $control_id }}-downmove-attribute').attr(
+                                            'disabled', false)
                                         $('#{{ $control_id }}-delete-attribute')
                                             .attr("disabled", false);
-                                        console.log(result.errors);
                                     } else {
-                                        $("#spinner2").hide();
+                                          $("#spinner2").hide();
                                         $('#{{ $control_id }}-downmove-attribute').attr(
-                                            'disabled', false);
+                                            'disabled', false)
                                     }
                                 }
                             })
@@ -484,26 +492,26 @@
 
                 //edit attribute action
                 $("#{{ $control_id }}-edit-attribute").click(function(e) {
-                    // $(".model_artifact_attribute").click(function(e) {
-
-                    let itemToCopy = [];
-
-                    let model_artifacts = $('.model_artifact_attribute');
-                    let artifacts = model_artifacts.filter(function() {
-                        return $(this).prop('checked') == true;
-                    })
-                    for (let index = 0; index < artifacts.length; index++) {
-                        itemToCopy.push(model_artifacts.index(artifacts[index]));
-
-                        if (model_artifacts.length > 0) {
-                            let id = $('.model-artifacts-a')[itemToCopy[index]].id;
-                            $('#{{ $control_id }}-attribute-modal').modal('show');
+                   
+                         $('.modal-header').trigger("reset");
+                        let itemToCopy = [];
+                        
+                        let model_artifacts = $('.model_artifact_attribute');
+                        let artifacts = model_artifacts.filter(function() {
+                            return $(this).prop('checked') == true;
+                        })
+                        for (let index = 0; index < artifacts.length; index++) {
+                            itemToCopy.push(model_artifacts.index(artifacts[index]));
+                            
+                            if (model_artifacts.length > 0) {
+                                let id = $('.model-artifacts-a')[itemToCopy[index]].id;
+                                $('#{{ $control_id }}-attribute-modal').modal('show');
+                              $('.modal-header').find('#lbl-{{ $control_id }}-modal-title').html('<h5>Edit Attribute</h5>'); 
                             let attribute_name = $('#' + id).find('p').find('b').html();
                             let attribute_value = $('#' + id).find('p.attr-val').html();
                             $('#{{ $control_id }}-attribute-name').val(attribute_name)
                             $('#{{ $control_id }}-attribute-value').val(attribute_value)
                             let attribute_id = $('#' + id).find('input').attr('data-val');
-
                             $("#{{ $control_id }}-selected-attribute-id")
                                 .val(attribute_id);
                         }
@@ -518,32 +526,33 @@
                 //copy button triggers a modal
                 $("#{{ $control_id }}-copy-attribute").click(function(e) {
                     let itemToCopy = [];
-
+                    
                     let model_artifacts = $('.model_artifact_attribute');
                     let artifacts = model_artifacts.filter(function() {
                         return $(this).prop('checked') == true;
                     })
                     for (let index = 0; index < artifacts.length; index++) {
                         itemToCopy.push(model_artifacts.index(artifacts[index]));
-
                         if (model_artifacts.length > 0) {
+                              $("#{{ $control_id }}-copy-attribute").attr('disabled',false)
                             let id = $('.model-artifacts-a')[itemToCopy[index]].id;
                             $('#{{ $control_id }}-attribute-modal').modal('show');
+                           $('.modal-header').find('#lbl-{{ $control_id }}-modal-title').html('<h5>Copy Attribute</h5>'); 
                             let attribute_name = $('#' + id).find('p').find('b').html();
                             let attribute_value = $('#' + id).find('p.attr-val').html();
                             $('#{{ $control_id }}-attribute-name').val(attribute_name)
                             $('#{{ $control_id }}-attribute-value').val(attribute_value)
                         }
                         $("#{{ $control_id }}-selected-attribute-id")
-                            .val('0');
+                        .val('0');
 
-                    }
+                        }
 
-
-                })
+                        
+                    })
                 //refresh action 
                 $('#{{ $control_id }}-refresh-attribute').click(function(e) {
-                    location.reload(true);
+                    location.reload();
                 })
                 //Delete action
                 $('#{{ $control_id }}-delete-attribute').click(function(e) {
