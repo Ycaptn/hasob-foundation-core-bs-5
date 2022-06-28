@@ -5,6 +5,7 @@ namespace Hasob\FoundationCore\Traits;
 use Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,6 @@ trait ApiResponder
 
         $collection = $this->filterData($collection);
         $collection = $this->sortData($collection);
-
         if(request()->per_page > 0){
             $collection = $this->paginate($collection);                     
         }
@@ -32,7 +32,7 @@ trait ApiResponder
     protected function filterData(Collection $collection)
     {
         foreach (request()->query as $query => $value) {
-            if (isset($query, $value) && !in_array($query,['skip','limit','sort_by','sort_order','per_page'])) {
+            if (isset($query, $value) && !in_array($query,['_','skip','limit','sort_by','sort_order','per_page'])) {
                 $collection = $collection->where($query, $value);
             }
         }
