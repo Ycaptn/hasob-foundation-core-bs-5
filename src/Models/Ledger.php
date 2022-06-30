@@ -35,6 +35,7 @@ class Ledger extends Model
         'ledgerable_id',
         'ledgerable_type',
         'creator_user_id',
+        'opening_balance_amount',
         'organization_id'
     ];
 
