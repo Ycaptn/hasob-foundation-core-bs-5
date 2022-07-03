@@ -98,6 +98,74 @@ class FoundationCore
         return null;
     }
 
+    public function get_dashboards(Organization $org){
+        if (Schema::hasTable('fc_settings')){    
+            if ($org != null){                
+                return Setting::where([
+                    'organization_id'=>$org->id,
+                    'group_name'=>'dashboards',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
+    public function register_dashboard(Organization $org, $feature_name, $name, $include_path, $position){
+
+        if (Schema::hasTable('fc_settings')){    
+            if ($org != null){
+                $record = Setting::where(['organization_id'=>$org->id,'key'=>$name, 'owner_feature'=>$feature_name])->first();
+                if ($record == null){
+                    Setting::create([
+                        'organization_id'=>$org->id,
+                        'display_ordinal'=>$position,
+                        'group_name'=>'dashboards',
+                        'display_name'=>$name,
+                        'display_type'=>'string',
+                        'owner_feature'=>$feature_name,
+                        'key'=>$name,
+                        'value'=>$include_path
+                    ]);
+                }
+            }
+        }
+
+    }
+
+    public function get_right_panels(Organization $org){
+        if (Schema::hasTable('fc_settings')){    
+            if ($org != null){                
+                return Setting::where([
+                    'organization_id'=>$org->id,
+                    'group_name'=>'right_panels',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
+    public function register_right_panel(Organization $org, $feature_name, $name, $include_path, $position){
+
+        if (Schema::hasTable('fc_settings')){    
+            if ($org != null){
+                $record = Setting::where(['organization_id'=>$org->id,'key'=>$name, 'owner_feature'=>$feature_name])->first();
+                if ($record == null){
+                    Setting::create([
+                        'organization_id'=>$org->id,
+                        'display_ordinal'=>$position,
+                        'group_name'=>'right_panels',
+                        'display_name'=>$name,
+                        'display_type'=>'string',
+                        'owner_feature'=>$feature_name,
+                        'key'=>$name,
+                        'value'=>$include_path
+                    ]);
+                }
+            }
+        }
+
+    }
+
     public function register_setting(Organization $org, $key, $group_name, $display_type, $display_name, $owner_feature, $display_ordinal=1){
 
         if (Schema::hasTable('fc_settings')){    
