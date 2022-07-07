@@ -97,7 +97,7 @@ $(document).ready(function() {
         $('#div-edit-txt-tag-primary-id').hide();
         let itemId = $(this).attr('data-val');
 
-        $.get( "{{ route('lm-api.tags.show','') }}/"+itemId).done(function( response ) {
+        $.get( "{{ route('fc-api.tags.show','') }}/"+itemId).done(function( response ) {
 			
 			$('#txt-tag-primary-id').val(response.data.id);
             		$('#spn_tag_parent_id').html(response.data.parent_id);
@@ -126,7 +126,7 @@ $(document).ready(function() {
         $('#div-edit-txt-tag-primary-id').show();
         let itemId = $(this).attr('data-val');
 
-        $.get( "{{ route('lm-api.tags.show','') }}/"+itemId).done(function( response ) {     
+        $.get( "{{ route('fc-api.tags.show','') }}/"+itemId).done(function( response ) {     
 
 			$('#txt-tag-primary-id').val(response.data.id);
             		$('#parent_id').val(response.data.parent_id);
@@ -166,7 +166,7 @@ $(document).ready(function() {
             }, function(isConfirm) {
                 if (isConfirm) {
 
-                    let endPointUrl = "{{ route('lm-api.tags.destroy','') }}/"+itemId;
+                    let endPointUrl = "{{ route('fc-api.tags.destroy','') }}/"+itemId;
 
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
@@ -222,7 +222,7 @@ $(document).ready(function() {
         $("#div-save-mdl-tag-modal").attr('disabled', true);
 
         let actionType = "POST";
-        let endPointUrl = "{{ route('lm-api.tags.store') }}";
+        let endPointUrl = "{{ route('fc-api.tags.store') }}";
         let primaryId = $('#txt-tag-primary-id').val();
         
         let formData = new FormData();
@@ -230,7 +230,7 @@ $(document).ready(function() {
 
         if (primaryId != "0"){
             actionType = "PUT";
-            endPointUrl = "{{ route('lm-api.tags.update','') }}/"+primaryId;
+            endPointUrl = "{{ route('fc-api.tags.update','') }}/"+primaryId;
             formData.append('id', primaryId);
         }
         

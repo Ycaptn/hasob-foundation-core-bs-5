@@ -12,7 +12,7 @@ Create Taggable
 @stop
 
 @section('page_title_subtext')
-<a class="ms-1" href="{{ route('lm.taggables.index') }}">
+<a class="ms-1" href="{{ route('fc.taggables.index') }}">
     <i class="bx bx-chevron-left"></i> Back to Taggable Dashboard
 </a>
 @stop
@@ -35,14 +35,14 @@ Create Taggable
                 <h5 class="mb-0 text-primary">Taggable Details</h5>
             </div>
             <hr />
-            {!! Form::open(['route' => 'lm.taggables.store','class'=>'form-horizontal']) !!}
+            {!! Form::open(['route' => 'fc.taggables.store','class'=>'form-horizontal']) !!}
             
                 @include('hasob-lab-manager-module::pages.taggables.fields')
 
                 <div class="col-lg-offset-3 col-lg-9">
                     <hr />
                     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                    <a href="{{ route('lm.taggables.index') }}" class="btn btn-default btn-warning">Cancel</a>
+                    <a href="{{ route('fc.taggables.index') }}" class="btn btn-default btn-warning">Cancel</a>
                 </div>
 
             {!! Form::close() !!}

@@ -91,7 +91,7 @@ class ModelArtifactController extends BaseController
         //Flash::success('Model Artifact saved successfully.');
 
         ModelArtifactCreated::dispatch($modelArtifact);
-        return redirect(route('lm.modelArtifacts.index'));
+        return redirect(route('fc.modelArtifacts.index'));
     }
 
     /**
@@ -109,7 +109,7 @@ class ModelArtifactController extends BaseController
         if (empty($modelArtifact)) {
             //Flash::error('Model Artifact not found');
 
-            return redirect(route('lm.modelArtifacts.index'));
+            return redirect(route('fc.modelArtifacts.index'));
         }
 
         return view('hasob-lab-manager-module::pages.model_artifacts.show')->with('modelArtifact', $modelArtifact);
@@ -130,7 +130,7 @@ class ModelArtifactController extends BaseController
         if (empty($modelArtifact)) {
             //Flash::error('Model Artifact not found');
 
-            return redirect(route('lm.modelArtifacts.index'));
+            return redirect(route('fc.modelArtifacts.index'));
         }
 
         return view('hasob-lab-manager-module::pages.model_artifacts.edit')->with('modelArtifact', $modelArtifact);
@@ -152,7 +152,7 @@ class ModelArtifactController extends BaseController
         if (empty($modelArtifact)) {
             //Flash::error('Model Artifact not found');
 
-            return redirect(route('lm.modelArtifacts.index'));
+            return redirect(route('fc.modelArtifacts.index'));
         }
 
         $modelArtifact->fill($request->all());
@@ -161,7 +161,7 @@ class ModelArtifactController extends BaseController
         //Flash::success('Model Artifact updated successfully.');
         
         ModelArtifactUpdated::dispatch($modelArtifact);
-        return redirect(route('lm.modelArtifacts.index'));
+        return redirect(route('fc.modelArtifacts.index'));
     }
 
     /**
@@ -181,14 +181,14 @@ class ModelArtifactController extends BaseController
         if (empty($modelArtifact)) {
             //Flash::error('Model Artifact not found');
 
-            return redirect(route('lm.modelArtifacts.index'));
+            return redirect(route('fc.modelArtifacts.index'));
         }
 
         $modelArtifact->delete();
 
         //Flash::success('Model Artifact deleted successfully.');
         ModelArtifactDeleted::dispatch($modelArtifact);
-        return redirect(route('lm.modelArtifacts.index'));
+        return redirect(route('fc.modelArtifacts.index'));
     }
 
         

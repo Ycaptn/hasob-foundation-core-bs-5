@@ -40,7 +40,7 @@ Tag Details
 
 
 @section('page_title_subtext')
-    <a class="ml-10 mb-10" href="{{ route('lm.tags.index') }}" style="font-size:11px;color:blue;">
+    <a class="ml-10 mb-10" href="{{ route('fc.tags.index') }}" style="font-size:11px;color:blue;">
         <i class="fa fa-angle-double-left"></i> Back to Tag List
     </a>
 @stop

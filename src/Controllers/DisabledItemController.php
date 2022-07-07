@@ -91,7 +91,7 @@ class DisabledItemController extends BaseController
         //Flash::success('Disabled Item saved successfully.');
 
         DisabledItemCreated::dispatch($disabledItem);
-        return redirect(route('lm.disabledItems.index'));
+        return redirect(route('fc.disabledItems.index'));
     }
 
     /**
@@ -109,7 +109,7 @@ class DisabledItemController extends BaseController
         if (empty($disabledItem)) {
             //Flash::error('Disabled Item not found');
 
-            return redirect(route('lm.disabledItems.index'));
+            return redirect(route('fc.disabledItems.index'));
         }
 
         return view('hasob-lab-manager-module::pages.disabled_items.show')->with('disabledItem', $disabledItem);
@@ -130,7 +130,7 @@ class DisabledItemController extends BaseController
         if (empty($disabledItem)) {
             //Flash::error('Disabled Item not found');
 
-            return redirect(route('lm.disabledItems.index'));
+            return redirect(route('fc.disabledItems.index'));
         }
 
         return view('hasob-lab-manager-module::pages.disabled_items.edit')->with('disabledItem', $disabledItem);
@@ -152,7 +152,7 @@ class DisabledItemController extends BaseController
         if (empty($disabledItem)) {
             //Flash::error('Disabled Item not found');
 
-            return redirect(route('lm.disabledItems.index'));
+            return redirect(route('fc.disabledItems.index'));
         }
 
         $disabledItem->fill($request->all());
@@ -161,7 +161,7 @@ class DisabledItemController extends BaseController
         //Flash::success('Disabled Item updated successfully.');
         
         DisabledItemUpdated::dispatch($disabledItem);
-        return redirect(route('lm.disabledItems.index'));
+        return redirect(route('fc.disabledItems.index'));
     }
 
     /**
@@ -181,14 +181,14 @@ class DisabledItemController extends BaseController
         if (empty($disabledItem)) {
             //Flash::error('Disabled Item not found');
 
-            return redirect(route('lm.disabledItems.index'));
+            return redirect(route('fc.disabledItems.index'));
         }
 
         $disabledItem->delete();
 
         //Flash::success('Disabled Item deleted successfully.');
         DisabledItemDeleted::dispatch($disabledItem);
-        return redirect(route('lm.disabledItems.index'));
+        return redirect(route('fc.disabledItems.index'));
     }
 
         

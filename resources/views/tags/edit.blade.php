@@ -12,13 +12,13 @@ Edit Tag
 @stop
 
 @section('page_title_subtext')
-<a class="ms-1" href="{{ route('lm.tags.show', $tag->id) }}">
+<a class="ms-1" href="{{ route('fc.tags.show', $tag->id) }}">
     <i class="bx bx-chevron-left"></i> Back to Tag Details
 </a>
 @stop
 
 @section('page_title_buttons')
-<a href="{{ route('lm.tags.create') }}" id="btn-new-tags" class="btn btn-primary">
+<a href="{{ route('fc.tags.create') }}" id="btn-new-tags" class="btn btn-primary">
     <i class="bx bx-book-add mr-1"></i>New Tag
 </a>
 @stop
@@ -34,14 +34,14 @@ Edit Tag
             <h5 class="mb-0 text-primary">Modify Tag Details</h5>
         </div>
 
-        {!! Form::model($tag, ['class'=>'form-horizontal', 'route' => ['lm.tags.update', $tag->id], 'method' => 'patch']) !!}
+        {!! Form::model($tag, ['class'=>'form-horizontal', 'route' => ['fc.tags.update', $tag->id], 'method' => 'patch']) !!}
 
             @include('hasob-lab-manager-module::pages.tags.fields')
 
             <div class="col-lg-offset-3 col-lg-9">
                 <hr/>
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('lm.tags.show', $tag->id) }}" class="btn btn-warning btn-default">Cancel</a>
+                <a href="{{ route('fc.tags.show', $tag->id) }}" class="btn btn-warning btn-default">Cancel</a>
             </div>
         {!! Form::close() !!}                
 
