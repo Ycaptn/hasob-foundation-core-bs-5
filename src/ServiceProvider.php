@@ -84,6 +84,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->bind('FoundationCore', function($app) {
             return new FoundationCore();
         });
+        $this->app->bind('FoundationCoreUserService', function($app) {
+            return new FoundationCoreUserService();
+        });
 
         $this->app->register(FoundationCoreEventServiceProvider::class);
 

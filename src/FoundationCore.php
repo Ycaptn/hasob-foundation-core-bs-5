@@ -58,6 +58,27 @@ class FoundationCore
         return Site::all_sites($org);
     }
 
+    public function current_organization(){
+        
+        $org = null;
+        $current_user = null;
+
+        if (Auth::user() != null){
+            $current_user = Auth::user();
+            if ($current_user->organization != null){
+                $org = $current_user->organization;
+            }
+        }
+
+        if ($org == null){
+            $host = request()->getHost();
+            $manager = new OrganizationManager();
+            $org = $manager->loadTenant($host);
+        }
+
+        return $org;
+    }
+
     public function enabled_features(Organization $org){
 
         $enabled = [];
