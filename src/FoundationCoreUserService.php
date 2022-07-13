@@ -33,9 +33,10 @@ class FoundationCoreUserService
         $last_name,
         $email_address,
         $phone_number,
-        $company_name,
+        $company_name=null,
         $security_roles=[],
-        $password=null
+        $password=null,
+        $physical_location=null
     ){
 
         //Check if the user being requested exists
@@ -51,6 +52,8 @@ class FoundationCoreUserService
         $zUser->last_name = $last_name;
         $zUser->first_name = $first_name;
         $zUser->telephone = $phone_number;
+        $zUser->physical_location = $company_name;
+        $zUser->physical_location = $physical_location;
 
         $random_password = \Hasob\FoundationCore\Controllers\BaseController::generateRandomCode(9);
         if ($password != null){
