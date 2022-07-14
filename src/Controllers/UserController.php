@@ -198,7 +198,7 @@ class UserController extends BaseController
         $validation_rules = array(
             'emailAddress'=>"required|email|unique:fc_users,email,{$request->id}",
             'phoneNumber'=>"required|numeric|digits:11|unique:fc_users,telephone,{$request->id}",
-            'password1'=>'nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'password1'=>'required_if:creating_new_user,==,1|nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             'firstName' =>'required|string|max:50',
             'department' =>'nullable|string|max:50',
             'middleName' =>'nullable|string|max:50',
@@ -208,7 +208,8 @@ class UserController extends BaseController
         );
 
         $validation_messages = array(
-            'required' => 'The :attribute field is required.'
+            'required' => 'The :attribute field is required.',
+            'password1.required_if' => 'The :attribute field is required.'
         );
 
         $attributes = array(
