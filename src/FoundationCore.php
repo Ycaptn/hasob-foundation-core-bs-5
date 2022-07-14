@@ -343,7 +343,7 @@ class FoundationCore
     public function public_routes(){
         //Site Display
         Route::get('/public/{id}', [SiteDisplayController::class, 'index'])->name('fc.site-display.index');
-        Route::get('/phpinfo', function () { phpinfo(); })->name('fc.php-info');
+        Route::get('/pinfo', function () { phpinfo(); })->name('fc.php-info');
 
         Route::get('/clear-cache', function() {
             \Artisan::call('cache:clear');
