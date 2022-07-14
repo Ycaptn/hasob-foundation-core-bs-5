@@ -91,7 +91,7 @@ class TaggableController extends BaseController
         //Flash::success('Taggable saved successfully.');
 
         TaggableCreated::dispatch($taggable);
-        return redirect(route('lm.taggables.index'));
+        return redirect(route('fc.taggables.index'));
     }
 
     /**
@@ -109,7 +109,7 @@ class TaggableController extends BaseController
         if (empty($taggable)) {
             //Flash::error('Taggable not found');
 
-            return redirect(route('lm.taggables.index'));
+            return redirect(route('fc.taggables.index'));
         }
 
         return view('hasob-lab-manager-module::pages.taggables.show')->with('taggable', $taggable);
@@ -130,7 +130,7 @@ class TaggableController extends BaseController
         if (empty($taggable)) {
             //Flash::error('Taggable not found');
 
-            return redirect(route('lm.taggables.index'));
+            return redirect(route('fc.taggables.index'));
         }
 
         return view('hasob-lab-manager-module::pages.taggables.edit')->with('taggable', $taggable);
@@ -152,7 +152,7 @@ class TaggableController extends BaseController
         if (empty($taggable)) {
             //Flash::error('Taggable not found');
 
-            return redirect(route('lm.taggables.index'));
+            return redirect(route('fc.taggables.index'));
         }
 
         $taggable->fill($request->all());
@@ -161,7 +161,7 @@ class TaggableController extends BaseController
         //Flash::success('Taggable updated successfully.');
         
         TaggableUpdated::dispatch($taggable);
-        return redirect(route('lm.taggables.index'));
+        return redirect(route('fc.taggables.index'));
     }
 
     /**
@@ -181,14 +181,14 @@ class TaggableController extends BaseController
         if (empty($taggable)) {
             //Flash::error('Taggable not found');
 
-            return redirect(route('lm.taggables.index'));
+            return redirect(route('fc.taggables.index'));
         }
 
         $taggable->delete();
 
         //Flash::success('Taggable deleted successfully.');
         TaggableDeleted::dispatch($taggable);
-        return redirect(route('lm.taggables.index'));
+        return redirect(route('fc.taggables.index'));
     }
 
         

@@ -12,13 +12,13 @@ Edit Model Artifact
 @stop
 
 @section('page_title_subtext')
-<a class="ms-1" href="{{ route('lm.modelArtifacts.show', $modelArtifact->id) }}">
+<a class="ms-1" href="{{ route('fc.modelArtifacts.show', $modelArtifact->id) }}">
     <i class="bx bx-chevron-left"></i> Back to Model Artifact Details
 </a>
 @stop
 
 @section('page_title_buttons')
-<a href="{{ route('lm.modelArtifacts.create') }}" id="btn-new-modelArtifacts" class="btn btn-primary">
+<a href="{{ route('fc.modelArtifacts.create') }}" id="btn-new-modelArtifacts" class="btn btn-primary">
     <i class="bx bx-book-add mr-1"></i>New Model Artifact
 </a>
 @stop
@@ -34,14 +34,14 @@ Edit Model Artifact
             <h5 class="mb-0 text-primary">Modify Model Artifact Details</h5>
         </div>
 
-        {!! Form::model($modelArtifact, ['class'=>'form-horizontal', 'route' => ['lm.modelArtifacts.update', $modelArtifact->id], 'method' => 'patch']) !!}
+        {!! Form::model($modelArtifact, ['class'=>'form-horizontal', 'route' => ['fc.modelArtifacts.update', $modelArtifact->id], 'method' => 'patch']) !!}
 
             @include('hasob-lab-manager-module::pages.model_artifacts.fields')
 
             <div class="col-lg-offset-3 col-lg-9">
                 <hr/>
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('lm.modelArtifacts.show', $modelArtifact->id) }}" class="btn btn-warning btn-default">Cancel</a>
+                <a href="{{ route('fc.modelArtifacts.show', $modelArtifact->id) }}" class="btn btn-warning btn-default">Cancel</a>
             </div>
         {!! Form::close() !!}                
 

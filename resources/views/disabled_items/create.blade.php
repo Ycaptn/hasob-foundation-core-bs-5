@@ -12,7 +12,7 @@ Create Disabled Item
 @stop
 
 @section('page_title_subtext')
-<a class="ms-1" href="{{ route('lm.disabledItems.index') }}">
+<a class="ms-1" href="{{ route('fc.disabledItems.index') }}">
     <i class="bx bx-chevron-left"></i> Back to Disabled Item Dashboard
 </a>
 @stop
@@ -35,14 +35,14 @@ Create Disabled Item
                 <h5 class="mb-0 text-primary">Disabled Item Details</h5>
             </div>
             <hr />
-            {!! Form::open(['route' => 'lm.disabledItems.store','class'=>'form-horizontal']) !!}
+            {!! Form::open(['route' => 'fc.disabledItems.store','class'=>'form-horizontal']) !!}
             
                 @include('hasob-lab-manager-module::pages.disabled_items.fields')
 
                 <div class="col-lg-offset-3 col-lg-9">
                     <hr />
                     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                    <a href="{{ route('lm.disabledItems.index') }}" class="btn btn-default btn-warning">Cancel</a>
+                    <a href="{{ route('fc.disabledItems.index') }}" class="btn btn-default btn-warning">Cancel</a>
                 </div>
 
             {!! Form::close() !!}

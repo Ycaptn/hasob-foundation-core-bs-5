@@ -9,7 +9,7 @@
         <div class="col-md-9">
             <div class="card-body">
                 @php
-                    $detail_page_url = route('lm.taggables.show', $data_item->id);
+                    $detail_page_url = route('fc.taggables.show', $data_item->id);
                 @endphp
 
                 <div class="d-flex align-items-center">

@@ -27,6 +27,16 @@ trait Pageable
         return $pages;
     }
 
+    public function get_page($title){
+        $pages = $this->pages();
+        foreach($pages as $idx=>$page){
+            if (strtolower($page->page_name) == strtolower($title)){
+                return $page;
+            }
+        }
+        return null;
+    }
+
     public function create_page(User $user, $site_id, array $template=[]){
 
         //create page

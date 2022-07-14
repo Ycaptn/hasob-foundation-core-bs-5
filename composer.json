@@ -21,7 +21,8 @@
                 "Hasob\\FoundationCore\\ServiceProvider"
             ],
             "aliases": {
-                "FoundationCore": "Hasob\\FoundationCore\\Facades\\FoundationCore"
+                "FoundationCore": "Hasob\\FoundationCore\\Facades\\FoundationCore",
+                "FoundationCoreUserService": "Hasob\\FoundationCore\\Facades\\FoundationCoreUserService"
             }
         }
     },

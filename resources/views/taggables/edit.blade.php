@@ -12,13 +12,13 @@ Edit Taggable
 @stop
 
 @section('page_title_subtext')
-<a class="ms-1" href="{{ route('lm.taggables.show', $taggable->id) }}">
+<a class="ms-1" href="{{ route('fc.taggables.show', $taggable->id) }}">
     <i class="bx bx-chevron-left"></i> Back to Taggable Details
 </a>
 @stop
 
 @section('page_title_buttons')
-<a href="{{ route('lm.taggables.create') }}" id="btn-new-taggables" class="btn btn-primary">
+<a href="{{ route('fc.taggables.create') }}" id="btn-new-taggables" class="btn btn-primary">
     <i class="bx bx-book-add mr-1"></i>New Taggable
 </a>
 @stop
@@ -34,14 +34,14 @@ Edit Taggable
             <h5 class="mb-0 text-primary">Modify Taggable Details</h5>
         </div>
 
-        {!! Form::model($taggable, ['class'=>'form-horizontal', 'route' => ['lm.taggables.update', $taggable->id], 'method' => 'patch']) !!}
+        {!! Form::model($taggable, ['class'=>'form-horizontal', 'route' => ['fc.taggables.update', $taggable->id], 'method' => 'patch']) !!}
 
             @include('hasob-lab-manager-module::pages.taggables.fields')
 
             <div class="col-lg-offset-3 col-lg-9">
                 <hr/>
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('lm.taggables.show', $taggable->id) }}" class="btn btn-warning btn-default">Cancel</a>
+                <a href="{{ route('fc.taggables.show', $taggable->id) }}" class="btn btn-warning btn-default">Cancel</a>
             </div>
         {!! Form::close() !!}                
 

@@ -12,7 +12,7 @@ Create Tag
 @stop
 
 @section('page_title_subtext')
-<a class="ms-1" href="{{ route('lm.tags.index') }}">
+<a class="ms-1" href="{{ route('fc.tags.index') }}">
     <i class="bx bx-chevron-left"></i> Back to Tag Dashboard
 </a>
 @stop
@@ -35,14 +35,14 @@ Create Tag
                 <h5 class="mb-0 text-primary">Tag Details</h5>
             </div>
             <hr />
-            {!! Form::open(['route' => 'lm.tags.store','class'=>'form-horizontal']) !!}
+            {!! Form::open(['route' => 'fc.tags.store','class'=>'form-horizontal']) !!}
             
                 @include('hasob-lab-manager-module::pages.tags.fields')
 
                 <div class="col-lg-offset-3 col-lg-9">
                     <hr />
                     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                    <a href="{{ route('lm.tags.index') }}" class="btn btn-default btn-warning">Cancel</a>
+                    <a href="{{ route('fc.tags.index') }}" class="btn btn-default btn-warning">Cancel</a>
                 </div>
 
             {!! Form::close() !!}

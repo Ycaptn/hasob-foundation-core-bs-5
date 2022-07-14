@@ -91,7 +91,7 @@ class TagController extends BaseController
         //Flash::success('Tag saved successfully.');
 
         TagCreated::dispatch($tag);
-        return redirect(route('lm.tags.index'));
+        return redirect(route('fc.tags.index'));
     }
 
     /**
@@ -109,7 +109,7 @@ class TagController extends BaseController
         if (empty($tag)) {
             //Flash::error('Tag not found');
 
-            return redirect(route('lm.tags.index'));
+            return redirect(route('fc.tags.index'));
         }
 
         return view('hasob-lab-manager-module::pages.tags.show')->with('tag', $tag);
@@ -130,7 +130,7 @@ class TagController extends BaseController
         if (empty($tag)) {
             //Flash::error('Tag not found');
 
-            return redirect(route('lm.tags.index'));
+            return redirect(route('fc.tags.index'));
         }
 
         return view('hasob-lab-manager-module::pages.tags.edit')->with('tag', $tag);
@@ -152,7 +152,7 @@ class TagController extends BaseController
         if (empty($tag)) {
             //Flash::error('Tag not found');
 
-            return redirect(route('lm.tags.index'));
+            return redirect(route('fc.tags.index'));
         }
 
         $tag->fill($request->all());
@@ -161,7 +161,7 @@ class TagController extends BaseController
         //Flash::success('Tag updated successfully.');
         
         TagUpdated::dispatch($tag);
-        return redirect(route('lm.tags.index'));
+        return redirect(route('fc.tags.index'));
     }
 
     /**
@@ -181,14 +181,14 @@ class TagController extends BaseController
         if (empty($tag)) {
             //Flash::error('Tag not found');
 
-            return redirect(route('lm.tags.index'));
+            return redirect(route('fc.tags.index'));
         }
 
         $tag->delete();
 
         //Flash::success('Tag deleted successfully.');
         TagDeleted::dispatch($tag);
-        return redirect(route('lm.tags.index'));
+        return redirect(route('fc.tags.index'));
     }
 
         

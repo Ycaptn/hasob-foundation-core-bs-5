@@ -40,7 +40,7 @@ Model Artifact Details
 
 
 @section('page_title_subtext')
-    <a class="ml-10 mb-10" href="{{ route('lm.modelArtifacts.index') }}" style="font-size:11px;color:blue;">
+    <a class="ml-10 mb-10" href="{{ route('fc.modelArtifacts.index') }}" style="font-size:11px;color:blue;">
         <i class="fa fa-angle-double-left"></i> Back to Model Artifact List
     </a>
 @stop

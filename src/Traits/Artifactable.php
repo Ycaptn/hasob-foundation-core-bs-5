@@ -32,7 +32,7 @@ trait Artifactable
 
     public function store_artifact(array $properties){
         
-        if ($properties != null){
+        if ($properties != null && count($properties)>0){
 
             $previous = null;
 

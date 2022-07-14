@@ -97,7 +97,7 @@ $(document).ready(function() {
         $('#div-edit-txt-disabledItem-primary-id').hide();
         let itemId = $(this).attr('data-val');
 
-        $.get( "{{ route('lm-api.disabled_items.show','') }}/"+itemId).done(function( response ) {
+        $.get( "{{ route('fc-api.disabled_items.show','') }}/"+itemId).done(function( response ) {
 			
 			$('#txt-disabledItem-primary-id').val(response.data.id);
             		$('#spn_disabledItem_disable_id').html(response.data.disable_id);
@@ -125,7 +125,7 @@ $(document).ready(function() {
         $('#div-edit-txt-disabledItem-primary-id').show();
         let itemId = $(this).attr('data-val');
 
-        $.get( "{{ route('lm-api.disabled_items.show','') }}/"+itemId).done(function( response ) {     
+        $.get( "{{ route('fc-api.disabled_items.show','') }}/"+itemId).done(function( response ) {     
 
 			$('#txt-disabledItem-primary-id').val(response.data.id);
             		$('#disable_id').val(response.data.disable_id);
@@ -164,7 +164,7 @@ $(document).ready(function() {
             }, function(isConfirm) {
                 if (isConfirm) {
 
-                    let endPointUrl = "{{ route('lm-api.disabled_items.destroy','') }}/"+itemId;
+                    let endPointUrl = "{{ route('fc-api.disabled_items.destroy','') }}/"+itemId;
 
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
@@ -220,7 +220,7 @@ $(document).ready(function() {
         $("#div-save-mdl-disabledItem-modal").attr('disabled', true);
 
         let actionType = "POST";
-        let endPointUrl = "{{ route('lm-api.disabled_items.store') }}";
+        let endPointUrl = "{{ route('fc-api.disabled_items.store') }}";
         let primaryId = $('#txt-disabledItem-primary-id').val();
         
         let formData = new FormData();
@@ -228,7 +228,7 @@ $(document).ready(function() {
 
         if (primaryId != "0"){
             actionType = "PUT";
-            endPointUrl = "{{ route('lm-api.disabled_items.update','') }}/"+primaryId;
+            endPointUrl = "{{ route('fc-api.disabled_items.update','') }}/"+primaryId;
             formData.append('id', primaryId);
         }
         

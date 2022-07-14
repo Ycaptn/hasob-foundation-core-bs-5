@@ -12,7 +12,7 @@ Create Model Artifact
 @stop
 
 @section('page_title_subtext')
-<a class="ms-1" href="{{ route('lm.modelArtifacts.index') }}">
+<a class="ms-1" href="{{ route('fc.modelArtifacts.index') }}">
     <i class="bx bx-chevron-left"></i> Back to Model Artifact Dashboard
 </a>
 @stop
@@ -35,14 +35,14 @@ Create Model Artifact
                 <h5 class="mb-0 text-primary">Model Artifact Details</h5>
             </div>
             <hr />
-            {!! Form::open(['route' => 'lm.modelArtifacts.store','class'=>'form-horizontal']) !!}
+            {!! Form::open(['route' => 'fc.modelArtifacts.store','class'=>'form-horizontal']) !!}
             
                 @include('hasob-lab-manager-module::pages.model_artifacts.fields')
 
                 <div class="col-lg-offset-3 col-lg-9">
                     <hr />
                     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                    <a href="{{ route('lm.modelArtifacts.index') }}" class="btn btn-default btn-warning">Cancel</a>
+                    <a href="{{ route('fc.modelArtifacts.index') }}" class="btn btn-default btn-warning">Cancel</a>
                 </div>
 
             {!! Form::close() !!}

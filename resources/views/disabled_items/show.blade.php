@@ -40,7 +40,7 @@ Disabled Item Details
 
 
 @section('page_title_subtext')
-    <a class="ml-10 mb-10" href="{{ route('lm.disabledItems.index') }}" style="font-size:11px;color:blue;">
+    <a class="ml-10 mb-10" href="{{ route('fc.disabledItems.index') }}" style="font-size:11px;color:blue;">
         <i class="fa fa-angle-double-left"></i> Back to Disabled Item List
     </a>
 @stop

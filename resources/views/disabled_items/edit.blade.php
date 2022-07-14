@@ -12,13 +12,13 @@ Edit Disabled Item
 @stop
 
 @section('page_title_subtext')
-<a class="ms-1" href="{{ route('lm.disabledItems.show', $disabledItem->id) }}">
+<a class="ms-1" href="{{ route('fc.disabledItems.show', $disabledItem->id) }}">
     <i class="bx bx-chevron-left"></i> Back to Disabled Item Details
 </a>
 @stop
 
 @section('page_title_buttons')
-<a href="{{ route('lm.disabledItems.create') }}" id="btn-new-disabledItems" class="btn btn-primary">
+<a href="{{ route('fc.disabledItems.create') }}" id="btn-new-disabledItems" class="btn btn-primary">
     <i class="bx bx-book-add mr-1"></i>New Disabled Item
 </a>
 @stop
@@ -34,14 +34,14 @@ Edit Disabled Item
             <h5 class="mb-0 text-primary">Modify Disabled Item Details</h5>
         </div>
 
-        {!! Form::model($disabledItem, ['class'=>'form-horizontal', 'route' => ['lm.disabledItems.update', $disabledItem->id], 'method' => 'patch']) !!}
+        {!! Form::model($disabledItem, ['class'=>'form-horizontal', 'route' => ['fc.disabledItems.update', $disabledItem->id], 'method' => 'patch']) !!}
 
             @include('hasob-lab-manager-module::pages.disabled_items.fields')
 
             <div class="col-lg-offset-3 col-lg-9">
                 <hr/>
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('lm.disabledItems.show', $disabledItem->id) }}" class="btn btn-warning btn-default">Cancel</a>
+                <a href="{{ route('fc.disabledItems.show', $disabledItem->id) }}" class="btn btn-warning btn-default">Cancel</a>
             </div>
         {!! Form::close() !!}                
 

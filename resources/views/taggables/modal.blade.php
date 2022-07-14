@@ -97,7 +97,7 @@ $(document).ready(function() {
         $('#div-edit-txt-taggable-primary-id').hide();
         let itemId = $(this).attr('data-val');
 
-        $.get( "{{ route('lm-api.taggables.show','') }}/"+itemId).done(function( response ) {
+        $.get( "{{ route('fc-api.taggables.show','') }}/"+itemId).done(function( response ) {
 			
 			$('#txt-taggable-primary-id').val(response.data.id);
             		$('#spn_taggable_taggable_id').html(response.data.taggable_id);
@@ -124,7 +124,7 @@ $(document).ready(function() {
         $('#div-edit-txt-taggable-primary-id').show();
         let itemId = $(this).attr('data-val');
 
-        $.get( "{{ route('lm-api.taggables.show','') }}/"+itemId).done(function( response ) {     
+        $.get( "{{ route('fc-api.taggables.show','') }}/"+itemId).done(function( response ) {     
 
 			$('#txt-taggable-primary-id').val(response.data.id);
             		$('#taggable_id').val(response.data.taggable_id);
@@ -162,7 +162,7 @@ $(document).ready(function() {
             }, function(isConfirm) {
                 if (isConfirm) {
 
-                    let endPointUrl = "{{ route('lm-api.taggables.destroy','') }}/"+itemId;
+                    let endPointUrl = "{{ route('fc-api.taggables.destroy','') }}/"+itemId;
 
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
@@ -218,7 +218,7 @@ $(document).ready(function() {
         $("#div-save-mdl-taggable-modal").attr('disabled', true);
 
         let actionType = "POST";
-        let endPointUrl = "{{ route('lm-api.taggables.store') }}";
+        let endPointUrl = "{{ route('fc-api.taggables.store') }}";
         let primaryId = $('#txt-taggable-primary-id').val();
         
         let formData = new FormData();
@@ -226,7 +226,7 @@ $(document).ready(function() {
 
         if (primaryId != "0"){
             actionType = "PUT";
-            endPointUrl = "{{ route('lm-api.taggables.update','') }}/"+primaryId;
+            endPointUrl = "{{ route('fc-api.taggables.update','') }}/"+primaryId;
             formData.append('id', primaryId);
         }
         
