@@ -20,6 +20,9 @@ System Users
 <a class="ms-1" href="{{ route('dashboard') }}">
     <i class="bx bx-chevron-left"></i> Back to Dashboard
 </a> 
+<a href="{{ route('fc.user.show', 0) }}" class="btn btn-primary btn-sm pull-right">
+    <i class="fa fa-plus"></i> Create User
+</a>
 @stop
 
 @section('content')
