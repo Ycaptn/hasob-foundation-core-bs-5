@@ -1,5 +1,5 @@
 {
-    "name": "hasob/hasob-foundation-core-bs-5",
+    "name": "hasob/hasob-foundation-core",
     "type": "library",
     "authors": [
         {
@@ -22,7 +22,8 @@
             ],
             "aliases": {
                 "FoundationCore": "Hasob\\FoundationCore\\Facades\\FoundationCore",
-                "FoundationCoreUserService": "Hasob\\FoundationCore\\Facades\\FoundationCoreUserService"
+                "FoundationCoreUserService": "Hasob\\FoundationCore\\Facades\\FoundationCoreUserService",
+                "FoundationCoreSiteManagerService": "Hasob\\FoundationCore\\Facades\\FoundationCoreSiteManagerService"
             }
         }
     },

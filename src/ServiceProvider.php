@@ -87,6 +87,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->bind('FoundationCoreUserService', function($app) {
             return new FoundationCoreUserService();
         });
+        $this->app->bind('FoundationCoreSiteManagerService', function($app) {
+            return new FoundationCoreSiteManagerService();
+        });
 
         $this->app->register(FoundationCoreEventServiceProvider::class);
 
@@ -174,7 +177,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'portal_email_sender_name'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Name for Sending Email','display_ordinal'=>5],
             'portal_email_sender_email' =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Email Address for Sending Email','display_ordinal'=>6],
             
-
+            'portal_welcome_title'      =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Welcome title text on Landing Page of Portal','display_ordinal'=>0],
             'portal_welcome_text'       =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Welcome text on Landing Page of Portal','display_ordinal'=>1],
             'portal_login_text'         =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Login Page','display_ordinal'=>2],
             'portal_registration_text'  =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Registration Page','display_ordinal'=>3],

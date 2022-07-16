@@ -55,7 +55,8 @@ class SiteController extends BaseController
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())
-                    ->with('cdv_sites', $cdv_sites);
+                    ->with('cdv_sites', $cdv_sites)
+                    ->with('all_sites', Site::all());
     }
 
     /**
