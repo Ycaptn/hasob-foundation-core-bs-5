@@ -25,23 +25,16 @@
 <!-- Department Id Field -->
 
 <div class="mb-3">
-    <!-- <label class="col-sm-3 mb-10 form-control">Department</label>  -->
     <label class="form-label">Department</label>
     <div class="col-sm-12">
         <div class="input-group">
-
             <select id="site_department" name="site_department" class="form-select">
-                <option value="">Not Departmental Site
-                </option>
-                @if (isset($all_departments) && $all_departments != null)
-                    @foreach ($all_departments as $idx=>$dept)
-                        <option value="{{$dept->id}}">{{$dept->long_name}}</option>
-                    @endforeach
-                @endif
+                <option value="">Not Departmental Site</option>
+                @foreach (\FoundationCore::all_departments() as $idx=>$dept)
+                    <option value="{{$dept->id}}">{{$dept->long_name}}</option>
+                @endforeach
             </select>
-           
             <span class="input-group-text"><span class="fa fa-institution"></span></span>
-
         </div>
     </div>
 </div>

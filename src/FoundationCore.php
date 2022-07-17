@@ -308,13 +308,7 @@ class FoundationCore
             Route::resource('batch_items', \Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
 
-            Route::resource('budgets', \Hasob\FoundationCore\Controllers\API\BudgetAPIController::class);
-            Route::resource('budget_items', \Hasob\FoundationCore\Controllers\API\BudgetItemAPIController::class);
-            Route::resource('fiscal_years', \Hasob\FoundationCore\Controllers\API\FiscalYearAPIController::class);
-            Route::resource('fiscal_year_periods', \Hasob\FoundationCore\Controllers\API\FiscalYearPeriodAPIController::class);
             Route::resource('disabled_items', \Hasob\FoundationCore\Controllers\API\DisabledItemAPIController::class);
-            Route::resource('ledger_reconciliations', \Hasob\FoundationCore\Controllers\API\LedgerReconciliationAPIController::class);
-            Route::resource('ledger_transfers', \Hasob\FoundationCore\Controllers\API\LedgerTransferAPIController::class);
             Route::resource('tags', \Hasob\FoundationCore\Controllers\API\TagAPIController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\API\TaggableAPIController::class);
 
@@ -417,14 +411,7 @@ class FoundationCore
             Route::resource('ratings', \Hasob\FoundationCore\Controllers\RatingController::class);
             Route::resource('relationships', \Hasob\FoundationCore\Controllers\RelationshipController::class);
 
-
-            Route::resource('budgets', \Hasob\FoundationCore\Controllers\BudgetController::class);
-            Route::resource('budgetItems', \Hasob\FoundationCore\Controllers\BudgetItemController::class);
-            Route::resource('fiscalYears', \Hasob\FoundationCore\Controllers\FiscalYearController::class);
-            Route::resource('fiscalYearPeriods', \Hasob\FoundationCore\Controllers\FiscalYearPeriodController::class);
             Route::resource('disabledItems', \Hasob\FoundationCore\Controllers\DisabledItemController::class);
-            Route::resource('ledgerReconciliations', \Hasob\FoundationCore\Controllers\LedgerReconciliationController::class);
-            Route::resource('ledgerTransfers', \Hasob\FoundationCore\Controllers\LedgerTransferController::class);
             Route::resource('tags', \Hasob\FoundationCore\Controllers\TagController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\TaggableController::class);
             Route::resource('modelArtifacts', \Hasob\FoundationCore\Controllers\ModelArtifactController::class);
