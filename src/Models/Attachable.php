@@ -46,7 +46,13 @@ class Attachable extends Model
         'attachable_id' => 'string'
     ];
 
-    
+    public function getCreateDateString(){
+        
+        return Carbon::parse($this->created_at)->format("M d, Y");
+    }
+
+
+
     public function attachable(){
         return $this->morphTo();
     }

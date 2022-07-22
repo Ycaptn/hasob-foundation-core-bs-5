@@ -7,7 +7,7 @@
     @if (count($attachments)>0)
         <div class="list-group mt-3">
         @foreach ($attachments as $idx => $attach)
-            <a href="{{ route('fc.attachment.show', $attach->id) }}" target="_blank" class="list-group-item list-group-item-action">
+            <a href="{{ route('fc.attachment.show', $attach->attachment_id) }}" target="_blank" class="list-group-item list-group-item-action">
 
 
                 <div class="d-flex align-items-center">
@@ -19,7 +19,7 @@
                                 {{ $attach->description }}
                             @endif
                             <small class="text-muted">
-                                <small><i class="fa fa-upload"></i> {{$attach->uploader->full_name}} on {{$attach->getCreatedDateString()}}</small>
+                                <small><i class="fa fa-upload"></i> {{$attach->user->full_name}} on {{$attach->getCreateDateString()}}</small>
                             </small>
                         </p>
                     </div>
