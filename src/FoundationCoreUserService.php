@@ -1,6 +1,8 @@
 <?php
 namespace Hasob\FoundationCore;
 
+use Hash;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -59,7 +61,7 @@ class FoundationCoreUserService
         if ($password != null){
             $password = $random_password;
         }
-        $zUser->password = bcrypt($password);
+        $zUser->password = Hash::make($password);
 
         if (count($security_roles)>0){
             $zUser->syncRoles($security_roles);
