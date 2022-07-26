@@ -85,6 +85,45 @@
                     }
                 });
 
+                $('.btnShowAttachmentViewer').click(function(){
+                    
+                    var parent = $('embed#_pdfEmbed').parent();
+                    var newElement = "<embed src='"+attach_list[attach_location]+"' id='pdfEmbed' height='100%' width='100%' style='height:75vh'>";
+
+                    if (attach_list[attach_location]!=null){
+                        $('embed#_pdfEmbed').remove();
+                        parent.append(newElement);
+                        displayAttachmentDetails(attach_location);
+                      //  $('#{{$control_id}}_attachment-viewer-modal').modal('show');
+                    }
+                });
+
+                $('._showPrevious').click(function(){
+                    if (attach_location>0){
+                        var parent = $('embed#_pdfEmbed').parent();
+                        var newElement = "<embed src='"+attach_list[--attach_location]+"' id='pdfEmbed' height='100%' width='100%' style='height:75vh'>";
+                        $('embed#_pdfEmbed').remove();
+
+                        if (attach_list[attach_location]!=null){
+                            displayAttachmentDetails(attach_location);
+                            parent.append(newElement);
+                        }
+                    }
+                });
+
+                $('._showNext').click(function(){
+                    if (attach_location<(attach_list.length-1)){
+                        var parent = $('embed#_pdfEmbed').parent();
+                        var newElement = "<embed src='"+attach_list[++attach_location]+"' id='pdfEmbed' height='100%' width='100%' style='height:75vh'>";
+                        $('embed#_pdfEmbed').remove();
+
+                        if (attach_list[attach_location]!=null){
+                            displayAttachmentDetails(attach_location);
+                            parent.append(newElement);
+                        }
+                    }
+                });
+
                 $('#{{$control_id}}_showNext').click(function(){
                     if (attach_location<(attach_list.length-1)){
                         var parent = $('embed#pdfEmbed').parent();
@@ -110,6 +149,7 @@
                         }
                     }
                 });
+
 
             });
         </script>
