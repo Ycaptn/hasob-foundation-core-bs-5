@@ -88,12 +88,12 @@
                 $('.btnShowAttachmentViewer').click(function(){
                  
                     
-                    var parent = $('embed#_pdfEmbed').parent();
+                    var parent = $('embed#pdfEmbedCopy').parent();
                     console.log(parent);
-                    var newElement = "<embed src='"+attach_list[attach_location]+"' id='pdfEmbed' height='100%' width='100%' style='height:75vh'>";
+                    var newElement = "<embed src='"+attach_list[attach_location]+"' id='pdfEmbedCopy' height='100%' width='100%' style='height:75vh'>";
 
                     if (attach_list[attach_location]!=null){
-                        $('embed#_pdfEmbed').remove();
+                        $('embed#pdfEmbedCopy').remove();
                         parent.append(newElement);
                         displayAttachmentDetails(attach_location);
                       //  $('#{{$control_id}}_attachment-viewer-modal').modal('show');
@@ -102,9 +102,10 @@
 
                 $('._showPrevious').click(function(){
                     if (attach_location>0){
-                        var parent = $('embed#_pdfEmbed').parent();
-                        var newElement = "<embed src='"+attach_list[--attach_location]+"' id='pdfEmbed' height='100%' width='100%' style='height:75vh'>";
-                        $('embed#_pdfEmbed').remove();
+                        console.log("here");
+                        var parent = $('embed#pdfEmbedCopy').parent();
+                        var newElement = "<embed src='"+attach_list[--attach_location]+"' id='pdfEmbedCopy' height='100%' width='100%' style='height:75vh'>";
+                        $('embed#pdfEmbedCopy').remove();
 
                         if (attach_list[attach_location]!=null){
                             displayAttachmentDetails(attach_location);
@@ -114,10 +115,11 @@
                 });
 
                 $('._showNext').click(function(){
+                    console.log("here");
                     if (attach_location<(attach_list.length-1)){
-                        var parent = $('embed#_pdfEmbed').parent();
-                        var newElement = "<embed src='"+attach_list[++attach_location]+"' id='pdfEmbed' height='100%' width='100%' style='height:75vh'>";
-                        $('embed#_pdfEmbed').remove();
+                        var parent = $('embed#pdfEmbedCopy').parent();
+                        var newElement = "<embed src='"+attach_list[++attach_location]+"' id='pdfEmbedCopy' height='100%' width='100%' style='height:75vh'>";
+                        $('embed#pdfEmbedCopy').remove();
 
                         if (attach_list[attach_location]!=null){
                             displayAttachmentDetails(attach_location);
