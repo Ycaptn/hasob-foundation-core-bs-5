@@ -72,13 +72,13 @@ trait Attachable
         return $attach;
     }
 
-    public function create_attachable(User $user, Attachment $attachment){
+    public function create_attachable(User $user, Attachment $attachment, $attachable_type){
 
         $attachable = new EloquentAttachable();
         $attachable->user_id = $user->id;
         $attachable->attachment_id = $attachment->id;
         $attachable->attachable_id = $this->id;
-        $attachable->attachable_type = self::class;
+        $attachable->attachable_type = $attachable_type;
         $attachable->save();
 
         return $attachable;

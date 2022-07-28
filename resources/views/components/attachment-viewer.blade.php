@@ -86,8 +86,10 @@
                 });
 
                 $('.btnShowAttachmentViewer').click(function(){
+                 
                     
                     var parent = $('embed#_pdfEmbed').parent();
+                    console.log(parent);
                     var newElement = "<embed src='"+attach_list[attach_location]+"' id='pdfEmbed' height='100%' width='100%' style='height:75vh'>";
 
                     if (attach_list[attach_location]!=null){
