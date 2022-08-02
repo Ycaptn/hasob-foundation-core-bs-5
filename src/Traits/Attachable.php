@@ -84,6 +84,22 @@ trait Attachable
         return $attachable;
     }
 
+    public function delete_attachment($name){
+        $attachables = EloquentAttachable::where('attachable_id',  $this->id)
+                                            ->where('attachable_type', self::class)    
+                                            ->orderBy('created_at','desc')
+                                            ->get();
+
+        $attachments = [];
+        foreach ($attachables as $attachable){
+            if ($attachable->attachment != null && $attachable->attachment->label == $name){
+                $attachable->attachment->delete();
+                $attachable->delete();
+            }
+        }
+        return null;
+    }
+
     public function attach(User $user, $name, $comments, $file){
 
         $rndFileName = time() . '.' . $file->getClientOriginalExtension();
@@ -113,7 +129,7 @@ trait Attachable
         $file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
 
         $rndFileName = time() . '.' . $file_extension;
-        $path = File::copy($file_path, public_path('uploads').'/'.$rndFileName);
+        $path = File::move($file_path, public_path('uploads').'/'.$rndFileName);
 
         $attach = new Attachment();
         $attach->path = "public/uploads/{$rndFileName}";
