@@ -179,8 +179,7 @@ class AttachmentAPIController extends BaseController
 
         $attachable = $attachable_type->create_attachable(
             Auth::guard()->user(),
-            $attachment,
-            $options['attachable_type']
+            $attachment
         );
 
         return self::createJSONResponse("ok", "success", $attachment->path, 200);
