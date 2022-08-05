@@ -16,7 +16,7 @@ use Hasob\FoundationCore\Models\Organization;
 trait Attachable
 {
 
-
+    private $counter = 1;
     public function get_attachment($name){
         $attachables = EloquentAttachable::where('attachable_id', $this->id)
                                             ->where('attachable_type', self::class)    
@@ -57,7 +57,7 @@ trait Attachable
 
     public function create_attachment(User $user, $name, $comments, $file){
 
-        $rndFileName = time() . '.' . $file->getClientOriginalExtension();
+        $rndFileName = strval(time()+$this->counter) . '.' . $file->getClientOriginalExtension();
         $path = $file->move(public_path('uploads'), $rndFileName);
 
         $attach = new Attachment();
@@ -69,6 +69,7 @@ trait Attachable
         $attach->file_type = $file->getClientOriginalExtension();
         $attach->save();
 
+        $this->counter += 1;
         return $attach;
     }
 
@@ -102,7 +103,7 @@ trait Attachable
 
     public function attach(User $user, $name, $comments, $file){
 
-        $rndFileName = time() . '.' . $file->getClientOriginalExtension();
+        $rndFileName = strval(time()+$this->counter) . '.' . $file->getClientOriginalExtension();
         $path = $file->move(public_path('uploads'), $rndFileName);
 
         $attach = new Attachment();
@@ -121,6 +122,7 @@ trait Attachable
         $attachable->attachable_type = self::class;
         $attachable->save();
 
+        $this->counter += 1;
         return $attachable;
     }
     
@@ -128,7 +130,7 @@ trait Attachable
 
         $file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
 
-        $rndFileName = time() . '.' . $file_extension;
+        $rndFileName = strval(time()+$this->counter) . '.' . $file_extension;
         $path = File::move($file_path, public_path('uploads').'/'.$rndFileName);
 
         $attach = new Attachment();
@@ -147,6 +149,7 @@ trait Attachable
         $attachable->attachable_type = self::class;
         $attachable->save();
 
+        $this->counter += 1;
         return $attachable;
     }
 

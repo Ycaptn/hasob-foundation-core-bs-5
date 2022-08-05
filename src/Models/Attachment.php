@@ -80,4 +80,13 @@ class Attachment extends Model
         return Carbon::parse($this->created_at)->format("M d, Y");
     }    
     
+    public function can_role_view($user){
+        if ($this->allowed_viewer_user_roles != null){
+          $allowed_roles = explode(",",$this->allowed_viewer_user_roles);
+          if (!$user->hasAnyRole($allowed_roles)){
+            return false;
+          }
+        }
+        return true;
+    }
 }
