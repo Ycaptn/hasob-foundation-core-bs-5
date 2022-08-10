@@ -135,7 +135,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" name="creating_new_user" value="1">
+                                                    <input type="hidden" name="creating_new_user" value="{{ ($is_edit) ? 0 : 1 }}">
                                                     <div class="col-md-6">
                                                         <label class="col-lg-12 form-label">Password</label>
                                                         <div class="col-lg-12">
