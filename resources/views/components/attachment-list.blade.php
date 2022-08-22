@@ -13,7 +13,7 @@
                 <div class="d-flex align-items-center">
                     <i class="fa fa-paperclip fa-2x"></i>
                     <div class="flex-grow-1 ms-3">
-                        <p class="mt-0 mb-0">{{ $attach->label }}</p>
+                        <p class="mt-0 mb-0" style="color: blue;">{{ $attach->label }}</p>
                         <p class="mb-1 $text_color">
                             @if (empty($attach->description) == false)
                                 {{ $attach->description }}
