@@ -133,7 +133,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
             if (Schema::hasTable('fc_users')){
                 //Create user accounts
-                if (DB::table('fc_users')->count() == 0){
+                if (DB::table('fc_users')->where('email','admin@app.com')->first() == null){
                     $platform_admin_id = User::create([
                         'email' => 'admin@app.com',
                         'telephone' => '07063321200',
