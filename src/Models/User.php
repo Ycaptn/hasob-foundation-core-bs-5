@@ -41,7 +41,7 @@ class User extends Authenticatable
     public $table = 'fc_users';
 
     protected $fillable = [
-        'email', 'password', 'telephone', 'first_name', 'middle_name', 'job_title', 'title', 'last_name', 'last_loggedin_at', 'department_id', 'organization_id','is_disabled','disable_reason','disabling_user_id','disabled_at'
+        'email', 'password','gender', 'telephone', 'first_name', 'middle_name', 'job_title', 'title', 'last_name', 'last_loggedin_at', 'department_id', 'organization_id','is_disabled','disable_reason','disabling_user_id','disabled_at'
     ];
 
     protected $hidden = [ 'password', 'remember_token', 'profile_image'];

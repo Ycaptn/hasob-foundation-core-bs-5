@@ -102,7 +102,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-6">
                                                         <label class="col-lg-12 form-label">Last Name</label>
                                                         <div class="col-lg-12">
                                                             <div class="{{ $errors->has('lastName') ? ' has-error' : '' }}">
@@ -110,6 +110,24 @@
                                                                     <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
                                                                     <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Surname"  value="{{ $is_edit ? $edited_user->last_name : old('lastName')  }}" />
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="col-lg-12">
+                                                            <label class="col-lg-12 form-label">Gender</label>
+                                                            <div class="{{ $errors->has('gender') ? ' has-error' : '' }}">
+                                                                <select name="gender" id="gender" class="form-select">
+                                                                    <option value="">
+                                                                        -- Select Gender --
+                                                                    </option>
+                                                                    <option value="male">
+                                                                         Male
+                                                                    </option>
+                                                                    <option value="female">
+                                                                        Female
+                                                                    </option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
