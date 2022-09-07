@@ -85,19 +85,20 @@ class UserController extends BaseController
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if (config('bims.BIMS_CLIENT_ID') && $is_update == false) {
-       
+        if (config('bims.BIMS_CLIENT_ID') && $is_update == false && config('bims.BIMS_IS_ENABLED') == true && config('bims.BIMS_REGISTERATION_URI') != null) {
 
-            $response = Http::acceptJson()->post('https://bims.tetfund.gov.ng/api/auth/register', [
-                "client_id" => env('BIMS_CLIENT_ID'),
+            //register user on bims
+
+            $response = Http::acceptJson()->post(config('bims.BIMS_REGISTERATION_URI'), [
+                "client_id" => config('bims.BIMS_CLIENT_ID'),
                 "first_name" => $request->firstName,
                 "middle_name" => $request->middleName,
                 "last_name" => $request->lastName,
-                "phone_number" => $request->phoneNumber,
+                "phone" => $request->phoneNumber,
                 "email" => $request->emailAddress,
-                "gender" => $request->gender,
+                "gender" => ucfirst(substr($request->gender, 0, 1)),
             ]);
-           
+
         }
 
         $zUser->telephone = $request->phoneNumber;
