@@ -32,6 +32,7 @@ trait Ledgerable
         $properties['name'] = $name;
         $properties['ledgerable_id'] = $this->id;
         $properties['ledgerable_type'] = self::class;
+        $properties['opening_balance_amount'] = 0;
 
         if ($current_user != null){
             $properties['creator_user_id'] = $current_user->id;
