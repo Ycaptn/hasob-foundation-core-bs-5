@@ -409,9 +409,6 @@ class FoundationCore
             //Settings
             Route::get('/app-settings', [OrganizationController::class, 'app_settings'])->name('fc.app-settings');
 
-            //Checklist
-            Route::post('/get_filter_checklist', [\Hasob\FoundationCore\Controllers\API\ChecklistAPIController::class, 'get_filter_checklist'])->name('fc.get_filter_checklist');
-
         });
 
     }
