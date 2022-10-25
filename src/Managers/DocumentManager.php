@@ -5,6 +5,7 @@ use Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -34,9 +35,16 @@ class DocumentManager {
         }
 
         //Render the template as PDF and return the stream
-        $content = Blade::render($documentGenerationTemplate->content,['subject'=>$subject]);
+        // $html_content = Str::markdown($documentGenerationTemplate->content);
+        $rendered_content = Blade::render($documentGenerationTemplate->content,['subject'=>$subject]);
+        $html_content = \Illuminate\Mail\Markdown::parse($rendered_content);
+        //$rendered_content = Blade::render($html_content,['subject'=>$subject]);
+
+        // $markdown = new \Illuminate\Mail\Markdown();
+        // $content = \Illuminate\Mail\Markdown::render($documentGenerationTemplate->content,['subject'=>$subject]);
+
         $pdf = new \Mpdf\Mpdf(["margin_top" => 8, "margin_bottom" => 8]);
-        $pdf->WriteHTML($content);
+        $pdf->WriteHTML($html_content);
         return $pdf->Output();
 
     }
