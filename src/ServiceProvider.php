@@ -16,6 +16,7 @@ use Hasob\FoundationCore\Models\Organization;
 use Hasob\FoundationCore\Managers\OrganizationManager;
 
 use Hasob\FoundationCore\Facades;
+use Hasob\FoundationCore\Providers\OrganizationServiceProvider;
 use Hasob\FoundationCore\Providers\FoundationCoreEventServiceProvider;
 
 use Illuminate\Contracts\Http\Kernel;
@@ -91,6 +92,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new FoundationCoreSiteManagerService();
         });
 
+        $this->app->register(OrganizationServiceProvider::class);
         $this->app->register(FoundationCoreEventServiceProvider::class);
 
     }
@@ -258,6 +260,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         //Roles in this application with their roles.
         \FoundationCore::register_roles([
             'admin'                 =>  [],
+            'doc-gen-admin'         =>  [],
             'departments-admin'     =>  [],
             'department-manager'    =>  [],
             'ledgers-admin'         =>  [],

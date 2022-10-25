@@ -10,6 +10,7 @@ return [
         'sites' => true,
         'ledgers' => true,
         'departments' => true,
+        'document-generation' => true,
     ]
 
 ];
