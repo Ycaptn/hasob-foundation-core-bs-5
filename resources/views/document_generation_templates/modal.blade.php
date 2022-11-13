@@ -69,6 +69,16 @@
                                 </div>
                             </div>
 
+                            <div id="div-document_layout" class="form-group">
+                                <label class="col-lg-12 small col-form-label fw-bold">Document Layout</label>
+                                <div class="col-lg-11">
+                                    <select id="sel_document_layout" name="sel_document_layout" class="form-select">
+                                        <option value="portriat">Portriat</option>
+                                        <option value="landscape">Landscape</option>
+                                    </select>
+                                </div>
+                            </div>                            
+
                             <label class="col-lg-12 small col-form-label fw-bold">Applies to</label>
                             @foreach(\FoundationCore::get_document_generator_models($organization) as $idx=>$model)
                                 <div class="form-check">

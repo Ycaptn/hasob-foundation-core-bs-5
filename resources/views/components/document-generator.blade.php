@@ -62,7 +62,9 @@
                                             <select id="{{ $control_id }}_sel_template" name="{{ $control_id }}_sel_template" class="form-select">
                                                 <option value="" data-val-outputs="">Select a Template</option>
                                                 @foreach($templates as $template)
+                                                @if ($template!=null)
                                                 <option value="{{$template->id}}" data-val-outputs="{{$template->output_content_types}}">{{$template->title}}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -80,7 +82,7 @@
                                         </div>
 
                                         <div id="div-{{ $control_id }}_generate" class="form-group py-3">
-                                            <button type="button" class="btn btn-primary" id="{{ $control_id }}_btn-start" value="add">
+                                            <button type="button" class="btn btn-primary" id="{{ $control_id }}_btn-save-document" value="add">
                                                 <span class="spinner">
                                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                     <span class="visually-hidden">Loading...</span>
@@ -102,6 +104,8 @@
     @push('page_scripts')
     <script type="text/javascript">
 
+        let pdfViewerParent = $('embed#{{$control_id}}_pdfEmbed').parent();
+
         function {{ $control_id }}_initiate_control() {
 
         }
@@ -112,19 +116,25 @@
             $('.spinner').hide()
 
             $('.{{$target_class}}').click(function(){
-                
                 $('#{{ $control_id }}_frm').trigger("reset");
                 $('#{{ $control_id }}-modal').modal('show');
                 $('#{{ $control_id }}_error_div').hide();
 
                 $("#{{ $control_id }}_spinner").hide();
                 $("#{{ $control_id }}_btn-start").attr('disabled', false);
-                
             });
 
             $(document).on('change', "#{{ $control_id }}_sel_template", function(e) {
                 e.preventDefault();
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+                $('#{{ $control_id }}_error_div').empty();
+                $('#{{ $control_id }}_error_div').hide();
+                $("#{{ $control_id }}_btn-save-document").attr('disabled', true);
+                $('.spinner').show();
+
+                $('#{{$control_id}}_initial_notice').remove();
+                $('embed#{{$control_id}}_pdfEmbed').remove();
 
                 let itemId = this.value;
                 $.get("{{ route('fc-api.document_generation_templates.show','') }}/"+itemId).done(function( response ) {
@@ -135,17 +145,83 @@
                     $.each(output_options, function (i, item) {
                         $('#{{ $control_id }}_sel_output').append($('<option>',{value: item, text:item}));
                     });
+                    $("#{{ $control_id }}_btn-save-document").attr('disabled', false);
+                    $('.spinner').hide();
                 });
 
                 //Generate the Document Preview
                 var doc_url = "{{ route('fc.dmgr-preview-render','') }}/"+itemId+"?mid={{$document_generator->id}}&mpe="+String.raw`{{get_class($document_generator)}}`;
-                var parent = $('embed#{{$control_id}}_pdfEmbed').parent();
-                var newElement = "<embed src='"+doc_url+"' id='pdfEmbed' height='100%' width='100%' style='height:75vh'>";
+                pdfViewerParent.append(
+                    "<embed src='"+doc_url+"' id='{{$control_id}}_pdfEmbed' height='100%' width='100%' style='height:75vh'>"
+                );
+            });
 
-                $('#{{$control_id}}_initial_notice').remove();
-                $('embed#{{$control_id}}_pdfEmbed').remove();
-                parent.append(newElement);
-                
+            $(document).on('click', "#{{ $control_id }}_btn-save-document", function(e) {
+                e.preventDefault();
+                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+
+                $("#{{ $control_id }}_spinner").show();
+                $("#{{ $control_id }}_btn-save-document").attr('disabled', true);
+                $('.spinner').show();
+
+                let templateId = $("#{{ $control_id }}_sel_template").val();
+
+                let formData = new FormData();
+                formData.append('_token', $('input[name="_token"]').val());
+                formData.append('_method', "POST");
+                formData.append('templateId', templateId);
+                formData.append('modelId', "{{$document_generator->id}}");
+                formData.append('modelType', String.raw`{{get_class($document_generator)}}`);
+                formData.append('contentType', $("#{{ $control_id }}_sel_output").val());
+                formData.append('fileName', $("#{{ $control_id }}_file_name").val());
+                @if (isset($organization) && $organization != null)
+                formData.append('organization_id', '{{ $organization->id }}');
+                @endif
+
+                $.ajax({
+                    url: "{{ route('fc.dmgr-file-save','') }}/"+templateId,
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(result) {
+                        if (result.errors) {
+                            $('#{{ $control_id }}_error_div').show();
+                            $.each(result.errors, function(key, value) {
+                                $('#{{ $control_id }}_error_div').append('<li class="">'+value+'</li>');
+                            });
+                        } else {
+                            $('#{{ $control_id }}_error_div').hide();
+
+                            swal({
+                                title: "Saved",
+                                text: "Document saved successfully.",
+                                type: "success",
+                                showCancelButton: false,
+                                closeOnConfirm: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            });
+
+                            setTimeout(function() {
+                                location.reload(true);
+                            }, 1000);
+                        }
+                        $("#{{ $control_id }}_spinner").hide();
+                        $("#{{ $control_id }}_btn-save-document").attr('disabled', false);
+                        $('.spinner').hide();
+                    },
+                    error: function(data) {
+                        $("#{{ $control_id }}_spinner").hide();
+                        $("#{{ $control_id }}_btn-save-document").attr('disabled', false);
+                        $('.spinner').hide();
+                        console.log(data);
+                    }
+                });
             });
 
         });

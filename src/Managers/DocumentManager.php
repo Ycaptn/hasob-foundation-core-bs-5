@@ -35,18 +35,61 @@ class DocumentManager {
         }
 
         //Render the template as PDF and return the stream
-        // $html_content = Str::markdown($documentGenerationTemplate->content);
         $rendered_content = Blade::render($documentGenerationTemplate->content,['subject'=>$subject]);
         $html_content = \Illuminate\Mail\Markdown::parse($rendered_content);
-        //$rendered_content = Blade::render($html_content,['subject'=>$subject]);
-
-        // $markdown = new \Illuminate\Mail\Markdown();
-        // $content = \Illuminate\Mail\Markdown::render($documentGenerationTemplate->content,['subject'=>$subject]);
 
         $pdf = new \Mpdf\Mpdf(["margin_top" => 8, "margin_bottom" => 8]);
         $pdf->WriteHTML($html_content);
         return $pdf->Output();
 
+    }
+
+    public static function saveDocument($template_id, $subject_model_id, $subject_model_type, $content_type, $file_name){
+
+        //Get the template
+        $documentGenerationTemplate = DocumentGenerationTemplate::find($template_id);
+
+        //Invoke the subject model
+        $model = new $subject_model_type();
+        if ($model != null){
+            $subject = $model->find($subject_model_id);
+        }
+
+        //Render the template as PDF and return the stream
+        $rendered_content = Blade::render($documentGenerationTemplate->content,['subject'=>$subject]);
+        $html_content = \Illuminate\Mail\Markdown::parse($rendered_content);
+
+        $generated_file_path = self::saveAsMsWord($html_content, $file_name);
+
+        //Attach the file to the model as a document
+        if ($subject != null && !empty($generated_file_path)){
+            $subject->save_file(Auth::user(), $file_name, "", $generated_file_path);
+        }
+
+        return $generated_file_path;
+    }
+
+    private static function saveAsMsWord($content, $file_name){
+
+        $full_file_path = null;
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->addParagraphStyle('Heading2', ['alignment' => 'center']);
+
+        try {
+            $section = $phpWord->addSection();
+            \PhpOffice\PhpWord\Shared\Html::addHtml($section, $content, false, false);
+
+            $full_file_path = storage_path("{$file_name}.docx");
+
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+            $objWriter->save($full_file_path);
+
+        } catch (\Exception $e) {
+            Log::error("Unable to write word document {$full_file_path}");
+            Log::error($e->getMessage());
+        }
+
+        return $full_file_path;
     }
 
 }

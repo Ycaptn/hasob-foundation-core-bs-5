@@ -118,6 +118,7 @@ class BaseController extends Controller
         $res = [
             'success' => false,
             'message' => $message,
+            'errors' => [$message]
         ];
 
         if (!empty($data)) {
