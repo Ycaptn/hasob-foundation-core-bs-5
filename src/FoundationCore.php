@@ -215,6 +215,48 @@ class FoundationCore
 
     }
 
+    public function register_document_generator_model(Organization $org, $model_names=[]){
+
+        if (Schema::hasTable('fc_settings')) {
+            foreach($model_names as $idx=>$model){
+
+                $class = new \ReflectionClass($model);
+                $name = $class->getShortName();
+
+                if ($org != null) {
+                    $record = Setting::where(['organization_id' => $org->id, 'key' => $name, 'owner_feature' => 'document-generation'])->first();
+                    if ($record == null) {
+                        Setting::create([
+                            'organization_id' => $org->id,
+                            'display_ordinal' => $idx,
+                            'group_name' => 'document_models',
+                            'display_name' => $name,
+                            'display_type' => 'string',
+                            'owner_feature' => 'document-generation',
+                            'key' => $name,
+                            'value' => $model,
+                        ]);
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    public function get_document_generator_models(Organization $org)
+    {
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                return Setting::where([
+                    'organization_id' => $org->id,
+                    'group_name' => 'document_models',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
     public function register_roles($roles_list)
     {
 
@@ -289,6 +331,12 @@ class FoundationCore
                 ];
             }
 
+            if (\FoundationCore::has_feature('document-generation', $current_user->organization) && $current_user->hasAnyRole(['admin', 'doc-gen-admin'])) {
+                $fc_menu['mnu_fc_admin']['children']['doc_gen'] = ['id' => 'mnu_fc_doc_gen', 'label' => 'Document Generation', 'icon' => 'bx bx-analyse', 'path' => route('fc.documentGenerationTemplates.index'), 'route-selector' => 'fc/documentGenerationTemplates', 'is-parent' => false,
+                    'children' => [],
+                ];
+            }
+
             if ($current_user->hasRole('admin')) {
 
                 $fc_menu['mnu_fc_admin']['children']['access'] = ['id' => 'mnu_fc_acl', 'label' => 'Access Control', 'icon' => 'bx bx-briefcase-alt', 'path' => '#', 'route-selector' => null, 'is-parent' => false,
@@ -334,12 +382,18 @@ class FoundationCore
             Route::resource('batch_items', \Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
 
+            Route::resource('attachables', \Hasob\FoundationCore\Controllers\API\AttachableAPIController::class);
+
             Route::resource('disabled_items', \Hasob\FoundationCore\Controllers\API\DisabledItemAPIController::class);
             Route::resource('tags', \Hasob\FoundationCore\Controllers\API\TagAPIController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\API\TaggableAPIController::class);
 
             Route::resource('ratings', \Hasob\FoundationCore\Controllers\API\RatingAPIController::class);
             Route::resource('relationships', \Hasob\FoundationCore\Controllers\API\RelationshipAPIController::class);
+
+            Route::resource('model_documents', \Hasob\FoundationCore\Controllers\API\ModelDocumentAPIController::class);
+            Route::resource('document_generation_templates', \Hasob\FoundationCore\Controllers\API\DocumentGenerationTemplateAPIController::class);
+
         });
     }
 
@@ -440,10 +494,18 @@ class FoundationCore
             Route::resource('ratings', \Hasob\FoundationCore\Controllers\RatingController::class);
             Route::resource('relationships', \Hasob\FoundationCore\Controllers\RelationshipController::class);
 
+            Route::resource('documentGenerationTemplates', \Hasob\FoundationCore\Controllers\DocumentGenerationTemplateController::class);
+            Route::resource('modelDocuments', \Hasob\FoundationCore\Controllers\ModelDocumentController::class);
+
             Route::resource('disabledItems', \Hasob\FoundationCore\Controllers\DisabledItemController::class);
             Route::resource('tags', \Hasob\FoundationCore\Controllers\TagController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\TaggableController::class);
             Route::resource('modelArtifacts', \Hasob\FoundationCore\Controllers\ModelArtifactController::class);
+
+            //Document Manager 
+            Route::get('/dmgr/preview/{template_id}', [\Hasob\FoundationCore\Controllers\DocumentGeneratorController::class, 'processPDFPreview'])->name('dmgr-preview-render');
+            Route::post('/dmgr/save/{template_id}', [\Hasob\FoundationCore\Controllers\DocumentGeneratorController::class, 'processFileSave'])->name('dmgr-file-save');
+
 
             //User Management
             Route::get('/profile', [UserController::class, 'profile'])->name('users.profile');
