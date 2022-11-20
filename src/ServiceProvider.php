@@ -174,15 +174,18 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'portal_contact_name'   =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Name on Portal Support','display_ordinal'=>2],
             'portal_contact_phone'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Phone Number on Portal Support','display_ordinal'=>3],
             'portal_contact_email'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Contact Email on Portal Support','display_ordinal'=>4],
+            'portal_theme_color_primary'    =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Primary color theme for Portal','display_ordinal'=>5],
+            'portal_theme_color_secondary'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Secondary color theme for Portal','display_ordinal'=>6],
 
-
-            'portal_email_sender_name'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Name for Sending Email','display_ordinal'=>5],
-            'portal_email_sender_email' =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Email Address for Sending Email','display_ordinal'=>6],
+            'portal_email_sender_name'  =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Name for Sending Email','display_ordinal'=>7],
+            'portal_email_sender_email' =>['group_name'=>'Portal','display_type'=>'string','display_name'=>'Email Address for Sending Email','display_ordinal'=>8],
             
             'portal_welcome_title'      =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Welcome title text on Landing Page of Portal','display_ordinal'=>0],
             'portal_welcome_text'       =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Welcome text on Landing Page of Portal','display_ordinal'=>1],
             'portal_login_text'         =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Login Page','display_ordinal'=>2],
             'portal_registration_text'  =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Text on Registration Page','display_ordinal'=>3],
+            'portal_footer_title'       =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Footer title on Landing Page of Portal','display_ordinal'=>4],
+            'portal_footer_text'        =>['group_name'=>'Portal Text','display_type'=>'textarea','display_name'=>'Footer text on Landing Page of Portal','display_ordinal'=>5],
             
 
             'portal_file_high_res_picture'  =>['group_name'=>'Portal Graphics','display_type'=>'file-select','display_name'=>'High Resolution Image of Portal Logo','display_ordinal'=>1],
@@ -247,7 +250,18 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                     return [$item->key => $item->value];
                 });
 
+                $primary_theme_color = "green";
+                $secondary_theme_color = "red";
+                if (isset($app_setting_values) && isset($app_setting_values['portal_theme_color_primary']) && !empty($app_setting_values['portal_theme_color_primary']) ){
+                    $primary_theme_color = $app_setting_values['portal_theme_color_primary'];
+                }
+                if (isset($app_setting_values) && isset($app_setting_values['portal_theme_color_secondary']) && !empty($app_setting_values['portal_theme_color_secondary']) ){
+                    $secondary_theme_color = $app_setting_values['portal_theme_color_secondary'];    
+                }
+
                 \View::share('app_settings', $app_setting_values);
+                \View::share('secondary_theme_color', $secondary_theme_color);
+                \View::share('primary_theme_color', $primary_theme_color);
             }
 
         }
