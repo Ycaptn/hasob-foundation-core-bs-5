@@ -29,11 +29,13 @@ class DocumentGeneratorController extends BaseController
 
         $subject_model_id = $request->get('mid');
         $subject_model_type = $request->get('mpe');
+        $model_document_id = $request->get('mdtid');
 
         $response = \Hasob\FoundationCore\Managers\DocumentManager::previewDocumentToPDF(
             $template_id, 
             $subject_model_id, 
-            $subject_model_type
+            $subject_model_type,
+            $model_document_id
         );
 
         ob_end_clean();
@@ -46,13 +48,15 @@ class DocumentGeneratorController extends BaseController
         $content_type = $request->contentType;
         $subject_model_id = $request->modelId;
         $subject_model_type = $request->modelType;
+        $model_document_id = $request->modelDocumentId;
         
         $response = \Hasob\FoundationCore\Managers\DocumentManager::saveDocument(
             $template_id, 
             $subject_model_id, 
             $subject_model_type,
             $content_type, 
-            $file_name               
+            $file_name,
+            $model_document_id           
         );
 
         if (empty($response)) {

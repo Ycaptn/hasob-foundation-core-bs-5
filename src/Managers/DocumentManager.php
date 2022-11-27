@@ -23,7 +23,7 @@ class DocumentManager {
     public function __construct(){
     }
 
-    public static function previewDocumentToPDF($template_id, $subject_model_id, $subject_model_type){
+    public static function previewDocumentToPDF($template_id, $subject_model_id, $subject_model_type, $model_document_id){
 
         //Get the template
         $documentGenerationTemplate = DocumentGenerationTemplate::find($template_id);
@@ -37,6 +37,23 @@ class DocumentManager {
         //Render the template as PDF and return the stream
         $rendered_content = Blade::render($documentGenerationTemplate->content,['subject'=>$subject]);
         $html_content = \Illuminate\Mail\Markdown::parse($rendered_content);
+
+        if ($model_document_id != null){
+            $model_document = ModelDocument::find($model_document_id);
+            if ($model_document !=null && $model_document->model_primary_id!=null){
+                
+                //Invoke the subject model
+                $model_document_subject = $model_document->model_type_name::find($model_document->model_primary_id);
+                if ($model_document_subject != null && $model_document->document_generation_template_id!=null){
+                    $model_document_content_template = DocumentGenerationTemplate::find($model_document->document_generation_template_id);
+                    if (empty($model_document_content_template->content) == false){
+                        $model_document_content_rendered = Blade::render($model_document_content_template->content,['subject'=>$model_document_subject]);
+                        $model_document_html_content = \Illuminate\Mail\Markdown::parse($model_document_content_rendered);
+                        $html_content = \str_replace("<!-- CONTENT -->",$html_content,$model_document_html_content);
+                    }
+                }
+            }
+        }
 
         $pdf = new \Mpdf\Mpdf(["margin_top" => 8, "margin_bottom" => 8]);
         $pdf->WriteHTML($html_content);
@@ -44,7 +61,7 @@ class DocumentManager {
 
     }
 
-    public static function saveDocument($template_id, $subject_model_id, $subject_model_type, $content_type, $file_name){
+    public static function saveDocument($template_id, $subject_model_id, $subject_model_type, $content_type, $file_name, $model_document_id){
 
         //Get the template
         $documentGenerationTemplate = DocumentGenerationTemplate::find($template_id);
@@ -58,6 +75,24 @@ class DocumentManager {
         //Render the template as PDF and return the stream
         $rendered_content = Blade::render($documentGenerationTemplate->content,['subject'=>$subject]);
         $html_content = \Illuminate\Mail\Markdown::parse($rendered_content);
+
+
+        if ($model_document_id != null){
+            $model_document = ModelDocument::find($model_document_id);
+            if ($model_document !=null && $model_document->model_primary_id!=null){
+                
+                //Invoke the subject model
+                $model_document_subject = $model_document->model_type_name::find($model_document->model_primary_id);
+                if ($model_document_subject != null && $model_document->document_generation_template_id!=null){
+                    $model_document_content_template = DocumentGenerationTemplate::find($model_document->document_generation_template_id);
+                    if (empty($model_document_content_template->content) == false){
+                        $model_document_content_rendered = Blade::render($model_document_content_template->content,['subject'=>$model_document_subject]);
+                        $model_document_html_content = \Illuminate\Mail\Markdown::parse($model_document_content_rendered);
+                        $html_content = \str_replace("<!-- CONTENT -->",$html_content,$model_document_html_content);
+                    }
+                }
+            }
+        }
 
         $generated_file_path = self::saveAsMsWord($html_content, $file_name);
 

@@ -57,6 +57,23 @@
                                     @endphp
                                     @if (count($templates) > 0)
 
+                                        @if (count($model_documents)>0)
+                                            <label class="col-lg-12 small col-form-label fw-bold">Overlay Template</label>
+                                            <select id="{{ $control_id }}_sel_model_template" name="{{ $control_id }}_sel_model_template" class="form-select">
+                                                <option value="0">None</option>
+                                                @foreach($model_documents as $idx=>$model_document)
+                                                @if (method_exists($model_document,'get_default_model_template'))
+                                                    @php
+                                                        $actual_model_document = $model_document->get_default_model_template();
+                                                    @endphp
+                                                    @if ($actual_model_document!=null)
+                                                        <option value="{{$actual_model_document->id}}">{{$actual_model_document->documentGenerationTemplate->title}}</option>
+                                                    @endif
+                                                @endif
+                                                @endforeach
+                                            </select>
+                                        @endif
+
                                         <div id="div-{{ $control_id }}_sel_template" class="form-group">
                                             <label for="{{ $control_id }}_sel_template" class="col-lg-12 small col-form-label fw-bold">Template</label>
                                             <select id="{{ $control_id }}_sel_template" name="{{ $control_id }}_sel_template" class="form-select">
@@ -124,36 +141,48 @@
                 $("#{{ $control_id }}_btn-start").attr('disabled', false);
             });
 
-            $(document).on('change', "#{{ $control_id }}_sel_template", function(e) {
-                e.preventDefault();
+            function generateDocumentPreview(){
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-                $('#{{ $control_id }}_error_div').empty();
-                $('#{{ $control_id }}_error_div').hide();
-                $("#{{ $control_id }}_btn-save-document").attr('disabled', true);
-                $('.spinner').show();
+                if ($("#{{ $control_id }}_sel_template").val() != ""){
 
-                $('#{{$control_id}}_initial_notice').remove();
-                $('embed#{{$control_id}}_pdfEmbed').remove();
+                    $('#{{ $control_id }}_error_div').empty();
+                    $('#{{ $control_id }}_error_div').hide();
+                    $("#{{ $control_id }}_btn-save-document").attr('disabled', true);
+                    $('.spinner').show();
 
-                let itemId = this.value;
-                $.get("{{ route('fc-api.document_generation_templates.show','') }}/"+itemId).done(function( response ) {
-                    $("#{{ $control_id }}_file_name").val(response.data.file_name_prefix);
-                    $('#{{ $control_id }}_sel_output').children('option').remove();
+                    $('#{{$control_id}}_initial_notice').remove();
+                    $('embed#{{$control_id}}_pdfEmbed').remove();
 
-                    output_options = response.data.output_content_types.split(",");
-                    $.each(output_options, function (i, item) {
-                        $('#{{ $control_id }}_sel_output').append($('<option>',{value: item, text:item}));
+                    let itemId = $("#{{ $control_id }}_sel_template").val();
+                    $.get("{{ route('fc-api.document_generation_templates.show','') }}/"+itemId).done(function( response ) {
+                        $("#{{ $control_id }}_file_name").val(response.data.file_name_prefix);
+                        $('#{{ $control_id }}_sel_output').children('option').remove();
+
+                        output_options = response.data.output_content_types.split(",");
+                        $.each(output_options, function (i, item) {
+                            $('#{{ $control_id }}_sel_output').append($('<option>',{value: item, text:item}));
+                        });
+                        $("#{{ $control_id }}_btn-save-document").attr('disabled', false);
+                        $('.spinner').hide();
                     });
-                    $("#{{ $control_id }}_btn-save-document").attr('disabled', false);
-                    $('.spinner').hide();
-                });
 
-                //Generate the Document Preview
-                var doc_url = "{{ route('fc.dmgr-preview-render','') }}/"+itemId+"?mid={{$document_generator->id}}&mpe="+String.raw`{{get_class($document_generator)}}`;
-                pdfViewerParent.append(
-                    "<embed src='"+doc_url+"' id='{{$control_id}}_pdfEmbed' height='100%' width='100%' style='height:75vh'>"
-                );
+                    //Generate the Document Preview
+                    var doc_url = "{{ route('fc.dmgr-preview-render','') }}/"+itemId+"?mid={{$document_generator->id}}&mpe="+String.raw`{{get_class($document_generator)}}`+'&mdtid='+$("#{{$control_id}}_sel_model_template").val();
+                    pdfViewerParent.append(
+                        "<embed src='"+doc_url+"' id='{{$control_id}}_pdfEmbed' height='100%' width='100%' style='height:75vh'>"
+                    );
+                }
+            }
+
+            $(document).on('change', "#{{$control_id}}_sel_template", function(e) {
+                e.preventDefault();
+                generateDocumentPreview();
+            });
+
+            $(document).on('change', "#{{$control_id}}_sel_model_template", function(e) {
+                e.preventDefault();
+                generateDocumentPreview();
             });
 
             $(document).on('click', "#{{ $control_id }}_btn-save-document", function(e) {
@@ -175,6 +204,9 @@
                 formData.append('modelType', String.raw`{{get_class($document_generator)}}`);
                 formData.append('contentType', $("#{{ $control_id }}_sel_output").val());
                 formData.append('fileName', $("#{{ $control_id }}_file_name").val());
+                if ($("#cbx-{{ $control_id }}_model_template")){
+                    formData.append('modelDocumentId', $("#cbx-{{ $control_id }}_model_template").val());
+                }
                 @if (isset($organization) && $organization != null)
                 formData.append('organization_id', '{{ $organization->id }}');
                 @endif
