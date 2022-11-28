@@ -22,10 +22,10 @@ class OrganizationManager {
     
     public function loadTenant($identifier) {
 
-        //if (Schema::hasTable('fc_organizations') == false){
-          //  Log::error("Unable to set Organization ID as organizations table doesn't exist on DB");
-            //return null;
-        //}
+        if (Schema::hasTable('fc_organizations') == false){
+           Log::error("Unable to set Organization ID as organizations table doesn't exist on DB");
+            return null;
+        }
 
         if ($identifier == "127.0.0.1" || $identifier == "localhost"){
 
