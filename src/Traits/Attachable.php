@@ -5,6 +5,7 @@ use File;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Attachment;
@@ -101,13 +102,19 @@ trait Attachable
         return null;
     }
 
-    public function attach(User $user, $name, $comments, $file){
+    public function attach(User $user, $name, $comments, $file, $storageType=null){
 
         $rndFileName = strval(time()+$this->counter) . '.' . $file->getClientOriginalExtension();
-        $path = $file->move(public_path('uploads'), $rndFileName);
+        
+        //storage type specified
+        if ($storageType != null) {
+            $path = Storage::disk($storageType)->putFileAs('uploads', $file, $rndFileName);
+        } else {
+            $path = $file->move(public_path('uploads'), $rndFileName);
+        }
 
         $attach = new Attachment();
-        $attach->path = "public/uploads/{$rndFileName}";
+        $attach->path = ($storageType==null) ? "public/uploads/{$rndFileName}" : $path;
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
