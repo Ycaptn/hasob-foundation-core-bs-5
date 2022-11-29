@@ -18,6 +18,7 @@ trait Attachable
 {
 
     private $counter = 1;
+
     public function get_attachment($name){
         $attachables = EloquentAttachable::where('attachable_id', $this->id)
                                             ->where('attachable_type', self::class)    
@@ -51,6 +52,29 @@ trait Attachable
 
             } else {
                 $attachments []= $attachable->attachment;
+            }
+        }
+        return $attachments;
+    }
+
+    public function get_attachables($file_types = null){
+        $attachables_query = EloquentAttachable::where('attachable_id', $this->id)
+                                            ->where('attachable_type', self::class)    
+                                            ->orderBy('created_at','desc');
+
+        $attachables = $attachables_query->get();
+
+        $attachments = [];
+        foreach ($attachables as $attachable){
+            if ($file_types != null){
+                
+                $attachment = $attachable->attachment;
+                if (str_contains(strtolower($file_types), strtolower($attachment->file_type))){
+                    $attachments []= $attachable;
+                }
+
+            } else {
+                $attachments []= $attachable;
             }
         }
         return $attachments;

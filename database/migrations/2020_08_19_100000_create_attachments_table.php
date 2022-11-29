@@ -21,7 +21,7 @@ class CreateAttachmentsTable extends Migration
           $table->uuid('uploader_user_id')->nullable();
           $table->foreign('uploader_user_id')->references('id')->on('fc_users');
 
-          $table->string('path')->nullable();
+          $table->string('path',500)->nullable();
           $table->string('path_type')->nullable();
 
           $table->string('label')->nullable();

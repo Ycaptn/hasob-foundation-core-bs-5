@@ -146,7 +146,7 @@ class AttachmentController extends BaseController
             $attachment
         );
 
-        return self::createJSONResponse("ok", "success", $attachment->path, 200);
+        return self::createJSONResponse("ok", "success", $attachment, 200);
     }
 
 

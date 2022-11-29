@@ -382,6 +382,8 @@ class FoundationCore
             Route::resource('batch_items', \Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
 
+            Route::resource('attachables', \Hasob\FoundationCore\Controllers\API\AttachableAPIController::class);
+
             Route::resource('disabled_items', \Hasob\FoundationCore\Controllers\API\DisabledItemAPIController::class);
             Route::resource('tags', \Hasob\FoundationCore\Controllers\API\TagAPIController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\API\TaggableAPIController::class);
@@ -501,20 +503,9 @@ class FoundationCore
             Route::resource('modelArtifacts', \Hasob\FoundationCore\Controllers\ModelArtifactController::class);
 
             //Document Manager 
-            Route::get('/dmgr/{template_id}', function ($template_id) {
+            Route::get('/dmgr/preview/{template_id}', [\Hasob\FoundationCore\Controllers\DocumentGeneratorController::class, 'processPDFPreview'])->name('dmgr-preview-render');
+            Route::post('/dmgr/save/{template_id}', [\Hasob\FoundationCore\Controllers\DocumentGeneratorController::class, 'processFileSave'])->name('dmgr-file-save');
 
-                $subject_model_id = request()->get('mid');
-                $subject_model_type = request()->get('mpe');
-
-                $response = \Hasob\FoundationCore\Managers\DocumentManager::previewDocumentToPDF(
-                    $template_id, 
-                    $subject_model_id, 
-                    $subject_model_type
-                );
-
-                ob_end_clean();
-                return $response;
-            })->name('dmgr-preview-render');
 
             //User Management
             Route::get('/profile', [UserController::class, 'profile'])->name('users.profile');

@@ -1,104 +1,155 @@
 
+@if ($templated_model!=null)
 
-<div class="modal fade" id="mdl-documentGenerationTemplate-modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
+    <div class="btn-group col-lg-2">
+        <a id="btn-new-mdl-documentGenerationTemplate-modal" class="btn btn-sm btn-primary btn-new-mdl-documentGenerationTemplate-modal">
+            <i class="bx bx-book-add me-1"></i>New Template
+        </a>
+    </div>
 
-            <form class="form-horizontal" id="frm-documentGenerationTemplate-modal" role="form" method="POST" enctype="multipart/form-data" action="">
-                <div class="modal-header">
-
-                    
-                        <div class="col-lg-10">
-                            {!! Form::text('title', null, ['placeholder'=>'Title','id'=>'title','class'=>'form-control','minlength' => 4,'maxlength' => 150]) !!}
+    @foreach($templated_model->get_model_templates() as $idx=>$template)
+        @if ($template!=null && $template->documentGenerationTemplate!=null)
+        <div class="col-12 col-md-12 col-sm-12">
+            <div class="card">
+                @php
+                    $detail_page_url = route('fc.documentGenerationTemplates.show', $template->document_generation_template_id);
+                @endphp
+                <div class="row g-0">
+                    <div class="col-xs-12 col-md-1 align-middle text-center p-2">
+                        <a href='#' data-val='{{$template->document_generation_template_id}}' class="btn-edit-mdl-documentGenerationTemplate-modal">
+                            <div class="ms-2 fm-icon-box radius-10 bg-primary text-white text-center">
+                                <i class="bx bx-message-square-edit"></i>
+                            </div>
+                        </a>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-auto"> 
+                                <a data-toggle="tooltip" 
+                                    title="Edit" 
+                                    data-val='{{$template->document_generation_template_id}}' 
+                                    class="btn-edit-mdl-documentGenerationTemplate-modal me-1" href="#">
+                                    <i class="bx bxs-edit"></i>
+                                </a>
+                                <a data-toggle="tooltip" 
+                                    title="Delete" 
+                                    data-val-model-doc-id='{{$template->id}}' 
+                                    data-val='{{$template->document_generation_template_id}}' 
+                                    class="btn-delete-mdl-documentGenerationTemplate-modal me-1" href="#">
+                                    <i class="bx bxs-trash-alt"></i>
+                                </a>
+                            </div>
                         </div>
-                    
+                    </div>
+                    <div class="col-xs-12 col-md-11">
+                        <div class="card-body">
+                            <a href='#' data-val='{{$template->document_generation_template_id}}' class="btn-edit-mdl-documentGenerationTemplate-modal">
+                                <h3 class="h6 card-title mb-0">
+                                    {{ $template->documentGenerationTemplate->title }}
+                                </h3>
+                            </a>
+                            @if (!empty($template->documentGenerationTemplate->output_content_types))
+                                <p class="card-text mb-0 small">
+                                    {{ $template->documentGenerationTemplate->output_content_types }}
+                                </p>
+                            @endif
 
-                    {{-- <h5 id="lbl-documentGenerationTemplate-modal-title" class="modal-title">Template</h5> --}}
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    <div id="div-documentGenerationTemplate-modal-error" class="alert alert-danger" role="alert"></div>
-                    <div class="row">
-                        <div class="col-lg-10">
-                            
-                            @csrf
-                            
-                            <div class="offline-flag"><span class="offline-document_generation_templates">You are currently offline</span></div>
-
-                            <div id="spinner-document_generation_templates" class="spinner-border text-primary" role="status"> 
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-
-                            <input type="hidden" id="txt-documentGenerationTemplate-primary-id" value="0" />
-
-                            <div id="div-content" class="form-group">
-                                <div class="col-lg-12">
-                                    <textarea id="content" name="content"></textarea>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-lg-2">
-
-                            <label class="col-lg-12 small col-form-label fw-bold">Ouput Formats</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="text/plain" name="cbx-output-format" id="cbx-plain">
-                                <label class="form-check-label" for="cbx-plain">Plain Text</label>
-                            </div>
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="application/msword" name="cbx-output-format" id="cbx-ms-word">
-                                <label class="form-check-label" for="cbx-ms-word">MS Word</label>
-                            </div>
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="application/pdf" name="cbx-output-format" id="cbx-pdf">
-                                <label class="form-check-label" for="cbx-pdf">PDF</label>
-                            </div>
-
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="text/html" name="cbx-output-format" id="cbx-html">
-                                <label class="form-check-label" for="cbx-html">HTML</label>
-                            </div>
-
-                            <div id="div-file_name_prefix" class="form-group">
-                                <label for="title" class="col-lg-12 small col-form-label fw-bold">File Name Prefix</label>
-                                <div class="col-lg-11">
-                                    {!! Form::text('file_name_prefix', null, ['id'=>'file_name_prefix', 'class' => 'form-control','minlength' => 0,'maxlength' => 2000]) !!}
-                                </div>
-                            </div>
-
-                            <div id="div-document_layout" class="form-group">
-                                <label class="col-lg-12 small col-form-label fw-bold">Document Layout</label>
-                                <div class="col-lg-11">
-                                    <select id="sel_document_layout" name="sel_document_layout" class="form-select">
-                                        <option value="portriat">Portriat</option>
-                                        <option value="landscape">Landscape</option>
-                                    </select>
-                                </div>
-                            </div>                            
-
-                            <label class="col-lg-12 small col-form-label fw-bold">Applies to</label>
-                            @foreach(\FoundationCore::get_document_generator_models($organization) as $idx=>$model)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="{{ $model->value }}" name="cbx-doc-models">
-                                    <label class="form-check-label">{{ $model->key }}</label>
-                                </div>
-                            @endforeach
-
+                            <p class="card-text text-muted small">
+                                Created: {{ \Carbon\Carbon::parse($template->documentGenerationTemplate->created_at)->format('l jS F Y') }} - {!! \Carbon\Carbon::parse($template->documentGenerationTemplate->created_at)->diffForHumans() !!}
+                            </p>
                         </div>
                     </div>
                 </div>
-            </form>
-        
-            <div class="modal-footer" id="div-save-mdl-documentGenerationTemplate-modal">
-                <button type="button" class="btn btn-primary" id="btn-save-mdl-documentGenerationTemplate-modal" value="add">Save</button>
             </div>
+        </div>
+        @endif
+    @endforeach
 
+    <div class="modal fade" id="mdl-documentGenerationTemplate-modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+    
+                <form class="form-horizontal" id="frm-documentGenerationTemplate-modal" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <div class="modal-header">                        
+                        <div class="col-lg-11">
+                            {!! Form::text("{$control_id}_title", null, ['placeholder'=>'Title','id'=>"{$control_id}_title",'class'=>'form-control','minlength' => 4,'maxlength' => 150]) !!}
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+    
+                    <div class="modal-body">
+                        <div id="div-documentGenerationTemplate-modal-error" class="alert alert-danger" role="alert"></div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                
+                                @csrf
+                                
+                                <div class="offline-flag"><span class="offline-document_generation_templates">You are currently offline</span></div>
+    
+                                <div id="spinner-document_generation_templates" class="spinner-border text-primary" role="status"> 
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+    
+                                <input type="hidden" id="txt-documentGenerationTemplate-primary-id" value="0" />
+    
+                                <div id="div-content" class="form-group">
+                                    <div class="col-lg-12">
+                                        <textarea id="{{$control_id}}_content" name="{{$control_id}}_content"></textarea>
+                                    </div>
+                                </div>
+    
+                            </div>
+                            {{--                             
+                            <div class="col-lg-2">
+    
+                                <label class="col-lg-12 small col-form-label fw-bold">Ouput Formats</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="text/plain" name="cbx-output-format" id="cbx-plain">
+                                    <label class="form-check-label" for="cbx-plain">Plain Text</label>
+                                </div>
+    
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="application/msword" name="cbx-output-format" id="cbx-ms-word">
+                                    <label class="form-check-label" for="cbx-ms-word">MS Word</label>
+                                </div>
+    
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="application/pdf" name="cbx-output-format" id="cbx-pdf">
+                                    <label class="form-check-label" for="cbx-pdf">PDF</label>
+                                </div>
+    
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="text/html" name="cbx-output-format" id="cbx-html">
+                                    <label class="form-check-label" for="cbx-html">HTML</label>
+                                </div>
+    
+                                <div id="div-document_layout" class="form-group">
+                                    <label class="col-lg-12 small col-form-label fw-bold">Document Layout</label>
+                                    <div class="col-lg-11">
+                                        <select id="sel_document_layout" name="sel_document_layout" class="form-select">
+                                            <option value="portriat">Portriat</option>
+                                            <option value="landscape">Landscape</option>
+                                        </select>
+                                    </div>
+                                </div>                            
+    
+                            </div> 
+                            --}}
+
+                        </div>
+                    </div>
+                </form>
+            
+                <div class="modal-footer" id="div-save-mdl-documentGenerationTemplate-modal">
+                    <button type="button" class="btn btn-primary" id="btn-save-mdl-documentGenerationTemplate-modal" value="add">Save</button>
+                </div>
+    
+            </div>
         </div>
     </div>
-</div>
+
+@else
+    <p class="text-center text-danger p-5">No templates</p>
+@endif
+
 
 @push('page_css')
 <link rel="stylesheet" href="{{ asset('hasob-foundation-core/assets/summernote-0.8.18-dist/summernote-lite.css') }}" />
@@ -141,7 +192,7 @@ $(document).ready(function() {
 
     //Initiate the Markdown Editor
     var simplemde = new SimpleMDE({ 
-        element: $("#content")[0],
+        element: $("#{{$control_id}}_content")[0],
         toolbar: [
             {
                     name: "bold",
@@ -334,59 +385,9 @@ $(document).ready(function() {
         $("#div-save-mdl-documentGenerationTemplate-modal").attr('disabled', false);
 
         simplemde.value("Template text goes here");
+        simplemde.codemirror.refresh();
+
         $('#title').val("");
-    });
-
-    //Show Modal for View
-    $(document).on('click', ".btn-show-mdl-documentGenerationTemplate-modal", function(e) {
-        e.preventDefault();
-        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
-        //check for internet status 
-        if (!window.navigator.onLine) {
-            $('.offline-document_generation_templates').fadeIn(300);
-            return;
-        }else{
-            $('.offline-document_generation_templates').fadeOut(300);
-        }
-
-        $('#div-documentGenerationTemplate-modal-error').hide();
-        $('#mdl-documentGenerationTemplate-modal').modal('show');
-        $('#frm-documentGenerationTemplate-modal').trigger("reset");
-
-        $("#spinner-document_generation_templates").show();
-        $("#div-save-mdl-documentGenerationTemplate-modal").attr('disabled', true);
-
-        $('#div-show-txt-documentGenerationTemplate-primary-id').show();
-        $('#div-edit-txt-documentGenerationTemplate-primary-id').hide();
-        let itemId = $(this).attr('data-val');
-
-        $.get( "{{ route('fc-api.document_generation_templates.show','') }}/"+itemId).done(function( response ) {
-			$('#txt-documentGenerationTemplate-primary-id').val(response.data.id);
-            $('#title').val(response.data.title);
-            simplemde.value(response.data.content);
-
-            $('#file_name_prefix').val(response.data.file_name_prefix);
-
-            if (response.data.model_names.length > 0){
-                $('input[name="cbx-doc-models"]').each(function(){ 
-                    if (response.data.model_names.includes(this.value.split("\\").pop())){
-                        $(this).prop('checked', 'checked');
-                    }
-                });
-            }
-
-            if (response.data.output_content_types.length > 0){
-                $('input[name="cbx-output-format"]').each(function(){ 
-                    if (response.data.output_content_types.includes(this.value)){
-                        $(this).prop('checked', 'checked');
-                    }
-                });
-            }
-
-            $("#spinner-document_generation_templates").hide();
-            $("#div-save-mdl-documentGenerationTemplate-modal").attr('disabled', false);
-        });
     });
 
     //Show Modal for Edit
@@ -407,30 +408,14 @@ $(document).ready(function() {
 
         $.get( "{{ route('fc-api.document_generation_templates.show','') }}/"+itemId).done(function( response ) {     
 
-			$('#txt-documentGenerationTemplate-primary-id').val(response.data.id);
-            $('#title').val(response.data.title);
             simplemde.value(response.data.content);
-
-            $('#file_name_prefix').val(response.data.file_name_prefix);
-
-            if (response.data.model_names.length > 0){
-                $('input[name="cbx-doc-models"]').each(function(){ 
-                    if (response.data.model_names.includes(this.value.split("\\").pop())){
-                        $(this).prop('checked', 'checked');
-                    }
-                });
-            }
-
-            if (response.data.output_content_types.length > 0){
-                $('input[name="cbx-output-format"]').each(function(){ 
-                    if (response.data.output_content_types.includes(this.value)){
-                        $(this).prop('checked', 'checked');
-                    }
-                });
-            }
-
+            simplemde.codemirror.refresh();
+            
+			$('#txt-documentGenerationTemplate-primary-id').val(response.data.id);
+            $('#{{$control_id}}_title').val(response.data.title);
             $("#spinner-document_generation_templates").hide();
             $("#div-save-mdl-documentGenerationTemplate-modal").attr('disabled', false);
+
         });
     });
 
@@ -448,9 +433,10 @@ $(document).ready(function() {
         }
 
         let itemId = $(this).attr('data-val');
+        let docId = $(this).attr('data-val-model-doc-id');
         swal({
-                title: "Are you sure you want to delete this Document Template?",
-                text: "You will not be able to recover this Document Template if deleted.",
+                title: "Are you sure you want to delete this Template?",
+                text: "You will not be able to recover this Template if deleted.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
@@ -480,9 +466,24 @@ $(document).ready(function() {
                                 console.log(result.errors)
                                 swal("Error", "Oops an error occurred. Please try again.", "error");
                             }else{
+
+                                let endPointUrl = "{{ route('fc-api.model_documents.destroy','') }}/"+docId;
+                                let formData = new FormData();
+                                formData.append('_token', $('input[name="_token"]').val());
+                                formData.append('_method', 'DELETE');
+                                $.ajax({
+                                    url:endPointUrl,
+                                    type: "POST",
+                                    data: formData,
+                                    cache: false,
+                                    processData:false,
+                                    contentType: false,
+                                    dataType: 'json',
+                                });
+
                                 swal({
                                         title: "Deleted",
-                                        text: "Document Template deleted successfully",
+                                        text: "Template deleted successfully",
                                         type: "success",
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",
@@ -502,7 +503,6 @@ $(document).ready(function() {
     $('#btn-save-mdl-documentGenerationTemplate-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
 
         //check for internet status 
         if (!window.navigator.onLine) {
@@ -529,20 +529,12 @@ $(document).ready(function() {
         }
         
         formData.append('_method', actionType);
+        formData.append('content', simplemde.value());
+        formData.append('no_cascade', 0);
+        formData.append('title',$("#{{$control_id}}_title").val());
         @if (isset($organization) && $organization!=null)
             formData.append('organization_id', '{{$organization->id}}');
         @endif
-        if ($('#title').length){	formData.append('title',$('#title').val());	}
-        formData.append('content', simplemde.value());
-
-        if ($('#file_name_prefix').length){	formData.append('file_name_prefix',$('#file_name_prefix').val());	}
-        if ($('input[name="cbx-doc-models"]:checked').length){	
-            formData.append('doc_models',$('input[name="cbx-doc-models"]:checked').map(function(){ return this.value;}).get());	
-        }
-        if ($('input[name="cbx-output-format"]:checked').length){	
-            formData.append('output_types',$('input[name="cbx-output-format"]:checked').map(function(){ return this.value;}).get());	
-        }
-        
 
         $.ajax({
             url:endPointUrl,
@@ -562,18 +554,49 @@ $(document).ready(function() {
                     });
                 }else{
                     $('#div-documentGenerationTemplate-modal-error').hide();
+
+                    if ($('#txt-documentGenerationTemplate-primary-id').val() == "0"){
+                        let formData = new FormData();
+                        formData.append('_token', $('input[name="_token"]').val());
+                        formData.append('_method', actionType);
+                        formData.append('model_primary_id', '{{$templated_model->id}}');
+                        formData.append('model_type_name', String.raw`{{get_class($templated_model)}}`);
+                        formData.append('document_generation_template_id', result.data.id);
+                        formData.append('is_default_template', 1);
+                        @if (isset($organization) && $organization!=null)
+                            formData.append('organization_id', '{{$organization->id}}');
+                        @endif
+
+                        $.ajax({
+                            url: "{{ route('fc-api.model_documents.store') }}",
+                            type: "POST",
+                            data: formData,
+                            cache: false,
+                            processData:false,
+                            contentType: false,
+                            dataType: 'json',
+                            success: function(result){
+                                if(result.errors){
+                                    $('#div-documentGenerationTemplate-modal-error').html('');
+                                    $('#div-documentGenerationTemplate-modal-error').show();
+                                    
+                                    $.each(result.errors, function(key, value){
+                                        $('#div-documentGenerationTemplate-modal-error').append('<li class="">'+value+'</li>');
+                                    });
+                                }
+                            }, error: function(data){ console.log(data); }
+                        });
+                    }
+                    
                     window.setTimeout( function(){
-
                         $('#div-documentGenerationTemplate-modal-error').hide();
-
                         swal({
                                 title: "Saved",
-                                text: "DocumentGenerationTemplate saved successfully",
+                                text: "Template saved successfully",
                                 type: "success"
                             },function(){
                                 location.reload(true);
                         });
-
                     },20);
                 }
 

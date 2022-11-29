@@ -16,6 +16,7 @@ use Hasob\FoundationCore\Traits\Socialable;
 use Hasob\FoundationCore\Traits\Taggable;
 use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
+use Hasob\FoundationCore\Traits\CachedQuery;
 
 
 class Organization extends Model
@@ -24,6 +25,7 @@ class Organization extends Model
     use Artifactable;
     use Siteable;
     use GuidId;
+    use CachedQuery;
 
     protected $table = 'fc_organizations';
 

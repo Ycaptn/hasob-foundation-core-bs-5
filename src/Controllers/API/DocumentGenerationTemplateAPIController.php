@@ -73,7 +73,9 @@ class DocumentGenerationTemplateAPIController extends AppBaseController
         $documentGenerationTemplate->output_content_types = $request->output_types;
         $documentGenerationTemplate->save();
 
-        $this->update_model_documents($documentGenerationTemplate, $request->doc_models);
+        if (isset($request->no_cascade)==false){
+            $this->update_model_documents($documentGenerationTemplate, $request->doc_models);
+        }
 
         DocumentGenerationTemplateCreated::dispatch($documentGenerationTemplate);
         return $this->sendResponse($documentGenerationTemplate->toArray(), 'Document Generation Template saved successfully');
@@ -126,7 +128,9 @@ class DocumentGenerationTemplateAPIController extends AppBaseController
         $documentGenerationTemplate->output_content_types = $request->output_types;
         $documentGenerationTemplate->save();
 
-        $this->update_model_documents($documentGenerationTemplate, $request->doc_models);
+        if (isset($request->no_cascade)==false){
+            $this->update_model_documents($documentGenerationTemplate, $request->doc_models);
+        }
         
         DocumentGenerationTemplateUpdated::dispatch($documentGenerationTemplate);
         return $this->sendResponse($documentGenerationTemplate->toArray(), 'DocumentGenerationTemplate updated successfully');

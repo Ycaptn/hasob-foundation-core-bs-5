@@ -16,7 +16,7 @@ trait Commentable
     
     public function get_comments(){
         return Comment::where('commentable_id',$this->id)
-                        ->where('commentable_type',self::class)
+                        ->where('commentable_type',get_class($this))
                         ->orderBy('created_at', 'desc')
                         ->get();
     }
@@ -27,7 +27,7 @@ trait Commentable
         $comment->parent_id = $parent_id;
         $comment->content = $comment_text;
         $comment->commentable_id = $this->id;
-        $comment->commentable_type = self::class;
+        $comment->commentable_type = get_class($this);
         $comment->organization_id = $user->organization_id;
         $comment->save();
 
@@ -42,7 +42,7 @@ trait Commentable
         $comment->parent_id = $parent_id;
         $comment->content = $comment_text;
         $comment->commentable_id = $this->id;
-        $comment->commentable_type = self::class;
+        $comment->commentable_type = get_class($this);
         $comment->organization_id = $user->organization_id;
         $comment->save();
 
