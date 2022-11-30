@@ -405,6 +405,8 @@ class FoundationCore
             Route::get('/attachments', [AttachmentAPIController::class, 'index'])->name('attachments.index');
             Route::post('/attachments', [AttachmentAPIController::class, 'update'])->name('attachments.store');
             Route::delete('/attachments/{id}', [AttachmentAPIController::class, 'destroy'])->name('attachments.destroy');
+            Route::get('/attachment-details/{id}', [AttachmentAPIController::class, 'getAttachmentDetails'])->name('attachment-details');
+            Route::post('/attachment/permission/{id}', [AttachmentAPIController::class, 'processAttachmentPermission'])->name('attachment-process-permissions');
             //Multi Tenancy
             Route::get('/org-detect', [OrganizationController::class, 'detect'])->name('fc.org-detect');
 

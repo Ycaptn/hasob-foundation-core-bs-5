@@ -139,6 +139,28 @@ class AttachmentAPIController extends BaseController
         }        
     }
 
+    public function getAttachmentDetails(Request $request, $id)
+    {
+        $attach = Attachment::find($id);
+
+        return $this->sendResponse($attach, "Attachment retrived successfully");
+    }
+
+    public function processAttachmentPermission(Request $request, $id){
+
+        $attachment = Attachment::find($id);
+
+        if(empty($attach)){
+
+            $this->sendError("Attachment retrived successfully");
+        }
+        
+        $attachment->allowed_viewer_user_ids = $request->allowed_viewer_user_ids;
+        $attachment->save();
+
+        return $this->sendResponse($attachment, "Attachment retrived successfully");
+    }
+
     public function update(Organization $org, Request $request){
 
         $options = json_decode($request->options, true);

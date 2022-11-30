@@ -89,4 +89,15 @@ class Attachment extends Model
         }
         return true;
     }
+
+    public function viewers_user_list(){
+
+        $viewer_ids = explode(',',$this->allowed_viewer_user_ids);
+        $viewer_users_objects = User::whereIn('id', $viewer_ids)->get();
+        $viewer_users_full_names = $viewer_users_objects->map(function ($item, $key) {
+            return $item->full_name;
+        });
+    
+        return implode(", ", $viewer_users_full_names->all());
+    }
 }
