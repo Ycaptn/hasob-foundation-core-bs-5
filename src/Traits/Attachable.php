@@ -138,12 +138,13 @@ trait Attachable
         }
 
         $attach = new Attachment();
-        $attach->path = ($storageType==null) ? "public/uploads/{$rndFileName}" : $path;
+        $attach->path = ($storageType!=null) ? $path : "public/uploads/{$rndFileName}";
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
         $attach->description = $comments;
         $attach->file_type = $file->getClientOriginalExtension();
+        $attach->storage_driver = $storageType;
         $attach->save();
 
         $attachable = new EloquentAttachable();
