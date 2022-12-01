@@ -220,6 +220,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'auth_google_enabled'   =>['group_name'=>'Social Authentication','display_type'=>'boolean','display_name'=>'Enable Google Authentication','display_ordinal'=>7],
             'auth_google_app_id'    =>['group_name'=>'Social Authentication','display_type'=>'string','display_name'=>'Google Application ID','display_ordinal'=>8],
             'auth_google_secret'    =>['group_name'=>'Social Authentication','display_type'=>'string','display_name'=>'Google Application Secret','display_ordinal'=>9],
+            'attachment_storage'    =>['group_name'=>'Attachment Settings','display_type'=>'radio','display_name'=>'Attachment Storage','display_ordinal'=>10,'display_type_options' => 'Local,Cloud','value' => 'Local'],
 
         ];
 
@@ -240,7 +241,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                         $setting['display_type'],
                         $setting['display_name'], 
                         "app_settings", 
-                        $setting['display_ordinal']
+                        $setting['display_ordinal'],
+                        isset($setting['display_type_options']) ? $setting['display_type_options'] : null,
+                        isset($setting['value']) ? $setting['value'] : null
                     );
                 }
 

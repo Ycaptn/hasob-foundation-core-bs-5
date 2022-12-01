@@ -68,6 +68,11 @@ class Attachment extends Model
         return $this->morphMany(Attachable::class, 'attachables');
     }
 
+    public function attachable(){
+
+        return Attachable::where('attachment_id', $this->id)->first();
+    }
+
     public function uploader(){
         return $this->hasOne(User::class,'id','uploader_user_id');
     }
@@ -99,5 +104,21 @@ class Attachment extends Model
         });
     
         return implode(", ", $viewer_users_full_names->all());
+    }
+
+    public function can_view($user){
+        
+        if($user->id == $this->uploader_user_id || $user->hasRole('admin')){
+            return true;
+        }
+
+        $viewer_ids = explode(',',$this->allowed_viewer_user_ids);
+       
+        if (in_array($user->id, $viewer_ids)) {
+          
+            return true;
+        }else{
+            return false;
+        }
     }
 }

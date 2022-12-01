@@ -193,7 +193,7 @@ class FoundationCore
 
     }
 
-    public function register_setting(Organization $org, $key, $group_name, $display_type, $display_name, $owner_feature, $display_ordinal = 1)
+    public function register_setting(Organization $org, $key, $group_name, $display_type, $display_name, $owner_feature, $display_ordinal = 1, $display_type_options = null, $value = null)
     {
 
         if (Schema::hasTable('fc_settings')) {
@@ -208,6 +208,8 @@ class FoundationCore
                         'display_type' => $display_type,
                         'owner_feature' => $owner_feature,
                         'key' => $key,
+                        'display_type_options' => $display_type_options,
+                        'value' => $value
                     ]);
                 }
             }
@@ -407,6 +409,7 @@ class FoundationCore
             Route::delete('/attachments/{id}', [AttachmentAPIController::class, 'destroy'])->name('attachments.destroy');
             Route::get('/attachment-details/{id}', [AttachmentAPIController::class, 'getAttachmentDetails'])->name('attachment-details');
             Route::post('/attachment/permission/{id}', [AttachmentAPIController::class, 'processAttachmentPermission'])->name('attachment-process-permissions');
+            Route::post('/attachment-rename/{id}', [AttachmentAPIController::class, 'renameAttachment'])->name('attachment-rename');
             //Multi Tenancy
             Route::get('/org-detect', [OrganizationController::class, 'detect'])->name('fc.org-detect');
 
