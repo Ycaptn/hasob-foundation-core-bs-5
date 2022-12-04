@@ -11,6 +11,7 @@ use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Attachment;
 use Hasob\FoundationCore\Models\Attachable as EloquentAttachable;
 use Hasob\FoundationCore\Models\Department;
+use Hasob\FoundationCore\Models\Setting;
 use Hasob\FoundationCore\Models\Organization;
 
 
@@ -83,15 +84,28 @@ trait Attachable
     public function create_attachment(User $user, $name, $comments, $file){
 
         $rndFileName = strval(time()+$this->counter) . '.' . $file->getClientOriginalExtension();
-        $path = $file->move(public_path('uploads'), $rndFileName);
+
+        $attachment_storage = Setting::where('key', 'attachment_storage')->first();
+        $storageType = $attachment_storage->value;
+        
+        //storage type specified
+        if ($storageType == "Cloud") {
+            $cloud_storage_type = Setting::where('key', 'attachment_cloud_storage_type')->first();
+            $storageType = $cloud_storage_type->value;
+            $path = Storage::disk($storageType)->putFileAs('uploads', $file, $rndFileName);
+        } else {
+            $path = $file->move(public_path('uploads'), $rndFileName);
+        }
+
 
         $attach = new Attachment();
-        $attach->path = "public/uploads/{$rndFileName}";
+        $attach->path = ($storageType != "Local") ? $path : "public/uploads/{$rndFileName}";
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
         $attach->description = $comments;
         $attach->file_type = $file->getClientOriginalExtension();
+        $attach->storage_driver = strtolower($storageType);
         $attach->save();
 
         $this->counter += 1;
@@ -129,22 +143,26 @@ trait Attachable
     public function attach(User $user, $name, $comments, $file, $storageType=null){
 
         $rndFileName = strval(time()+$this->counter) . '.' . $file->getClientOriginalExtension();
+        $attachment_storage = Setting::where('key', 'attachment_storage')->first();
+        $storageType = $attachment_storage->value;
         
         //storage type specified
-        if ($storageType != null) {
+        if ($storageType == "Cloud") {
+            $cloud_storage_type = Setting::where('key', 'attachment_cloud_storage_type')->first();
+            $storageType = $cloud_storage_type->value;
             $path = Storage::disk($storageType)->putFileAs('uploads', $file, $rndFileName);
         } else {
             $path = $file->move(public_path('uploads'), $rndFileName);
         }
 
         $attach = new Attachment();
-        $attach->path = ($storageType!=null) ? $path : "public/uploads/{$rndFileName}";
+        $attach->path = ($storageType != "Local") ? $path : "public/uploads/{$rndFileName}";
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
         $attach->description = $comments;
         $attach->file_type = $file->getClientOriginalExtension();
-        $attach->storage_driver = $storageType;
+        $attach->storage_driver = strtolower($storageType);
         $attach->save();
 
         $attachable = new EloquentAttachable();
@@ -161,17 +179,28 @@ trait Attachable
     public function save_file(User $user, $name, $comments, $file_path){
 
         $file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
-
+        $attachment_storage = Setting::where('key', 'attachment_storage')->first();
+        $storageType = $attachment_storage->value;
         $rndFileName = strval(time()+$this->counter) . '.' . $file_extension;
-        $path = File::move($file_path, public_path('uploads').'/'.$rndFileName);
+        //storage type specified
+        if ($storageType == "Cloud") {
+            $cloud_storage_type = Setting::where('key', 'attachment_cloud_storage_type')->first();
+            $storageType = $cloud_storage_type->value;
+            $path = Storage::disk($storageType)->putFileAs('uploads', file_get_contents($file_path) , $rndFileName);
+        } else {
+            $path = File::move($file_path, public_path('uploads').'/'.$rndFileName);
+        }
+       
+       
 
         $attach = new Attachment();
-        $attach->path = "public/uploads/{$rndFileName}";
+        $attach->path = ($storageType != "Local") ? $path : "public/uploads/{$rndFileName}";
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
         $attach->description = $comments;
         $attach->file_type = $file_extension;
+        $attach->storage_driver = strtolower($storageType);
         $attach->save();
 
         $attachable = new EloquentAttachable();

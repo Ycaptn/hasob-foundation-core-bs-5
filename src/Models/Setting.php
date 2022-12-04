@@ -30,6 +30,7 @@ class Setting extends Model
         'value',
         'owner_feature',
         'display_type',
+        'display_type_options',
         'display_ordinal',
         'display_name',
         'group_name',

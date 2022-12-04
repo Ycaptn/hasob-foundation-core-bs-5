@@ -16,7 +16,8 @@
                                     href="#settings_tab_{{ $idx }}" role="tab" aria-selected="true">
                                     <div class="d-flex">
                                         <div class="tab-title">{{ $group }}</div>
-                                        <div class="flex-grow-1 ms-auto text-end"> <i class="bx bx-plus text-primary"></i>
+                                        <div class="flex-grow-1 ms-auto text-end"> <i
+                                                class="bx bx-plus text-primary"></i>
                                         </div>
                                     </div>
                                 </a>
@@ -152,6 +153,19 @@
                                                         type="file">
                                                 </div>
 
+                                                <div id="div-radio" class="mb-3">
+
+                                                </div>
+
+                                                <div id="div-option-select" class="mb-3">
+                                                    <select name="cbx_select" class="form-select" id="cbx_select">
+
+                                                    </select>
+                                                </div>
+                                                {{-- <div id="div-radio" class="mb-3">
+                                                    <input class="form-control form-control-sm" id="value-file"
+                                                        type="radio">
+                                                </div> --}}
                                             </div>
                                         </div>
 
@@ -167,7 +181,8 @@
             <div class="modal-footer">
                 <hr class="light-grey-hr mb-10" />
                 <button type="button" class="btn btn-primary" id="btn-save-mdl-setting-modal" value="add">
-                    <span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span id="spinner" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
                     <span class="visually-hidden">Loading...</span>Save</button>
             </div>
 
@@ -222,10 +237,11 @@
                 $('#div-check-box').hide();
                 $('#value-textarea').hide();
                 $('#div-file-select').hide();
-
+                $('#div-radio').hide()
+                $('#div-option-select').hide();
                 $.get("{{ route('fc-api.settings.show', '') }}/" + itemId).done(function(data) {
 
-                    console.log(data, data.data);
+
                     $(".spinner-settings").hide();
 
                     $('#txt-setting-primary-id').val(data.data.id);
@@ -235,6 +251,34 @@
                     if (data.data.display_type == "file-select") {
                         $('#div-file-select').show();
 
+                    } else if (data.data.display_type == 'radio') {
+                        $('#div-radio').empty();
+                        let options = data.data.display_type_options.split(",");
+
+                        options.forEach(element => {
+
+                            let html = `<div class="form-check form-check-inline mt-3">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="cbx_radio" value="${element}" ${element == data.data.value ? 'checked' : ''}>
+                                                        <label class="form-check-label">
+                                                            ${element}</label>
+                                                    </div>`;
+
+                            $('#div-radio').append(html)
+                        });
+                        $('#div-radio').show();
+                    } else if (data.data.display_type == "option-select") {
+                        let options = data.data.display_type_options.split(",");
+                        $('#cbx_select').empty()
+                        $('#cbx_select').append(
+                            '<option value="">Select Cloud storage Type</option>')
+
+                        options.forEach(element => {
+                            $('#cbx_select').append(
+                                `"<option value="${element}"> ${element} </option>"`)
+                        });
+                        $('#cbx_select').val(data.data.value)
+                        $('#div-option-select').show();
                     } else if (data.data.display_type == "textarea") {
                         $('#value-textarea').show();
                         $('#value-textarea').val(data.response.value);
@@ -356,6 +400,14 @@
                 } else if (display_type == "boolean") {
                     $('#div-check-box').show();
                     formData.append('value', $('#value-cbx').prop("checked"));
+
+                } else if (display_type == "radio") {
+
+                    formData.append('value', $('input[name="cbx_radio"]:checked').val());
+
+                } else if (display_type == "option-select") {
+
+                    formData.append('value', $('#cbx_select').val());
 
                 } else {
                     formData.append('value', $('#value-text').val());
