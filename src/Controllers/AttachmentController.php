@@ -21,6 +21,7 @@ use Hasob\FoundationCore\Models\Comment;
 use Hasob\FoundationCore\Models\Attachment;
 use Hasob\FoundationCore\Models\Attachable;
 use Hasob\FoundationCore\Models\Department;
+use Illuminate\Support\Facades\Storage;
 use Hasob\FoundationCore\Models\Organization;
 
 class AttachmentController extends BaseController
@@ -49,12 +50,12 @@ class AttachmentController extends BaseController
     }
 
     public function show(Organization $org, Request $request, $id){
-
+       
         $attach = Attachment::find($id);
         if ($attach != null) {
 
-            if ($attach->storage_driver == 'azure') {
-                return Storage::disk('azure')->download(
+            if ($attach->storage_driver == 'azure' || 's3') {
+                return Storage::disk($attach->storage_driver)->download(
                     $attach->path,
                     $attach->label,
                     ['Content-Disposition' => 'inline; filename="' . $attach->label . '"']
