@@ -4,7 +4,7 @@
 </button>
 
 <div class="modal fade" id="{{$control_id}}_capture-modal" tabindex="-1" role="dialog" aria-labelledby="{{$control_id}}_capture-modal-label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 id="{{$control_id}}_capture-modal-title" class="modal-title">Capture</h4>
@@ -24,8 +24,8 @@
                                 <div id="{{$control_id}}_snapShotArea"></div>
                                 <center>
                                     <button type="button" class="btn btn-sm btn-primary m-1 px-3" id="{{$control_id}}_capture-btn"><i class="fa fa-camera"></i> Capture</button>
-                                    <button type="button" class="btn btn-sm btn-primary m-1 px-3" id="{{$control_id}}_save-img-btn"><i class="fa fa-file-image-o"></i> Save Images</button>
-                                    <button type="button" class="btn btn-sm btn-primary m-1 px-3" id="{{$control_id}}_save-pdf-btn"><i class="fa fa-file-pdf-o"></i> Save PDF</button>
+                                    <button type="button" class="btn btn-sm btn-primary m-1 px-3" id="{{$control_id}}_show_save-img-btn"><i class="fa fa-file-image-o"></i> Save Images</button>
+                                    <button type="button" class="btn btn-sm btn-primary m-1 px-3" id="{{$control_id}}_show_save-pdf-btn"><i class="fa fa-file-pdf-o"></i> Save PDF</button>
                                 </center>
                             </div>
                         </div>
@@ -58,14 +58,25 @@
 </div>
 
 <div class="modal fade" id="{{$control_id}}_saver-modal" tabindex="-1" role="dialog" aria-labelledby="{{$control_id}}_saver-modal-label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 id="{{$control_id}}_saver-modal-title" class="modal-title">Save</h4>
                 <button type="button" class="btn-close close_saver-modal" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
+                <div class="col-lg-12">
+                    <div class="row">
+                        
+                            {!! Form::text("{$control_id}-file_name", null, ['id'=>"{$control_id}-file_name",'class'=>'form-control','minlength'=>1,'maxlength'=>1000,'placeholder'=>'File Name']) !!}
+
+                            <center>
+                                <button type="button" class="btn btn-sm btn-primary m-2 px-3" id="{{$control_id}}_save-img-btn"><i class="fa fa-file-image-o"></i> Save Images</button>
+                                <button type="button" class="btn btn-sm btn-primary m-2 px-3" id="{{$control_id}}_save-pdf-btn"><i class="fa fa-file-pdf-o"></i> Save PDF</button>
+                            </center>
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -221,7 +232,7 @@
                 return finalBlob;
             }
 
-            function saveAttachable(file_name, blob){
+            async function saveAttachable(file_name, blob){
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                 var formData = new FormData();
                 formData.append('options', JSON.stringify({
@@ -241,22 +252,78 @@
                 });
             }
 
+            $(document).on('click', '#{{$control_id}}_show_save-img-btn', function(e) {
+                $('#{{$control_id}}_saver-modal').modal('show');
+                $('#{{$control_id}}_save-pdf-btn').hide();
+                $('#{{$control_id}}_save-img-btn').show();
+            });
+
             $(document).on('click', '#{{$control_id}}_save-img-btn', function(e) {
-                $.each(image_store, function(key,item){
-                    var file = new File([b64toBlob("Image"+(key+1)+".jpg", item, 'image/jpeg')], "Image"+(key+1)+".jpg", {type: "image/jpeg", lastModified: new Date()});
-                    saveAttachable("Image"+(key+1), file);
-                });
+
+                if ($("#{{$control_id}}-file_name").val() == ""){
+                    swal("Error", "Please provide a file name.", "error");
+                } else {
+                    $(this).text('Saving...');
+                    $.each(image_store, function(key,item){
+                        var file_name = $("#{{$control_id}}-file_name").val();
+                        var file = new File([b64toBlob(file_name+"-"+(key+1)+".jpg", item, 'image/jpeg')], file_name+"-"+(key+1)+".jpg", {type: "image/jpeg", lastModified: new Date()});
+                        saveAttachable(file_name+"-"+(key+1), file);
+                    });
+
+                    swal({
+                        title: "Saved",
+                        text: "Saved successfully",
+                        type: "success",
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "OK",
+                        closeOnConfirm: false
+                    });
+
+                    window.setTimeout(function(){
+                        $('#{{$control_id}}_saver-modal').modal('hide');
+                        $('#{{$control_id}}_capture-modal').modal('hide');
+                        location.reload(true);
+                    }, 3000);
+                }
+            });
+
+            $(document).on('click', '#{{$control_id}}_show_save-pdf-btn', function(e) {
+                $('#{{$control_id}}_saver-modal').modal('show');
+                $('#{{$control_id}}_save-img-btn').hide();
+                $('#{{$control_id}}_save-pdf-btn').show();
             });
 
             $(document).on('click', '#{{$control_id}}_save-pdf-btn', function(e) {
-                let pdf = new jsPDF();
-                $.each(image_store, function(key,item){
-                    pdf.addImage(item, 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
-                    if(key<(image_store.length-1)){ pdf.addPage(); }
-                });
-                //pdf.save("index.pdf");
-                var file = new File([pdf.output('blob', "filename.pdf")], "filename.pdf", {type: "application/pdf", lastModified: new Date()});
-                saveAttachable("PDF File", file);
+
+                if ($("#{{$control_id}}-file_name").val() == ""){
+                    swal("Error", "Please provide a file name.", "error");
+                } else {
+                    $(this).text('Saving...');
+                    let pdf = new jsPDF();
+                    $.each(image_store, function(key,item){
+                        pdf.addImage(item, 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+                        if(key<(image_store.length-1)){ pdf.addPage(); }
+                    });
+                    
+                    var file_name = $("#{{$control_id}}-file_name").val();
+                    var file = new File([pdf.output('blob',file_name+".pdf")], file_name+".pdf", {type: "application/pdf", lastModified: new Date()});
+                    saveAttachable(file_name, file);
+
+                    swal({
+                        title: "Saved",
+                        text: "Saved successfully",
+                        type: "success",
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "OK",
+                        closeOnConfirm: false
+                    });
+
+                    window.setTimeout(function(){
+                        $('#{{$control_id}}_saver-modal').modal('hide');
+                        $('#{{$control_id}}_capture-modal').modal('hide');
+                        location.reload(true);
+                    }, 3000);
+                }
             });
 
         });
