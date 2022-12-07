@@ -54,7 +54,7 @@ class AttachmentController extends BaseController
         $attach = Attachment::find($id);
         if ($attach != null) {
 
-            if ($attach->storage_driver == 'azure' || 's3') {
+            if ($attach->storage_driver == 'azure' || $attach->storage_driver == 's3') {
                 return Storage::disk($attach->storage_driver)->download(
                     $attach->path,
                     $attach->label,
@@ -126,17 +126,27 @@ class AttachmentController extends BaseController
             return self::createJSONResponse("fail", "error", $err_msg, 200);
         }
 
-        if ($request->file == null || $request->file == 'undefined') {
+        if (($request->file == null || $request->file == 'undefined') && $request->blob == null) {
             $err_msg = ['The file must be provided.'];
             return self::createJSONResponse("fail", "error", $err_msg, 200);
         }
 
-        $attachment = $attachable_type->create_attachment(
-            Auth::guard()->user(),
-            isset($options['name']) ? $options['name'] : 'Unnamed File {{ time() }}',
-            isset($options['comments']) ? $options['comments'] : "",
-            $request->file
-        );
+        if ($request->file != null && $request->file != 'undefined'){
+            $attachment = $attachable_type->create_attachment(
+                Auth::guard()->user(),
+                isset($options['name']) ? $options['name'] : 'Unnamed File {{ time() }}',
+                isset($options['comments']) ? $options['comments'] : "",
+                $request->file
+            );
+        } elseif ($request->blob != null) {
+            $attachment = $attachable_type->create_attachment_blob(
+                Auth::guard()->user(),
+                isset($options['name']) ? $options['name'] : 'Unnamed File {{ time() }}',
+                isset($options['comments']) ? $options['comments'] : "",
+                $request->blob
+            );
+        }
+            
         if ($attachment == null) {
             $err_msg = ['Unable to upload attachment.'];
             return self::createJSONResponse("fail", "error", $err_msg, 200);

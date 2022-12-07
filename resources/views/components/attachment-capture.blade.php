@@ -206,43 +206,57 @@
                 $('#{{$control_id}}_editor-modal').modal('show');
             });
 
-            function saveAttachable(){
-                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
-                let actionType = "POST";
-                let endPointUrl = $("input[name='save_url']").val();;
-
-                let formData = new FormData();
-                formData.append('student_img', data_uri);
+            function b64toBlob(fileName, dataURI, mimeType) {
+                var byteString = atob(dataURI.split(',')[1]);
+                var ab = new ArrayBuffer(byteString.length);
+                var ia = new Uint8Array(ab);
                 
+                for (var i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                var finalBlob = new Blob([ab], { type: mimeType });
+                finalBlob.lastModifiedDate = new Date();
+                finalBlob.name = fileName;
+
+                return finalBlob;
+            }
+
+            function saveAttachable(file_name, blob){
+                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+                var formData = new FormData();
+                formData.append('options', JSON.stringify({
+                    'name': file_name,
+                    'attachable_id': '{{ $attachable->id }}',
+                    'attachable_type':  String.raw`{{ get_class($attachable) }}`,
+                }));
+                formData.append('file', blob);
+
                 $.ajax({
-                    url:endPointUrl,
+                    url: "{{ route('fc.attachment.store') }}",
                     type: "POST",
                     data: formData, 
-                    cache: false,
-                    processData:false, 
+                    processData: false,
                     contentType: false,
-                    dataType: 'json',
-                    success: function(result){
-                        $('#capture-btn').text('Redirecting...');
-                    },
+                    success: function(result){},
                 });
             }
 
-            function savePDF() {
+            $(document).on('click', '#{{$control_id}}_save-img-btn', function(e) {
+                $.each(image_store, function(key,item){
+                    var file = new File([b64toBlob("Image"+(key+1)+".jpg", item, 'image/jpeg')], "Image"+(key+1)+".jpg", {type: "image/jpeg", lastModified: new Date()});
+                    saveAttachable("Image"+(key+1), file);
+                });
+            });
+
+            $(document).on('click', '#{{$control_id}}_save-pdf-btn', function(e) {
                 let pdf = new jsPDF();
                 $.each(image_store, function(key,item){
                     pdf.addImage(item, 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
                     if(key<(image_store.length-1)){ pdf.addPage(); }
                 });
-                pdf.save("index.pdf");
-            }
-
-            $(document).on('click', '#{{$control_id}}_save-img-btn', function(e) {
-            });
-
-            $(document).on('click', '#{{$control_id}}_save-pdf-btn', function(e) {
-                savePDF();
+                //pdf.save("index.pdf");
+                var file = new File([pdf.output('blob', "filename.pdf")], "filename.pdf", {type: "application/pdf", lastModified: new Date()});
+                saveAttachable("PDF File", file);
             });
 
         });
