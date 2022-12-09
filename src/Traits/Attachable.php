@@ -5,6 +5,7 @@ use File;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 use Hasob\FoundationCore\Models\User;
@@ -89,7 +90,7 @@ trait Attachable
         $storageType = $attachment_storage->value;
         
         //storage type specified
-        if ($storageType == "Cloud") {
+        if (strtolower($storageType) == "cloud") {
             $cloud_storage_type = Setting::where('key', 'attachment_cloud_storage_type')->first();
             $storageType = $cloud_storage_type->value;
             $path = Storage::disk($storageType)->putFileAs('uploads', $file, $rndFileName);
@@ -97,9 +98,8 @@ trait Attachable
             $path = $file->move(public_path('uploads'), $rndFileName);
         }
 
-
         $attach = new Attachment();
-        $attach->path = ($storageType != "Local") ? $path : "public/uploads/{$rndFileName}";
+        $attach->path = (strtolower($storageType) != "local") ? $path : "public/uploads/{$rndFileName}";
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
