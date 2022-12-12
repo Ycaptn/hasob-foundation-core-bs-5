@@ -104,7 +104,7 @@ class Setting extends Model
         $query->select('group_name');
         $query->orderBy('group_name','ASC');
 
-        $default_setting_groups = ['Application','Portal','Portal Text', 'Portal Graphics', 'Push Notification', 'Social Authentication', 'Tracking & SEO','Attachment Settings'];
+        $default_setting_groups = ['Application','Portal','Portal Text', 'Portal Graphics', 'Push Notification', 'Social Authentication', 'Tracking & SEO','Attachment Settings', 'ASTD Settings'];
         $enabled_setting_groups = array_unique($query->pluck('group_name')->toArray());
 
         return array_merge($default_setting_groups, $enabled_setting_groups);

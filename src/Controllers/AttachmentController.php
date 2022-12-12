@@ -62,14 +62,6 @@ class AttachmentController extends BaseController
                 );
             }
 
-            if ($attach->storage_driver == 's3') {
-                return Storage::disk('s3')->download(
-                    $attach->path,
-                    $attach->label,
-                    ['Content-Disposition' => 'inline; filename="' . $attach->label . '"']
-                );
-            }
-
             if ($attach->file_type == 'pdf') {
                 ob_end_clean();
                 return response()->file(
