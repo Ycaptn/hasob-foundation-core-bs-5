@@ -1,5 +1,5 @@
 @if ($attachable != null)
-<button type="button" class="btn btn-sm btn-danger mb-2" id="{{$control_id}}_btnNewCapture" data-toggle="tooltip" title="Capture"> 
+<button type="button" class="btn btn-sm btn-danger" id="{{$control_id}}_btnNewCapture" data-toggle="tooltip" title="Capture"> 
     <i class="fa fa-camera"></i> Capture
 </button>
 
@@ -103,18 +103,21 @@
                 navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
                 navigator.getMedia({video: true}, function() {
                         $('#{{$control_id}}_capture-modal').modal('show');
-                    }, function() {
-                        alert("No Camera");
-                    }
+                    }, function() { alert("No Camera"); }
                 );
 
                 Webcam.set({
                     width: 528,
                     height: 380,
-                    dest_width: 640,
-                    dest_height: 480,
+                    dest_width: 1280,
+                    dest_height: 720,
                     image_format: 'jpeg',
-                    jpeg_quality: 100
+                    jpeg_quality: 100,
+                    constraints: {
+                        width: { exact: 1280 },
+                        height: { exact: 720 }
+                    },
+			        flip_horiz: true
                 });
             
                 Webcam.attach('#{{$control_id}}_camera');
