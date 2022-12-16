@@ -163,7 +163,7 @@ trait Attachable
         }
 
         $attach = new Attachment();
-        $attach->path = ($storageType != "Local") ? $path : "public/uploads/{$rndFileName}";
+        $attach->path = $path;
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
