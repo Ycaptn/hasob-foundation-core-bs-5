@@ -224,11 +224,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'tp_lecturer_1_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 DTA Nights Amount', 'display_ordinal' => 3],
             'tp_lecturer_2_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 DTA Nights Amount', 'display_ordinal' => 4],
 
-            'tp_chief_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer Local Running Amount', 'display_ordinal' => 5],
-            'tp_principal_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer Local Running Amount', 'display_ordinal' => 6],
-            'tp_senior_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Senior Lecturer Local Running Amount', 'display_ordinal' => 7],
-            'tp_lecturer_1_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 Local Running Amount', 'display_ordinal' => 8],
-            'tp_lecturer_2_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 Local Running Amount', 'display_ordinal' => 9],
+            'tp_chief_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer Local Running Percentage (%)', 'display_ordinal' => 5],
+            'tp_principal_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer Local Running Percentage (%)', 'display_ordinal' => 6],
+            'tp_senior_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Senior Lecturer Local Running Percentage (%)', 'display_ordinal' => 7],
+            'tp_lecturer_1_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 Local Running Percentage (%)', 'display_ordinal' => 8],
+            'tp_lecturer_2_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 Local Running Percentage (%)', 'display_ordinal' => 9],
 
             'tp_chief_lecturer_taxi_fare_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer Taxi Fare Amount', 'display_ordinal' => 10],
             'tp_principal_lecturer_taxi_fare_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer Taxi Fare Amount', 'display_ordinal' => 11],
