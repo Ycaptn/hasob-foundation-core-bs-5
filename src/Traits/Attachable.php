@@ -87,19 +87,22 @@ trait Attachable
         $rndFileName = strval(time()+$this->counter) . '.' . $file->getClientOriginalExtension();
 
         $attachment_storage = Setting::where('key', 'attachment_storage')->first();
-        $storageType = $attachment_storage->value;
-        
+        $storageType = "Local";
+        if($attachment_storage != null){
+            $storageType = $attachment_storage->value;
+        }
         //storage type specified
-        if (strtolower($storageType) == "cloud") {
+        if ($storageType == "Cloud") {
             $cloud_storage_type = Setting::where('key', 'attachment_cloud_storage_type')->first();
             $storageType = $cloud_storage_type->value;
             $path = Storage::disk($storageType)->putFileAs('uploads', $file, $rndFileName);
         } else {
-            $path = $file->move(public_path('uploads'), $rndFileName);
+            $file->move(public_path('uploads'), $rndFileName);
+            $path = "public/uploads/{$rndFileName}";
         }
 
         $attach = new Attachment();
-        $attach->path = (strtolower($storageType) != "local") ? $path : "public/uploads/{$rndFileName}";
+        $attach->path = $path;
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
@@ -144,7 +147,10 @@ trait Attachable
 
         $rndFileName = strval(time()+$this->counter) . '.' . $file->getClientOriginalExtension();
         $attachment_storage = Setting::where('key', 'attachment_storage')->first();
-        $storageType = $attachment_storage->value;
+        $storageType = "Local";
+        if($attachment_storage != null){
+            $storageType = $attachment_storage->value;
+        }
         
         //storage type specified
         if ($storageType == "Cloud") {
@@ -152,11 +158,12 @@ trait Attachable
             $storageType = $cloud_storage_type->value;
             $path = Storage::disk($storageType)->putFileAs('uploads', $file, $rndFileName);
         } else {
-            $path = $file->move(public_path('uploads'), $rndFileName);
+            $file->move(public_path('uploads'), $rndFileName);
+            $path = "public/uploads/{$rndFileName}";
         }
 
         $attach = new Attachment();
-        $attach->path = ($storageType != "Local") ? $path : "public/uploads/{$rndFileName}";
+        $attach->path = $path;
         $attach->label = $name;
         $attach->organization_id = $user->organization_id;
         $attach->uploader_user_id = $user->id;
@@ -188,7 +195,8 @@ trait Attachable
             $storageType = $cloud_storage_type->value;
             $path = Storage::disk($storageType)->putFileAs('uploads', file_get_contents($file_path) , $rndFileName);
         } else {
-            $path = File::move($file_path, public_path('uploads').'/'.$rndFileName);
+            File::move($file_path, public_path('uploads').'/'.$rndFileName);
+            $path = "public/uploads/{$rndFileName}";
         }
        
        
