@@ -2,6 +2,7 @@
 
 namespace Hasob\FoundationCore\Controllers\API;
 
+use Hasob\FoundationCore\Traits\ApiResponder;
 use Hasob\FoundationCore\Controllers\BaseController;
 use Hasob\FoundationCore\Models\Attachable;
 use Hasob\FoundationCore\Models\Attachment;
@@ -15,10 +16,26 @@ use Hasob\FoundationCore\Requests\API\AttachmentRenameAPIRequest;
 
 class AttachmentAPIController extends BaseController
 {
+    use ApiResponder;
 
     public function index(Organization $org, Request $request)
     {
-        $attachments = Attachment::all();
+
+        $query = Attachment::query();
+
+        if ($request->get('skip')) {
+            $query->skip($request->get('skip'));
+        }
+        if ($request->get('limit')) {
+            $query->limit($request->get('limit'));
+        }
+        if ($org != null){
+            $query->where('organization_id', $org->id);
+        }
+
+        $attachments = $this->showAll($query->get());
+        //$attachments = Attachment::all();
+
         $attach = [];
         if (!empty($attachments)) {
             foreach ($attachments as $key => $value) {
@@ -144,13 +161,13 @@ class AttachmentAPIController extends BaseController
 
         if (empty($attach)) {
 
-            $this->sendError("Attachment retrived successfully");
+            $this->sendError("Attachment retrieved successfully");
         }
 
         $attachment->allowed_viewer_user_ids = $request->allowed_viewer_user_ids;
         $attachment->save();
 
-        return $this->sendResponse($attachment, "Attachment retrived successfully");
+        return $this->sendResponse($attachment, "Attachment retrieved successfully");
     }
 
     public function renameAttachment(AttachmentRenameAPIRequest $request, $id)
