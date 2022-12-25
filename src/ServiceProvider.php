@@ -218,11 +218,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'tp_lecturer_1_dta_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 DTA Amount', 'display_ordinal' => 3],
             'tp_lecturer_2_dta_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 DTA Amount', 'display_ordinal' => 4],
 
-            'tp_chief_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer DTA Nights Amount', 'display_ordinal' => 0],
-            'tp_principal_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer DTA Nights Amount', 'display_ordinal' => 1],
-            'tp_senior_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Senior Lecturer DTA Nights Amount', 'display_ordinal' => 2],
-            'tp_lecturer_1_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 DTA Nights Amount', 'display_ordinal' => 3],
-            'tp_lecturer_2_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 DTA Nights Amount', 'display_ordinal' => 4],
+            'tp_chief_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer DTA No. Nights', 'display_ordinal' => 0],
+            'tp_principal_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer DTA No. Nights', 'display_ordinal' => 1],
+            'tp_senior_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Senior Lecturer DTA No. Nights', 'display_ordinal' => 2],
+            'tp_lecturer_1_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 DTA No. Nights', 'display_ordinal' => 3],
+            'tp_lecturer_2_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 DTA No. Nights', 'display_ordinal' => 4],
 
             'tp_chief_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer Local Running Percentage (%)', 'display_ordinal' => 5],
             'tp_principal_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer Local Running Percentage (%)', 'display_ordinal' => 6],
