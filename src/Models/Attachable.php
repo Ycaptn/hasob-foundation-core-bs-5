@@ -35,7 +35,9 @@ class Attachable extends Model
         'attachment_id',
         'user_id',
         'attachable_id',
-        'attachable_type'
+        'attachable_type',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [

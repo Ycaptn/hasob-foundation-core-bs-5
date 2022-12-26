@@ -45,7 +45,9 @@ class Attachment extends Model
         'allowed_viewer_user_ids',
         'allowed_viewer_user_roles',
         'allowed_viewer_user_departments',
-        'organization_id' 
+        'organization_id',
+        'created_at',
+        'updated_at', 
     ];
 
     protected $casts = [

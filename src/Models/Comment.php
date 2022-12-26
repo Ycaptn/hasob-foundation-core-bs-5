@@ -44,7 +44,9 @@ class Comment extends Model
         'type',
         'commentable_id',
         'commentable_type',
-        'organization_id'
+        'organization_id',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
