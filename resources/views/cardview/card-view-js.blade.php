@@ -129,20 +129,32 @@
         $(document).on('keyup', "#{{$control_id}}-txt-search", function(e) {
             e.preventDefault();
             let search_term = $('#{{$control_id}}-txt-search').val();
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?st="+search_term);
+            let search_term_query = "?st="+search_term;
+            @if(request()->query() != "" || request()->query() != null )
+                search_term_query = "&st="+search_term;
+            @endif
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query);
         });
 
         $(document).on('click', "#{{$control_id}}-btn-search", function(e) {
             e.preventDefault();
             let search_term = $('#{{$control_id}}-txt-search').val();
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?st="+search_term);
+            let search_term_query = "?st="+search_term;
+            @if(request()->query() != "" || request()->query() != null )
+                search_term_query = "&st="+page_number;
+            @endif
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query);
         });
 
         $(document).on('click', ".{{$control_id}}-grp", function(e) {
             e.preventDefault();
             let group_term = $(this).attr('data-val');
             $("#{{$control_id}}-pagination").hide();
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?grp="+group_term);
+            let group_term_query = "?grp="+group_term;
+            @if(request()->query() != "" || request()->query() != null )
+                group_term_query = "&grp="+group_term;
+            @endif
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query);
             
         });
 
@@ -164,8 +176,11 @@
             if($(this).attr('data-type') == 'nxt'){
                 page_number = parseInt(current_page) + 1;
             }
-           
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}?pg="+page_number);
+           let pg_query = "?pg="+page_number;
+           @if(request()->query() != "" ||request()->query() != null )
+                pg_query = "&pg="+page_number;
+           @endif
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+pg_query);
             
         });
         
