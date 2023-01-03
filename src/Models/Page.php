@@ -81,7 +81,8 @@ class Page extends Model
         'site_id' => 'string',
         'department_id' => 'string',
         'creator_user_id' => 'string',
-        'organization_id' => 'string'
+        'organization_id' => 'string',
+        'rendered_content' => 'string'
     ];
 
     public function pageables(){

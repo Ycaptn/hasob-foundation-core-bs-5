@@ -283,6 +283,44 @@ class FoundationCore
         }
     }
 
+    public function get_sites_menu_map()
+    {
+
+        $current_user = Auth::user();
+        if ($current_user != null) {
+
+            $fc_menu = [
+                'mnu_fc_public_sites' => [
+                    'id' => 'mnu_fc_public_sites', 
+                    'label' => 'Sites', 
+                    'icon' => 'bx bx-globe-alt', 
+                    'path' => '#', 
+                    'route-selector' => '', 
+                    'is-parent' => true,
+                    'children' => [],
+                ],
+            ];
+
+            if (\FoundationCore::has_feature('sites', $current_user->organization)) {
+                foreach($this->all_sites() as $idx=>$site){
+                    $fc_menu['mnu_fc_public_sites']['children']["sites{$idx}"] = [
+                        'id' => "mnu_fc_public_sites{$idx}", 
+                        'label' => \Illuminate\Support\Str::limit("{$site->site_name}",15,'...'),
+                        'path' => route('fc.site-display', $site->id), 
+                        'route-selector' => '', 
+                        'is-parent' => false,
+                        'children' => [],
+                    ];
+                }
+            }
+
+            return $fc_menu;
+        }
+
+        return [];
+
+    }
+
     public function get_menu_map()
     {
 
@@ -487,6 +525,9 @@ class FoundationCore
 
             Route::resource('ledgers', LedgerController::class);
             Route::resource('sites', SiteController::class);
+            Route::get('/site/{id}', [SiteController::class, 'displaySite'])->name('site-display');
+            Route::get('/site/{site_id}/page/{page_id}', [SiteController::class, 'displayPage'])->name('page-display');
+
             Route::resource('tags', TagController::class);
             Route::resource('socials', SocialController::class);
             Route::resource('settings', \Hasob\FoundationCore\Controllers\SettingController::class);
