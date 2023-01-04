@@ -4,7 +4,7 @@ namespace Hasob\FoundationCore\Requests;
 
 use Hasob\FoundationCore\Requests\AppBaseFormRequest;
 
-class UpdateSupportAPIRequest extends AppBaseFormRequest
+class UpdateSupportRequest extends AppBaseFormRequest
 {
 
     /**
