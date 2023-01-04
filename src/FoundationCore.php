@@ -345,6 +345,12 @@ class FoundationCore
                 ];
             }
 
+            if ($current_user->hasAnyRole(['admin'])) {
+                $fc_menu['mnu_fc_admin']['children']['attachments'] = ['id' => 'mnu_fc_sites', 'label' => 'Attachments', 'icon' => 'bx bx-paperclip', 'path' => route('fc.attachment.stats'), 'route-selector' => 'fc/attachment-stats', 'is-parent' => false,
+                    'children' => [],
+                ];
+            }
+
             if (\FoundationCore::has_feature('departments', $current_user->organization) && $current_user->hasAnyRole(['admin', 'departments-admin'])) {
                 if ($current_user->hasRole('admin')) {
                     $fc_menu['mnu_fc_admin']['children']['depts'] = ['id' => 'mnu_fc_depts', 'label' => 'Departments', 'icon' => 'bx bx-collection', 'path' => route('fc.departments.index'), 'route-selector' => 'fc/departments', 'is-parent' => false,
@@ -507,6 +513,7 @@ class FoundationCore
             //Attachment Management
             Route::post('/attachment', [AttachmentController::class, 'update'])->name('attachment.store');
             Route::delete('/attachment/{id}', [AttachmentController::class, 'destroy'])->name('attachment.destroy');
+            Route::get('/attachment-stats', [AttachmentController::class, 'displayAttachmentStats'])->name('attachment.stats');
 
             //Comments
             Route::post('/comment/add', [CommentController::class, 'update'])->name('comment-add');
