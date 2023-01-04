@@ -211,30 +211,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'attachment_cloud_storage_bucket' => ['group_name' => 'Attachment Settings', 'display_type' => 'string', 'display_name' => 'Cloud Storage Bucket', 'display_ordinal' => 4],
             'attachment_cloud_storage_region' => ['group_name' => 'Attachment Settings', 'display_type' => 'string', 'display_name' => 'Cloud Storage Default Region', 'display_ordinal' => 5],
             'attachment_cloud_storage_endpoint' => ['group_name' => 'Attachment Settings', 'display_type' => 'string', 'display_name' => 'Cloud Storage End-Point', 'display_ordinal' => 6],
-
-            'tp_chief_lecturer_dta_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer DTA Amount', 'display_ordinal' => 0],
-            'tp_principal_lecturer_dta_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer DTA Amount', 'display_ordinal' => 1],
-            'tp_senior_lecturer_dta_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Senior Lecturer DTA Amount', 'display_ordinal' => 2],
-            'tp_lecturer_1_dta_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 DTA Amount', 'display_ordinal' => 3],
-            'tp_lecturer_2_dta_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 DTA Amount', 'display_ordinal' => 4],
-
-            'tp_chief_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer DTA No. Nights', 'display_ordinal' => 0],
-            'tp_principal_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer DTA No. Nights', 'display_ordinal' => 1],
-            'tp_senior_lecturer_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Senior Lecturer DTA No. Nights', 'display_ordinal' => 2],
-            'tp_lecturer_1_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 DTA No. Nights', 'display_ordinal' => 3],
-            'tp_lecturer_2_dta_nights_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 DTA No. Nights', 'display_ordinal' => 4],
-
-            'tp_chief_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer Local Running Percentage (%)', 'display_ordinal' => 5],
-            'tp_principal_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer Local Running Percentage (%)', 'display_ordinal' => 6],
-            'tp_senior_lecturer_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Senior Lecturer Local Running Percentage (%)', 'display_ordinal' => 7],
-            'tp_lecturer_1_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 Local Running Percentage (%)', 'display_ordinal' => 8],
-            'tp_lecturer_2_local_runs_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 Local Running Percentage (%)', 'display_ordinal' => 9],
-
-            'tp_chief_lecturer_taxi_fare_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Chief Lecturer Taxi Fare Amount', 'display_ordinal' => 10],
-            'tp_principal_lecturer_taxi_fare_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Principal Lecturer Taxi Fare Amount', 'display_ordinal' => 11],
-            'tp_senior_lecturer_taxi_fare_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Senior Lecturer Taxi Fare Amount', 'display_ordinal' => 12],
-            'tp_lecturer_1_taxi_fare_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 1 Taxi Fare Amount', 'display_ordinal' => 13],
-            'tp_lecturer_2_taxi_fare_amount' => ['group_name' => 'ASTD Settings', 'display_type' => 'string', 'display_name' => 'Teaching Practice Lecturer 2 Taxi Fare Amount', 'display_ordinal' => 14],
         ];
 
         if (Schema::hasTable('fc_organizations') && Schema::hasTable('fc_settings')) {
