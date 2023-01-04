@@ -53,6 +53,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         Blade::componentNamespace('Hasob\\FoundationCore\\View\\Components', 'hasob-foundation-core');
 
+        // Register the available commands if we are using the application via the CLI
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Hasob\FoundationCore\Console\AttachmentMigrator::class,
+            ]);
+        }
+
         $this->registerSecurityRoles();
         $this->initializeOrganization();
         $this->registerSettings();
