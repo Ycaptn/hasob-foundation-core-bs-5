@@ -12,6 +12,8 @@ use Hasob\FoundationCore\Controllers\PageController;
 use Hasob\FoundationCore\Controllers\RoleController;
 use Hasob\FoundationCore\Controllers\SettingController;
 use Hasob\FoundationCore\Controllers\SiteController;
+use Hasob\FoundationCore\Controllers\SupportController;
+use Hasob\FoundationCore\Controllers\AnnouncementController;
 use Hasob\FoundationCore\Controllers\SiteDisplayController;
 use Hasob\FoundationCore\Controllers\SocialController;
 use Hasob\FoundationCore\Controllers\TagController;
@@ -410,7 +412,8 @@ class FoundationCore
             Route::resource('sites', \Hasob\FoundationCore\Controllers\API\SiteAPIController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
             Route::resource('pageables', \Hasob\FoundationCore\Controllers\API\PageableAPIController::class);
-
+            Route::resource('supports', \Hasob\FoundationCore\Controllers\API\SupportAPIController::class);
+            Route::resource('announcements', \Hasob\FoundationCore\Controllers\API\AnnouncementAPIController::class);
             Route::resource('attributes', \Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class);
             Route::put('/attributes/display_ordinal/{id}', [\Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class, 'changeDisplayOrdinal'])->name('attributes.changeDisplayOrdinal');
 
@@ -529,6 +532,8 @@ class FoundationCore
             Route::get('/site/{site_id}/page/{page_id}', [SiteController::class, 'displayPage'])->name('page-display');
 
             Route::resource('tags', TagController::class);
+            Route::resource('supports', SupportController::class);
+            Route::resource('announcements', AnnouncementController::class);
             Route::resource('socials', SocialController::class);
             Route::resource('settings', \Hasob\FoundationCore\Controllers\SettingController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\PageController::class);
