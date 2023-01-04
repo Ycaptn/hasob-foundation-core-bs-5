@@ -98,6 +98,7 @@ class Organization extends Model
         }
 
         $features = array_replace($features_config, $features_saved);
+        //Log::debug("Features registered -> ".implode(",",array_keys($features)));
 
         return $features;
     }

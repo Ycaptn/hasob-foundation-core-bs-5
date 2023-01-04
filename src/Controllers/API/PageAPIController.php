@@ -90,6 +90,10 @@ class PageAPIController extends BaseController
             return $this->sendError('Page not found');
         }
 
+        if (empty($page->content)==false){
+            $page->rendered_content = \Illuminate\Mail\Markdown::parse($page->content);
+        }
+
         return $this->sendResponse($page->toArray(), 'Page retrieved successfully');
     }
 

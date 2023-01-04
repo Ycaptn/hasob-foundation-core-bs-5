@@ -6,6 +6,7 @@ use Carbon;
 use Session;
 use Validator;
 
+use Hasob\FoundationCore\Models\Page;
 use Hasob\FoundationCore\Models\Site;
 
 use Hasob\FoundationCore\Events\SiteCreated;
@@ -112,6 +113,27 @@ class SiteController extends BaseController
         return view('hasob-foundation-core::sites.show')->with('site', $site);
     }
 
+    public function displaySite(Organization $org, $id)
+    {
+        $site = Site::find($id);
+        if (empty($site)) {
+            return redirect(route('dashboard'));
+        }
+
+        return view('hasob-foundation-core::sites.display')->with('site', $site);
+    }
+
+    public function displayPage(Organization $org, $site_id, $page_id)
+    {
+        $page = Page::find($page_id);
+        $site = Site::find($site_id);
+        if (empty($site) || empty($page)) {
+            return redirect(route('dashboard'));
+        }
+
+        return view('hasob-foundation-core::sites.display')->with('site', $site)->with('page', $page);
+    }
+
     /**
      * Show the form for editing the specified Site.
      *
@@ -188,42 +210,4 @@ class SiteController extends BaseController
         return redirect(route('fc.sites.index'));
     }
 
-        
-    public function processBulkUpload(Organization $org, Request $request){
-
-        $attachedFileName = time() . '.' . $request->file->getClientOriginalExtension();
-        $request->file->move(public_path('uploads'), $attachedFileName);
-        $path_to_file = public_path('uploads').'/'.$attachedFileName;
-
-        //Process each line
-        $loop = 1;
-        $errors = [];
-        $lines = file($path_to_file);
-
-        if (count($lines) > 1) {
-            foreach ($lines as $line) {
-                
-                if ($loop > 1) {
-                    $data = explode(',', $line);
-                    // if (count($invalids) > 0) {
-                    //     array_push($errors, $invalids);
-                    //     continue;
-                    // }else{
-                    //     //Check if line is valid
-                    //     if (!$valid) {
-                    //         $errors[] = $msg;
-                    //     }
-                    // }
-                }
-                $loop++;
-            }
-        }else{
-            $errors[] = 'The uploaded csv file is empty';
-        }
-        
-        if (count($errors) > 0) {
-            return $this->sendError($this->array_flatten($errors), 'Errors processing file');
-        }
-        return $this->sendResponse($subject->toArray(), 'Bulk upload completed successfully');
-    }
 }

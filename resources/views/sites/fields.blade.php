@@ -23,7 +23,7 @@
 </div>
 
 <!-- Department Id Field -->
-
+{{-- 
 <div class="mb-3">
     <label class="form-label">Department</label>
     <div class="col-sm-12">
@@ -37,7 +37,7 @@
             <span class="input-group-text"><span class="fa fa-institution"></span></span>
         </div>
     </div>
-</div>
+</div> --}}
 
 <!-- Is Blade Rendered Field -->
 {{-- <div id="div-is_blade_rendered" class="mb-3">

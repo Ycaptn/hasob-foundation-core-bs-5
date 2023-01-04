@@ -21,8 +21,8 @@
 @section('page_title_buttons')
     <span class="float-end">
         <div class="float-end inline-block dropdown mb-15">
-            <a href="#" data-val='{{ $site->id }}' class='btn btn-xs btn-primary btn-edit-mdl-site-modal'>
-                <i class="icon wb-reply" aria-hidden="true"></i>Edit Site
+            <a href="#" data-val='{{ $site->id }}' class='btn btn-sm btn-primary btn-edit-mdl-site-modal'>
+                <i class="fa fa-edit" aria-hidden="true"></i> Edit Site
             </a>
         </div>
     </span>
@@ -81,8 +81,8 @@
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card p-3">
-                                <div class="card-body pt-0">
+                            <div class="card">
+                                <div class="card-body pt-2">
                                     <div class="row">
                                         <div class="col-md-9 mb-15">
                                             <span class="small">Components are parts of a page that make up a site.
@@ -101,7 +101,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12 mb-15 p-2">
+                                        <div class="col-md-12 mb-15">
                                             @include('hasob-foundation-core::sites.partials.artifacts-list', ['artifacts'=>$components])
                                         </div>
                                     </div>
@@ -113,8 +113,8 @@
                 <div class="tab-pane fade" id="pages" role="tabpanel" aria-labelledby="pages-tab">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card p-3">
-                                <div class="card-body">
+                            <div class="card">
+                                <div class="card-body pt-2">
                                     <div class="row">
                                         <div class="col-md-12 mb-15">
                                             <span class="small">Pages are the primary components that make up a
@@ -135,8 +135,8 @@
                 <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card p-3">
-                                <div class="card-body">
+                            <div class="card">
+                                <div class="card-body pt-2">
                                     <div class="row">
                                         <div class="col-md-12 mb-15">
                                             <span class="small">Graphics such as images, videos, and audio files
@@ -157,8 +157,8 @@
                 <div class="tab-pane fade" id="site_menu" role="tabpanel" aria-labelledby="menu-tab">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card p-3">
-                                <div class="card-body">
+                            <div class="card">
+                                <div class="card-body pt-2">
                                     <div class="row">
                                         <div class="col-md-9 mb-15">
                                             <span class="small">Menu items can be displayed on a site to direct
@@ -188,8 +188,8 @@
                 <div class="tab-pane fade" id="templates" role="tabpanel" aria-labelledby="templates-tab">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card p-3">
-                                <div class="card-body">
+                            <div class="card">
+                                <div class="card-body pt-2">
                                     <div class="row">
                                         <div class="col-md-9 mb-15">
                                             <span class="small">Templates control how a page content is formated
@@ -220,8 +220,8 @@
                 <div class="tab-pane fade" id="access" role="tabpanel" aria-labelledby="access-tab">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card p-3">
-                                <div class="card-body">
+                            <div class="card">
+                                <div class="card-body pt-2">
                                     <div class="row">
                                         <div class="col-md-12 mb-15">
                                             <span class="fw-bold">Site View Restricted:</span> No <br/>
@@ -237,8 +237,8 @@
                 <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card p-3">
-                                <div class="card-body">
+                            <div class="card">
+                                <div class="card-body pt-2">
                                     <div class="row">
                                         <div class="col-md-12 mb-15">
                                             <span class="fw-bold">Blade Rendered:</span> No <br/>
@@ -295,7 +295,6 @@
 
                 prepareArtifactsModalForm();
             });
-
 
         });
     </script>

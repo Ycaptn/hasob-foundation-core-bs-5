@@ -2,19 +2,11 @@
     <div class="card site-item">
         <div class="row g-0">
             <div class="col-lg-2 text-center mt-3">
-
                 <a href="{{ route('fc.sites.show', $data_item->id) }}">
                     <i class="fa fa-3x fa-globe"></i>
                 </a>
-
                 <div class="text-center mt-2">
-                    {{-- <a data-bs-toggle="tooltip" title="view" data-val="{{ $data_item->id }}"
-                        data-bs-toggle="tooltip" data-original-title="view"
-                        class="btn-show-mdl-site-modal inline-block me-1" href="#">
-                        <i class="fa fa-files-o text-primary" style="opacity:80%"></i>
-                    </a> --}}
-
-                    @if (\Auth::user() != null && \Auth::user()->hasAnyRole('admin', 'department-admin'))
+                    @if (\Auth::user() != null && (\Auth::user()->hasAnyRole('admin', 'department-admin') || (\Auth::user()->id == $data_item->creator_user_id)))
                         <a href="#" 
                             data-bs-toggle="tooltip" 
                             title="Edit" 
@@ -35,7 +27,6 @@
                         </a>
                     @endif
                 </div>
-
             </div>
             <div class="col-lg-10">
                 <div class="card-body">

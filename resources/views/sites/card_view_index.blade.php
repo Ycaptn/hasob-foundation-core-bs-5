@@ -9,11 +9,11 @@ Sites Manager
 @stop
 
 @section('page_title')
-Sites Manager
+Site
 @stop
 
 @section('page_title_suffix')
-Public Facing Content
+Manager
 @stop
 
 @section('page_title_subtext')
@@ -24,11 +24,11 @@ Public Facing Content
 
 @section('page_title_buttons')
 @if (Auth()->user()->hasAnyRole(['site-admin','admin']))
-<a id="btn-site-selector-mdl-modal" class="btn btn-xs btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#mdl-select-default-site">
+<a id="btn-site-selector-mdl-modal" class="btn btn-sm btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#mdl-select-default-site">
     <i class="fa fa-globe"></i> Default Site
 </a>
 
-<a id="btn-new-mdl-site-modal" class="btn btn-xs btn-primary btn-new-mdl-site-modal" href="#">
+<a id="btn-new-mdl-site-modal" class="btn btn-sm btn-primary btn-new-mdl-site-modal" href="#">
     <i class="fa fa-edit"></i> New&nbsp;Site
 </a>
 @endif
