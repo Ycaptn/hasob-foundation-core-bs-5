@@ -27,6 +27,8 @@ class CreateAnnouncementAPIRequest extends AppBaseFormRequest
         return [
             'organization_id' => 'required',
             'headline' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required|after_or_equal:start_date',
             'content' => 'nullable|max:200',          
             'creator_user_id' => 'required|exists:fc_users,id',
         ];

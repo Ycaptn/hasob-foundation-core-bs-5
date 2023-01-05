@@ -17,11 +17,7 @@
                             
                             @csrf
                             
-                            <div class="offline-flag"><span class="offline">You are currently offline</span></div>
-                            <div id="spinner-supports" class="">
-                                <div class="loader" id="loader-1"></div>
-                            </div>
-
+                            <div class="offline-flag"><span class="offline">You are currently offline</span></div>                      
                             <input type="hidden" id="txt-support-primary-id" value="0" />
                             <div id="div-show-txt-support-primary-id">
                                 <div class="row">
@@ -45,7 +41,12 @@
 
             <div id="div-save-mdl-support-modal" class="modal-footer">
                 <hr class="light-grey-hr mb-10" />
-                <button type="button" class="btn btn-primary" id="btn-save-mdl-support-modal" value="add">Save</button>
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-support-modal" value="add">
+                    <span id="spinner-supports" class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+                        <span class="visually-hidden">Loading...</span>
+                    </span>               
+                    Save
+                </button>
             </div>
 
         </div>
@@ -99,8 +100,11 @@ $(document).ready(function() {
         $.get( "{{ route('fc-api.supports.show','') }}/"+itemId).done(function( response ) {
 			
 			$('#txt-support-primary-id').val(response.data.id);
-            		$('#spn_support_label').html(response.data.label);
-		
+                    $('#spn_support_location').val(response.data.location);
+                    $('#spn_support_support_type').val(response.data.support_type);
+                    $('#spn_support_issue_type').val(response.data.issue_type);
+                    $('#spn_support_severity').val(response.data.severity);
+                    $('#spn_support_description').val(response.data.description);
 
 
             $("#spinner-supports").hide();
@@ -131,6 +135,7 @@ $(document).ready(function() {
                     $('#support_type').val(response.data.support_type);
                     $('#issue_type').val(response.data.issue_type);
                     $('#severity').val(response.data.severity);
+                    $('#designation_department_id').val(response.data.designation_department_id)
                     $('#description').val(response.data.description);
 
 
@@ -243,6 +248,7 @@ $(document).ready(function() {
                 formData.append('support_type', $('#support_type').val());
                 formData.append('issue_type',$('#issue_type').val());
                 formData.append('severity',$('#severity').val());
+                formData.append("designation_department_id", $('#designation_department_id').val())
                 formData.append('description',$('#description').val())
                 formData.append('creator_user_id',"{{auth()->user()->id}}")
         $.ajax({

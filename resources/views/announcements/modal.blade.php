@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-              
+
                 <h4 id="lbl-announcement-modal-title" class="modal-title">Announcement</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -18,9 +18,6 @@
                             @csrf
 
                             <div class="offline-flag"><span class="offline">You are currently offline</span></div>
-                            <div id="spinner-announcements" class="">
-                                <div class="loader" id="loader-1"></div>
-                            </div>
 
                             <input type="hidden" id="txt-announcement-primary-id" value="0" />
                             <div id="div-show-txt-announcement-primary-id">
@@ -45,8 +42,13 @@
 
             <div id="div-save-mdl-announcement-modal" class="modal-footer">
                 <hr class="light-grey-hr mb-10" />
-                <button type="button" class="btn btn-primary" id="btn-save-mdl-announcement-modal"
-                    value="add">Save</button>
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-announcement-modal" value="add">
+                    <span id="spinner-announcements" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true">
+                        <span class="visually-hidden">Loading...</span>
+                    </span>
+                    Save
+                </button>
             </div>
 
         </div>
@@ -109,8 +111,10 @@
                     $('#spn_announcement_content').val(response.data.content);
                     $('#spn_announcement_start_date').val(response.data.start_date);
                     $('#spn_announcement_end_date').val(response.data.end_date);
-                    $('#spn_announcement_is_sticky').val(response.data.is_sticky);
-                    $('#spn_announcement_is_flashing').val(response.data.is_flashing);
+                    $('#spn_announcement_is_sticky').val(response.data.is_sticky == true ? "Yes" :
+                        "No");
+                    $('#spn_announcement_is_flashing').val(response.data.is_flashing == true ?
+                        "Yes" : "No");
 
 
                     $("#spinner-announcements").hide();
@@ -143,10 +147,27 @@
                     $('#txt-announcement-primary-id').val(response.data.id);
                     $('#headline').val(response.data.headline);
                     $('#content').val(response.data.content);
-                    $('#start_date').val(response.data.start_date);
-                    $('#end_date').val(response.data.end_date);
-                    $('#is_sticky').val(response.data.is_sticky);
-                    $('#is_flashing').val(response.data.is_flashing);
+                    let start_date_obj = new Date(response.data.start_date);
+                    let end_date_obj = new Date(response.data.end_date);
+                    let start_month = start_date_obj.getMonth() + 1;
+                    if (start_month < 10) {
+                        start_month = "0" + start_month
+                    }
+                    let end_month = end_date_obj.getMonth() + 1;
+                    if (end_month < 10) {
+                        end_month = "0" + end_month
+                    }
+                    let start_date =
+                        `${start_date_obj.getFullYear()}-${start_month}-${start_date_obj.getDate()}`;
+                    let end_date =
+                        `${end_date_obj.getFullYear()}-${end_month}-${end_date_obj.getDate()}`;
+                    $('#start_date').val(start_date);
+                    $('#end_date').val(end_date);
+
+                    response.data.is_sticky == true ? $('#is_sticky').attr("checked", true) : $(
+                        '#is_sticky').attr("checked", false);
+                    response.data.is_flashing == true ? $('#is_flashing').attr("checked", true) : $(
+                        '#is_flashing').attr("checked", false);
 
                     $("#spinner-announcements").hide();
                     $("#div-save-mdl-announcement-modal").attr('disabled', false);
@@ -185,7 +206,7 @@
                     if (isConfirm) {
 
                         let endPointUrl = "{{ route('fc-api.announcements.destroy', '') }}/" +
-                        itemId;
+                            itemId;
 
                         let formData = new FormData();
                         formData.append('_token', $('input[name="_token"]').val());
@@ -209,7 +230,7 @@
                                     //swal("Deleted", "announcement deleted successfully.", "success");
                                     swal({
                                         title: "Deleted",
-                                        text: "announcement deleted successfully",
+                                        text: "Announcement deleted successfully",
                                         type: "success",
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",
@@ -267,10 +288,10 @@
                 formData.append('headline', $('#headline').val());
                 formData.append('content', $('#content').val());
                 formData.append('start_date', $('#start_date').val());
-                formData.append('end_date',$('#end_date').val());
-                formData.append('is_sticky',$('#is_sticky').val());
-                formData.append('is_flashing',$('#is_flashing').val())
-                formData.append('creator_user_id',"{{auth()->user()->id}}")
+                formData.append('end_date', $('#end_date').val());
+                formData.append('is_sticky', $('#is_sticky').is(":checked") ? "1" : "0");
+                formData.append('is_flashing', $('#is_flashing').is(":checked") ? "1" : "0");
+                formData.append('creator_user_id', "{{ auth()->user()->id }}")
 
 
                 $.ajax({

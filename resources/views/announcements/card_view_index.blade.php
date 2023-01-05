@@ -2,14 +2,14 @@
 
 @section('app_css')
     {!! $cdv_announcements->render_css() !!}
-@endsection
+@stop
 
 @section('title_postfix')
-Annoucements
+Announcements
 @stop
 
 @section('page_title')
-Annoucements
+Announcements
 @stop
 
 @section('page_title_buttons')
@@ -17,31 +17,26 @@ Annoucements
     <a id="btn-new-mdl-announcement-modal" class="btn btn-xs btn-primary btn-new-mdl-announcement-modal" href="#">
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Announcement
     </a>
-    @if (Auth()->user()->hasAnyRole(['','admin']))
+ {{--    @if (Auth()->user()->hasAnyRole(['','admin']))
         @include('hasob-foundation-core::announcements.bulk-upload-modal')
-    @endif
+    @endif --}}
 </span>
 @stop
 
 @section('content')
 
-    <div class="row hidden-sm hidden-xs">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 hidden-sm hidden-xs">
         {{-- Summary Row --}}
     </div>
-
-    <div class="row">
-        <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body pt-5">
-                    {{ $cdv_announcements->render() }}
-                </div>
-            </div>
+    
+    <div class="card border-top border-0 border-4 border-primary">
+        <div class="card-body">
+            {{ $cdv_announcements->render() }}
         </div>
     </div>
-
     @include('hasob-foundation-core::announcements.modal')
-    
-@endsection
+
+@stop
 
 @push('page_scripts')
     {!! $cdv_announcements->render_js() !!}

@@ -36,7 +36,7 @@ class Support extends Model
 
     use HasFactory;
 
-    public $table = 'fc_announcements';
+    public $table = 'fc_supports';
     
 
     protected $dates = ['deleted_at'];
@@ -51,6 +51,7 @@ class Support extends Model
         'severity',
         'description',
         'creator_user_id',
+        'designation_department_id',
         'designated_user_id',
         'status',
         'resolved_at'
@@ -66,7 +67,7 @@ class Support extends Model
         'location' => "string",
         'support_type' => "string",
         'issue_type' => "string",
-        'severity' => " string",
+        'severity' => "string",
         'description' => "string",
         'creator_user_id' => "string",
         'designated_user_id' => "string",
@@ -74,7 +75,35 @@ class Support extends Model
         'resolved_at' => "datetime"
     ];
 
+    /**
+     * Get the department that owns the Support
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'designation_department_id', 'id');
+    }
 
+    /**
+     * Get the creator_user that owns the Support
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator_user()
+    {
+        return $this->belongsTo(User::class, 'creator_user_id', 'id');
+    }
+
+    /**
+     * Get the designated_user that owns the Support
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function designated_user()
+    {
+        return $this->belongsTo(User::class, 'designated_user_id', 'id');
+    }
     
 
 }
