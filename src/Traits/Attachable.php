@@ -23,7 +23,7 @@ trait Attachable
 
     public function get_attachment($name){
         $attachables = EloquentAttachable::where('attachable_id', $this->id)
-                                            ->where('attachable_type', self::class)    
+                                            ->where('attachable_type', get_class($this))    
                                             ->orderBy('created_at','desc')
                                             ->get();
 
@@ -38,7 +38,7 @@ trait Attachable
 
     public function get_attachments($file_types = null){
         $attachables_query = EloquentAttachable::where('attachable_id', $this->id)
-                                            ->where('attachable_type', self::class)    
+                                            ->where('attachable_type', get_class($this))    
                                             ->orderBy('created_at','desc');
 
         $attachables = $attachables_query->get();
@@ -61,7 +61,7 @@ trait Attachable
 
     public function get_attachables($file_types = null){
         $attachables_query = EloquentAttachable::where('attachable_id', $this->id)
-                                            ->where('attachable_type', self::class)    
+                                            ->where('attachable_type', get_class($this))    
                                             ->orderBy('created_at','desc');
 
         $attachables = $attachables_query->get();
@@ -117,7 +117,7 @@ trait Attachable
         $attachable->user_id = $user->id;
         $attachable->attachment_id = $attachment->id;
         $attachable->attachable_id = $this->id;
-        $attachable->attachable_type = self::class;
+        $attachable->attachable_type = get_class($this);
         $attachable->save();
 
         return $attachable;
@@ -125,7 +125,7 @@ trait Attachable
 
     public function delete_attachment($name){
         $attachables = EloquentAttachable::where('attachable_id',  $this->id)
-                                            ->where('attachable_type', self::class)    
+                                            ->where('attachable_type', get_class($this))    
                                             ->orderBy('created_at','desc')
                                             ->get();
 
@@ -168,7 +168,7 @@ trait Attachable
         $attachable->user_id = $user->id;
         $attachable->attachment_id = $attach->id;
         $attachable->attachable_id = $this->id;
-        $attachable->attachable_type = self::class;
+        $attachable->attachable_type = get_class($this);
         $attachable->save();
 
         $this->counter += 1;
@@ -206,7 +206,7 @@ trait Attachable
         $attachable->user_id = $user->id;
         $attachable->attachment_id = $attach->id;
         $attachable->attachable_id = $this->id;
-        $attachable->attachable_type = self::class;
+        $attachable->attachable_type = get_class($this);
         $attachable->save();
 
         $this->counter += 1;
