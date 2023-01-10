@@ -21,11 +21,12 @@ trait Commentable
                         ->get();
     }
 
-    public function create_comment(User $user, $comment_text, $parent_id=null){
+    public function create_comment(User $user, $comment_text, $parent_id=null, $type=null){
         $comment = new Comment();
         $comment->user_id = $user->id;
         $comment->parent_id = $parent_id;
         $comment->content = $comment_text;
+        $comment->type = $type;
         $comment->commentable_id = $this->id;
         $comment->commentable_type = get_class($this);
         $comment->organization_id = $user->organization_id;
