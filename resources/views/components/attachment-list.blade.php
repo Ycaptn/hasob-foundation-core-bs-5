@@ -14,9 +14,9 @@
                         <i class="fa fa-paperclip fa-2x"></i>
                     </a>
                     <div class="flex-grow-1 ms-3">                        
-                        <p class="mt-0 mb-0" style="color: blue;">
+                        <p class="mt-0 mb-0 text-primary">
                             <a href="{{ route('fc.attachment.show', $attachable_item->attachment_id) }}" target="_blank">
-                                {{ $attachable_item->attachment->label }}
+                                {{ \Illuminate\Support\Str::limit($attachable_item->attachment->label,45,'') }}
                             </a>
                             @if (Auth::id() == $attachable_item->user_id || Auth()->user()->hasAnyRole(['admin'])) 
                             <a href="#" class="{{$control_id}}_btn-delete-attachment" data-val='{{$attachable_item->id}}'>
@@ -26,7 +26,7 @@
                         </p>
                         <p class="mb-1">
                             @if (empty($attachable_item->attachment->description) == false)
-                                {{ $attachable_item->attachment->description }}
+                                <small>{{ $attachable_item->attachment->description }}</small><br/>
                             @endif
                             <small class="text-muted">
                                 <small><i class="fa fa-upload"></i> {{$attachable_item->user->full_name}} on {{$attachable_item->getCreateDateString()}}</small>
