@@ -40,10 +40,6 @@ class AttachableAPIController extends AppBaseController
             $query->limit($request->get('limit'));
         }
         
-        if ($organization != null){
-            $query->where('organization_id', $organization->id);
-        }
-
         $attachables = $this->showAll($query->get());
 
         return $this->sendResponse($attachables->toArray(), 'Attachables retrieved successfully');

@@ -32,7 +32,7 @@ trait OrganizationalConstraint {
         if ($this->getConnection()
                 ->getSchemaBuilder()
                 ->hasColumn($this->getTable(), 'created_at')) {
-            $query = $query->orderBy('created_at','ASC');
+            $query = $query->orderBy('created_at','DESC');
         }
 
         return $query;

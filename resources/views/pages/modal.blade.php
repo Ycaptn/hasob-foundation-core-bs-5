@@ -273,8 +273,9 @@ $(document).ready(function() {
         }else{
             $('.offline').fadeOut(300);
         }
-  $('#spinner-pages spinner').show()
-       $('#div-save-mdl-page-modal span').show();
+        
+        $('#spinner-pages spinner').show()
+        $('#div-save-mdl-page-modal span').show();
         $('#div-save-mdl-page-modal').attr('disabled',true);
 
         let actionType = "POST";

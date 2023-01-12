@@ -9,11 +9,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-       
                 <input type="hidden" id="workflow_id" value="0" />
                 <div id="div-site-modal-error" class="alert alert-danger alert-dismissible fade show" role="alert">
-               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-             </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 
                 <div id="div-show-txt-site-primary-id" class="row mb-3">
                     <div class="col-12">                            
@@ -81,8 +80,6 @@ $(document).ready(function() {
         $('#mdl-site-modal').modal('show');
         $('#frm-site-modal').trigger("reset");
 
-        // $("#spinner-sites").show();
-        // $("#div-save-mdl-site-modal").attr('disabled', true);
         $("#spinner").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
@@ -93,7 +90,6 @@ $(document).ready(function() {
         $.get( "{{ route('fc-api.sites.show','') }}/"+itemId).done(function( response ) {
 			
 			$('#txt-site-primary-id').val(response.data.id);
-            // $('#spn_site_').html(response.data.);
             $('#spn_site_site_name').html(response.data.site_name);
 		    $('#spn_site_site_path').html(response.data.site_path);
 		    $('#spn_site_description').html(response.data.description);
@@ -107,9 +103,8 @@ $(document).ready(function() {
     });
 
     //Show Modal for Edit
-    
     $(document).on('click', ".btn-edit-mdl-site-modal", function(e) {
-         $('.btn').show();
+        $('.btn').show();
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
@@ -117,11 +112,10 @@ $(document).ready(function() {
         $('#mdl-site-modal').modal('show');
         $('#frm-site-modal').trigger("reset");
         
-
         $("#spinner-sites").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
-         $("#spinner").show();
+        $("#spinner").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
         $('#div-show-txt-site-primary-id').hide();
@@ -131,7 +125,6 @@ $(document).ready(function() {
         $.get( "{{ route('fc-api.sites.show','') }}/"+itemId).done(function( response ) {     
             $("#spinner").hide();
 			$('#txt-site-primary-id').val(response.data.id);
-            // $('#').val(response.data.);
             $('#site_name').val(response.data.site_name);
 		    $('#site_path').val(response.data.site_path);
 		    $('#site_description').val(response.data.description);
@@ -157,8 +150,8 @@ $(document).ready(function() {
 
         let itemId = $(this).attr('data-val');
         swal({
-                title: "Are you sure you want to delete this Site record?",
-                text: "You will not be able to recover this Site record if deleted.",
+                title: "Are you sure you want to delete this Site?",
+                text: "You will not be able to recover this Site if deleted.",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
@@ -188,10 +181,9 @@ $(document).ready(function() {
                                 console.log(result.errors)
                                 swal("Error", "Oops an error occurred. Please try again.", "error");
                             }else{
-                                //swal("Deleted", "Site deleted successfully.", "success");
                                swal({
                                         title: "Deleted",
-                                        text: "The Site record has been deleted.",
+                                        text: "The Site has been deleted.",
                                         type: "success",
                                         confirmButtonClass: "btn-success",
                                         confirmButtonText: "OK",
@@ -204,16 +196,13 @@ $(document).ready(function() {
                         },
                     });            
                 }
-            });
         });
-
-   
+    });
 
     //Save details
     $('#btn-save-mdl-site-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
 
         //check for internet status 
         if (!window.navigator.onLine) {
@@ -226,8 +215,8 @@ $(document).ready(function() {
         $("#spinner-sites").show();
         $("#div-save-mdl-site-modal").attr('disabled', true);
 
-         $("#spinner").show();
-            $("#div-save-mdl-site-modal").attr('disabled', true);
+        $("#spinner").show();
+        $("#div-save-mdl-site-modal").attr('disabled', true);
 
         let actionType = "POST";
         let endPointUrl = "{{ route('fc-api.sites.store') }}";
@@ -248,7 +237,6 @@ $(document).ready(function() {
         @endif
         formData.append('creator_user_id', "{{ Auth::id() }}");
         formData.append('site_name', $('#site_name').val());
-		//formData.append('site_path', $('#site_path').val());
 		formData.append('description', $('#site_description').val());
 
         console.log(endPointUrl);
@@ -264,39 +252,34 @@ $(document).ready(function() {
                 if(result.errors){
 					$('#div-site-modal-error').html('');
 					$('#div-site-modal-error').show();
-                     $("#spinner-sites").hide();
-                  $("#div-save-mdl-site-modal").attr('disabled', false);
-                   // console.log(result.errors)
+                    $("#spinner-sites").hide();
+                    $("#div-save-mdl-site-modal").attr('disabled', false);
                     $.each(result.errors, function(key, value){
                         $('#div-site-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
                     $('#div-site-modal-error').hide();
                     $('#div-site-modal-error').hide();
-
-                        swal({
-                                title: "Saved",
-                                text: "Site saved successfully",
-                                type: "success",
-                                showCancelButton: false,
-                                closeOnConfirm: false,
-                                confirmButtonClass: "btn-success",
-                                confirmButtonText: "OK",
-                                closeOnConfirm: false
-                            })
-
-                            setTimeout(function(){
-                                location.reload(true);
-                        }, 1000);
-
-                   
+                    swal({
+                            title: "Saved",
+                            text: "Site saved successfully",
+                            type: "success",
+                            showCancelButton: false,
+                            closeOnConfirm: false,
+                            confirmButtonClass: "btn-success",
+                            confirmButtonText: "OK",
+                            closeOnConfirm: false
+                        });
+                    setTimeout(function(){
+                            location.reload(true);
+                    }, 1000);
                 }
 
                 $("#spinner-sites").hide();
                 $("#div-save-mdl-site-modal").attr('disabled', false);
 
-                 $("#spinner").hide();
-                 $("#div-save-mdl-site-modal").attr('disabled', false);
+                $("#spinner").hide();
+                $("#div-save-mdl-site-modal").attr('disabled', false);
                 
             }, error: function(data){
                 console.log(data);

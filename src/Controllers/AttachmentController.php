@@ -160,5 +160,31 @@ class AttachmentController extends BaseController
         return self::createJSONResponse("ok", "success", $attachment, 200);
     }
 
+    public function displayAttachmentStats(Request $request){
+
+        $attachment_count = Attachment::count();
+        $path_type_group_count = DB::table('fc_attachments')
+                                    ->select('path_type', DB::raw('count(*) as total'))
+                                    ->groupBy('path_type')
+                                    ->get();
+
+        $file_type_group_count = DB::table('fc_attachments')
+                                    ->select('file_type', DB::raw('count(*) as total'))
+                                    ->groupBy('file_type')
+                                    ->get();
+
+        $storage_driver_group_count = DB::table('fc_attachments')
+                                    ->select('storage_driver', DB::raw('count(*) as total'))
+                                    ->groupBy('storage_driver')
+                                    ->get();
+
+        return view('hasob-foundation-core::attachments.stats')
+                    ->with("attachment_count", $attachment_count)
+                    ->with("path_type_group_count", $path_type_group_count)
+                    ->with("file_type_group_count", $file_type_group_count)
+                    ->with("storage_driver_group_count", $storage_driver_group_count);
+
+    }
+
 
 }

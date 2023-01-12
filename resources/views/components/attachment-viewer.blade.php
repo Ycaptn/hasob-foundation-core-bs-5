@@ -45,9 +45,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer" style="display: block">
                         <button class="btn btn-xs btn-primary float-start" id="{{$control_id}}_showPrevious"> << Previous </button>
-                        <button class="btn btn-xs btn-primary" id="{{$control_id}}_showNext"> Next >> </button>
+                        <button class="btn btn-xs btn-primary float-end" id="{{$control_id}}_showNext"> Next >> </button>
                     </div>
                 </div>
             </div>

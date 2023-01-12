@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('hasob-foundation-core/vendor/dropzone-5.7.0/dist/dropzone.css') }}" />
 @endpush
 
-<button type="button" class="btn btn-sm btn-danger mb-2" id="btnNewUpload" data-toggle="tooltip" title="Upload File"> 
+<button type="button" class="btn btn-sm btn-danger" id="btnNewUpload" data-toggle="tooltip" title="Upload File"> 
     <i class="fa fa-cloud-upload-alt"></i> Upload
 </button>
 

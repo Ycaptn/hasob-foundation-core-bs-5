@@ -12,6 +12,8 @@ use Hasob\FoundationCore\Controllers\PageController;
 use Hasob\FoundationCore\Controllers\RoleController;
 use Hasob\FoundationCore\Controllers\SettingController;
 use Hasob\FoundationCore\Controllers\SiteController;
+use Hasob\FoundationCore\Controllers\SupportController;
+use Hasob\FoundationCore\Controllers\AnnouncementController;
 use Hasob\FoundationCore\Controllers\SiteDisplayController;
 use Hasob\FoundationCore\Controllers\SocialController;
 use Hasob\FoundationCore\Controllers\TagController;
@@ -283,6 +285,44 @@ class FoundationCore
         }
     }
 
+    public function get_sites_menu_map()
+    {
+
+        $current_user = Auth::user();
+        if ($current_user != null) {
+
+            $fc_menu = [
+                'mnu_fc_public_sites' => [
+                    'id' => 'mnu_fc_public_sites', 
+                    'label' => 'Sites', 
+                    'icon' => 'bx bx-globe-alt', 
+                    'path' => '#', 
+                    'route-selector' => '', 
+                    'is-parent' => true,
+                    'children' => [],
+                ],
+            ];
+
+            if (\FoundationCore::has_feature('sites', $current_user->organization)) {
+                foreach($this->all_sites() as $idx=>$site){
+                    $fc_menu['mnu_fc_public_sites']['children']["sites{$idx}"] = [
+                        'id' => "mnu_fc_public_sites{$idx}", 
+                        'label' => \Illuminate\Support\Str::limit("{$site->site_name}",15,'...'),
+                        'path' => route('fc.site-display', $site->id), 
+                        'route-selector' => '', 
+                        'is-parent' => false,
+                        'children' => [],
+                    ];
+                }
+            }
+
+            return $fc_menu;
+        }
+
+        return [];
+
+    }
+
     public function get_menu_map()
     {
 
@@ -301,6 +341,12 @@ class FoundationCore
 
             if (\FoundationCore::has_feature('sites', $current_user->organization) && $current_user->hasAnyRole(['admin', 'sites-admin'])) {
                 $fc_menu['mnu_fc_admin']['children']['sites'] = ['id' => 'mnu_fc_sites', 'label' => 'Sites', 'icon' => 'bx bx-globe-alt', 'path' => route('fc.sites.index'), 'route-selector' => 'fc/sites', 'is-parent' => false,
+                    'children' => [],
+                ];
+            }
+
+            if ($current_user->hasAnyRole(['admin'])) {
+                $fc_menu['mnu_fc_admin']['children']['attachments'] = ['id' => 'mnu_fc_sites', 'label' => 'Attachments', 'icon' => 'bx bx-paperclip', 'path' => route('fc.attachment.stats'), 'route-selector' => 'fc/attachment-stats', 'is-parent' => false,
                     'children' => [],
                 ];
             }
@@ -372,7 +418,8 @@ class FoundationCore
             Route::resource('sites', \Hasob\FoundationCore\Controllers\API\SiteAPIController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\API\PageAPIController::class);
             Route::resource('pageables', \Hasob\FoundationCore\Controllers\API\PageableAPIController::class);
-
+            Route::resource('supports', \Hasob\FoundationCore\Controllers\API\SupportAPIController::class);
+            Route::resource('announcements', \Hasob\FoundationCore\Controllers\API\AnnouncementAPIController::class);
             Route::resource('attributes', \Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class);
             Route::put('/attributes/display_ordinal/{id}', [\Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class, 'changeDisplayOrdinal'])->name('attributes.changeDisplayOrdinal');
 
@@ -466,6 +513,7 @@ class FoundationCore
             //Attachment Management
             Route::post('/attachment', [AttachmentController::class, 'update'])->name('attachment.store');
             Route::delete('/attachment/{id}', [AttachmentController::class, 'destroy'])->name('attachment.destroy');
+            Route::get('/attachment-stats', [AttachmentController::class, 'displayAttachmentStats'])->name('attachment.stats');
 
             //Comments
             Route::post('/comment/add', [CommentController::class, 'update'])->name('comment-add');
@@ -487,7 +535,12 @@ class FoundationCore
 
             Route::resource('ledgers', LedgerController::class);
             Route::resource('sites', SiteController::class);
+            Route::get('/site/{id}', [SiteController::class, 'displaySite'])->name('site-display');
+            Route::get('/site/{site_id}/page/{page_id}', [SiteController::class, 'displayPage'])->name('page-display');
+
             Route::resource('tags', TagController::class);
+            Route::resource('supports', SupportController::class);
+            Route::resource('announcements', AnnouncementController::class);
             Route::resource('socials', SocialController::class);
             Route::resource('settings', \Hasob\FoundationCore\Controllers\SettingController::class);
             Route::resource('pages', \Hasob\FoundationCore\Controllers\PageController::class);

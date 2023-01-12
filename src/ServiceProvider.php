@@ -53,6 +53,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         Blade::componentNamespace('Hasob\\FoundationCore\\View\\Components', 'hasob-foundation-core');
 
+        // Register the available commands if we are using the application via the CLI
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Hasob\FoundationCore\Console\AttachmentMigrator::class,
+            ]);
+        }
+
         $this->registerSecurityRoles();
         $this->initializeOrganization();
         $this->registerSettings();
@@ -211,7 +218,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'attachment_cloud_storage_bucket' => ['group_name' => 'Attachment Settings', 'display_type' => 'string', 'display_name' => 'Cloud Storage Bucket', 'display_ordinal' => 4],
             'attachment_cloud_storage_region' => ['group_name' => 'Attachment Settings', 'display_type' => 'string', 'display_name' => 'Cloud Storage Default Region', 'display_ordinal' => 5],
             'attachment_cloud_storage_endpoint' => ['group_name' => 'Attachment Settings', 'display_type' => 'string', 'display_name' => 'Cloud Storage End-Point', 'display_ordinal' => 6],
-
         ];
 
         if (Schema::hasTable('fc_organizations') && Schema::hasTable('fc_settings')) {

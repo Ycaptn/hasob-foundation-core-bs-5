@@ -31,7 +31,7 @@ class UpdatePageAPIRequest extends AppBaseFormRequest
         return [
             'organization_id' => 'required',
             'display_ordinal' => 'nullable|min:0|max:365',
-            'page_name' => 'required|min:4|max:150',
+            'page_name' => 'nullable|min:4|max:150',
             'page_path' => 'nullable|min:4|max:150',
             'content' => 'nullable|min:0|max:2000',
             'blade_file_path' => 'nullable|max:150',
@@ -40,7 +40,7 @@ class UpdatePageAPIRequest extends AppBaseFormRequest
             'view_allowed_roles' => 'nullable|max:2000',
             'view_allowed_user_ids' => 'nullable|max:2000',
             'site_id' => 'nullable',
-            'creator_user_id' => 'required'
+            'creator_user_id' => 'nullable'
         ];
     }
 

@@ -52,5 +52,15 @@ class ModelArtifact extends Model
         return $this->belongsTo(Organization::class);
     }
 
+    public function actual_type(){
+        if (!empty($this->model_name) && !empty($this->model_primary_id)){
+            $model = new $this->model_name();
+            if ($model != null){
+                return $model::find($this->model_primary_id);
+            }
+        }
+        return null;
+    }
+
     
 }

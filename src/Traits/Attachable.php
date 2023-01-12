@@ -23,7 +23,7 @@ trait Attachable
 
     public function get_attachment($name){
         $attachables = EloquentAttachable::where('attachable_id', $this->id)
-                                            ->where('attachable_type', self::class)    
+                                            ->where('attachable_type', get_class($this))    
                                             ->orderBy('created_at','desc')
                                             ->get();
 
@@ -38,7 +38,7 @@ trait Attachable
 
     public function get_attachments($file_types = null){
         $attachables_query = EloquentAttachable::where('attachable_id', $this->id)
-                                            ->where('attachable_type', self::class)    
+                                            ->where('attachable_type', get_class($this))    
                                             ->orderBy('created_at','desc');
 
         $attachables = $attachables_query->get();
@@ -61,7 +61,7 @@ trait Attachable
 
     public function get_attachables($file_types = null){
         $attachables_query = EloquentAttachable::where('attachable_id', $this->id)
-                                            ->where('attachable_type', self::class)    
+                                            ->where('attachable_type', get_class($this))    
                                             ->orderBy('created_at','desc');
 
         $attachables = $attachables_query->get();
@@ -88,7 +88,6 @@ trait Attachable
 
         $attachment_storage = Setting::where('key', 'attachment_storage')->first();
         $storageType = $attachment_storage->value;
-        
         //storage type specified
         if (strtolower($storageType) == "cloud") {
             $cloud_storage_type = Setting::where('key', 'attachment_cloud_storage_type')->first();
@@ -118,7 +117,7 @@ trait Attachable
         $attachable->user_id = $user->id;
         $attachable->attachment_id = $attachment->id;
         $attachable->attachable_id = $this->id;
-        $attachable->attachable_type = self::class;
+        $attachable->attachable_type = get_class($this);
         $attachable->save();
 
         return $attachable;
@@ -126,7 +125,7 @@ trait Attachable
 
     public function delete_attachment($name){
         $attachables = EloquentAttachable::where('attachable_id',  $this->id)
-                                            ->where('attachable_type', self::class)    
+                                            ->where('attachable_type', get_class($this))    
                                             ->orderBy('created_at','desc')
                                             ->get();
 
@@ -169,7 +168,7 @@ trait Attachable
         $attachable->user_id = $user->id;
         $attachable->attachment_id = $attach->id;
         $attachable->attachable_id = $this->id;
-        $attachable->attachable_type = self::class;
+        $attachable->attachable_type = get_class($this);
         $attachable->save();
 
         $this->counter += 1;
@@ -186,7 +185,7 @@ trait Attachable
         if ($storageType == "Cloud") {
             $cloud_storage_type = Setting::where('key', 'attachment_cloud_storage_type')->first();
             $storageType = $cloud_storage_type->value;
-            $path = Storage::disk($storageType)->putFileAs('uploads', file_get_contents($file_path) , $rndFileName);
+            $path = Storage::disk($storageType)->putFileAs('uploads', $file_path, $rndFileName);
         } else {
             $path = File::move($file_path, public_path('uploads').'/'.$rndFileName);
         }
@@ -207,7 +206,7 @@ trait Attachable
         $attachable->user_id = $user->id;
         $attachable->attachment_id = $attach->id;
         $attachable->attachable_id = $this->id;
-        $attachable->attachable_type = self::class;
+        $attachable->attachable_type = get_class($this);
         $attachable->save();
 
         $this->counter += 1;
