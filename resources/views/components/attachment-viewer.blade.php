@@ -35,8 +35,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="{{$control_id}}_attachment-viewer-modal-label"></h4>
+                        <small id="{{$control_id}}_attachment-viewer-modal-description" class="ms-2 mt-2"></small>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <small id="{{$control_id}}_attachment-viewer-modal-description"></small>
                     </div>
                     <div class="modal-body">
                         <div class="row">
