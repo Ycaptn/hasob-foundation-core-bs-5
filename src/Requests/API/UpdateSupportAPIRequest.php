@@ -33,7 +33,7 @@ class UpdateSupportAPIRequest extends AppBaseFormRequest
             'severity' => 'required',
             'description' => 'required',
             'creator_user_id' => 'required|exists:fc_users,id',
-            'designated-user_id' => 'nullable|exists:fc_departments,id',
+            'designated-user_id' => 'nullable|exists:fc_users,id',
 
         ];
     }

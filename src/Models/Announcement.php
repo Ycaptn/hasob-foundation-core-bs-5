@@ -53,6 +53,10 @@ class Announcement extends Model
         'start_date',
         'end_date',
         'audience_department_ids',
+        'audience_role_names',
+        'announceable_id',
+        'announceable_type',
+        'scope_context',
         'creator_user_id'
     ];
 
@@ -70,7 +74,11 @@ class Announcement extends Model
         'is_flashing' => "boolean",
         'start_date' => "datetime",
         'end_date' => "datetime",
-        'audience_department_ids',
+        'audience_department_ids' => "string",
+        'audience_role_names'=> "string",
+        'announceable_id'=> "string",
+        'announceable_type'=> "string",
+        'scope_context'=> "string",
         'creator_user_id' => "string"
     ];
 

@@ -30,6 +30,8 @@ class CreateFcSupportsTable extends Migration
             $table->foreign('designated_user_id')->references('id')->on('fc_users');
             $table->boolean('status')->default(false);
             $table->dateTime('resolved_at')->nullable();
+            $table->uuid('completed_by_user_id')->nullable();
+            $table->foreign('completed_by_user_id')->references('id')->on('fc_users');
             $table->softDeletes();
             $table->timestamps();
         });

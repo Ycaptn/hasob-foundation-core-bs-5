@@ -19,12 +19,16 @@ class CreateFcAnnouncementsTable extends Migration
             $table->foreign('organization_id')->references('id')->on('fc_organizations');
             $table->text('headline');
             $table->text('content')->nullable();
+            $table->text('audience_role_names')->nullable();
+            $table->uuid('announceable_id')->nullable();
+            $table->text('announceable_type')->nullable();
+            $table->string('scope_context')->nullable();
             $table->integer('display_ordinal')->default(0);
             $table->boolean('is_sticky')->default(false);
             $table->boolean('is_flashing')->default(false);
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
-            $table->text('audience_department_ids')->nullable();      
+            $table->text('audience_department_ids')->nullable();
             $table->uuid('creator_user_id');
             $table->foreign('creator_user_id')->references('id')->on('fc_users');
             $table->softDeletes();

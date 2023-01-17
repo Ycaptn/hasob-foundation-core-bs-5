@@ -34,7 +34,7 @@ class SupportController extends BaseController
     {
         $current_user = Auth()->user();
 
-        $cdv_supports = new \Hasob\FoundationCore\View\Components\CardDataView(support::class, "hasob-foundation-core::pages.supports.card_view_item");
+        $cdv_supports = new \Hasob\FoundationCore\View\Components\CardDataView(Support::class, "hasob-foundation-core::supports.card_view_item");
         $cdv_supports->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
                         //->setSearchFields(['field_to_search1','field_to_search2'])
@@ -49,7 +49,10 @@ class SupportController extends BaseController
             return $cdv_supports->render();
         }
 
+       $departments = \Hasob\FoundationCore\Models\Department::all();
+
         return view('hasob-foundation-core::supports.card_view_index')
+                    ->with("departments",$departments)
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())
@@ -85,7 +88,7 @@ class SupportController extends BaseController
     {
         $input = $request->all();
 
-        /** @var support $support */
+        /** @var Support $support */
         $support = Support::create($input);
 
         //Flash::success('support saved successfully.');
@@ -104,7 +107,7 @@ class SupportController extends BaseController
     public function show(Organization $org, $id)
     {
         /** @var support $support */
-        $support = support::find($id);
+        $support = Support::find($id);
 
         if (empty($support)) {
             //Flash::error('support not found');

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Hasob\FoundationCore\Requests\API\AttachmentRenameAPIRequest;
 
 class AttachmentAPIController extends BaseController
@@ -90,12 +91,11 @@ class AttachmentAPIController extends BaseController
 
     public function show(Organization $org, Request $request, $id)
     {
-
         $attach = Attachment::find($id);
         if ($attach != null) {
 
-            if ($attach->storage_driver == 'azure') {
-                return Storage::disk('azure')->download(
+            if ($attach->storage_driver == 'azure' || $attach->storage_driver == 's3') {
+                return Storage::disk($attach->storage_driver)->download(
                     $attach->path,
                     $attach->label,
                     ['Content-Disposition' => 'inline; filename="' . $attach->label . '"']
