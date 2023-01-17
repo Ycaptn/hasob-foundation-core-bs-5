@@ -9,6 +9,10 @@
     User Profile
 @stop
 
+@section('page_title_suffix')
+    {{ \Auth::user()->full_name }}
+@stop
+
 @section('page_title_subtext')
     <a class="ms-10 mb-10" href="{{ route('dashboard') }}" style="font-size:11px;color:blue;">
         <i class="fa fa-angle-double-left"></i> Back to Dashboard
