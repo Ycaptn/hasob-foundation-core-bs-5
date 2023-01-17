@@ -12,6 +12,14 @@ class BaseController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function __construct()
+    {
+        # code...
+        $announcements = \Hasob\FoundationCore\Models\Announcement::where('end_date', '>=', \Carbon\Carbon::now() )->get();
+        \View::share('announcements', $announcements);
+        
+    }
+
     
     public static function createJSONResponse($status,$message,$response,$status_code){
         return response()->json([
