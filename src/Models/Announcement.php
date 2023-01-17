@@ -83,6 +83,9 @@ class Announcement extends Model
     ];
 
 
-    
+    public function creator_user()
+    {
+        return $this->belongsTo(User::class, 'creator_user_id', 'id');
+    }
 
 }
