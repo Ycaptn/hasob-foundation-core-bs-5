@@ -1,6 +1,6 @@
 @if (isset($commentable) && $commentable != null)
     <div class="streamline user-activity">
-        @foreach ($commentable->get_comments() as $comment)
+        @foreach ($commentable->get_comments()->sortByDesc('created_at') as $comment)
             @php
                 $text_color = 'black';
                 if ($comment->user->is_principal_officer) {
