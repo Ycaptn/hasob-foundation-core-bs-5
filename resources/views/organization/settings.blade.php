@@ -6,7 +6,11 @@
 @stop
 
 @section('page_title')
-    Application Settings
+    Application
+@stop
+
+@section('page_title_suffix')
+    Settings
 @stop
 
 

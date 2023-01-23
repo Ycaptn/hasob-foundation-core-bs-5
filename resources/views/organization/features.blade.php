@@ -2,10 +2,14 @@
 
 
 @section('title_postfix')
-Features
+Application Features
 @stop
 
 @section('page_title')
+Application
+@stop
+
+@section('page_title_suffix')
 Features
 @stop
 
@@ -33,12 +37,12 @@ Select enabled features on Platform
                 @foreach ($features as $item=>$value)
                 <div class="col-4 col-md-4 col-sm-4">
                     <div class="card shadow m-1">    
-                        <div class="row g-0">
-                            <div class="col-xs-12 col-md-9 text-start p-1 align-middle">
-                                <span class="m-2 align-middle">{{ ucwords($item) }}</span>
+                        <div class="row p-3 g-0">
+                            <div class="col-xs-12 col-md-9">
+                                <span class="">{{ ucwords($item) }}</span>
                             </div>
-                            <div class="col-xs-12 col-md-3 text-center p-1 align-middle">
-                                <div class="form-check mb-3 text-center align-middle">
+                            <div class="col-xs-12 col-md-3">
+                                <div class="form-check">
                                     <input id="chk_{{$item}}" name="chk_{{$item}}" data-size="small" type="checkbox" class="js-switch form-check-input" value="1" {{$value?'checked':''}} />
                                 </div>
                             </div>
@@ -47,7 +51,7 @@ Select enabled features on Platform
                 </div>
                 @endforeach
             </div>
-            <button type="submit" class="btn btn-xs btn-primary">Save Feature Settings</button>
+            <button type="submit" class="btn btn-sm mt-3 btn-primary">Save Feature Settings</button>
         </form>
 
     </div>

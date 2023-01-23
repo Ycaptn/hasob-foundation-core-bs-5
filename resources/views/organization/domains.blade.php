@@ -2,10 +2,14 @@
 
 
 @section('title_postfix')
-Domains
+Application Domains
 @stop
 
 @section('page_title')
+Application
+@stop
+
+@section('page_title_suffix')
 Domains
 @stop
 
