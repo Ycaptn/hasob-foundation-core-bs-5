@@ -18,6 +18,7 @@ use Hasob\FoundationCore\Controllers\SiteDisplayController;
 use Hasob\FoundationCore\Controllers\SocialController;
 use Hasob\FoundationCore\Controllers\TagController;
 use Hasob\FoundationCore\Controllers\UserController;
+use Hasob\FoundationCore\Controllers\StaffDirectoryController;
 use Hasob\FoundationCore\Managers\OrganizationManager;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Ledger;
@@ -323,6 +324,56 @@ class FoundationCore
 
     }
 
+    public function get_menu_map_staff_directory(){
+
+        $fc_menu = [];
+
+        $current_user = Auth::user();
+        if ($current_user != null) {
+                
+            if (\FoundationCore::has_feature('staff-directory', $current_user->organization)) {
+                $fc_menu = [
+                    'mnu_fc_staff_directory' => [
+                        'id' => 'mnu_fc_staff_directory',
+                        'label' => 'Staff Directory',
+                        'icon' => 'fa fa-users',
+                        'path' => route('fc.staff-directory'),
+                        'route-selector' => 'fc/staff-directory',
+                        'is-parent' => true,
+                        'children' => []
+                    ]
+                ];
+            }
+        }
+
+        return $fc_menu;
+    }
+
+    public function get_menu_map_department_directory(){
+
+        $fc_menu = [];
+
+        $current_user = Auth::user();
+        if ($current_user != null) {
+                
+            if (\FoundationCore::has_feature('departments', $current_user->organization)) {
+                $fc_menu = [
+                    'mnu_fc_dept_directory' => [
+                        'id' => 'mnu_fc_dept_directory',
+                        'label' => 'Departments',
+                        'icon' =>'fa fa-object-group',
+                        'path' =>  route('fc.departments.index'),
+                        'route-selector' => 'fc/departments',
+                        'is-parent' => true,
+                        'children' => []
+                    ]
+                ];
+            }
+        }
+
+        return $fc_menu;
+    }
+
     public function get_menu_map()
     {
 
@@ -509,6 +560,9 @@ class FoundationCore
     public function routes()
     {
         Route::name('fc.')->prefix('fc')->group(function () {
+
+
+            Route::get('/staff-directory', [StaffDirectoryController::class,'index'])->name('staff-directory');
 
             //Attachment Management
             Route::post('/attachment', [AttachmentController::class, 'update'])->name('attachment.store');
