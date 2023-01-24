@@ -336,7 +336,7 @@ class FoundationCore
                     'mnu_fc_staff_directory' => [
                         'id' => 'mnu_fc_staff_directory',
                         'label' => 'Staff Directory',
-                        'icon' => 'fa fa-users',
+                        'icon' => 'bx bx-user-pin',
                         'path' => route('fc.staff-directory'),
                         'route-selector' => 'fc/staff-directory',
                         'is-parent' => true,
@@ -361,7 +361,7 @@ class FoundationCore
                     'mnu_fc_dept_directory' => [
                         'id' => 'mnu_fc_dept_directory',
                         'label' => 'Departments',
-                        'icon' =>'fa fa-object-group',
+                        'icon' =>'bx bx-door-open',
                         'path' =>  route('fc.departments.index'),
                         'route-selector' => 'fc/departments',
                         'is-parent' => true,

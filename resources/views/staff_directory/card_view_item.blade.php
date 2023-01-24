@@ -3,7 +3,10 @@
         <div class="d-flex align-items-center p-2">
             
             @if ( $data_item->profile_image == null )
-                <img style="width:60px;" class="ms-2 rounded-circle p-1 border" src="{{ asset('imgs/user.png') }}" >
+                {{-- <img style="width:60px;" class="ms-2 rounded-circle p-1 border" src="{{ asset('imgs/user.png') }}" > --}}
+                <div class="fm-icon-box rounded-circle p-1 border bg-light text-primary text-center">
+                    <i class="bx bx-user-pin"></i>
+                </div>
             @else
                 <img style="max-width:60px;" class="ms-2 rounded-circle p-1 border" src="{{ route('fc.get-profile-picture', $data_item->id) }}" alt="{{$data_item->full_name}}">
             @endif
