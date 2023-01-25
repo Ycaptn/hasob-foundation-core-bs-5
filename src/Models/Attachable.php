@@ -60,11 +60,11 @@ class Attachable extends Model
     }
     
     public function attachment(){
-        return $this->hasOne(Attachment::class,'id','attachment_id');
+        return $this->belongsTo(Attachment::class,'attachment_id','id');
     }
     
     public function user(){
-        return $this->hasOne(User::class,'id','user_id');
+        return $this->belongsTo(User::class,'user_id','id');
     }
     
 }
