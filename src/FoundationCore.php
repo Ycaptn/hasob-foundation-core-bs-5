@@ -500,6 +500,8 @@ class FoundationCore
             Route::resource('model_documents', \Hasob\FoundationCore\Controllers\API\ModelDocumentAPIController::class);
             Route::resource('document_generation_templates', \Hasob\FoundationCore\Controllers\API\DocumentGenerationTemplateAPIController::class);
 
+            Route::resource('signatures', \Hasob\FoundationCore\Controllers\API\SignatureAPIController::class);
+
         });
     }
 
