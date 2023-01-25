@@ -18,6 +18,7 @@ use Hasob\FoundationCore\Controllers\SiteDisplayController;
 use Hasob\FoundationCore\Controllers\SocialController;
 use Hasob\FoundationCore\Controllers\TagController;
 use Hasob\FoundationCore\Controllers\UserController;
+use Hasob\FoundationCore\Controllers\StaffDirectoryController;
 use Hasob\FoundationCore\Managers\OrganizationManager;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Ledger;
@@ -323,6 +324,56 @@ class FoundationCore
 
     }
 
+    public function get_menu_map_staff_directory(){
+
+        $fc_menu = [];
+
+        $current_user = Auth::user();
+        if ($current_user != null) {
+                
+            if (\FoundationCore::has_feature('staff-directory', $current_user->organization)) {
+                $fc_menu = [
+                    'mnu_fc_staff_directory' => [
+                        'id' => 'mnu_fc_staff_directory',
+                        'label' => 'Staff Directory',
+                        'icon' => 'bx bx-user-pin',
+                        'path' => route('fc.staff-directory'),
+                        'route-selector' => 'fc/staff-directory',
+                        'is-parent' => true,
+                        'children' => []
+                    ]
+                ];
+            }
+        }
+
+        return $fc_menu;
+    }
+
+    public function get_menu_map_department_directory(){
+
+        $fc_menu = [];
+
+        $current_user = Auth::user();
+        if ($current_user != null) {
+                
+            if (\FoundationCore::has_feature('departments', $current_user->organization)) {
+                $fc_menu = [
+                    'mnu_fc_dept_directory' => [
+                        'id' => 'mnu_fc_dept_directory',
+                        'label' => 'Departments',
+                        'icon' =>'bx bx-door-open',
+                        'path' =>  route('fc.departments.index'),
+                        'route-selector' => 'fc/departments',
+                        'is-parent' => true,
+                        'children' => []
+                    ]
+                ];
+            }
+        }
+
+        return $fc_menu;
+    }
+
     public function get_menu_map()
     {
 
@@ -381,6 +432,12 @@ class FoundationCore
 
             if (\FoundationCore::has_feature('document-generation', $current_user->organization) && $current_user->hasAnyRole(['admin', 'doc-gen-admin'])) {
                 $fc_menu['mnu_fc_admin']['children']['doc_gen'] = ['id' => 'mnu_fc_doc_gen', 'label' => 'Document Generation', 'icon' => 'bx bx-analyse', 'path' => route('fc.documentGenerationTemplates.index'), 'route-selector' => 'fc/documentGenerationTemplates', 'is-parent' => false,
+                    'children' => [],
+                ];
+            }
+
+            if (\FoundationCore::has_feature('signatures', $current_user->organization) && $current_user->hasAnyRole(['admin', 'signatures-admin'])) {
+                $fc_menu['mnu_fc_admin']['children']['signatures'] = ['id' => 'mnu_fc_signatures', 'label' => 'User Signatures', 'icon' => 'bx bx-pulse', 'path' => route('fc.signatures.index'), 'route-selector' => 'fc/signatures', 'is-parent' => false,
                     'children' => [],
                 ];
             }
@@ -510,6 +567,9 @@ class FoundationCore
     {
         Route::name('fc.')->prefix('fc')->group(function () {
 
+
+            Route::get('/staff-directory', [StaffDirectoryController::class,'index'])->name('staff-directory');
+
             //Attachment Management
             Route::post('/attachment', [AttachmentController::class, 'update'])->name('attachment.store');
             Route::delete('/attachment/{id}', [AttachmentController::class, 'destroy'])->name('attachment.destroy');
@@ -517,6 +577,10 @@ class FoundationCore
 
             //Comments
             Route::post('/comment/add', [CommentController::class, 'update'])->name('comment-add');
+
+            //Signatures
+            Route::resource('signatures', \Hasob\FoundationCore\Controllers\SignatureController::class);
+            Route::get('/signature-view/{id}', [\Hasob\FoundationCore\Controllers\SignatureController::class, 'displayUserSignature'])->name('signature.view-item');
 
             //Checklist
             Route::get('/checklists', [ChecklistController::class, 'index'])->name('checklists.index');

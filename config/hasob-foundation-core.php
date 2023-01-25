@@ -10,6 +10,8 @@ return [
         'sites' => true,
         'ledgers' => true,
         'departments' => true,
+        'signatures' => true,
+        'staff-directory' => true,
         'document-generation' => true,
     ]
 

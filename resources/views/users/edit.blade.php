@@ -11,12 +11,25 @@
 
 @section('page_title')
     @if($is_edit)
-    {{ $edited_user->full_name }}
+    Edit User
     @else
     Create User
     @endif
 @stop
 
+@section('page_title_suffix')
+    @if($is_edit)
+    {{ $edited_user->full_name }}
+    @else
+    New
+    @endif
+@stop
+
+@section('page_title_subtext')
+    <a class="ms-10 mb-10" href="{{ route('fc.users.index') }}" style="font-size:11px;color:blue;">
+        <i class="fa fa-angle-double-left"></i> Back to User Dashboard
+    </a>
+@stop
 
 @section('content')
 
@@ -121,10 +134,10 @@
                                                                     <option value="">
                                                                         -- Select Gender --
                                                                     </option>
-                                                                    <option value="male">
+                                                                    <option value="male" @if(($is_edit && $edited_user->gender=="male")||old('gender')=="male") selected @endif>
                                                                          Male
                                                                     </option>
-                                                                    <option value="female">
+                                                                    <option value="female" @if(($is_edit && $edited_user->gender=="female")||old('gender')=="female") selected @endif>
                                                                         Female
                                                                     </option>
                                                                 </select>
@@ -160,7 +173,7 @@
                                                             <div class="{{ $errors->has('password1') ? ' has-error' : '' }}">
                                                                 <div class="input-group"> 
                                                                     <span class="input-group-text bg-transparent"><i class="bx bxs-lock-open"></i></span>
-                                                                    <input type="password" class="form-control" id="password1" name="password1"  placeholder="Enter Password" />
+                                                                    <input type="password" class="form-control" id="password1" name="password1" autocomplete="new-password" placeholder="Enter Password" />
                                                                 </div>
                                                             </div>
                                                         </div>

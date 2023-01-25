@@ -9,7 +9,11 @@ System Users
 @stop
 
 @section('page_title')
-System Users
+System
+@stop
+
+@section('page_title_suffix')
+Users
 @stop
 
 @section('app_css')

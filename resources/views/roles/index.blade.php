@@ -6,7 +6,11 @@ System Roles
 @stop
 
 @section('page_title')
-System Roles
+System
+@stop
+
+@section('page_title_suffix')
+Roles
 @stop
 
 @section('app_css')
