@@ -436,6 +436,12 @@ class FoundationCore
                 ];
             }
 
+            if (\FoundationCore::has_feature('signatures', $current_user->organization) && $current_user->hasAnyRole(['admin', 'signatures-admin'])) {
+                $fc_menu['mnu_fc_admin']['children']['signatures'] = ['id' => 'mnu_fc_signatures', 'label' => 'User Signatures', 'icon' => 'bx bx-pulse', 'path' => route('fc.signatures.index'), 'route-selector' => 'fc/signatures', 'is-parent' => false,
+                    'children' => [],
+                ];
+            }
+
             if ($current_user->hasRole('admin')) {
 
                 $fc_menu['mnu_fc_admin']['children']['access'] = ['id' => 'mnu_fc_acl', 'label' => 'Access Control', 'icon' => 'bx bx-briefcase-alt', 'path' => '#', 'route-selector' => null, 'is-parent' => false,
@@ -571,6 +577,10 @@ class FoundationCore
 
             //Comments
             Route::post('/comment/add', [CommentController::class, 'update'])->name('comment-add');
+
+            //Signatures
+            Route::resource('signatures', \Hasob\FoundationCore\Controllers\SignatureController::class);
+            Route::get('/signature-view/{id}', [\Hasob\FoundationCore\Controllers\SignatureController::class, 'displayUserSignature'])->name('signature.view-item');
 
             //Checklist
             Route::get('/checklists', [ChecklistController::class, 'index'])->name('checklists.index');
