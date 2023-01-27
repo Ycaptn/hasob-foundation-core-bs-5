@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="lbl-signatory-item-modal-title">Document Signatory Editor</h5>
+                <h5 class="modal-title" id="lbl-signatory-item-modal-title"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -11,7 +11,7 @@
                 <div id="div-signatory-item-modal-error" class="alert alert-danger" role="alert"></div>
 
 
-                <form id="frm-signatory-modal" name="frm_signatory_editor" class="form-horizontal" novalidate=""  enctype="multipart/form-data">
+                <form id="frm-signatory-item-modal" name="frm-signatory-item-modal" class="form-horizontal" novalidate=""  enctype="multipart/form-data">
                     @csrf
 
                     <div class="offline-flag"><span class="offline">You are currently offline</span></div>
@@ -60,14 +60,16 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="current_signatory_image" class="control-label">Current Signature: </label>
+                            <label for="current_signatory_image" class="control-label">Signature: </label>
                            
                             <img 
                                 id="current_signatory_image" 
                                 name="current_signatory_image" 
                                 width="100px" 
                                 height="50px" 
-                                src=""/>
+                                src=""
+                                alt="signature"
+                            />
                             
                         </div>
 
@@ -143,8 +145,10 @@
 
             //Show Modal for New Entry
             $(document).on('click', "#btn-new-mdl-signatory-item-modal", function(e) {
-                $('#div-signatory-item-modal-error').hide();
                 $('#frm-signatory-item-modal').trigger("reset");
+                $("#pm_user").select2("val", "");
+                $('#lbl-signatory-item-modal-title').html('Add Document Signatory')
+                $('#div-signatory-item-modal-error').hide();
                 $('#mdl-signatory-item-modal').modal('show');
                 $('#txt-signatory-item-primary-id').val(0);
                 $('#div-edit-txt-signatory-item-primary-id').show();
@@ -162,10 +166,11 @@
                         'X-CSRF-TOKEN': $('input[name="_token"]').val()
                     }
                 });
-
+                $('#lbl-signatory-item-modal-title').html('Edit Document Signatory')
+                $('#frm-signatory-item-modal').trigger("reset");
+                $("#pm_user").select2("val", "");
                 $('#div-signatory-item-modal-error').hide();
                 $('#mdl-signatory-item-modal').modal('show');
-                $('#frm-signatory-item-modal').trigger("reset");
 
                 $("#spinner").show();
                 $("#btn-save-mdl-signatory-item-modal").attr('disabled', true);
@@ -176,7 +181,7 @@
                 $.get("{{ route('fc-api.signatures.show', '') }}/" + itemId).done(function(response) {
                     console.log(response)
                     $('#txt-signatory-item-primary-id').val(response.data.id);
-                    $('#pm_users').val(response.data.owner_user_id).trigger('change');
+                    $('#pm_user').val(response.data.owner_user_id).trigger('change');
                     $('#staff_name').val(response.data.staff_name);
                     $('#staff_title').val(response.data.staff_title);
                     $('#on_behalf').val(response.data.on_behalf);
@@ -342,9 +347,9 @@
                                 confirmButtonText: "OK",
                                 closeOnConfirm: false
                             });
-                            // window.setTimeout(function() {
-                            //     location.reload(true);
-                            // }, 1000);
+                            window.setTimeout(function() {
+                                location.reload(true);
+                            }, 1000);
 
                         }
 

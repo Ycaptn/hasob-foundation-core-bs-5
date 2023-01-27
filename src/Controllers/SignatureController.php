@@ -22,12 +22,12 @@ class SignatureController extends BaseController
         $cdv_signatures = new \Hasob\FoundationCore\View\Components\CardDataView(Signature::class, "hasob-foundation-core::signatures.card_view_item");
         $cdv_signatures->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
-                        //->setSearchFields(['field_to_search1','field_to_search2'])
                         //->addDataOrder('display_ordinal','DESC')
                         //->addDataOrder('id','DESC')
                         // ->addDataOrder('user.ranking_ordinal','DESC')
                         // ->addModelJoin('fc_users', 'fc_signatures.owner_user_id', '=', 'fc_users.id')
                         // ->setQueryRelationship(['user' => []])
+                        ->setSearchFields(['staff_name','staff_title'])
                         ->enableSearch(true)
                         ->enablePagination(true)
                         ->setPaginationLimit(10)
