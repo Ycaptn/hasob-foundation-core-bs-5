@@ -22,6 +22,14 @@ Signatures
 </a> 
 @stop
 
+@section('page_title_buttons')
+<span class="float-end">
+    <a id="btn-new-mdl-signatory-item-modal" class="btn btn-xs btn-primary btn-new-mdl-address-modal" href="#">
+        <i class="zmdi zmdi-file-plus"></i> New&nbsp;Signatory
+    </a>
+</span>
+@stop
+
 
 @section('content')
 
@@ -32,7 +40,7 @@ Signatures
             </div>
         </div>
     </div>
-
+    @include('hasob-foundation-core::signatures.modal')
 @endsection
 
 @push('page_scripts')

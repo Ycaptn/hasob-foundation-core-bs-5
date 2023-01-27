@@ -57,10 +57,17 @@ class SignatureAPIController extends BaseController
      */
     public function store(CreateSignatureAPIRequest $request, Organization $organization)
     {
-        $input = $request->all();
+        $input = $request->except('signature_image');
+        $signature_file = null;
 
         /** @var Signature $signature */
+        if ($request->signature_image != null && $request->signature_image !="undefined"){ 
+            $temp = file_get_contents($request->signature_image);
+            $signature_file = base64_encode($temp);
+            array_merge($input, ["signature_image" => base64_encode($temp) ]) ;  
+        }
         $signature = Signature::create($input);
+        $signature->signature_image = $signature_file;
         $signature->save();
         
         return $this->sendResponse($signature->toArray(), 'Signature saved successfully');
@@ -104,9 +111,21 @@ class SignatureAPIController extends BaseController
             return $this->sendError('Signature not found');
         }
 
-        $signature->fill($request->all());
+        $input = $request->except('signature_image');
+        $signature_file = null;
+        if ($request->signature_image != null && $request->signature_image !="undefined"){ 
+          //  dd($request->signature_image);
+            $temp = file_get_contents($request->signature_image);
+            $signature_file = base64_encode($temp);
+            array_merge($input, ["signature_image" => base64_encode($temp) ]) ; 
+        }
+        $signature->fill($input);
         $signature->save();
-        
+
+        if($signature_file != null){
+            $signature->signature_image = $signature_file;
+            $signature->save();
+        }
         return $this->sendResponse($signature->toArray(), 'Signature updated successfully');
     }
 

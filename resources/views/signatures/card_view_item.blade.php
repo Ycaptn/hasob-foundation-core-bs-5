@@ -26,6 +26,10 @@
                 </p>
                 
             </div>
+            <div>
+                <a href="#"><i class="fa fa-edit fa-fw btn-edit-mdl-signatory-item-modal" data-val="{{ $data_item->id }}"></i></a>
+                <a href="#"><i class="fa fa-trash fa-fw btn-delete-mdl-signatory-item-modal" data-val="{{ $data_item->id }}"></i></a>
+            </div>
             
         </div>
     </div>
