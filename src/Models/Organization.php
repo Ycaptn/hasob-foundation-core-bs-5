@@ -71,6 +71,7 @@ class Organization extends Model
             config('hasob-hosting.hasob_features')!=null ? config('hasob-hosting.hasob_features') : [] ,
             config('hasob-workflow.hasob_features')!=null ? config('hasob-workflow.hasob_features') : [] ,
             config('hasob-ecommerce.hasob_features')!=null ? config('hasob-ecommerce.hasob_features') : [] ,
+            config('hasob-quick-queue.hasob_features')!=null ? config('hasob-quick-queue.hasob_features') : [] ,
             config('tetfund-rim-module.hasob_features')!=null ? config('tetfund-rim-module.hasob_features') : [] ,
             config('hasob-foundation-core.hasob_features')!=null ? config('hasob-foundation-core.hasob_features') : [] ,
             config('hasob-scola-gradebook.hasob_features')!=null ? config('hasob-scola-gradebook.hasob_features') : [] ,
