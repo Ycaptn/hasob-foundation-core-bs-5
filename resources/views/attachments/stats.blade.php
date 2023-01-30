@@ -30,7 +30,7 @@ Stats
 
 @section('content')
     
-    <div class="card" style="border-top:solid !important;border-color:#008cff !important;">
+    <div class="card border-top border-0 border-4 border-success">
         <div class="card-body">
 
             <div class="row g-2">

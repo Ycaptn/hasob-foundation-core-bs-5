@@ -3,7 +3,7 @@ $current_user = Auth::user();
 @endphp
 
 
-<div class="card border-top border-0 border-4 border-primary">
+<div class="card border-top border-0 border-4 border-success">
     <div class="card-body">
 
         <div class="d-flex flex-column align-items-center text-center">
