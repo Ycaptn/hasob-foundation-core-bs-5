@@ -187,12 +187,13 @@ class UserController extends BaseController
 
     public function profile(Organization $org, Request $request)
     {
-
+        $current_user = auth()->user();
         $edit_mode = (isset($request->edit));
         $logged_in = Auth::user();
 
         return view('hasob-foundation-core::users.profile')
             ->with("edit_mode", $edit_mode)
+            ->with('current_user', $current_user)
             ->with("departments", Department::where('organization_id', $org->id)->get());
     }
 

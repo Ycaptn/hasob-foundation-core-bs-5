@@ -40,8 +40,9 @@ class Signature extends Model
 
     
     public function user(){
-        return $this->hasOne(User::class,'id','owner_user_id');
+        return $this->belongsTo(User::class,'owner_user_id','id');
     }
+      
 
     public function organization(){
         return $this->belongsTo(Organization::class);

@@ -47,6 +47,34 @@ $current_user = Auth::user();
                     <span class="mb-1 badge bg-primary fw-normal me-2">{!! $roleName !!}</span>
                 @endforeach
             </li>
+            @if (FoundationCore::has_feature('signatures', $organization))
+                <li class="list-group-item d-flex align-items-center justify-content-between flex-wrap p-1">
+                    @if($current_user->signature != null)
+                        <img 
+                            id="current_signatory_image" 
+                            name="current_signatory_image" 
+                            width="100px" 
+                            height="50px" 
+                            src=""
+                            alt="signature"
+                        />
+                        <button id="btn-signatureBtn" class="btn btn-sm btn btn-outline-primary mt-1 me-2 py-0 small">
+                            <small>
+                                Change
+                            </small>
+                        </button>
+                    @else
+                        <p class="d-flex text-danger align-items-center">No Signature set</p>
+                        <button id="btn-signatureBtn" class="btn btn-sm btn btn-outline-primary mt-1 me-2 py-0 small">
+                            <small>
+                                Upload
+                            </small>
+                        </button>
+                    @endif
+                </li>
+                <input id="file-signaturePic" class="upload" type="file" style="display:none;">
+            @endif
+
             @if (isset($current_user->website_url) && empty($current_user->website_url)==false)
             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <h6 class="mb-0">
@@ -74,8 +102,25 @@ $current_user = Auth::user();
 <script type="text/javascript">
     $(document).ready(function(){
 
+        function getSignatureimage(){
+            let primaryId = "{{$current_user->signature != null ? $current_user->signature->id : '' }}";
+            
+            if(primaryId !== ''){
+                $('#current_signatory_image').attr('src', "{{route('fc.signature.view-item', '')}}/" + primaryId);
+                $('#current_signatory_image').show();
+            }
+
+        }
+
+        getSignatureimage();
+
         $('#btn-profilePicBtn').on('click', function() {
             $('#file-profilePic').trigger('click');
+        });
+
+        
+        $('#btn-signatureBtn').on('click', function() {
+            $('#file-signaturePic').trigger('click');
         });
 
         $('#btnPresence').click(function(){
@@ -137,6 +182,74 @@ $current_user = Auth::user();
                 });
             }
         });
+
+        //upload Signature 
+        $("#file-signaturePic").change(function(e){
+            if (confirm('Are you sure you want to upload this file?')){
+
+                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+                e.preventDefault();
+
+                let actionType = "POST";
+                let endPointUrl = "{{ route('fc-api.signatures.store') }}";
+                
+                let staff_name = "{{ $current_user->full_name  }}";
+                let staff_title = "{{ $current_user->job_title  }}";
+                let owner_user_id = "{{ $current_user->id  }}";
+
+                let signatureId = "{{ $current_user->signature != null ? $current_user->signature->id : '0'}}";
+                
+                var formData = new FormData();
+                formData.append('_token', $('input[name="_token"]').val());
+                
+                if (signatureId != "0") {
+                    actionType = "PUT";
+                    endPointUrl = "{{ route('fc-api.signatures.update', '') }}/" + signatureId;
+                    formData.append('id', signatureId);
+                }
+
+                formData.append('_method', actionType);
+
+                @if (isset($organization) && $organization != null)
+                    formData.append('organization_id', '{{ $organization->id }}');
+                @endif
+                formData.append('staff_name', staff_name);
+                formData.append('staff_title', staff_title);
+                formData.append('owner_user_id', owner_user_id);
+                let file = $('#file-signaturePic');
+                console.log(file)
+                formData.append('signature_image', file[0].files[0]);
+
+                $.ajax({
+                    url: endPointUrl,
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data, "response")
+                        if (data.errors) {
+                            $.each(result.errors, function(key, value) {
+                                alert(value);
+                            });
+                             
+                        }else{
+                            alert("File uploaded.")
+                            location.reload();
+
+                        }
+                    },
+                    error: function(data){
+                        console.log(data);
+                        $('#spinner').hide();
+                        $('#save').attr("disabled", false);
+                    }
+                });
+            }
+        });
+
 
         $("#btn-add-attachment").click(function(e){
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});

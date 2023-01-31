@@ -72,6 +72,10 @@ class User extends Authenticatable
         return $this->belongsTo(Organization::class);
     }
 
+    public function signature(){
+        return $this->hasOne(Signature::class, 'owner_user_id', 'id');
+    } 
+
     public static function all_users(Organization $org = null){
 
         $model = new User();
