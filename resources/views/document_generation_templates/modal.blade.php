@@ -536,6 +536,8 @@ $(document).ready(function() {
         formData.append('content', simplemde.value());
 
         if ($('#file_name_prefix').length){	formData.append('file_name_prefix',$('#file_name_prefix').val());	}
+        if ($('#sel_document_layout').length){	formData.append('document_layout',$('#sel_document_layout').val());	}
+
         if ($('input[name="cbx-doc-models"]:checked').length){	
             formData.append('doc_models',$('input[name="cbx-doc-models"]:checked').map(function(){ return this.value;}).get());	
         }

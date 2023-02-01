@@ -55,7 +55,12 @@ class DocumentManager {
             }
         }
 
-        $pdf = new \Mpdf\Mpdf(["margin_top" => 8, "margin_bottom" => 8]);
+        $orientation = "P";
+        if (strtolower($documentGenerationTemplate->document_layout) == "landscape"){
+            $orientation = "L";
+        }
+
+        $pdf = new \Mpdf\Mpdf(["margin_top"=>8, "margin_bottom"=>8, 'orientation'=>$orientation]);
         $pdf->WriteHTML($html_content);
         return $pdf->Output();
 

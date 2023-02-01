@@ -19,6 +19,7 @@ class CreateFcDocumentGenerationTemplatesTable extends Migration
             $table->foreignUuid('organization_id')->references('id')->on('fc_organizations');
             $table->integer('display_ordinal')->default(0);
             $table->string('title');
+            $table->string('document_layout')->nullable();
             $table->text('content', 2000)->nullable();
             $table->string('output_content_types')->nullable();
             $table->string('file_name_prefix')->nullable();

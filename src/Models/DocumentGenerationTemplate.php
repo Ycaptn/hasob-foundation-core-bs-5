@@ -58,6 +58,7 @@ class DocumentGenerationTemplate extends Model
         'organization_id',
         'title',
         'content',
+        'document_layout',
         'output_content_types',
         'file_name_prefix',
         'creator_user_id'
@@ -71,6 +72,7 @@ class DocumentGenerationTemplate extends Model
     protected $casts = [
         'display_ordinal' => 'integer',
         'title' => 'string',
+        'document_layout' => 'string',
         'content' => 'string',
         'output_content_types' => 'string',
         'file_name_prefix' => 'string'
