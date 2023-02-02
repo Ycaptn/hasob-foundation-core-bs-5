@@ -18,15 +18,22 @@
                 <div class="d-flex align-items-center">
                     <div class="ms-auto"> 
                         <a data-toggle="tooltip" 
+                            title="Copy" 
+                            data-val='{{$data_item->id}}' 
+                            data-copy-title='{{$data_item->title}}' 
+                            class="btn-copy-mdl-documentGenerationTemplate-modal" href="#">
+                            <i class="bx bxs-copy"></i>
+                        </a>
+                        <a data-toggle="tooltip" 
                             title="Edit" 
                             data-val='{{$data_item->id}}' 
-                            class="btn-edit-mdl-documentGenerationTemplate-modal me-1" href="#">
+                            class="btn-edit-mdl-documentGenerationTemplate-modal" href="#">
                             <i class="bx bxs-edit"></i>
                         </a>
                         <a data-toggle="tooltip" 
                             title="Delete" 
                             data-val='{{$data_item->id}}' 
-                            class="btn-delete-mdl-documentGenerationTemplate-modal me-1" href="#">
+                            class="btn-delete-mdl-documentGenerationTemplate-modal" href="#">
                             <i class="bx bxs-trash-alt"></i>
                         </a>
                     </div>

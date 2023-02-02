@@ -35,6 +35,7 @@ class UpdateDocumentGenerationTemplateAPIRequest extends AppBaseFormRequest
             'content' => 'nullable|min:0|max:50000',
             'output_content_types' => 'nullable|max:150',
             'file_name_prefix' => 'nullable|max:150',
+            'document_layout' => 'nullable|max:150',
             'creator_user_id' => 'nullable'
         ];
     }

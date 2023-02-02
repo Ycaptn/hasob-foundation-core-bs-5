@@ -100,6 +100,52 @@
     </div>
 </div>
 
+<div class="modal fade" id="mdl-copyDocTemplate-modal" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 id="lbl-copyDocTemplate-modal-title" class="modal-title">Copy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div id="div-copyDocTemplate-modal-error" class="alert alert-danger" role="alert"></div>
+                <form class="form-horizontal" id="frm-copyDocTemplate-modal" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <div class="row">
+                        <div class="col-lg-12 ma-10">
+                            
+                            @csrf
+                            
+                            <div class="offline-flag"><span class="offline-copy_doc_templates">You are currently offline</span></div>
+
+                            <div id="spinner-copy_doc_templates" class="spinner-border text-primary" role="status"> 
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+
+                            <input type="hidden" id="txt-copyDocTemplate-primary-id" value="0" />
+                            <div id="div-value" class="form-group">
+								<label for="value" class="col-lg-12 col-form-label">Template Title</label>
+								<div class="col-lg-12">
+									{!! Form::text('txt-copyDocTemplate-title', null, ['id'=>'txt-copyDocTemplate-title','class'=>'form-control','maxlength' =>300]) !!}
+								</div>
+							</div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        
+            <div class="modal-footer" id="div-save-mdl-copyDocTemplate-modal">
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-copyDocTemplate-modal" value="add">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 @push('page_css')
 <link rel="stylesheet" href="{{ asset('hasob-foundation-core/assets/summernote-0.8.18-dist/summernote-lite.css') }}" />
 <link rel="stylesheet" href="{{ asset('hasob-foundation-core/assets/simplemde-1.11.2-dist/simplemde.min.css') }}" />
@@ -320,6 +366,115 @@ $(document).ready(function() {
 
     $('.offline-document_generation_templates').hide();
 
+
+    //Show Modal for Copy
+    $(document).on('click', ".btn-copy-mdl-documentGenerationTemplate-modal", function(e) {
+        e.preventDefault();
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline-copy_doc_templates').fadeIn(300);
+            return;
+        }else{
+            $('.offline-copy_doc_templates').fadeOut(300);
+        }
+
+        $('#div-copyDocTemplate-modal-error').hide();
+        $('#mdl-copyDocTemplate-modal').modal('show');
+        $('#frm-copyDocTemplate-modal').trigger("reset");
+
+        $("#spinner-copy_doc_templates").show();
+        $("#div-save-mdl-copyDocTemplate-modal").attr('disabled', true);
+
+        let itemId = $(this).attr('data-val');
+
+        $.get( "{{ route('fc-api.document_generation_templates.show','') }}/"+itemId).done(function( response ) {
+			$('#txt-copyDocTemplate-primary-id').val(response.data.id);
+            $('#txt-copyDocTemplate-title').val(response.data.title);
+
+            $("#spinner-copy_doc_templates").hide();
+            $("#div-save-mdl-copyDocTemplate-modal").attr('disabled', false);
+        });
+    });
+
+    //Copy operation
+    $('#btn-save-mdl-copyDocTemplate-modal').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline-copy_doc_templates').fadeIn(300);
+            return;
+        }else{
+            $('.offline-copy_doc_templates').fadeOut(300);
+        }
+
+        $("#spinner-copy_doc_templates").show();
+        $("#div-save-mdl-copyDocTemplate-modal").attr('disabled', true);
+
+        let itemId = $('#txt-copyDocTemplate-primary-id').val();
+        $.get( "{{ route('fc-api.document_generation_templates.show','') }}/"+itemId).done(function( response ) {
+
+            let formData = new FormData();
+            formData.append('_token', $('input[name="_token"]').val());            
+            formData.append('_method', "POST");
+            formData.append('title',$('#txt-copyDocTemplate-title').val());
+            formData.append('content', response.data.content);
+            formData.append('creator_user_id', "{{\Auth::id()}}");
+            formData.append('doc_models',response.data.model_names);
+            formData.append('output_types',response.data.output_content_types);
+            formData.append('document_layout', response.data.document_layout);
+            formData.append('file_name_prefix', response.data.file_name_prefix);
+            @if (isset($organization) && $organization!=null)
+                formData.append('organization_id', '{{$organization->id}}');
+            @endif
+            
+            $.ajax({
+                url:"{{ route('fc-api.document_generation_templates.store') }}",
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData:false,
+                contentType: false,
+                dataType: 'json',
+                success: function(result){
+                    if(result.errors){
+                        $('#div-copyDocTemplate-modal-error').html('');
+                        $('#div-copyDocTemplate-modal-error').show();                        
+                        $.each(result.errors, function(key, value){
+                            $('#div-copyDocTemplate-modal-error').append('<li class="">'+value+'</li>');
+                        });
+                    }else{
+                        $('#div-copyDocTemplate-modal-error').hide();
+                        window.setTimeout( function(){
+                            $('#div-copyDocTemplate-modal-error').hide();
+                            swal({
+                                    title: "Copy",
+                                    text: "Template copied successfully",
+                                    type: "success"
+                                },function(){
+                                    location.reload(true);
+                            });
+                        },20);
+                    }
+
+                    $("#spinner-copy_doc_templates").hide();
+                    $("#div-save-mdl-copyDocTemplate-modal").attr('disabled', false);
+                    
+                }, error: function(data){
+                    console.log(data);
+                    swal("Error", "Oops an error occurred. Please try again.", "error");
+
+                    $("#spinner-copy_doc_templates").hide();
+                    $("#div-save-mdl-copyDocTemplate-modal").attr('disabled', false);
+                }
+            });
+
+        });
+    });
+
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-documentGenerationTemplate-modal", function(e) {
         $('#div-documentGenerationTemplate-modal-error').hide();
@@ -408,12 +563,13 @@ $(document).ready(function() {
         $.get( "{{ route('fc-api.document_generation_templates.show','') }}/"+itemId).done(function( response ) {     
 
 			$('#txt-documentGenerationTemplate-primary-id').val(response.data.id);
+            $('#sel_document_layout').val(response.data.document_layout)
             $('#title').val(response.data.title);
             simplemde.value(response.data.content);
 
             $('#file_name_prefix').val(response.data.file_name_prefix);
 
-            if (response.data.model_names.length > 0){
+            if (response.data.model_names!=null && response.data.model_names.length > 0){
                 $('input[name="cbx-doc-models"]').each(function(){ 
                     if (response.data.model_names.includes(this.value.split("\\").pop())){
                         $(this).prop('checked', 'checked');
@@ -421,7 +577,7 @@ $(document).ready(function() {
                 });
             }
 
-            if (response.data.output_content_types.length > 0){
+            if (response.data.output_content_types!=null && response.data.output_content_types.length > 0){
                 $('input[name="cbx-output-format"]').each(function(){ 
                     if (response.data.output_content_types.includes(this.value)){
                         $(this).prop('checked', 'checked');
@@ -502,7 +658,6 @@ $(document).ready(function() {
     $('#btn-save-mdl-documentGenerationTemplate-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
 
         //check for internet status 
         if (!window.navigator.onLine) {
