@@ -27,6 +27,12 @@ class CardDataView extends Component
     private $data_set_group_list;
     private $data_set_query;
 
+    private $filter_is_enabled;
+    private $filter_group_range_select;
+    private $filter_group_single_select;
+    private $filter_group_multiple_select;
+    private $filter_group_date_range_select;
+
     private $data_set_order_list;
     private $data_set_model;
 
@@ -48,6 +54,8 @@ class CardDataView extends Component
         $this->data_item_template_path = $template;
         $this->data_set_model = $model;
         $this->api_detail_page_url = $api_detail_page_url;
+
+        $this->filter_is_enabled = false;
 
         return $this;
     }
@@ -154,6 +162,43 @@ class CardDataView extends Component
         return $this;
     }
 
+    public function enableFilter(){
+        $this->filter_is_enabled = true;
+        return $this;
+    }
+
+    public function addFilterGroupRangeSelect($group_name, $query_field, $start_range, $end_range, $range_operator="="){
+        if ($this->filter_group_range_select == null){
+            $this->filter_group_range_select = array();
+        }
+        $this->filter_group_range_select[$group_name] = [$query_field, $range_operator, $start_range, $end_range];
+        return $this;
+    }
+
+    public function addFilterGroupDateRangeSelect($group_name, $query_field){
+        if ($this->filter_group_date_range_select == null){
+            $this->filter_group_date_range_select = array();
+        }
+        $this->filter_group_date_range_select[$group_name] = [$query_field];
+        return $this;
+    }
+
+    public function addFilterGroupSingleSelect($group_name, $query_field, $query_options, $query_operator='='){
+        if ($this->filter_group_single_select == null){
+            $this->filter_group_single_select = array();
+        }
+        $this->filter_group_single_select[$group_name] = [$query_field, $query_operator, $query_options];
+        return $this;
+    }
+
+    public function addFilterGroupMultipleSelect($group_name, $query_field, $query_options, $query_operator='='){
+        if ($this->filter_group_multiple_select == null){
+            $this->filter_group_multiple_select = array();
+        }
+        $this->filter_group_multiple_select[$group_name] = [$query_field, $query_operator, $query_options];
+        return $this;
+    }
+
     public function render(){
 
         if (request()->expectsJson()){
@@ -249,6 +294,91 @@ class CardDataView extends Component
                 );
             }
 
+            if ($this->filter_is_enabled && isset($this->filter_group_single_select) && count($this->filter_group_single_select)>0){
+                foreach($this->filter_group_single_select as $filter_single_select_group=>$filter_single_select_options){
+                    if (request()->has($filter_single_select_options[0]) && 
+                        !empty(request()->input($filter_single_select_options[0])) &&
+                        request()->input($filter_single_select_options[0]) != "null" &&
+                        request()->input($filter_single_select_options[0]) != "undefined"){
+
+                        $filter_single_select_fields = explode(",",$filter_single_select_options[0]);
+                        $fieldValue = request()->input($filter_single_select_options[0]);
+                        $fieldOperator = $filter_single_select_options[1];
+
+                        foreach($filter_single_select_fields as $fieldIdx=>$fieldName){
+                            $model_query = $model_query->where($fieldName,$fieldOperator,$fieldValue);
+                        }
+                    }
+                }
+            }
+
+            if ($this->filter_is_enabled && isset($this->filter_group_multiple_select) && count($this->filter_group_multiple_select)>0){
+                foreach($this->filter_group_multiple_select as $filter_multiple_select_group=>$filter_multiple_select_options){
+                    if (request()->has($filter_multiple_select_options[0]) && 
+                        !empty(request()->input($filter_multiple_select_options[0])) &&
+                        request()->input($filter_multiple_select_options[0]) != "null" &&
+                        request()->input($filter_multiple_select_options[0]) != "undefined" ){
+
+                        $filter_multiple_select_fields = explode(",",$filter_multiple_select_options[0]);
+                        $filter_multiple_select_values = explode(",",request()->input($filter_multiple_select_options[0]));
+
+                        $model_query = $model_query->where(function($query) use ($filter_multiple_select_fields, $filter_multiple_select_values) {
+                            foreach($filter_multiple_select_fields as $fieldIdx=>$fieldName){
+                                $query->whereIn($fieldName, $filter_multiple_select_values,"or");
+                        }});
+                        
+                    }
+                }
+            }
+
+            if ($this->filter_is_enabled && isset($this->filter_group_range_select) && count($this->filter_group_range_select)>0){
+                foreach($this->filter_group_range_select as $filter_range_select_group=>$filter_range_select_options){
+                    if (request()->has($filter_range_select_options[0]) && 
+                        !empty(request()->input($filter_range_select_options[0])) &&
+                        request()->input($filter_range_select_options[0]) != "null" &&
+                        request()->input($filter_range_select_options[0]) != "undefined"){
+
+                        $filter_range_select_fields = explode(",",$filter_range_select_options[0]);
+                        $fieldValue = request()->input($filter_range_select_options[0]);
+                        $fieldOperator = $filter_range_select_options[1];
+
+                        foreach($filter_range_select_fields as $fieldIdx=>$fieldName){
+                            $model_query = $model_query->where($fieldName,$fieldOperator,$fieldValue);
+                        }
+                    }
+                }
+            }
+
+            if ($this->filter_is_enabled && isset($this->filter_group_date_range_select) && count($this->filter_group_date_range_select)>0){
+                foreach($this->filter_group_date_range_select as $filter_date_range_select_group=>$filter_date_range_select_options){
+                    if (request()->has($filter_date_range_select_options[0]."-start") && 
+                        !empty(request()->input($filter_date_range_select_options[0]."-start")) &&
+                        request()->input($filter_date_range_select_options[0]."-start") != "null" &&
+                        request()->input($filter_date_range_select_options[0]."-start") != "undefined"){
+
+                        $filter_date_range_select_fields = explode(",",$filter_date_range_select_options[0]);
+                        $fieldValueStart = request()->input($filter_date_range_select_options[0]."-start");
+
+                        foreach($filter_date_range_select_options as $fieldIdx=>$fieldName){
+                            $model_query = $model_query->where($fieldName,">=",$fieldValueStart);
+                        }
+                    }
+
+                    if (request()->has($filter_date_range_select_options[0]."-end") && 
+                        !empty(request()->input($filter_date_range_select_options[0]."-end")) &&
+                        request()->input($filter_date_range_select_options[0]."-end") != "null" &&
+                        request()->input($filter_date_range_select_options[0]."-end") != "undefined"){
+
+                        $filter_date_range_select_fields = explode(",",$filter_date_range_select_options[0]);
+                        $fieldValueEnd = request()->input($filter_date_range_select_options[0]."-end");
+
+                        foreach($filter_date_range_select_options as $fieldIdx=>$fieldName){
+                            $model_query = $model_query->where($fieldName,"<=",$fieldValueEnd);
+                        }
+                    }
+                }
+            }
+
             $results = [];
             $results_count = 0;
             $selected_page = 1;
@@ -286,6 +416,7 @@ class CardDataView extends Component
         }
 
         return view('hasob-foundation-core::cardview.index')
+                    ->with('control_obj',$this)
                     ->with('control_id',$this->control_id)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('action_buttons_list',$this->action_buttons_list)
@@ -293,7 +424,12 @@ class CardDataView extends Component
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
                     ->with('data_set_enable_pagination',$this->data_set_enable_pagination)
                     ->with('data_set_enable_search',$this->data_set_enable_search)
-                    ->with('search_placeholder_text',$this->search_placeholder_text);
+                    ->with('search_placeholder_text',$this->search_placeholder_text)
+                    ->with('filter_is_enabled',$this->filter_is_enabled)
+                    ->with('filter_group_single_select',$this->filter_group_single_select)
+                    ->with('filter_group_multiple_select',$this->filter_group_multiple_select)
+                    ->with('filter_group_range_select',$this->filter_group_range_select)
+                    ->with('filter_group_date_range_select',$this->filter_group_date_range_select);
 
     }
 
@@ -311,15 +447,20 @@ class CardDataView extends Component
 
     public function render_js(){
         return view("hasob-foundation-core::cardview.card-view-js")
-                    ->with('control_id',$this->control_id)
                     ->with('control_obj',$this)
+                    ->with('control_id',$this->control_id)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('action_buttons_list',$this->action_buttons_list)
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
                     ->with('data_set_enable_pagination',$this->data_set_enable_pagination)
                     ->with('data_set_enable_search',$this->data_set_enable_search)
-                    ->with('search_placeholder_text',$this->search_placeholder_text);        
+                    ->with('search_placeholder_text',$this->search_placeholder_text)
+                    ->with('filter_is_enabled',$this->filter_is_enabled)
+                    ->with('filter_group_single_select',$this->filter_group_single_select)
+                    ->with('filter_group_multiple_select',$this->filter_group_multiple_select)
+                    ->with('filter_group_range_select',$this->filter_group_range_select)
+                    ->with('filter_group_date_range_select',$this->filter_group_date_range_select);
     }
 
 }
