@@ -91,18 +91,21 @@
             let join_string = "?";
             let final_endpoint_url = endpoint_url;
 
-            if (final_endpoint_url.includes("?")){ join_string = "&"; }
             @if ($filter_is_enabled && isset($filter_group_single_select) && count($filter_group_single_select)>0)
                 @foreach($filter_group_single_select as $filter_single_select_group=>$filter_single_select_options)
+                    if (final_endpoint_url.includes("?")){ join_string = "&"; }
+
                     var singleFieldName = "{{$filter_single_select_options[0]}}";
                     var singleFieldValue = $("#sel-filter-{{$control_id}}-{{$filter_single_select_options[0]}}").val();
                     final_endpoint_url += join_string + singleFieldName + "="+ singleFieldValue;
                 @endforeach
             @endif
 
-            if (final_endpoint_url.includes("?")){ join_string = "&"; }
+
             @if ($filter_is_enabled && isset($filter_group_multiple_select) && count($filter_group_multiple_select)>0)
                 @foreach($filter_group_multiple_select as $filter_multiple_select_group=>$filter_multiple_select_options)
+                    if (final_endpoint_url.includes("?")){ join_string = "&"; }
+
                     var multiFieldName = "{{$filter_multiple_select_options[0]}}";
                     var multiFieldValues = $("#cbx-filter-{{$control_id}}-{{str_replace(',','',$filter_multiple_select_options[0])}}:checked").map(function(){
                         return $(this).val();
@@ -113,9 +116,10 @@
                 @endforeach
             @endif
 
-            if (final_endpoint_url.includes("?")){ join_string = "&"; }
             @if ($filter_is_enabled && isset($filter_group_range_select) && count($filter_group_range_select)>0)
-                @foreach($filter_group_range_select as $filter_range_select_group=>$filter_range_select_options)                
+                @foreach($filter_group_range_select as $filter_range_select_group=>$filter_range_select_options)
+                    if (final_endpoint_url.includes("?")){ join_string = "&"; }
+
                     var rangeFieldName = "{{$filter_range_select_options[0]}}";
                     var rangeFieldValue = $("#rng-filter-{{ $control_id }}-{{str_replace(",","",$filter_range_select_options[0])}}").val();
                     var rangeFieldValueIsEntered = $("#rng-filter-{{ $control_id }}-{{str_replace(",","",$filter_range_select_options[0])}}").attr("data-val-is-entered");
@@ -125,17 +129,18 @@
                 @endforeach
             @endif
 
-            if (final_endpoint_url.includes("?")){ join_string = "&"; }
             @if ($filter_is_enabled && isset($filter_group_date_range_select) && count($filter_group_date_range_select)>0)
-                @foreach($filter_group_date_range_select as $filter_date_range_select_group=>$filter_date_range_select_options)                
+                @foreach($filter_group_date_range_select as $filter_date_range_select_group=>$filter_date_range_select_options)
+                    if (final_endpoint_url.includes("?")){ join_string = "&"; }
+
                     var rangeFieldName = "{{$filter_date_range_select_options[0]}}";
                     var rangeFieldStartValue = $("#rng-start-date-filter-{{$control_id}}-{{str_replace(",","",$filter_date_range_select_options[0])}}").val();
                     var rangeFieldEndValue = $("#rng-end-date-filter-{{$control_id}}-{{str_replace(",","",$filter_date_range_select_options[0])}}").val();
 
-                    if (rangeFieldStartValue != null && rangeFieldStartValue != "undefined"){
+                    if (rangeFieldStartValue != null && rangeFieldStartValue.length>0 && rangeFieldStartValue != "undefined"){
                         final_endpoint_url += join_string + rangeFieldName +"-start="+ rangeFieldStartValue;
                     }
-                    if (rangeFieldEndValue != null && rangeFieldEndValue != "undefined"){
+                    if (rangeFieldEndValue != null && rangeFieldEndValue.length>0 && rangeFieldEndValue != "undefined"){
                         final_endpoint_url += join_string + rangeFieldName +"-end="+ rangeFieldEndValue;
                     }
                 @endforeach
@@ -281,11 +286,13 @@
                     var rangeFieldStartValue = $("#rng-start-date-filter-{{$control_id}}-{{str_replace(",","",$filter_date_range_select_options[0])}}").val();
                     var rangeFieldEndValue = $("#rng-end-date-filter-{{$control_id}}-{{str_replace(",","",$filter_date_range_select_options[0])}}").val();
 
-                    filter_settings_string += " - {{$filter_date_range_select_group}}";
-                    if (rangeFieldStartValue != null && rangeFieldStartValue != "undefined"){
+                    if (rangeFieldStartValue != null && rangeFieldStartValue.length>0 && rangeFieldStartValue != "undefined" && rangeFieldEndValue != null && rangeFieldEndValue.length>0 && rangeFieldEndValue != "undefined"){
+                        filter_settings_string += " - {{$filter_date_range_select_group}}";
+                    }
+                    if (rangeFieldStartValue != null && rangeFieldStartValue.length>0 && rangeFieldStartValue != "undefined"){
                         filter_settings_string += " from " + rangeFieldStartValue;
                     }
-                    if (rangeFieldEndValue != null && rangeFieldEndValue != "undefined"){
+                    if (rangeFieldEndValue != null && rangeFieldEndValue.length>0 && rangeFieldEndValue != "undefined"){
                         filter_settings_string += " to " + rangeFieldEndValue;
                     }
                 @endforeach
