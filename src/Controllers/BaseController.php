@@ -15,8 +15,7 @@ class BaseController extends Controller
     public function __construct()
     {
         # code...
-        $announcements = \Hasob\FoundationCore\Models\Announcement::where('end_date', '>=', \Carbon\Carbon::now() )->get();
-        \View::share('announcements', $announcements);
+       
         
     }
 
