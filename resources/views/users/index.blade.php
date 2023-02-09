@@ -45,6 +45,12 @@ Users
     float: right;
     padding-bottom: 15px
 }
+
+#dataTableBuilder_processing{
+    float: left;
+    width: 100%;
+    padding: 3px;
+}
 </style>
 
 @stop
