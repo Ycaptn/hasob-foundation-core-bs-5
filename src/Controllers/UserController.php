@@ -174,8 +174,12 @@ class UserController extends BaseController
         if ($request->expectsJson()) {
             return self::createJSONResponse("ok", "success", $zUser, 200);
         }
-
-        $request->session()->flash('success', 'The user record has been updated.');
+        if($is_update == true){
+            $message = 'The user record has been updated.';
+        }else{
+            $message = 'The user record has been created.';   
+        }
+        $request->session()->flash('success', $message);
         return redirect()->route('fc.user.show', $zUser->id);
     }
 
