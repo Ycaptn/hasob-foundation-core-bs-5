@@ -111,9 +111,9 @@
                                                 class="btn btn-sm btn-primary" href="#">
                                                 <i class="bx bxs-edit"></i> Edit</a>&nbsp;--}}
 
-                                                <a href="#" data-togggle="tooltip" title="Delete" data-val=""
-                                                data-original-title="Delete" class="btn btn-sm btn-danger">
-                                                <i class="bx bxs-trash"></i>&nbsp;Delete</a>
+                                                {{-- <a href="#" data-togggle="tooltip" title="Delete" data-val="{{$member->id}}"
+                                                data-original-title="Delete" class="btn btn-sm btn-danger btn-remove-mdl-department-members-modal">
+                                                <i class="bx bxs-trash"></i>&nbsp;Delete</a> --}}
                                             </td>
                                         </tr>
                                         @endforeach

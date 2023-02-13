@@ -125,6 +125,7 @@ $(document).ready(function() {
             contentType: false,
             dataType: 'json',
             success: function(data){
+                console.log(data)
                 if(data!=null && data.status=='fail'){
                     $('#div-department-members-modal-error').empty();
                     $('#div-department-members-modal-error').show();
@@ -157,7 +158,7 @@ $(document).ready(function() {
                                 closeOnConfirm: false
                             });
                             window.setTimeout(function(){
-                        location.reload(true);
+                        // location.reload(true);
                     }, 1000);
 
                 }
@@ -178,10 +179,9 @@ $(document).ready(function() {
 
      //Delete Member Action
      $(document).on('click', ".btn-remove-mdl-department-members-modal", function(e) {
-                e.preventDefault();
-                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-        
+                e.preventDefault();        
                 let itemId = $(this).attr('data-val');
+                console.log(itemId, "itemId")
                 swal({
                             title: "Are you sure you want to remove this member from this Department?",
                             text: "You can readd the member back if need be.",
@@ -195,13 +195,14 @@ $(document).ready(function() {
                     }, function(isConfirm) {
                     if (isConfirm) {
         
-                        let endPointUrl = "";
+                        let endPointUrl = "{{ route('fc.departments.destroy', '') }}/" + itemId;
                         let formData = new FormData();
                         formData.append('_token', $('input[name="_token"]').val());
+                        formData.append('_method', 'DELETE');
                      
                         
                         $.ajax({
-                            url:endPointUrl,
+                            url: endPointUrl,
                             type: "POST",
                             data: formData,
                             cache: false,
