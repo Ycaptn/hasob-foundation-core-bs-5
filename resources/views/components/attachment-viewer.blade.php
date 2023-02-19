@@ -63,8 +63,8 @@
                 var attach_location = 0;
                 @foreach ($attachments as $idx => $attach)
                     attach_list.push("{{ route('fc.attachment.show', $attach->id) }}");
-                    attach_list_names.push("{{ $attach->label  }}");
-                    attach_list_descriptions.push("{{ $attach->description }}");
+                    attach_list_names.push("{{ json_encode($attach->label)  }}");
+                    attach_list_descriptions.push("{{ json_encode($attach->description) }}");
                 @endforeach
 
                 function displayAttachmentDetails(idx){
