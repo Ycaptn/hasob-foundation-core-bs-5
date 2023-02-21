@@ -111,9 +111,9 @@ class DocumentManager {
             $generated_file_path = self::saveAsMsWord($html_content, $file_name);
         }
        
-
         //Attach the file to the model as a document
         if ($subject != null && !empty($generated_file_path)){
+          
             $subject->save_file(Auth::user(), $file_name, "", $generated_file_path);
         }
 
@@ -149,11 +149,11 @@ class DocumentManager {
         $pdf = new \Mpdf\Mpdf(["margin_top"=>8, "margin_bottom"=>8, 'orientation'=>$orientation]);
         $pdf->WriteHTML($content);
         $file_name =  $file_name."-".time();
-        $filepath = storage_path("app/public/uploads/{$file_name}");
+        $filepath = storage_path("app/public/uploads/{$file_name}.pdf");
 
         $pdf->Output($filepath,'F');
 
-        $filepath;
+        return $filepath;
 
     }
 
