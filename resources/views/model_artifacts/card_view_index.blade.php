@@ -23,7 +23,7 @@ Model Artifacts
     <i class="bx bx-book-add mr-1"></i>New Model Artifact
 </a>
 @if (Auth()->user()->hasAnyRole(['','admin']))
-    @include('hasob-lab-manager-module::pages.model_artifacts.bulk-upload-modal')
+    @include('hasob-foundation-core::model_artifacts.bulk-upload-modal')
 @endif
 @stop
 
@@ -38,7 +38,7 @@ Model Artifacts
         </div>
     </div>
 
-    @include('hasob-lab-manager-module::pages.model_artifacts.modal')
+    @include('hasob-foundation-core::model_artifacts.modal')
 @stop
 
 @section('side-panel')

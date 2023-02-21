@@ -66,22 +66,29 @@ class DocumentManager {
 
     }
 
-    public static function saveDocument($template_id, $subject_model_id, $subject_model_type, $content_type, $file_name, $model_document_id){
+    public static function saveDocument($template_id, $subject_model_id, $subject_model_type, $content_type, $file_name, $model_document_id, $other_parameter = null, $subJectName = "subject"){
 
         //Get the template
         $documentGenerationTemplate = DocumentGenerationTemplate::find($template_id);
-
+        $additional_parameter = [];
         //Invoke the subject model
         $model = new $subject_model_type();
         if ($model != null){
             $subject = $model->find($subject_model_id);
         }
-
+        if($other_parameter != null);{
+            $additional_parameter = json_decode($other_parameter,true);
+        }  
+        $parameter = [ $subJectName => $subject];
+        $all_parameter = array_merge( $parameter, $additional_parameter);
+        //dd($new_array);
         //Render the template as PDF and return the stream
-        $rendered_content = Blade::render($documentGenerationTemplate->content,['subject'=>$subject]);
+        $rendered_content = Blade::render($documentGenerationTemplate->content, $all_parameter);
         $html_content = \Illuminate\Mail\Markdown::parse($rendered_content);
-
-
+        $orientation = "P";
+        if (strtolower($documentGenerationTemplate->document_layout) == "landscape"){
+            $orientation = "L";
+        }
         if ($model_document_id != null){
             $model_document = ModelDocument::find($model_document_id);
             if ($model_document !=null && $model_document->model_primary_id!=null){
@@ -91,15 +98,19 @@ class DocumentManager {
                 if ($model_document_subject != null && $model_document->document_generation_template_id!=null){
                     $model_document_content_template = DocumentGenerationTemplate::find($model_document->document_generation_template_id);
                     if (empty($model_document_content_template->content) == false){
-                        $model_document_content_rendered = Blade::render($model_document_content_template->content,['subject'=>$model_document_subject]);
+                        $model_document_content_rendered = Blade::render($model_document_content_template->content,$all_parameter);
                         $model_document_html_content = \Illuminate\Mail\Markdown::parse($model_document_content_rendered);
                         $html_content = \str_replace("<!-- CONTENT -->",$html_content,$model_document_html_content);
                     }
                 }
             }
         }
-
-        $generated_file_path = self::saveAsMsWord($html_content, $file_name);
+        if($content_type == "pdf"){
+            $generated_file_path = self::saveAsPdf($html_content, $file_name,$orientation);
+        }else{
+            $generated_file_path = self::saveAsMsWord($html_content, $file_name);
+        }
+       
 
         //Attach the file to the model as a document
         if ($subject != null && !empty($generated_file_path)){
@@ -130,6 +141,20 @@ class DocumentManager {
         }
 
         return $full_file_path;
+    }
+
+    private static function saveAsPdf($content, $file_name, $orientation = "P"){
+
+        $orientation = "P";
+        $pdf = new \Mpdf\Mpdf(["margin_top"=>8, "margin_bottom"=>8, 'orientation'=>$orientation]);
+        $pdf->WriteHTML($content);
+        $file_name =  $file_name."-".time();
+        $filepath = storage_path("app/public/uploads/{$file_name}");
+
+        $pdf->Output($filepath,'F');
+
+        $filepath;
+
     }
 
 }

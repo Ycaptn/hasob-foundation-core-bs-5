@@ -27,14 +27,14 @@
                             <div id="div-show-txt-modelDocument-primary-id">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                    @include('hasob-foundation-core::pages.model_documents.show_fields')
+                                    @include('hasob-foundation-core::model_documents.show_fields')
                                     </div>
                                 </div>
                             </div>
                             <div id="div-edit-txt-modelDocument-primary-id">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                    @include('hasob-foundation-core::pages.model_documents.fields')
+                                    @include('hasob-foundation-core::model_documents.fields')
                                     </div>
                                 </div>
                             </div>

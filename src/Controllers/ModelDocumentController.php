@@ -34,7 +34,7 @@ class ModelDocumentController extends BaseController
     {
         $current_user = Auth()->user();
 
-        $cdv_model_documents = new \Hasob\FoundationCore\View\Components\CardDataView(ModelDocument::class, "hasob-foundation-core::pages.model_documents.card_view_item");
+        $cdv_model_documents = new \Hasob\FoundationCore\View\Components\CardDataView(ModelDocument::class, "hasob-foundation-core::model_documents.card_view_item");
         $cdv_model_documents->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
                         //->setSearchFields(['field_to_search1','field_to_search2'])
@@ -49,7 +49,7 @@ class ModelDocumentController extends BaseController
             return $cdv_model_documents->render();
         }
 
-        return view('hasob-foundation-core::pages.model_documents.card_view_index')
+        return view('hasob-foundation-core::model_documents.card_view_index')
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())

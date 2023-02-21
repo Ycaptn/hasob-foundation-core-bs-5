@@ -27,7 +27,7 @@ All Model Documents
     <i class="bx bx-book-add me-1"></i>New Model Document
 </a>
 @if (Auth()->user()->hasAnyRole(['','admin']))
-    @include('hasob-foundation-core::pages.model_documents.bulk-upload-modal')
+    @include('hasob-foundation-core::model_documents.bulk-upload-modal')
 @endif
 @stop
 
@@ -42,7 +42,7 @@ All Model Documents
         </div>
     </div>
 
-    @include('hasob-foundation-core::pages.model_documents.modal')
+    @include('hasob-foundation-core::model_documents.modal')
 @stop
 
 @section('side-panel')

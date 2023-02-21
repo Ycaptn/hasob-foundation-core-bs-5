@@ -49,6 +49,8 @@ class DocumentGeneratorController extends BaseController
         $subject_model_id = $request->modelId;
         $subject_model_type = $request->modelType;
         $model_document_id = $request->modelDocumentId;
+        $subjectName = ($request->subjectName != null) ? $request->subjectName : "subject";
+        $otherParameter = $request->otherParameter;
         
         $response = \Hasob\FoundationCore\Managers\DocumentManager::saveDocument(
             $template_id, 
@@ -56,7 +58,9 @@ class DocumentGeneratorController extends BaseController
             $subject_model_type,
             $content_type, 
             $file_name,
-            $model_document_id           
+            $model_document_id,
+            $otherParameter,
+            $subjectName           
         );
 
         if (empty($response)) {
