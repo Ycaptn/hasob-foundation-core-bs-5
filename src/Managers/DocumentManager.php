@@ -106,7 +106,7 @@ class DocumentManager {
             }
         }
         if($content_type == "pdf"){
-            $generated_file_path = self::saveAsPdf($html_content, $file_name,$orientation);
+            $generated_file_path = self::saveAsPdf($rendered_content, $file_name,$orientation);
         }else{
             $generated_file_path = self::saveAsMsWord($html_content, $file_name);
         }
