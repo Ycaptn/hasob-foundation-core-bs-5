@@ -175,7 +175,7 @@ trait Attachable
         return $attachable;
     }
     
-    public function save_file(User $user, $name, $comments, $file_path){
+    public function save_file(User $user, $name, $comments, $file_path, $roles = null){
 
         $file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
         $attachment_storage = Setting::where('key', 'attachment_storage')->first();
@@ -199,6 +199,7 @@ trait Attachable
         $attach->uploader_user_id = $user->id;
         $attach->description = $comments;
         $attach->file_type = $file_extension;
+        $attach->allowed_viewer_user_roles = $roles;
         $attach->storage_driver = strtolower($storageType);
         $attach->save();
 

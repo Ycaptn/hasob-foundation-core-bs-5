@@ -49,6 +49,8 @@ class DocumentGeneratorController extends BaseController
         $subject_model_id = $request->modelId;
         $subject_model_type = $request->modelType;
         $model_document_id = $request->modelDocumentId;
+        $fileDescription = $request->fileDiscription;
+        $allowedViewUserRoles = $request->allowedViewUserRoles;
         $subjectName = ($request->subjectName != null) ? $request->subjectName : "subject";
         $otherParameter = $request->otherParameter;
         
@@ -59,6 +61,8 @@ class DocumentGeneratorController extends BaseController
             $content_type, 
             $file_name,
             $model_document_id,
+            $fileDescription,
+            $allowedViewUserRoles,
             $otherParameter,
             $subjectName           
         );

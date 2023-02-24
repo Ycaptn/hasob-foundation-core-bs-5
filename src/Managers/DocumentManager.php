@@ -66,7 +66,7 @@ class DocumentManager {
 
     }
 
-    public static function saveDocument($template_id, $subject_model_id, $subject_model_type, $content_type, $file_name, $model_document_id, $other_parameter = null, $subJectName = "subject"){
+    public static function saveDocument($template_id, $subject_model_id, $subject_model_type, $content_type, $file_name, $model_document_id,$file_description,$allowed_viewer_user_roles,$other_parameter = null, $subJectName = "subject"){
 
         //Get the template
         $documentGenerationTemplate = DocumentGenerationTemplate::find($template_id);
@@ -76,14 +76,16 @@ class DocumentManager {
         if ($model != null){
             $subject = $model->find($subject_model_id);
         }
-        if($other_parameter != null);{
-            $additional_parameter = json_decode($other_parameter,true);
-        }  
         $parameter = [ $subJectName => $subject];
-        $all_parameter = array_merge( $parameter, $additional_parameter);
+        if($other_parameter != null){
+            $additional_parameter = json_decode($other_parameter,true);
+            array_merge( $parameter, $additional_parameter);
+        }  
+       
+        
         //dd($new_array);
         //Render the template as PDF and return the stream
-        $rendered_content = Blade::render($documentGenerationTemplate->content, $all_parameter);
+        $rendered_content = Blade::render($documentGenerationTemplate->content,$parameter);
         $html_content = \Illuminate\Mail\Markdown::parse($rendered_content);
         $orientation = "P";
         if (strtolower($documentGenerationTemplate->document_layout) == "landscape"){
@@ -98,7 +100,7 @@ class DocumentManager {
                 if ($model_document_subject != null && $model_document->document_generation_template_id!=null){
                     $model_document_content_template = DocumentGenerationTemplate::find($model_document->document_generation_template_id);
                     if (empty($model_document_content_template->content) == false){
-                        $model_document_content_rendered = Blade::render($model_document_content_template->content,$all_parameter);
+                        $model_document_content_rendered = Blade::render($model_document_content_template->content,$parameter);
                         $model_document_html_content = \Illuminate\Mail\Markdown::parse($model_document_content_rendered);
                         $html_content = \str_replace("<!-- CONTENT -->",$html_content,$model_document_html_content);
                     }
@@ -114,7 +116,7 @@ class DocumentManager {
         //Attach the file to the model as a document
         if ($subject != null && !empty($generated_file_path)){
           
-            $subject->save_file(Auth::user(), $file_name, "", $generated_file_path);
+            $subject->save_file(Auth::user(), $file_name, $file_description, $generated_file_path,$allowed_viewer_user_roles);
         }
 
         return $generated_file_path;
