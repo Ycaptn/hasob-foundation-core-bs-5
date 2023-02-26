@@ -74,7 +74,14 @@ class User extends Authenticatable
 
     public function signature(){
         return $this->hasOne(Signature::class, 'owner_user_id', 'id');
-    } 
+    }
+    
+    public function department_manager(){
+        if ($this->department_id != null){
+            return User::role('manager')->where('department_id',$this->department_id)->first();
+        }
+        return null;
+    }
 
     public static function all_users(Organization $org = null){
 
@@ -86,6 +93,18 @@ class User extends Authenticatable
         }
 
         return $query->get();
+    }
+
+    public static function principal_user(Organization $org = null){
+
+        $model = User::role('principal-officer');
+        $query = $model->newQuery();
+
+        if ($org!=null){
+            $query->where('organization_id', $org->id);
+        }
+
+        return $query->first();
     }
 
     public function save(array $options = []){
