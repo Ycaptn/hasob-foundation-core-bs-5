@@ -84,6 +84,13 @@ class Department extends Model
         return false;
     }
 
+    public function manager(){
+        if ($this->id != null){
+            return User::role('manager')->where('department_id',$this->id)->first();
+        }
+        return null;
+    }
+
     public function children(){
 
         $model = new Department();
