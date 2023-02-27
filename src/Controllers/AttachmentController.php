@@ -58,7 +58,7 @@ class AttachmentController extends BaseController
                 return Storage::disk($attach->storage_driver)->download(
                     $attach->path,
                     $attach->label,
-                    ['Content-Disposition' => 'inline; filename="' . $attach->label . '"']
+                    ['Content-Disposition' => 'inline; filename="' . $attach->label . ".".$attach->file_type.'"']
                 );
             }
 
@@ -68,7 +68,7 @@ class AttachmentController extends BaseController
                     base_path($attach->path),
                     [
                         'Content-Type' => 'application/pdf',
-                        'Content-Disposition' => 'inline; filename="' . $attach->label . '"'
+                        'Content-Disposition' => 'inline; filename="' . $attach->label . ".".$attach->file_type.'"'
                     ]
                 );
             } else if ($attach->file_type == 'docx' || $attach->file_type == 'doc') {
