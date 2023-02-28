@@ -16,6 +16,7 @@ use Hasob\FoundationCore\Traits\Taggable;
 use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
 use Hasob\FoundationCore\Traits\OrganizationalConstraint;
+use Hasob\FoundationCore\Models\Attachable as EloquentAttachable;
 
 class Attachment extends Model
 {
@@ -71,8 +72,7 @@ class Attachment extends Model
     }
 
     public function attachable(){
-
-        return Attachable::where('attachment_id', $this->id)->first();
+        return EloquentAttachable::where('attachment_id', $this->id)->first();
     }
 
     public function uploader(){
