@@ -82,7 +82,7 @@ class ModelDocument extends Model
      **/
     public function documentGenerationTemplate()
     {
-        return $this->hasOne(\Hasob\FoundationCore\Models\DocumentGenerationTemplate::class, 'id', 'document_generation_template_id');
+        return $this->belongsTo(\Hasob\FoundationCore\Models\DocumentGenerationTemplate::class, 'document_generation_template_id', 'id');
     }
 
 }

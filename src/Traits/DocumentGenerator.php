@@ -27,5 +27,12 @@ trait DocumentGenerator
 
         return $templates;
     }
+
+    public function get_template_by_file_name_prefix($file_name_prefix){
+        $template = ModelDocument::where('model_type_name', get_class($this))->whereHas('documentGenerationTemplate',function($query) use($file_name_prefix){
+            return $query->where('file_name_prefix',$file_name_prefix);
+        })->first();
+        return optional($template)->documentGenerationTemplate;
+    }
     
 }
