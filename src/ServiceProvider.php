@@ -15,6 +15,11 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Storage;
+use Aws\S3\S3Client;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use League\Flysystem\Filesystem;
+use Aws\Laravel\AwsServiceProvider;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -255,45 +260,21 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                    
 
                     if ($app_setting_values['attachment_cloud_storage_type'] == 's3') {
-                        $no_of_update = 0 ;
-                        $access_key = env('AWS_ACCESS_KEY_ID');
-                        $access_secret = env('AWS_SECRET_ACCESS_KEY');
-                        $storage_bucket = env('AWS_BUCKET');
-                        $storage_endpoint_url = env('AWS_ENDPOINT');
-                        $storage_region = env('AWS_DEFAULT_REGION');
-
-                        if($access_key == null || $access_secret == null ||  $storage_bucket == null || $storage_endpoint_url == null ){
-                            $this->clearConfig();
-                        }
-
-                        if ($access_key != $app_setting_values['attachment_cloud_storage_id']) {
-                            $this->setEnv('AWS_ACCESS_KEY_ID', $app_setting_values['attachment_cloud_storage_id']);                      
-                           // dd($access_key);
-                           $no_of_update++;
-                        }
-                        
                        
-                        if ($access_secret != $app_setting_values['attachment_cloud_storage_secret']) {
-                            $this->setEnv('AWS_SECRET_ACCESS_KEY', $app_setting_values['attachment_cloud_storage_secret']);
-                            $no_of_update++;                     
-                        }
-                        if ($storage_bucket != $app_setting_values['attachment_cloud_storage_bucket']) {
-                            $this->setEnv('AWS_BUCKET', $app_setting_values['attachment_cloud_storage_bucket']);   
-                            $no_of_update++;                  
-                        }
-                        if ($storage_endpoint_url != $app_setting_values['attachment_cloud_storage_endpoint']) {
-                            $this->setEnv('AWS_ENDPOINT', $app_setting_values['attachment_cloud_storage_endpoint']); 
-                            $no_of_update++;                     
-                        }
+                        Storage::extend('s3', function($app, $config) use ($app_setting_values) {
+                            $client = new S3Client([
+                                'credentials' => [
+                                    'key'    => $app_setting_values['attachment_cloud_storage_id'],
+                                    'secret' => $app_setting_values['attachment_cloud_storage_secret'],
+                                ],
+                                'region' => $app_setting_values['attachment_cloud_storage_region'],
+                                'version' => $config['version'],
+                                'endpoint' => $app_setting_values['attachment_cloud_storage_endpoint']
+                            ]);
+                
+                            return new Filesystem(new AwsS3Adapter($client, $app_setting_values['attachment_cloud_storage_bucket']));
+                        });
 
-                        if ($storage_region != $app_setting_values['attachment_cloud_storage_region']) {
-                            $this->setEnv('AWS_DEFAULT_REGION', $app_setting_values['attachment_cloud_storage_region']); 
-                            $no_of_update++;                     
-                        }
-
-                        if( $no_of_update > 0){
-                            $this->cacheConfig();
-                        }
                         
                     }
 
