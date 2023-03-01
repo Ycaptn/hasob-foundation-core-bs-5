@@ -42,9 +42,10 @@ class CardDataView extends Component
     private $field_group_list;
     private $field_select_query;
     private $api_detail_page_url;
+    private $template_data_collection;
 
 
-    public function __construct($model, $template, $api_detail_page_url = null){
+    public function __construct($model, $template, Array $template_data_collection=null, $api_detail_page_url=null){
 
         $this->control_id = "cdv_".time();
         $this->data_set_pagination_limit = 20;
@@ -54,6 +55,7 @@ class CardDataView extends Component
         $this->data_item_template_path = $template;
         $this->data_set_model = $model;
         $this->api_detail_page_url = $api_detail_page_url;
+        $this->template_data_collection = $template_data_collection;
 
         $this->filter_is_enabled = false;
 
@@ -400,7 +402,10 @@ class CardDataView extends Component
 
             $card_html = "";
             foreach($results as $data_item){
-                $card_html .= view($this->data_item_template_path)->with('data_item', $data_item)->with('api_detail_page_url', $this->api_detail_page_url);
+                $card_html .= view($this->data_item_template_path)
+                    ->with('data_item', $data_item)
+                    ->with('data_collection', $this->template_data_collection)
+                    ->with('api_detail_page_url', $this->api_detail_page_url);
             }
 
             return response()->json([
