@@ -268,7 +268,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                                     'secret' => $app_setting_values['attachment_cloud_storage_secret'],
                                 ],
                                 'region' => $app_setting_values['attachment_cloud_storage_region'],
-                                'version' => $config['version'] ? $config['version'] : 'latest',
+                                'version' => isset($config['version']) ? $config['version'] : 'latest',
                                 'endpoint' => $app_setting_values['attachment_cloud_storage_endpoint']
                             ]);
                 
