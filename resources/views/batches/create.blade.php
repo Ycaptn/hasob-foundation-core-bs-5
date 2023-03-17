@@ -21,7 +21,7 @@ Create Batch
                     <div class="form-wrap">
                         {!! Form::open(['route' => 'batches.store','class'=>'form-horizontal']) !!}
                         
-                        @include('pages.batches.fields')
+                        @include('batches.fields')
 
                         <div class="col-sm-offset-3 col-sm-9">
                             <hr class="light-grey-hr mb-10">

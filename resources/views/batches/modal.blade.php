@@ -26,14 +26,14 @@
                             <div id="div-show-txt-batch-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">                            
-                                    @include('hasob-foundation-core::pages.batches.show_fields')
+                                    @include('hasob-foundation-core::batches.show_fields')
                                     </div>
                                 </div>
                             </div>
                             <div id="div-edit-txt-batch-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
-                                    @include('hasob-foundation-core::pages.batches.fields')
+                                    @include('hasob-foundation-core::batches.fields')
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@ $(document).ready(function() {
         $('#div-edit-txt-batch-primary-id').hide();
         let itemId = $(this).attr('data-val');
 
-        $.get( "{{ route('gb-api.batches.show','') }}/"+itemId).done(function( response ) {
+        $.get( "{{ route('fc-api.batches.show','') }}/"+itemId).done(function( response ) {
 			
 			$('#txt-batch-primary-id').val(response.data.id);
             		$('#spn_batch_name').html(response.data.name);
@@ -123,7 +123,7 @@ $(document).ready(function() {
         $('#div-edit-txt-batch-primary-id').show();
         let itemId = $(this).attr('data-val');
 
-        $.get( "{{ route('gb-api.batches.show','') }}/"+itemId).done(function( response ) {     
+        $.get( "{{ route('fc-api.batches.show','') }}/"+itemId).done(function( response ) {     
 
 			$('#txt-batch-primary-id').val(response.data.id);
             		$('#name').val(response.data.name);
@@ -161,7 +161,7 @@ $(document).ready(function() {
             }, function(isConfirm) {
                 if (isConfirm) {
 
-                    let endPointUrl = "{{ route('gb-api.batches.destroy','') }}/"+itemId;
+                    let endPointUrl = "{{ route('fc-api.batches.destroy','') }}/"+itemId;
 
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
@@ -217,7 +217,7 @@ $(document).ready(function() {
         $("#div-save-mdl-batch-modal").attr('disabled', true);
 
         let actionType = "POST";
-        let endPointUrl = "{{ route('gb-api.batches.store') }}";
+        let endPointUrl = "{{ route('fc-api.batches.store') }}";
         let primaryId = $('#txt-batch-primary-id').val();
         
         let formData = new FormData();
@@ -225,7 +225,7 @@ $(document).ready(function() {
 
         if (primaryId != "0"){
             actionType = "PUT";
-            endPointUrl = "{{ route('gb-api.batches.update','') }}/"+primaryId;
+            endPointUrl = "{{ route('fc-api.batches.update','') }}/"+primaryId;
             formData.append('id', primaryId);
         }
         

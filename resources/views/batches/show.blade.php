@@ -31,7 +31,7 @@
                 <div class="form-wrap">
                     <div class="row">
                         @include(
-                            'hasob-foundation-core::pages.batches.show_fields'
+                            'hasob-foundation-core::batches.show_fields'
                         )
                     </div>
                 </div>

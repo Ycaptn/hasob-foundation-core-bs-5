@@ -2,21 +2,17 @@
 
 namespace Hasob\FoundationCore\Controllers\API;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Hasob\FoundationCore\Models\Batch;
-
+use Hasob\FoundationCore\Controllers\BaseController as AppBaseController;
 use Hasob\FoundationCore\Events\BatchCreated;
-use Hasob\FoundationCore\Events\BatchUpdated;
 use Hasob\FoundationCore\Events\BatchDeleted;
-
+use Hasob\FoundationCore\Events\BatchUpdated;
+use Hasob\FoundationCore\Models\Batch;
+use Hasob\FoundationCore\Models\Organization;
 use Hasob\FoundationCore\Requests\API\CreateBatchAPIRequest;
 use Hasob\FoundationCore\Requests\API\UpdateBatchAPIRequest;
-
 use Hasob\FoundationCore\Traits\ApiResponder;
-use Hasob\FoundationCore\Models\Organization;
-
-use Hasob\FoundationCore\Controllers\BaseController as AppBaseController;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class BatchController
@@ -45,8 +41,8 @@ class BatchAPIController extends AppBaseController
         if ($request->get('limit')) {
             $query->limit($request->get('limit'));
         }
-        
-        if ($organization != null){
+
+        if ($organization != null) {
             $query->where('organization_id', $organization->id);
         }
 
@@ -69,7 +65,7 @@ class BatchAPIController extends AppBaseController
 
         /** @var Batch $batch */
         $batch = Batch::create($input);
-        
+
         BatchCreated::dispatch($batch);
         return $this->sendResponse($batch->toArray(), 'Batch saved successfully');
     }
@@ -114,7 +110,7 @@ class BatchAPIController extends AppBaseController
 
         $batch->fill($request->all());
         $batch->save();
-        
+
         BatchUpdated::dispatch($batch);
         return $this->sendResponse($batch->toArray(), 'Batch updated successfully');
     }
@@ -142,4 +138,40 @@ class BatchAPIController extends AppBaseController
         BatchDeleted::dispatch($batch);
         return $this->sendSuccess('Batch deleted successfully');
     }
+    public function preview($id, Organization $organization, Request $request)
+    {
+        /** @var Batch $batch */
+        $batch = Batch::find($id);
+        $has_been_batched = false;
+        if (empty($batch)) {
+            return $this->sendError('Batch not found');
+        }
+
+        if ($request->batchable_id != null) {
+            $batch_items = \Hasob\FoundationCore\Models\BatchItem::where('batchable_id', $request->batchable_id)->where('batchable_type', $request->batchable_type)->where('batch_id', $batch->id)->get();
+
+            if (count($batch_items) > 0) {
+                $has_been_batched = true;
+            }
+        }
+
+        return $this->sendResponse(['content' => $batch->getBatchPreview(), 'batch_details' => $batch->toArray(), 'has_been_batched' => $has_been_batched], 'Batch preview gotten successfully');
+
+    }
+
+    public function removeBatchItem($id, Organization $organization, Request $request)
+    {
+        /** @var Batch $batch */
+        $batch = Batch::find($id);
+        $has_been_batched = false;
+        if (empty($batch)) {
+            return $this->sendError('Batch not found');
+        }
+       
+        $batch_items = \Hasob\FoundationCore\Models\BatchItem::where('batchable_id', $request->batchable_id)->where('batchable_type', $request->batchable_type)->where('batch_id', $batch->id)->delete();
+
+        return $this->sendSuccess('Batch Item Removed Successfully deleted successfully');
+
+    }
+
 }
