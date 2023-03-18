@@ -43,6 +43,8 @@ class Batch extends Model
         'id',
         'organization_id',
         'name',
+        'batchable_type',
+        'status'.
         'creator_user_id'
     ];
 
@@ -66,6 +68,16 @@ class Batch extends Model
     public function user()
     {
         return $this->hasOne(\Hasob\FoundationCore\Models\User::class, 'creator_user_id');
+    }
+
+    public function getBatchPreview(){
+        
+        if($this->batchable_type != null){
+            $batchable_type = new $this->batchable_type();
+           return  $batchable_type->preview_batch($this->id);
+        }
+
+        return "Cannot preview batch";
     }
 
 }

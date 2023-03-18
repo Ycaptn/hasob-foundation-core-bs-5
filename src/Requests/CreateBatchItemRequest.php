@@ -30,8 +30,9 @@ class CreateBatchItemRequest extends AppBaseFormRequest
         'status' => 'max:100',
         'wf_status' => 'max:100',
         'wf_meta_data' => 'max:1000',
-        'batchable_id' => 'nullable|max:150',
-        'batchable_type' => 'nullable|max:150'
+        'batchable_id' => 'required|max:150',
+        'batchable_type' => 'required|max:150',
+        'batch_id' => 'required|exists:fc_batches,id'
         ];
     }
 }

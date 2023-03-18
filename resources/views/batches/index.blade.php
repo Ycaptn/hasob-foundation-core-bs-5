@@ -15,7 +15,7 @@ Batches
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Batch
     </a>
     @if (Auth()->user()->hasAnyRole(['','admin']))
-        @include('hasob-foundation-core::pages.batches.bulk-upload-modal')
+        @include('hasob-foundation-core::batches.bulk-upload-modal')
     @endif
 </span>
 @stop
@@ -34,7 +34,7 @@ Batches
 
                     <div class="table-wrap">
                         <div class="table-responsive">
-                            @include('hasob-foundation-core::pages.batches.table')
+                            @include('hasob-foundation-core::batches.table')
                             
                         </div>
                     </div>
@@ -44,7 +44,7 @@ Batches
         </div>
     </div>
 
-    @include('hasob-foundation-core::pages.batches.modal')
+    @include('hasob-foundation-core::batches.modal')
 
 @endsection
 

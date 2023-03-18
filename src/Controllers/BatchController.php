@@ -34,7 +34,7 @@ class BatchController extends BaseController
     {
         $current_user = Auth()->user();
 
-        $cdv_batches = new \Hasob\FoundationCore\View\Components\CardDataView(Batch::class, "hasob-foundation-core::pages.batches.card_view_item");
+        $cdv_batches = new \Hasob\FoundationCore\View\Components\CardDataView(Batch::class, "hasob-foundation-core::batches.card_view_item");
         $cdv_batches->setDataQuery(['organization_id'=>$org->id])
                         //->addDataGroup('label','field','value')
                         //->setSearchFields(['field_to_search1','field_to_search2'])
@@ -49,7 +49,7 @@ class BatchController extends BaseController
             return $cdv_batches->render();
         }
 
-        return view('hasob-foundation-core::pages.batches.card_view_index')
+        return view('hasob-foundation-core::batches.card_view_index')
                     ->with('current_user', $current_user)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())

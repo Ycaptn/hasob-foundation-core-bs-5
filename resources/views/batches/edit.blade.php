@@ -21,7 +21,7 @@ Edit Batch
                     <div class="form-wrap">
                         {!! Form::model($batch, ['class'=>'form-horizontal', 'route' => ['batches.update', $batch->id], 'method' => 'patch']) !!}
 
-                        @include('pages.batches.fields')
+                        @include('batches.fields')
 
                         <div class="col-sm-offset-3 col-sm-9">
                             <br/>
