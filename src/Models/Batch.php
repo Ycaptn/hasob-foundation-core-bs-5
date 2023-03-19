@@ -5,6 +5,8 @@ namespace Hasob\FoundationCore\Models;
 use Hasob\FoundationCore\Traits\GuidId;
 use Hasob\FoundationCore\Traits\Ledgerable;
 use Hasob\FoundationCore\Traits\Artifactable;
+use Hasob\FoundationCore\Traits\Commentable;
+use Hasob\FoundationCore\Traits\Attachable;
 use Hasob\FoundationCore\Traits\OrganizationalConstraint;
 
 use Eloquent as Model;
@@ -27,9 +29,9 @@ class Batch extends Model
 {
     use GuidId;
     use OrganizationalConstraint;
-    
+    use Commentable; 
     use SoftDeletes;
-
+    use Attachable;
     use HasFactory;
 
     public $table = 'fc_batches';
