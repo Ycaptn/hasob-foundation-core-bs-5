@@ -160,6 +160,42 @@ class FoundationCore
 
     }
 
+    public function get_user_profile_links(Organization $org)
+    {
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                return Setting::where([
+                    'organization_id' => $org->id,
+                    'group_name' => 'user_profile_links',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
+    public function register_user_profile_links(Organization $org, $feature_name, $link_name, $link_url)
+    {
+
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                $record = Setting::where(['organization_id' => $org->id, 'key' => $link_name, 'owner_feature' => $feature_name])->first();
+                if ($record == null) {
+                    Setting::create([
+                        'organization_id' => $org->id,
+                        'display_ordinal' => 0,
+                        'group_name' => 'user_profile_links',
+                        'display_name' => $link_name,
+                        'display_type' => 'string',
+                        'owner_feature' => $feature_name,
+                        'key' => $link_name,
+                        'value' => $link_url,
+                    ]);
+                }
+            }
+        }
+
+    }
+
     public function get_right_panels(Organization $org)
     {
         if (Schema::hasTable('fc_settings')) {
