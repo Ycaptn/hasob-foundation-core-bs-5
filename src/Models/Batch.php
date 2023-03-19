@@ -44,7 +44,8 @@ class Batch extends Model
         'organization_id',
         'name',
         'batchable_type',
-        'status'.
+        'status',
+        'workable_type',
         'creator_user_id'
     ];
 
@@ -58,7 +59,8 @@ class Batch extends Model
         'status' => 'string',
         'wf_status' => 'string',
         'wf_meta_data' => 'string',
-        'batchable_type' => 'string'
+        'batchable_type' => 'string',
+        'workable_type' => 'string',
     ];
 
 

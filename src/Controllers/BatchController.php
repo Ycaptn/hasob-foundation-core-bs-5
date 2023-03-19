@@ -56,7 +56,7 @@ class BatchController extends BaseController
                     ->with('cdv_batches', $cdv_batches);
 
         /*
-        return $batchDataTable->render('hasob-foundation-core::pages.batches.index',[
+        return $batchDataTable->render('hasob-foundation-core::batches.index',[
             'current_user'=>$current_user,
             'months_list'=>BaseController::monthsList(),
             'states_list'=>BaseController::statesList()
@@ -71,7 +71,7 @@ class BatchController extends BaseController
      */
     public function create(Organization $org)
     {
-        return view('hasob-foundation-core::pages.batches.create');
+        return view('hasob-foundation-core::batches.create');
     }
 
     /**
@@ -111,8 +111,9 @@ class BatchController extends BaseController
 
             return redirect(route('fc.batches.index'));
         }
+        
 
-        return view('hasob-foundation-core::pages.batches.show')->with('batch', $batch);
+        return view('hasob-foundation-core::batches.show')->with('batch', $batch);
     }
 
     /**
@@ -133,7 +134,7 @@ class BatchController extends BaseController
             return redirect(route('fc.batches.index'));
         }
 
-        return view('hasob-foundation-core::pages.batches.edit')->with('batch', $batch);
+        return view('hasob-foundation-core::batches.edit')->with('batch', $batch);
     }
 
     /**

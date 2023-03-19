@@ -249,7 +249,36 @@ class FoundationCore
 
     }
 
-    public function register_batchable_model(Organization $org, $model_names=[]){
+   public function register_batchable_model(Organization $org, $model_names=[]){
+
+        if (Schema::hasTable('fc_settings')) {
+            foreach($model_names as $idx=>$model){
+
+                $class = new \ReflectionClass($model);
+                $name = $class->getShortName();
+
+                if ($org != null) {
+                    $record = Setting::where(['organization_id' => $org->id, 'key' => $name, 'owner_feature' => 'batch-workable'])->first();
+                    if ($record == null) {
+                        Setting::create([
+                            'organization_id' => $org->id,
+                            'display_ordinal' => $idx,
+                            'group_name' => 'batchable_models',
+                            'display_name' => $name,
+                            'display_type' => 'string',
+                            'owner_feature' => 'batching',
+                            'key' => $name,
+                            'value' => $model,
+                        ]);
+                    }
+                }
+
+            }
+        }
+
+    } 
+
+    public function register_batch_workable(Organization $org, $model_names=[]){
 
         if (Schema::hasTable('fc_settings')) {
             foreach($model_names as $idx=>$model){
@@ -263,7 +292,7 @@ class FoundationCore
                         Setting::create([
                             'organization_id' => $org->id,
                             'display_ordinal' => $idx,
-                            'group_name' => 'batchable_models',
+                            'group_name' => 'batch_workables',
                             'display_name' => $name,
                             'display_type' => 'string',
                             'owner_feature' => 'batching',
@@ -285,6 +314,32 @@ class FoundationCore
                 return Setting::where([
                     'organization_id' => $org->id,
                     'group_name' => 'document_models',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
+    public function get_batchable_models(Organization $org)
+    {
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                return Setting::where([
+                    'organization_id' => $org->id,
+                    'group_name' => 'batchable_models',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
+    public function get_batch_workables(Organization $org)
+    {
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                return Setting::where([
+                    'organization_id' => $org->id,
+                    'group_name' => 'batch_workables',
                 ])->whereIn('owner_feature', $this->enabled_features($org))->get();
             }
         }
