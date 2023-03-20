@@ -71,7 +71,12 @@ class Batch extends Model
      **/
     public function user()
     {
-        return $this->hasOne(\Hasob\FoundationCore\Models\User::class, 'creator_user_id');
+        return $this->belongsTo(\Hasob\FoundationCore\Models\User::class, 'creator_user_id');
+    }
+
+    public function batchItems()
+    {
+        return $this->hasMany(\Hasob\FoundationCore\Models\BatchItem::class, 'batch_id','id');
     }
 
     public function getBatchPreview(){
@@ -82,6 +87,26 @@ class Batch extends Model
         }
 
         return "Cannot preview batch";
+    }
+
+    public function getBatchableItems(){
+        
+        if($this->batchable_type != null){
+            $batchable_type = new $this->batchable_type();
+           return  $batchable_type->get_batchable_items();
+        }
+
+        return [];
+    }
+
+    public function getBatchedItems(){
+        $batchItems = $this->batchItems()->pluck('batchable_id')->toArray();
+        if($this->batchable_type != null){
+            $batchable_type = new $this->batchable_type();
+           return  $batchable_type->get_batched_items( $batchItems);
+        }
+
+        return [];
     }
 
 }

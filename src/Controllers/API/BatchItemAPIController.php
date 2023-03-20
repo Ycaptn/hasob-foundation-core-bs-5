@@ -68,8 +68,12 @@ class BatchItemAPIController extends AppBaseController
         $input = $request->all();
 
         /** @var BatchItem $batchItem */
+      
+        $batch_items = \Hasob\FoundationCore\Models\BatchItem::where('batchable_id', $request->batchable_id)->where('batchable_type', $request->batchable_type)->where('batch_id', $request->batch_id)->get();
+        if (count($batch_items) > 0) {
+            return $this->sendError('This item has already been added to this batch', 200);
+        }
         $batchItem = BatchItem::create($input);
-        
         BatchItemCreated::dispatch($batchItem);
         return $this->sendResponse($batchItem->toArray(), 'Batch Item saved successfully');
     }

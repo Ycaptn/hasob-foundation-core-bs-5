@@ -9,6 +9,7 @@ use Hasob\FoundationCore\Events\BatchUpdated;
 use Hasob\FoundationCore\Models\Batch;
 use Hasob\FoundationCore\Models\Organization;
 use Hasob\FoundationCore\Requests\API\CreateBatchAPIRequest;
+use Hasob\FoundationCore\Requests\API\CreateBatchItemAPIRequest;
 use Hasob\FoundationCore\Requests\API\UpdateBatchAPIRequest;
 use Hasob\FoundationCore\Traits\ApiResponder;
 use Illuminate\Http\Request;
@@ -167,11 +168,12 @@ class BatchAPIController extends AppBaseController
         if (empty($batch)) {
             return $this->sendError('Batch not found');
         }
-       
+
         $batch_items = \Hasob\FoundationCore\Models\BatchItem::where('batchable_id', $request->batchable_id)->where('batchable_type', $request->batchable_type)->where('batch_id', $batch->id)->delete();
 
         return $this->sendSuccess('Batch Item Removed Successfully deleted successfully');
 
     }
+ 
 
 }

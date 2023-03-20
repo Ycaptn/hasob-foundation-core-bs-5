@@ -63,4 +63,34 @@ trait Batchable
         return "not batch preview implemented";
     }
 
+    public function get_batchable_items(){
+
+      $batchables = $this->all();
+      $batchable_items = [];
+      foreach ($batchables as $key => $value) {
+        $batchable_items [] = [
+            "key" => $value->id,
+            "value" => $value->id,
+        ];
+      }
+
+      return  $batchable_items;
+
+    }
+
+    public function get_batched_items($batchable_ids){
+
+        $batchables = $this->whereIn("id",$batchable_ids)->get();
+        $batched_items = [];
+        foreach ($batchables as $key => $value) {
+          $batched_items [] = [
+              "key" => $value->id,
+              "value" => $value->id,
+          ];
+        }
+  
+        return  $batched_items;
+  
+      }
+
 }
