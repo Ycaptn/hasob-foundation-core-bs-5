@@ -1,47 +1,45 @@
-<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-    <div class="panel panel-default card-view pa-0" style="border-radius:7px;">
-        <div class="panel-wrapper collapse in">
-            <div class="panel-body pa-0">
-                <div class="sm-data-box">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-xs-12 pa-10">
 
-                                <div class="float-start">
-                                    <div class="float-start user-img-wrap me-15">
-                                        <img class="user-auth-img card-user-img img-circle float-start"
-                                            src="{{ asset('imgs/user.png') }}" alt="user">
-                                    </div>
-                                    <div class="float-start user-detail-wrap pt-5">
-                                        @php
-                                            $detail_page_url = route('fc.batches.show', $data_item->id);
-                                        @endphp
-                                        <span class="block card-user-name">
-                                            <a href='{{ $detail_page_url }}'>{{ $data_item->id }}</a><br />
-                                            <span class="small">Sub text</span>
-                                        </span>
-                                    </div>
-                                </div>
 
-                                <div class="float-end pt-5">
-                                    <a data-toggle="tooltip" title="Edit" data-val='{{ $data_item->id }}'
-                                        class="btn-edit-mdl-batch-modal inline-block me-2" href="#">
-                                        <i class="zmdi zmdi-border-color txt-warning" style="opacity:80%"></i>
-                                    </a>
-
-                                    <a data-toggle="tooltip" title="Delete" data-val='{{ $data_item->id }}'
-                                        class="btn-delete-mdl-batch-modal inline-block me-2" href="#">
-                                        <i class="zmdi zmdi-delete txt-danger" style="opacity:80%"></i>
-                                    </a>
-                                </div>
-
-                                <div class="clearfix"></div>
-
-                            </div>
+<div class="col-md-6">
+    <div class="card">
+    
+        <div class="row g-0">
+            <div class="col-md-1">
+                <img src="{{asset('imgs/user.png')}}" alt="..." class="card-img">
+            </div>
+            <div class="col-md-9">
+                <div class="card-body">
+                    @php
+                        $detail_page_url = route('fc.batches.show', $data_item->id);
+                    @endphp
+    
+                    <div class="align-items-center">
+                        <div><h6 class="card-title"><a href='{{$detail_page_url}}'>{{$data_item->name}}</a></h6></div>
+                        <div class="ms-auto"> 
+                            <a data-toggle="tooltip" 
+                                title="Edit" 
+                                data-val='{{$data_item->id}}' 
+                                class="btn-edit-mdl-batch-modal inline-block mr-5" href="#">
+                                <i class="bx bxs-edit text-warning" style="opacity:80%"></i>
+                            </a>
+    
+                            <a data-toggle="tooltip" 
+                                title="Delete" 
+                                data-val='{{$data_item->id}}' 
+                                class="btn-delete-mdl-batch-modal inline-block mr-5" href="#">
+                                <i class="bx bxs-trash-alt text-danger" style="opacity:80%"></i>
+                            </a>
                         </div>
                     </div>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Created: {{ \Carbon\Carbon::parse($data_item->created_at)->format('l jS F Y') }} - {!! \Carbon\Carbon::parse($data_item->created_at)->diffForHumans() !!}
+                        </small>
+                    </p>
                 </div>
             </div>
         </div>
+    
     </div>
 </div>
+

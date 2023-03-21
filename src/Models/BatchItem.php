@@ -38,7 +38,10 @@ class BatchItem extends Model
 
     public $fillable = [
         'id',
-        'organization_id'
+        'organization_id',
+        'batchable_type',
+        'batchable_id',
+        'batch_id'
     ];
 
     /**

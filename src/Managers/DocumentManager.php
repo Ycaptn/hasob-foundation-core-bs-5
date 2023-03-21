@@ -149,7 +149,6 @@ class DocumentManager {
 
     private static function saveAsPdf($content, $file_name, $orientation = "P"){
 
-        $orientation = "P";
         $pdf = new \Mpdf\Mpdf(["margin_top"=>8, "margin_bottom"=>8, 'orientation'=>$orientation]);
         $pdf->WriteHTML($content);
         $file_name =  $file_name."-".time();

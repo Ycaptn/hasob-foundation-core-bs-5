@@ -5,6 +5,8 @@ namespace Hasob\FoundationCore\Models;
 use Hasob\FoundationCore\Traits\GuidId;
 use Hasob\FoundationCore\Traits\Ledgerable;
 use Hasob\FoundationCore\Traits\Artifactable;
+use Hasob\FoundationCore\Traits\Commentable;
+use Hasob\FoundationCore\Traits\Attachable;
 use Hasob\FoundationCore\Traits\OrganizationalConstraint;
 
 use Eloquent as Model;
@@ -27,9 +29,9 @@ class Batch extends Model
 {
     use GuidId;
     use OrganizationalConstraint;
-    
+    use Commentable; 
     use SoftDeletes;
-
+    use Attachable;
     use HasFactory;
 
     public $table = 'fc_batches';
@@ -43,6 +45,9 @@ class Batch extends Model
         'id',
         'organization_id',
         'name',
+        'batchable_type',
+        'status',
+        'workable_type',
         'creator_user_id'
     ];
 
@@ -56,7 +61,8 @@ class Batch extends Model
         'status' => 'string',
         'wf_status' => 'string',
         'wf_meta_data' => 'string',
-        'batchable_type' => 'string'
+        'batchable_type' => 'string',
+        'workable_type' => 'string',
     ];
 
 
@@ -65,7 +71,42 @@ class Batch extends Model
      **/
     public function user()
     {
-        return $this->hasOne(\Hasob\FoundationCore\Models\User::class, 'creator_user_id');
+        return $this->belongsTo(\Hasob\FoundationCore\Models\User::class, 'creator_user_id');
+    }
+
+    public function batchItems()
+    {
+        return $this->hasMany(\Hasob\FoundationCore\Models\BatchItem::class, 'batch_id','id');
+    }
+
+    public function getBatchPreview(){
+        
+        if($this->batchable_type != null){
+            $batchable_type = new $this->batchable_type();
+           return  $batchable_type->preview_batch($this->id);
+        }
+
+        return "Cannot preview batch";
+    }
+
+    public function getBatchableItems(){
+        
+        if($this->batchable_type != null){
+            $batchable_type = new $this->batchable_type();
+           return  $batchable_type->get_batchable_items();
+        }
+
+        return [];
+    }
+
+    public function getBatchedItems(){
+        $batchItems = $this->batchItems()->pluck('batchable_id')->toArray();
+        if($this->batchable_type != null){
+            $batchable_type = new $this->batchable_type();
+           return  $batchable_type->get_batched_items( $batchItems);
+        }
+
+        return [];
     }
 
 }

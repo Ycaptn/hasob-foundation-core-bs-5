@@ -160,6 +160,42 @@ class FoundationCore
 
     }
 
+    public function get_user_profile_links(Organization $org)
+    {
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                return Setting::where([
+                    'organization_id' => $org->id,
+                    'group_name' => 'user_profile_links',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
+    public function register_user_profile_links(Organization $org, $feature_name, $link_name, $link_url)
+    {
+
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                $record = Setting::where(['organization_id' => $org->id, 'key' => $link_name, 'owner_feature' => $feature_name])->first();
+                if ($record == null) {
+                    Setting::create([
+                        'organization_id' => $org->id,
+                        'display_ordinal' => 0,
+                        'group_name' => 'user_profile_links',
+                        'display_name' => $link_name,
+                        'display_type' => 'string',
+                        'owner_feature' => $feature_name,
+                        'key' => $link_name,
+                        'value' => $link_url,
+                    ]);
+                }
+            }
+        }
+
+    }
+
     public function get_right_panels(Organization $org)
     {
         if (Schema::hasTable('fc_settings')) {
@@ -249,6 +285,64 @@ class FoundationCore
 
     }
 
+   public function register_batchable_model(Organization $org, $model_names=[]){
+
+        if (Schema::hasTable('fc_settings')) {
+            foreach($model_names as $idx=>$model){
+
+                $class = new \ReflectionClass($model);
+                $name = $class->getShortName();
+
+                if ($org != null) {
+                    $record = Setting::where(['organization_id' => $org->id, 'key' => $name, 'owner_feature' => 'batch-workable'])->first();
+                    if ($record == null) {
+                        Setting::create([
+                            'organization_id' => $org->id,
+                            'display_ordinal' => $idx,
+                            'group_name' => 'batchable_models',
+                            'display_name' => $name,
+                            'display_type' => 'string',
+                            'owner_feature' => 'batching',
+                            'key' => $name,
+                            'value' => $model,
+                        ]);
+                    }
+                }
+
+            }
+        }
+
+    } 
+
+    public function register_batch_workable(Organization $org, $model_names=[]){
+
+        if (Schema::hasTable('fc_settings')) {
+            foreach($model_names as $idx=>$model){
+
+                $class = new \ReflectionClass($model);
+                $name = $class->getShortName();
+
+                if ($org != null) {
+                    $record = Setting::where(['organization_id' => $org->id, 'key' => $name, 'owner_feature' => 'batching'])->first();
+                    if ($record == null) {
+                        Setting::create([
+                            'organization_id' => $org->id,
+                            'display_ordinal' => $idx,
+                            'group_name' => 'batch_workables',
+                            'display_name' => $name,
+                            'display_type' => 'string',
+                            'owner_feature' => 'batching',
+                            'key' => $name,
+                            'value' => $model,
+                        ]);
+                    }
+                }
+
+            }
+        }
+
+    }
+
     public function get_document_generator_models(Organization $org)
     {
         if (Schema::hasTable('fc_settings')) {
@@ -256,6 +350,32 @@ class FoundationCore
                 return Setting::where([
                     'organization_id' => $org->id,
                     'group_name' => 'document_models',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
+    public function get_batchable_models(Organization $org)
+    {
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                return Setting::where([
+                    'organization_id' => $org->id,
+                    'group_name' => 'batchable_models',
+                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+            }
+        }
+        return [];
+    }
+
+    public function get_batch_workables(Organization $org)
+    {
+        if (Schema::hasTable('fc_settings')) {
+            if ($org != null) {
+                return Setting::where([
+                    'organization_id' => $org->id,
+                    'group_name' => 'batch_workables',
                 ])->whereIn('owner_feature', $this->enabled_features($org))->get();
             }
         }
@@ -343,6 +463,29 @@ class FoundationCore
                         'children' => []
                     ]
                 ];
+            }
+
+            if (\FoundationCore::has_feature('batching', $current_user->organization)) {
+                $fc_menu['mnu_fc_batching'] = [
+                    'id'=>'mnu_fc_batching',
+                    'label'=>'Batching',
+                    'icon'=>'bx bx-package',
+                    'path'=> '#',
+                    'route-selector'=>'',
+                    'is-parent'=>true,
+                    'children' => []
+                ];
+
+                $fc_menu['mnu_fc_batching']['children']['mnu_fc_batching_all_batches'] = [
+                    'id'=>'mnu_fc_batching_all_batches',
+                    'label'=>'All Batches',
+                    'icon'=>'bx bx-copy',
+                    'path'=> route('fc.batches.index'),
+                    'route-selector'=>'fc/batches*',
+                    'is-parent'=>false,
+                    'children' => []
+                ];
+
             }
         }
 
@@ -484,6 +627,9 @@ class FoundationCore
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
 
             Route::resource('batches', \Hasob\FoundationCore\Controllers\API\BatchAPIController::class);
+            Route::post('/batch/preview/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'preview'])->name('batch.preview-batch-item');
+            Route::post('/batch/remove/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'removeBatchItem'])->name('batch.remove-batch-item');
+            Route::post('/batch/add/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'addBatchItem'])->name('batch.add-batch-item');
             Route::resource('addresses', \Hasob\FoundationCore\Controllers\API\AddressAPIController::class);
             Route::resource('batch_items', \Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);

@@ -18,7 +18,7 @@ Batches
         <i class="zmdi zmdi-file-plus"></i> New&nbsp;Batch
     </a>
     @if (Auth()->user()->hasAnyRole(['','admin']))
-        @include('hasob-foundation-core::pages.batches.bulk-upload-modal')
+        @include('hasob-foundation-core::batches.bulk-upload-modal')
     @endif
 </span>
 @stop
@@ -30,16 +30,14 @@ Batches
     </div>
 
     <div class="row">
-        <div class="card">
-            <div class="card-wrapper collapse in">
-                <div class="card-body pt-5">
+        <div class="card border-top border-0 border-4 border-success">
+            <div class="card-body">
                     {{ $cdv_batches->render() }}
-                </div>
             </div>
         </div>
     </div>
 
-    @include('hasob-foundation-core::pages.batches.modal')
+    @include('hasob-foundation-core::batches.modal')
     
 @endsection
 

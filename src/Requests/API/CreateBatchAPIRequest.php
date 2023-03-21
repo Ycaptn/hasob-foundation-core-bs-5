@@ -31,7 +31,8 @@ class CreateBatchAPIRequest extends AppBaseFormRequest
         'status' => 'max:100',
         'wf_status' => 'max:100',
         'wf_meta_data' => 'max:1000',
-        'batchable_type' => 'nullable|max:150',
+        'batchable_type' => 'required|max:150',
+        'workable_type' => 'nullable|max:150',
         'creator_user_id' => 'required'
         ];
     }
