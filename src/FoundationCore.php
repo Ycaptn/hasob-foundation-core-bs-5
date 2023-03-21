@@ -502,13 +502,6 @@ class FoundationCore
 
             Route::resource('signatures', \Hasob\FoundationCore\Controllers\API\SignatureAPIController::class);
 
-        });
-    }
-
-    public function api_public_routes()
-    {
-
-        Route::name('fc-api.')->prefix('fc-api')->group(function () {
             Route::get('/attachments/{id}', [AttachmentAPIController::class, 'show'])->name('attachments.show');
             Route::get('/attachments', [AttachmentAPIController::class, 'index'])->name('attachments.index');
             Route::post('/attachments', [AttachmentAPIController::class, 'update'])->name('attachments.store');
@@ -516,6 +509,12 @@ class FoundationCore
             Route::get('/attachment-details/{id}', [AttachmentAPIController::class, 'getAttachmentDetails'])->name('attachment-details');
             Route::post('/attachment/permission/{id}', [AttachmentAPIController::class, 'processAttachmentPermission'])->name('attachment-process-permissions');
             Route::post('/attachment-rename/{id}', [AttachmentAPIController::class, 'renameAttachment'])->name('attachment-rename');
+        });
+    }
+
+    public function api_public_routes()
+    {
+        Route::name('fc-api.')->prefix('fc-api')->group(function () {
             //Multi Tenancy
             Route::get('/org-detect', [OrganizationController::class, 'detect'])->name('fc.org-detect');
 
