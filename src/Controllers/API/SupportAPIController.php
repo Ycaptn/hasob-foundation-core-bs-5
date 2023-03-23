@@ -10,8 +10,8 @@ use Hasob\FoundationCore\Events\SupportCreated;
 use Hasob\FoundationCore\Events\SupportUpdated;
 use Hasob\FoundationCore\Events\SupportDeleted;
 
-use Hasob\FoundationCore\Requests\API\CreatesupportAPIRequest;
-use Hasob\FoundationCore\Requests\API\UpdatesupportAPIRequest;
+use Hasob\FoundationCore\Requests\API\CreateSupportAPIRequest;
+use Hasob\FoundationCore\Requests\API\UpdateSupportAPIRequest;
 
 use Hasob\FoundationCore\Traits\ApiResponder;
 use Hasob\FoundationCore\Models\Organization;
