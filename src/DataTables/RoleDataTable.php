@@ -25,10 +25,15 @@ class RoleDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-
-        $dataTable->addColumn('role', function ($query) {
+        $dataTable->addColumn('role', function($query)
+        {
             return "{$query->name}";
+        })->filterColumn('name', function ($query, $keyword){
+                             
+            $query->where('name','like','%'.$keyword.'%');
+             
         });
+      
 
         $dataTable->addColumn('action', 'hasob-foundation-core::roles.action_buttons');
         $dataTable->rawColumns(['action']);
@@ -63,17 +68,9 @@ class RoleDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id')
-                ->addClass('text-center')
-                ->width(30)
-            ,
-            Column::make('role')
-            ,
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(120)
-                ->addClass('text-center')
+            'id',
+            ['title'=>'Role', 'data'=> "name",'searchable' => 'true'],
+            //'last_login_date'
         ];
     }
 
