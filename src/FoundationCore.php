@@ -655,6 +655,10 @@ class FoundationCore
             Route::get('/attachment-details/{id}', [AttachmentAPIController::class, 'getAttachmentDetails'])->name('attachment-details');
             Route::post('/attachment/permission/{id}', [AttachmentAPIController::class, 'processAttachmentPermission'])->name('attachment-process-permissions');
             Route::post('/attachment-rename/{id}', [AttachmentAPIController::class, 'renameAttachment'])->name('attachment-rename');
+
+            // users
+            Route::get('/users', [UserController::class, 'index'])->name('users.index');
+            Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
         });
     }
 
