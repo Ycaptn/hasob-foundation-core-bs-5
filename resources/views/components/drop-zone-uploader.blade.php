@@ -24,7 +24,7 @@
                 <form action="{{ route('fc.attachment.store') }}" class="dropzone" id="file-upload-dropzone">
                     {{ csrf_field() }}
                     <div class="dz-message needsclick">
-                        <i class="fa fa-cloud-upload fa-3x"></i> <br />
+                        <i class="fa fa-cloud-upload-alt fa-3x"></i> <br />
                         Drop files here or click to upload<br />
                         <div id="close-uploader" style="margin: 10px 0 10px 0 ; position:absolute; bottom: 10px; right:20px">
                             <button class="btn btn-primary btn-sm close-uploader" type="button">OK</button>
@@ -36,7 +36,7 @@
                         <div>
                             <span data-dz-name></span> - <span class="size" data-dz-size></span> <span class="success-msg"></span> <span class="error-msg"></span>
                             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="margin-bottom: 0px;">
-                                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" data-dz-uploadprogress></div>
                             </div>
                             <strong class="error text-danger" data-dz-errormessage></strong>
                         </div>
@@ -81,19 +81,31 @@
         previewsContainer: "#previews",
         previewTemplate: document.getElementById('preview-template').innerHTML,
 
+        uploadprogress: function(file, progress) {
+            console.log(progress);
+            progress = progress > 90 ? 90 : progress;
+            console.log(progress);
+            file.previewElement.querySelector(".progress-bar").style.width = progress + "%";
+        },
         success: function(file, response) {
             file.previewElement.querySelector('.error-msg').innerHTML = "";
-            file.previewElement.querySelector('.success-msg').innerHTML = "<strong class='text-blue'>DONE!!</strong>";
-            file.previewElement.querySelector(".progress-bar").style.display = "none";
+            file.previewElement.querySelector('.success-msg').innerHTML = "<strong class='text-success'>DONE!!</strong>";
+            file.previewElement.querySelector(".progress-bar").classList.remove('progress-bar-striped');
+            file.previewElement.querySelector(".progress-bar").classList.remove('bg-danger');
+            file.previewElement.querySelector(".progress-bar").classList.add('progress-bar-success');
+            file.previewElement.querySelector(".progress-bar").classList.add('bg-success');
             //location.reload();
             $('#close-uploader').show();
         },
         error: function(file, response) {
-            file.previewElement.querySelector('.error-msg').innerHTML = "<strong class='text-red'>ERROR!!</strong>";
+            file.previewElement.querySelector('.error-msg').innerHTML = "<strong class='text-danger'>ERROR!!</strong>";
             file.previewElement.querySelector('.success-msg').innerHTML = "";
             file.previewElement.querySelector(".progress-bar").style.display = "none";
             console.log(response);
             //alert('Error uploading files');
+        },
+        complete: function(file, response) {
+            file.previewElement.querySelector(".progress-bar").style.width = "100%";
         }
     });
 
