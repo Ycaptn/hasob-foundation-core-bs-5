@@ -88,6 +88,12 @@ class Organization extends Model
             config('tetfund-astd.hasob_features')!=null ? config('tetfund-astd.hasob_features') : [] ,
             config('tetfund-thesis-digitization.hasob_features')!=null ? config('tetfund-thesis-digitization.hasob_features') : [] ,
             config('tetfund-thesis-digitization-ingest.hasob_features')!=null ? config('tetfund-thesis-digitization-ingest.hasob_features') : [] ,
+            config('scola-core.hasob_features')!=null ? config('scola-core.hasob_features') : [] ,
+            config('scola-erecords.hasob_features')!=null ? config('scola-erecords.hasob_features') : [] ,
+            config('scola-elearning.hasob_features')!=null ? config('scola-elearning.hasob_features') : [] ,
+            config('scola-eclearance.hasob_features')!=null ? config('scola-eclearance.hasob_features') : [] ,
+            config('scola-etranscript.hasob_features')!=null ? config('scola-etranscript.hasob_features') : [] ,
+            config('scola-seminar-courses.hasob_features')!=null ? config('scola-seminar-courses.hasob_features') : [] ,
         );
 
         //Log::debug(config('*.hasob_features'));
