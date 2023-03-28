@@ -114,14 +114,14 @@ class DocumentManager {
         }else{
             $generated_file_path = self::saveAsMsWord($html_content, $file_name);
         }
-       
+       $attachable = null;
         //Attach the file to the model as a document
         if ($subject != null && !empty($generated_file_path)){
           
-            $subject->save_file(Auth::user(), $file_name, $file_description, $generated_file_path,$allowed_viewer_user_roles);
+            $attachable = $subject->save_file(Auth::user(), $file_name, $file_description, $generated_file_path,$allowed_viewer_user_roles);
         }
 
-        return $generated_file_path;
+        return ["path" => $generated_file_path,"attachable" => $attachable ];
     }
 
     private static function saveAsMsWord($content, $file_name){
