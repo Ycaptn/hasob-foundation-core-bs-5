@@ -283,7 +283,7 @@
                 } else {
                     formData.append('batchable_type', "");
                 }
-                formData.append('workable_type', $('#workable_type').val());
+                formData.append('workable_type', $('#sel_workable_type').val());
                 formData.append('creator_user_id', "{{ auth()->user()->id }}");
                 $.ajax({
                     url: endPointUrl,
