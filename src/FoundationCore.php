@@ -294,7 +294,7 @@ class FoundationCore
                 $name = $class->getShortName();
 
                 if ($org != null) {
-                    $record = Setting::where(['organization_id' => $org->id, 'key' => $name, 'owner_feature' => 'batch-workable'])->first();
+                    $record = Setting::where(['organization_id' => $org->id, 'key' => $name, 'owner_feature' => 'batching'])->first();
                     if ($record == null) {
                         Setting::create([
                             'organization_id' => $org->id,
