@@ -147,7 +147,7 @@ class BatchAPIController extends AppBaseController
         if (empty($batch)) {
             return $this->sendError('Batch not found');
         }
-
+        
         if ($request->batchable_id != null) {
             $batch_items = \Hasob\FoundationCore\Models\BatchItem::where('batchable_id', $request->batchable_id)->where('batchable_type', $request->batchable_type)->where('batch_id', $batch->id)->get();
 
@@ -168,8 +168,8 @@ class BatchAPIController extends AppBaseController
         if (empty($batch)) {
             return $this->sendError('Batch not found');
         }
-
-        $batch_items = \Hasob\FoundationCore\Models\BatchItem::where('batchable_id', $request->batchable_id)->where('batchable_type', $request->batchable_type)->where('batch_id', $batch->id)->delete();
+        $batchable_ids = explode(",", $request->batchable_id);
+        $batch_items = \Hasob\FoundationCore\Models\BatchItem::whereIn('batchable_id', $batchable_ids)->where('batchable_type', $request->batchable_type)->where('batch_id', $batch->id)->delete();
 
         return $this->sendSuccess('Batch Item Removed Successfully deleted successfully');
 
