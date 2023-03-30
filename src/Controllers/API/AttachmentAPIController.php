@@ -93,12 +93,13 @@ class AttachmentAPIController extends BaseController
     {
         $attach = Attachment::find($id);
         if ($attach != null) {
-
+                    
+            $slugged_label = \Str::slug($attach->label);
             if ($attach->storage_driver == 'azure' || $attach->storage_driver == 's3') {
                 return Storage::disk($attach->storage_driver)->download(
                     $attach->path,
-                    $attach->label,
-                    ['Content-Disposition' => 'inline; filename="' . $attach->label . '"']
+                    $slugged_label,
+                    ['Content-Disposition' => 'inline; filename="' . $slugged_label . '"']
                 );
             }
 
@@ -108,7 +109,7 @@ class AttachmentAPIController extends BaseController
                     base_path($attach->path),
                     [
                         'Content-Type' => 'application/pdf',
-                        'Content-Disposition' => 'inline; filename="' . $attach->label . '"',
+                        'Content-Disposition' => 'inline; filename="' . $slugged_label . '"',
                     ]
                 );
             } else if ($attach->file_type == 'docx' || $attach->file_type == 'doc') {
@@ -117,7 +118,7 @@ class AttachmentAPIController extends BaseController
                     base_path($attach->path),
                     [
                         'Content-Type: application/vnd.ms-word',
-                        'Content-Disposition' => 'attachment; filename="' . $attach->label . "." . $attach->file_type . '"',
+                        'Content-Disposition' => 'attachment; filename="' . $slugged_label . "." . $attach->file_type . '"',
                     ]
                 );
             } else if ($attach->file_type == 'pptx' || $attach->file_type == 'ppt') {
@@ -126,7 +127,7 @@ class AttachmentAPIController extends BaseController
                     base_path($attach->path),
                     [
                         'Content-Type: application/vnd.ms-powerpoint',
-                        'Content-Disposition' => 'attachment; filename="' . $attach->label . "." . $attach->file_type . '"',
+                        'Content-Disposition' => 'attachment; filename="' . $slugged_label . "." . $attach->file_type . '"',
                     ]
                 );
             } else if ($attach->file_type == 'xlsx' || $attach->file_type == 'xls') {
@@ -135,7 +136,7 @@ class AttachmentAPIController extends BaseController
                     base_path($attach->path),
                     [
                         'Content-Type: application/vnd.ms-excel',
-                        'Content-Disposition' => 'attachment; filename="' . $attach->label . "." . $attach->file_type . '"',
+                        'Content-Disposition' => 'attachment; filename="' . $slugged_label . "." . $attach->file_type . '"',
                     ]
                 );
             }

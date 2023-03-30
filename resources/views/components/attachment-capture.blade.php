@@ -107,15 +107,15 @@
                 );
 
                 Webcam.set({
-                    width: 528,
-                    height: 380,
+                    width: 600,
+                    height: 360,
                     dest_width: 1280,
                     dest_height: 720,
                     image_format: 'jpeg',
-                    jpeg_quality: 100,
+                    jpeg_quality: 150,
                     constraints: {
-                        width: { exact: 1280 },
-                        height: { exact: 720 }
+                        width: { exact: 640 },
+                        height: { exact: 480 }
                     },
 			        flip_horiz: true
                 });
