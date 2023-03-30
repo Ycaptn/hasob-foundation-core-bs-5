@@ -279,7 +279,7 @@
                 // formData.append('', $('#').val());
                 formData.append('name', $('#name').val());
                 if ($('input[name="cbx-batchable-type"]').is(':checked')) {
-                    formData.append('batchable_type', $('input[name="cbx-batchable-type"]').val());
+                    formData.append('batchable_type', $('input[name="cbx-batchable-type"]:checked').val());
                 } else {
                     formData.append('batchable_type', "");
                 }
