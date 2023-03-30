@@ -89,24 +89,28 @@ class Batch extends Model
         return "Cannot preview batch";
     }
 
-    public function getBatchableItems(){
+    public function getBatchableItems($batched_item_ids){
         
         if($this->batchable_type != null){
             $batchable_type = new $this->batchable_type();
-           return  $batchable_type->get_batchable_items();
+           return  $batchable_type->get_batchable_items($batched_item_ids);
         }
 
         return [];
     }
 
     public function getBatchedItems(){
-        $batchItems = $this->batchItems()->pluck('batchable_id')->toArray();
+        $batchItems = $this->getBatchedItemIDs();
         if($this->batchable_type != null){
             $batchable_type = new $this->batchable_type();
-           return  $batchable_type->get_batched_items( $batchItems);
+           return  $batchable_type->get_batched_items($batchItems);
         }
 
         return [];
     }
+    public function getBatchedItemIDs(){
+      return  $this->batchItems()->pluck('batchable_id')->toArray();
+    }
+
 
 }
