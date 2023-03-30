@@ -26,7 +26,7 @@
                 $workflow_name = $workflow_object->name;
             }
         @endphp
-        @if (!empty($workflow_name))
+        @if (!empty($workflow_name) && $batch->status ==  "new")
             <button class="btn btn-danger btn_process_batch mx-2" data-val-workable-type="{{ $batch->workable_type }}"
                 data-val-workable-id="{{ $batch->id }}">Process Batch</button>
             <x-hasob-workflow-engine::workflow-invoker :target="'btn-process-batch'" :workflow="$workflow_name" :workable="$workable_object"
@@ -48,13 +48,14 @@
     <span class="float-end">
         <div class="float-end inline-block dropdown mx-2">
             <a href="#" data-val='{{ $batch->id }}' class='btn btn-xs btn-primary btn-preview-mdl-batch-modal'>
-                <i class="icon wb-reply" aria-hidden="true"></i>Batch Items Preview
+                <i class="icon wb-reply" aria-hidden="true"></i> Preview Batch Items
             </a>
         </div>
     </span>
 @stop
 @php
     $batch_preview = $batch->getBatchPreview();
+    $movable_batches = $batch->getMovableBatches();
 @endphp
 @section('content')
     <div class="card  border-top border-0 border-4 border-success">
@@ -177,15 +178,6 @@
                     error: function(data) {
                         console.log(data);
 
-                    }
-                });
-            });
-
-            $('.btn-save-remove-batch-item').click(function(e) {
-                e.preventDefault();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
                     }
                 });
             });

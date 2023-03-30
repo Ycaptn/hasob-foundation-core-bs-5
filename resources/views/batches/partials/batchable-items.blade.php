@@ -17,7 +17,9 @@
 
     </div>
     <div>
-        <button class="btn btn-primary float-end btn-save-add-batch-item mx-2">Add Selected Items to Batch</button>
+        @if($batch->status != "processed")
+        <button class="btn btn-primary my-3 float-end btn-save-add-batch-item mx-2">Add Selected Items to Batch</button>
+        @endif
     </div>
 </div>
 @push('page_scripts')

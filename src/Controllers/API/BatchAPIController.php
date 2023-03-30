@@ -7,6 +7,7 @@ use Hasob\FoundationCore\Events\BatchCreated;
 use Hasob\FoundationCore\Events\BatchDeleted;
 use Hasob\FoundationCore\Events\BatchUpdated;
 use Hasob\FoundationCore\Models\Batch;
+use Hasob\FoundationCore\Models\BatchItem;
 use Hasob\FoundationCore\Models\Organization;
 use Hasob\FoundationCore\Requests\API\CreateBatchAPIRequest;
 use Hasob\FoundationCore\Requests\API\CreateBatchItemAPIRequest;
@@ -14,6 +15,7 @@ use Hasob\FoundationCore\Requests\API\UpdateBatchAPIRequest;
 use Hasob\FoundationCore\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Hasob\FoundationCore\Requests\API\BatchMoveAPIRequest;
 
 /**
  * Class BatchController
@@ -172,6 +174,33 @@ class BatchAPIController extends AppBaseController
         $batch_items = \Hasob\FoundationCore\Models\BatchItem::whereIn('batchable_id', $batchable_ids)->where('batchable_type', $request->batchable_type)->where('batch_id', $batch->id)->delete();
 
         return $this->sendSuccess('Batch Item Removed Successfully deleted successfully');
+
+    }
+
+    public function moveBatchItem($id, Organization $organization, BatchMoveAPIRequest $request)
+    {
+        /** @var Batch $batch */
+        $batch = Batch::find($id);
+       
+        if (empty($batch)) {
+            return $this->sendError('Batch not found');
+        }
+        $batchable_ids = explode(",", $request->batchable_id);
+      
+        $batch_items = BatchItem::whereIn('batchable_id', $batchable_ids)->where('batchable_type', $batch->batchable_type)->where('batch_id', $batch->id)->delete();
+    
+        foreach ($batchable_ids  as $key => $batchable_id) {
+            # code...
+           $batchItem = BatchItem::create([
+                'batch_id' => $request->move_to_batch_id,
+                'batchable_type' => $request->batchable_type,
+                'batchable_id' => $batchable_id,
+                'organization_id' => $request->organization_id
+            ]);
+        }
+
+
+        return $this->sendSuccess('Batch Item Moved Successfully successfully');
 
     }
  
