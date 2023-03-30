@@ -59,11 +59,11 @@ class AnnouncementAPIController extends AppBaseController
      * Store a newly created announcement in storage.
      * POST /announcementes
      *
-     * @param CreateannouncementAPIRequest $request
+     * @param CreateAnnouncementAPIRequest $request
      *
      * @return Response
      */
-    public function store(CreateannouncementAPIRequest $request, Organization $organization)
+    public function store(CreateAnnouncementAPIRequest $request, Organization $organization)
     {
         $input = $request->all();
 

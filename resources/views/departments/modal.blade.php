@@ -120,7 +120,15 @@
                             closeOnCancel: true
                     }, function(isConfirm) {
                     if (isConfirm) {
-        
+                        
+                        swal({
+                            title: '<div id="spinner-delete" class="spinner-border text-primary" role="status"> <span class="visually-hidden">  Loading...  </span> </div> <br><br>Deleting...',
+                            text: 'Please wait while Department/Unit is being deleted <br><br> Do not refresh this page! ',
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                            html: true
+                        });
+
                         let endPointUrl = "{{ route('fc.departments.destroy','') }}/"+itemId;
                         let formData = new FormData();
                         formData.append('_token', $('input[name="_token"]').val());
