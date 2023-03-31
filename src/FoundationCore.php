@@ -285,7 +285,7 @@ class FoundationCore
 
     }
 
-   public function register_batchable_model(Organization $org, $model_names=[], $batch_item_template=""){
+    public function register_batchable_model(Organization $org, $model_names=[], $batch_item_template=""){
 
         if (Schema::hasTable('fc_settings')) {
             foreach($model_names as $idx=>$model){
