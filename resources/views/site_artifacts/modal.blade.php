@@ -38,6 +38,21 @@
                                 </div>
                             </div>
 
+                            <div id="div-edit-txt-siteArtifact-page-selector">
+                                <div class="row">
+                                    <div class="col-lg-12 ma-10">
+                                        @if (isset($site) && $site != null && count($site->pages()) > 0)
+                                        <select id="site-artifact-related-page-id" class="form-select">
+                                            <option value="">None</option>
+                                            @foreach ($site->pages() as $page)
+                                            <option value="{{$page->id}}">{{$page->page_name}}</option>
+                                            @endforeach
+                                        </select>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </form>
@@ -147,6 +162,11 @@
                 }
                 if (response.data.specific_display_date != null){
                     $('#specific_display_date').val(response.data.specific_display_date);
+                }
+
+                $('#site-artifact-related-page-id').val(null);
+                if (response.data.page_id != null){
+                    $('#site-artifact-related-page-id').val(response.data.page_id);
                 }
 
                 $("#spinner-site_artifacts").hide();
@@ -270,6 +290,10 @@
             }
             if ($('#specific_display_date')!=null && $('#specific_display_date').val()!=null){
                 formData.append('specific_display_date', $('#specific_display_date').val());
+            }
+
+            if ($('#site-artifact-related-page-id')!=null && $('#site-artifact-related-page-id').val()!=null){
+                formData.append('page_id', $('#site-artifact-related-page-id').val());
             }
 
             $.ajax({

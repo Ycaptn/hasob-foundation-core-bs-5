@@ -285,7 +285,7 @@ class FoundationCore
 
     }
 
-   public function register_batchable_model(Organization $org, $model_names=[]){
+    public function register_batchable_model(Organization $org, $model_names=[], $batch_item_template=""){
 
         if (Schema::hasTable('fc_settings')) {
             foreach($model_names as $idx=>$model){
@@ -630,6 +630,8 @@ class FoundationCore
             Route::post('/batch/preview/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'preview'])->name('batch.preview-batch-item');
             Route::post('/batch/remove/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'removeBatchItem'])->name('batch.remove-batch-item');
             Route::post('/batch/add/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'addBatchItem'])->name('batch.add-batch-item');
+            Route::post('/batch/move/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'moveBatchItem'])->name('batch.move-batch-item');
+           
             Route::resource('addresses', \Hasob\FoundationCore\Controllers\API\AddressAPIController::class);
             Route::resource('batch_items', \Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);

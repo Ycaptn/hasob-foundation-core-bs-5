@@ -111,6 +111,9 @@ class Batch extends Model
     public function getBatchedItemIDs(){
       return  $this->batchItems()->pluck('batchable_id')->toArray();
     }
+    public function getMovableBatches(){
+        return Batch::where('id','<>',$this->id)->where('status','new')->where("batchable_type",$this->batchable_type)->get();
+    }
 
 
 }

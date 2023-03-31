@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@php
+$hide_right_panel = true;
+@endphp
+
+
 @section('title_postfix')
     {{ $site->site_name }}
 @stop
@@ -43,7 +48,7 @@
         });
     @endphp
 
-    <div class="card">
+    <div class="card border-top border-0 border-4 border-primary">
         <div class="card-body">
             <div class="tab-struct  custom-tab-1">
                 <ul role="tablist" class="nav nav-tabs nav-primary" id="myTab">

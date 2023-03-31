@@ -29,17 +29,13 @@ use Illuminate\Http\Response;
 
 class SiteController extends BaseController
 {
-    /**
-     * Display a listing of the Site.
-     *
-     * @param SiteDataTable $siteDataTable
-     * @return Response
-     */
+
     public function index(Organization $org, SiteDataTable $siteDataTable)
     {
         $current_user = Auth()->user();
+        $default_org_site = \FoundationCore::current_organization()->artifact('default-site-id');
 
-        $cdv_sites = new \Hasob\FoundationCore\View\Components\CardDataView(Site::class, "hasob-foundation-core::sites.card_view_item");
+        $cdv_sites = new \Hasob\FoundationCore\View\Components\CardDataView(Site::class, "hasob-foundation-core::sites.card_view_item", ['default_org_site'=>$default_org_site]);
         $cdv_sites->setDataQuery(['organization_id'=>$org->id])
                         ->setSearchFields(['site_name','description'])
                         ->addDataOrder('display_ordinal','DESC')
@@ -54,29 +50,18 @@ class SiteController extends BaseController
 
         return view('hasob-foundation-core::sites.card_view_index')
                     ->with('current_user', $current_user)
+                    ->with('default_org_site', $default_org_site)
                     ->with('months_list', BaseController::monthsList())
                     ->with('states_list', BaseController::statesList())
                     ->with('cdv_sites', $cdv_sites)
                     ->with('all_sites', Site::all());
     }
 
-    /**
-     * Show the form for creating a new Site.
-     *
-     * @return Response
-     */
     public function create(Organization $org)
     {
         return view('hasob-foundation-core::pages.sites.create');
     }
 
-    /**
-     * Store a newly created Site in storage.
-     *
-     * @param CreateSiteRequest $request
-     *
-     * @return Response
-     */
     public function store(Organization $org, CreateSiteRequest $request)
     {
         $input = $request->all();
@@ -93,34 +78,43 @@ class SiteController extends BaseController
         return redirect(route('fc.sites.index'));
     }
 
-    /**
-     * Display the specified Site.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
     public function show(Organization $org, $id)
     {
-        /** @var Site $site */
+
+        $current_user = Auth()->user();
         $site = Site::find($id);
 
         if (empty($site)) {
-            //Flash::error('Site not found');
             return redirect(route('fc.sites.index'));
         }
 
-        return view('hasob-foundation-core::sites.show')->with('site', $site);
+        $default_org_site = \FoundationCore::current_organization()->artifact('default-site-id');
+
+        return view('hasob-foundation-core::sites.show')
+                    ->with('site', $site)
+                    ->with('current_user', $current_user)
+                    ->with('default_org_site', $default_org_site)
+                    ->with('months_list', BaseController::monthsList())
+                    ->with('states_list', BaseController::statesList())
+                    ->with('all_sites', Site::all());
     }
 
     public function displaySite(Organization $org, $id)
     {
+        $current_user = Auth()->user();
         $site = Site::find($id);
         if (empty($site)) {
             return redirect(route('dashboard'));
         }
 
-        return view('hasob-foundation-core::sites.display')->with('site', $site);
+        $default_org_site = \FoundationCore::current_organization()->artifact('default-site-id');
+
+        return view('hasob-foundation-core::sites.display')
+                ->with('site', $site)
+                ->with('current_user', $current_user)
+                ->with('default_org_site', $default_org_site)
+                ->with('months_list', BaseController::monthsList())
+                ->with('states_list', BaseController::statesList());
     }
 
     public function displayPage(Organization $org, $site_id, $page_id)
@@ -131,16 +125,11 @@ class SiteController extends BaseController
             return redirect(route('dashboard'));
         }
 
-        return view('hasob-foundation-core::sites.display')->with('site', $site)->with('page', $page);
+        return view('hasob-foundation-core::sites.display')
+                    ->with('site', $site)
+                    ->with('page', $page);
     }
 
-    /**
-     * Show the form for editing the specified Site.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
     public function edit(Organization $org, $id)
     {
         /** @var Site $site */
@@ -155,14 +144,6 @@ class SiteController extends BaseController
         return view('hasob-foundation-core::sites.edit')->with('site', $site);
     }
 
-    /**
-     * Update the specified Site in storage.
-     *
-     * @param  int              $id
-     * @param UpdateSiteRequest $request
-     *
-     * @return Response
-     */
     public function update(Organization $org, $id, UpdateSiteRequest $request)
     {
         /** @var Site $site */
@@ -183,15 +164,7 @@ class SiteController extends BaseController
         return redirect(route('fc.sites.index'));
     }
 
-    /**
-     * Remove the specified Site from storage.
-     *
-     * @param  int $id
-     *
-     * @throws \Exception
-     *
-     * @return Response
-     */
+
     public function destroy(Organization $org, $id)
     {
         /** @var Site $site */

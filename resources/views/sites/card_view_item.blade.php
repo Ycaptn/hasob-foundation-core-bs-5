@@ -34,6 +34,14 @@
                         <div>
                             <h4 class="card-title mb-0">
                                 <a href="{{ route('fc.sites.show', $data_item->id) }}">{{ $data_item->site_name }}</a>
+                                @if (isset($data_collection['default_org_site']) && $data_collection['default_org_site']!=null)
+                                @php
+                                    $default_org_site = $data_collection['default_org_site'];
+                                @endphp
+                                    @if ($default_org_site!=null && $default_org_site->value == $data_item->id)
+                                    <span style="font-size:80%;" class="small text-danger">(DEFAULT)</span>
+                                    @endif
+                                @endif
                             </h4>
                         </div>
                     </div>

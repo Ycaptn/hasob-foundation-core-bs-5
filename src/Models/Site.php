@@ -100,7 +100,7 @@ class Site extends Model
     // }
 
     public function site_artifacts(){
-        return $this->hasMany(SiteArtifact::class);
+        return $this->hasMany(SiteArtifact::class)->orderBy('headline','ASC');
     }
 
     public function save(array $options = []){
