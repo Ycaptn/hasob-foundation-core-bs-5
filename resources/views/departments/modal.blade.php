@@ -202,10 +202,17 @@
                 }
                 
                 formData.append('_method', actionType);
-                formData.append('email', $('#email').val());
+                
+                if($('#email').val().length > 0) {
+                    formData.append('email', $('#email').val());
+                }
+                
+                if($('#telephone').val().length > 0) {
+                    formData.append('telephone', $('#telephone').val());
+                }
+
                 formData.append('is_unit', $('#is_unit').prop('checked')==true ? '1' : '0');
                 formData.append('long_name', $('#long_name').val());
-                formData.append('telephone', $('#telephone').val());
                 formData.append('parent_id', $('#department_id').val());
                 formData.append('physical_location', $('#physical_location').val());
         

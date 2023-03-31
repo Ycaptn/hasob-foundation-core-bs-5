@@ -27,7 +27,9 @@ class CreateDepartmentRequest extends AppBaseFormRequest
     {
         return [
             'parent_id' => 'required_if:is_unit,==,1',
-            'long_name' => 'required'
+            'long_name' => 'required|string|max:300',
+            'email' => 'sometimes|email|max:300',
+            'telephone' => 'sometimes|digits:11'
         ];
     }
 
@@ -41,7 +43,9 @@ class CreateDepartmentRequest extends AppBaseFormRequest
         return [
             'is_unit' => 'Is Organizational Unit',
             'parent_id' => 'Parent Department',
-            'long_name' => 'Long Name',
+            'long_name' => 'Department or Unit Name',
+            'email' => 'Department or Unit Email',
+            'telephone' => 'Department or Unit Telephone',
         ];
     }
 }
