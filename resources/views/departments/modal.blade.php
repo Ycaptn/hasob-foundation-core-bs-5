@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-md">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="lbl-department-modal-title">Department</h5>
+              <h5 class="modal-title" id="lbl-department-modal-title">Department/Unit</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
   
@@ -94,11 +94,15 @@
                     $('#physical_location').val(data.response.physical_location);
                     if (data.response.parent_id != null){
                         $('#department_id').val(data.response.parent_id);
+                        $('#div-parent').show();
+                    } else {
+                        $('#div-parent').hide();
+                        $('#department_id').val('');
                     }
 
                     $('#spinner').hide();
                     $('#btn-save-mdl-department-modal').prop("disabled", false);
-                    //$('#is_unit').val(data.response.is_unit));
+                    $('#is_unit').prop('checked', data.response.is_unit);
                 });
             });
         
@@ -166,6 +170,18 @@
                 });
             });
 
+            // Event on checking organizational ID
+            $(document).on('change', "#is_unit", function(e) {
+                e.preventDefault();
+                if($(this).prop('checked') == true) {
+                    $('#department_id').val('');
+                    $('#div-parent').show();
+                } else {
+                    $('#department_id').val('');
+                    $('#div-parent').hide();
+                }
+            });
+
             //Save details
             $('#btn-save-mdl-department-modal').click(function(e) {
                 e.preventDefault();
@@ -187,7 +203,7 @@
                 
                 formData.append('_method', actionType);
                 formData.append('email', $('#email').val());
-                formData.append('is_unit', $('#is_unit').val());
+                formData.append('is_unit', $('#is_unit').prop('checked')==true ? '1' : '0');
                 formData.append('long_name', $('#long_name').val());
                 formData.append('telephone', $('#telephone').val());
                 formData.append('parent_id', $('#department_id').val());
@@ -206,7 +222,7 @@
                             console.log(result.errors);
                             $('#div-department-modal-error').html('');
                             $('#div-department-modal-error').show();
-                            $('#spinner1').hide();
+                            $('#spinner').hide();
                             $('#btn-save-mdl-department-modal').prop("disabled", false);
                             
                             $.each(result.errors, function(key, value){

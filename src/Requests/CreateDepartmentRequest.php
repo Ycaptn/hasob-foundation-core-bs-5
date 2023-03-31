@@ -26,8 +26,22 @@ class CreateDepartmentRequest extends AppBaseFormRequest
     public function rules()
     {
         return [
-            
+            'parent_id' => 'required_if:is_unit,==,1',
             'long_name' => 'required'
+        ];
+    }
+
+    public function messages() {
+        return [
+            'parent_id.required_if' => 'The Parent Department field is required when Is Organizational Unit is checked.',
+        ];
+    }
+
+    public function attributes() {
+        return [
+            'is_unit' => 'Is Organizational Unit',
+            'parent_id' => 'Parent Department',
+            'long_name' => 'Long Name',
         ];
     }
 }

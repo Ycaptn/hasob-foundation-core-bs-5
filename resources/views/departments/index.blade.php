@@ -25,7 +25,7 @@ All
 
 @section('page_title_buttons')
     @if (Auth()->user()->hasAnyRole(['departments-admin','admin']))
-    <a href="#" class="btn btn-sm btn-primary float-end btn-new-mdl-department-modal">Add Department</a>
+    <a href="#" class="btn btn-sm btn-primary float-end btn-new-mdl-department-modal">Add Department/Unit</a>
     @endif
 @stop
 
