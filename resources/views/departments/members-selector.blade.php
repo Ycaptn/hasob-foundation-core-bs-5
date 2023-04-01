@@ -49,6 +49,14 @@ $(document).ready(function() {
     $('.offline').hide();
     $('.spinner').hide();
 
+    $("select[id='sel_current_member']").css('width', '100%');
+    $("select[id='sel_current_member']").select2({
+        width: 'resolve'
+    });
+    $("select[id='sel_current_member']").select2({
+        dropdownParent:$('#mdl-department-members-modal')
+    });
+
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-department-members", function(e) {
         $('#div-department-members-modal-error').hide();
