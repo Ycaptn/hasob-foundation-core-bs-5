@@ -129,22 +129,22 @@ class DepartmentController extends BaseController
         if($current_user != null && !$current_user->hasAnyRole(['departments-admin', 'admin'])){
             return self::createJsonResponse("fail", "error", "You are not authorized to perform this action.", 200);
         }
-
-        $selected_member = User::find($request->member_id);
+        $member_ids = explode(",",$request->member_id);
+        $selected_members = User::whereIn("id",$member_ids)->get();
         $selected_department = Department::find($request->department_id);
 
-        if($selected_member == null){
-            return self::createJsonResponse("fail", "error", 'An invalid member was selected.', 200);
+        if(count($selected_members) == 0 || count($member_ids) != count($selected_members)){
+            return self::createJsonResponse("fail", "error", 'An invalid member(s) was selected.', 200);
         }
       
         if($selected_department == null){
             return self::createJsonResponse("fail", "error", "An invalid department was selected.", 200);
         }
-
-        $selected_member->department_id = $selected_department->id;
-        $selected_member->save();
-
-        return $this->sendResponse($selected_member, 'Member selection has been saved');
+        User::whereIn("id", $member_ids)->update([
+            "department_id" =>$selected_department->id
+        ]);
+      
+        return $this->sendResponse([],'Member selection has been saved');
 
     }
 

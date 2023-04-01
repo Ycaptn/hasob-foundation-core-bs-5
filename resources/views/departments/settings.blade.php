@@ -82,7 +82,7 @@
                                         <tbody>
                                             @foreach ($department->members as $idx => $member)
                                                 <tr>
-                                                    <td class="d-flex align-items-center justify-content-between border-top border-bottom pb-2">
+                                                    <td class="d-flex align-items-center border-top border-bottom pb-2">
 
                                                         @if ($member->profile_image == null)
                                                             <img width="42" height="42" class="rounded-circle p-1 border"
@@ -91,21 +91,26 @@
                                                             <img width="42" height="42" class="rounded-circle p-1 border"
                                                                 src="{{ route('fc.get-profile-picture', $member->id) }}" />
                                                         @endif
-                                                    </p>
-                                                    
-                                                    @if (isset($member->telephone) && empty($member->telephone) == false)
-                                                        <a href="tel:{{$member->telephone}}" class="me-2">
-                                                            <span class="card-text small">
-                                                                <i class="fa fa-phone-square gray-200"></i> {!! $member->telephone !!}
-                                                            </span>
-                                                        </a>
-                                                    @endif
+                                                    </td>
 
-                                                    @if (isset($member->email) && empty($member->email) == false)
-                                                        <a href="mailto:{{$member->email}}">
-                                                            <span class="card-text small"><i class="fa fa-envelope gray-200"></i> {!! $member->email !!}</span>
-                                                        </a>
-                                                    @endif
+                                                    <td style="width: 40%; text-align: center">
+                                                        @if (isset($member->telephone) && empty($member->telephone) == false)
+                                                            <a href="tel:{{$member->telephone}}" class="me-2">
+                                                                <span class="card-text small">
+                                                                    <i class="fa fa-phone-square gray-200"></i> {!! $member->telephone !!}
+                                                                </span>
+                                                            </a>
+                                                        @endif
+                                                    </td>
+                                                  
+                                                    <td style="text-align: left">
+                                                        @if (isset($member->email) && empty($member->email) == false)
+                                                            <a href="mailto:{{$member->email}}">
+                                                                <span class="card-text small"><i class="fa fa-envelope gray-200"></i> {!! $member->email !!}</span>
+                                                            </a>
+                                                        @endif
+                                                    </td>
+                                                 
                                                 </div>
                                                {{--  <a href="#" data-toggle="tooltip" title="Edit" data-val="" data-toggle="tooltip" data-original-title="Edit"
                                                 class="btn btn-sm btn-primary" href="#">
