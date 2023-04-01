@@ -6,6 +6,32 @@
                 {!! Form::text('key', null, ['class' => 'form-control','maxlength' => 255,'maxlength' => 255]) !!}
             </div>
             </div> --}}
+
+            <!-- Is Unit Field -->
+            <div id="div-is_unit" class="row">
+                <div class="col-md-9">
+                    <div class="form-check">
+                        {!! Form::checkbox('is_unit', '0', null, ['id'=>'is_unit', 'class' => 'form-check-input']) !!}
+                        <label class="form-label" for="is_unit">Is Organizational Unit</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parent Field -->
+            <div id="div-parent" class="mb-3" style="display:none;">
+                {{-- <label class="form-label">Parent Department</label> --}}
+                <div class="input-group">
+                    <select id="department_id" name="department_id" class="form-select form-select-md">
+                        <option value="">-- Select Parent Department --</option>
+                        @if (isset($departments) && $departments != null)
+                            @foreach ($departments as $idx=>$dept)
+                                <option value="{{$dept->id}}">{{$dept->long_name}}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    {{-- <span class="input-group-text"><i class="fa fa-institution"></i></span> --}}
+                </div>
+            </div> <hr>
             
             <!-- Long Name Field -->
             <div id="div-long_name" class="mb-3">
@@ -16,43 +42,15 @@
             </div>
 
 
-            <!-- Parent Field -->
-            <div id="div-parent" class="mb-3">
-                {{-- <label class="form-label">Parent</label> --}}
-                <div class="input-group">
-                    <select id="department_id" name="department_id" class="form-select form-select-md" hidden>
-                        <option value="">None</option>
-                        @if (isset($departments) && $departments != null)
-                            @foreach ($departments as $idx=>$dept)
-                                <option value="{{$dept->key}}">{{$dept->long_name}}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                    {{-- <span class="input-group-text"><i class="fa fa-institution"></i></span> --}}
-                </div>
-            </div>
-
-            
-            <!-- Is Unit Field -->
-            <div id="div-is_unit" class="row mb-3">
-                <div class="col-md-9">
-                    <div class="form-check">
-                        {!! Form::hidden('is_unit', 0, ['id'=>'is_unit', 'class' => 'form-check-input']) !!}
-                        {!! Form::checkbox('is_unit', '1', null, ['id'=>'is_unit', 'class' => 'form-check-input']) !!}
-                        <label class="form-label" for="is_unit">Is Organizational Unit</label>
-                    </div>
-                </div>
-            </div>
-
             <!-- Email Field -->
             <div id="div-email" class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label col-md-12" for="email">Department Email</label>
-                    {!! Form::email('email', null, ['id'=>'email', 'class' => 'form-control','placeholder'=>'Department Email','maxlength' => 255,'maxlength' => 255]) !!}
+                    <label class="form-label col-md-12" for="email">Department or Unit Email</label>
+                    {!! Form::email('email', null, ['id'=>'email', 'class' => 'form-control','placeholder'=>'Department or Unit Email','maxlength' => 255,'maxlength' => 255]) !!}
                 </div>
                     
                 <div class="col-md-6">
-                    <label class="form-label col-md-12" for="telephone">Department Telephone</label>
+                    <label class="form-label col-md-12" for="telephone">Department or Unit Telephone</label>
                     {!! Form::text('telephone', null, ['id'=>'telephone', 'class' => 'form-control','placeholder'=>'Phone Number','maxlength' => 255,'maxlength' => 255]) !!}
                 </div>
             </div>

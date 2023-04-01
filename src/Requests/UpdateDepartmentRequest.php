@@ -26,8 +26,26 @@ class UpdateDepartmentRequest extends AppBaseFormRequest
     public function rules()
     {
         return [
-            
-            'long_name' => 'required'
+            'parent_id' => 'required_if:is_unit,==,1',
+            'long_name' => 'required|string|max:300',
+            'email' => 'sometimes|email|max:300',
+            'telephone' => 'sometimes|digits:11'
+        ];
+    }
+
+    public function messages() {
+        return [
+            'parent_id.required_if' => 'The Parent Department field is required when Is Organizational Unit is checked.',
+        ];
+    }
+
+    public function attributes() {
+        return [
+            'is_unit' => 'Is Organizational Unit',
+            'parent_id' => 'Parent Department',
+            'long_name' => 'Department or Unit Name',
+            'email' => 'Department or Unit Email',
+            'telephone' => 'Department or Unit Telephone',
         ];
     }
 }

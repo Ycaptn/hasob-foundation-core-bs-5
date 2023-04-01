@@ -31,7 +31,7 @@ class DepartmentController extends BaseController
         $current_user = Auth()->user();
 
         $cdv_departments = new \Hasob\FoundationCore\View\Components\CardDataView(Department::class, "hasob-foundation-core::departments.department-item");
-        $cdv_departments->setDataQuery(['organization_id'=>$org->id, 'parent_id'=>null])
+        $cdv_departments->setDataQuery(['organization_id'=>$org->id])
                         ->addDataGroup('All','deleted_at', null)
                         ->addDataGroup('Departments','parent_id', null)
                         ->addDataGroup('Units','is_unit', true)
@@ -47,6 +47,7 @@ class DepartmentController extends BaseController
 
         return view('hasob-foundation-core::departments.index')
                     ->with('current_user', $current_user)
+                    ->with('departments', Department::where('is_unit', false)->get())
                     ->with('cdv_departments', $cdv_departments);
     }
 
@@ -204,7 +205,7 @@ class DepartmentController extends BaseController
         }
 
         $item->email = $request->email;
-        $item->is_unit = false;
+        $item->is_unit = $request->is_unit;
         $item->long_name = $request->long_name;
         $item->telephone = $request->telephone;
         $item->parent_id = $request->parent_id;
@@ -217,12 +218,11 @@ class DepartmentController extends BaseController
     //Store a newly created resource
     public function store(Organization $org, CreateDepartmentRequest $request){
 
-        
         $current_user = Auth::user();
 
         $department = new Department();
         $department->email = $request->email;
-        $department->is_unit = false;
+        $department->is_unit = $request->is_unit;
         $department->key = self::generateRandomCode(8);
         $department->long_name = $request->long_name;
         $department->telephone = $request->telephone;
