@@ -1,23 +1,37 @@
 <div>
-    <strong> Batched Items </strong>
-    <div id="div-remove-batch-item-modal-error" class="alert alert-danger" role="alert"></div>
     <div class="row">
-        @foreach ($batched_items as $batched_item)
-            <div class="col-md-4">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ $batched_item['value'] }}"
-                        name="cbx_batched_items" id="{{ $batched_item['value'] }}-cbx_batched_items">
-                    <label class="form-check-label" for="{{ $batched_item['value'] }}-cbx_batched_items">
-                        {{ $batched_item['key'] }}
-                    </label>
+        @if (count($batched_items) > 0)
+       
+            @if ($batch->status != 'processed')    
+                <div class="col-sm-6">
+                    <strong>Items inside batch</strong> 
                 </div>
-            </div>
-        @endforeach
-    </div>
-    <div class="float-end my-3">
-        @if ($batch->status != 'processed')
-            <button class="btn btn-warning btn-save-remove-batch-item mx-2">Remove Selections</button>
-            <button class="btn btn-danger btn-mdl-batch-move-modal mx-2">Move Selections</button>
+                <div class="col-sm-6 mb-4">
+                    <button class="btn btn-warning float-end btn-sm btn-save-remove-batch-item mx-2">Remove Selections</button>
+                    <button class="btn btn-danger float-end btn-sm btn-mdl-batch-move-modal">Move Selections</button>
+                </div>
+
+            @endif
+            <div id="div-remove-batch-item-modal-error" class="alert alert-danger" role="alert"></div>
+            @foreach ($batched_items as $batched_item)
+                <div class="col-md-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="{{ $batched_item['value'] }}"
+                            name="cbx_batched_items" id="{{ $batched_item['value'] }}-cbx_batched_items">
+                        <label class="form-check-label" for="{{ $batched_item['value'] }}-cbx_batched_items">
+                            {{ $batched_item['key'] }}
+                        </label>
+                    </div>
+                </div>
+            @endforeach
+        @else
+        <div class="col-sm-6 my-2">
+           Items inside batch
+        </div>
+        <div class="col-sm-6 my-2">
+          
+        </div>
+            <span class="my-3">No Item inside batch</span>
         @endif
     </div>
 </div>

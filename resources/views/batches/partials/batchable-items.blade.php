@@ -1,25 +1,40 @@
 <div>
-    <strong> Batchable Items </strong>
-    <div id="div-batch-item-modal-error" class="alert alert-danger" role="alert"></div>
+   
     <div class="row">
-        @foreach ($batchable_items as $batchable_item)
-            <div class="col-md-4">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ $batchable_item['value'] }}"
-                        name="cbx_batchable_items" id="{{ $batchable_item['value'] }}-cbx_batchable_items">
-                    <label class="form-check-label" for="{$batchable_item['value']}}-cbx_batchable_items">
-                        {{ $batchable_item['key'] }}
-                    </label>
+       
+        @if (count($batchable_items) > 0)
+     {{--        @if ($batch->status != 'processed') --}}
+              
+                <div class="col-sm-6 ">
+                    <strong> Items that can be Batched </strong>
                 </div>
+                <div class="col-sm-6 mb-4">
+                    <button class="btn btn-primary btn-sm float-end btn-save-add-batch-item mx-2">Add Selected Items to
+                        Batch</button>
+                </div>
+          {{--   @endif --}}
+          <div id="div-batch-item-modal-error" class="alert alert-danger" role="alert"></div>
+            @foreach ($batchable_items as $batchable_item)
+                <div class="col-md-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="{{ $batchable_item['value'] }}"
+                            name="cbx_batchable_items" id="{{ $batchable_item['value'] }}-cbx_batchable_items">
+                        <label class="form-check-label" for="{$batchable_item['value']}}-cbx_batchable_items">
+                            {{ $batchable_item['key'] }}
+                        </label>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <div class="col-sm-6">
+                <strong> Items that can be Batched </strong>
             </div>
-        @endforeach
-
-
-    </div>
-    <div>
-        @if($batch->status != "processed")
-        <button class="btn btn-primary my-3 float-end btn-save-add-batch-item mx-2">Add Selected Items to Batch</button>
+            <div class="col-sm-6 mb-4">         
+            </div>
+            <span class="my-3">No available item that can be batched</span>
         @endif
+
+
     </div>
 </div>
 @push('page_scripts')
@@ -114,7 +129,7 @@
                                     if (result.errors) {
                                         $('#div-batch-item-modal-error').html('');
                                         $('#div-batch-item-modal-error').show();
-                                      
+
                                         $.each(result.errors, function(key, value) {
                                             $('#div-batch-item-modal-error')
                                                 .append(
