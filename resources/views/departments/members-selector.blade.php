@@ -19,7 +19,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Members:</label>
                                     <div class="input-group">
-                                        <select id="sel_current_member" name="sel_current_member" class="form-select form-select-md" style="width: 100%" placeholder="Select a member">
+                                        <select id="sel_current_member" name="sel_current_member[]" multiple="multiple" class="form-select form-select-md" style="width: 100%" placeholder="Select a member">
                                         </select>
                                 </div>
                             </div>
@@ -48,15 +48,10 @@ $(document).ready(function() {
 
     $('.offline').hide();
     $('.spinner').hide();
-
-    $("select[id='sel_current_member']").css('width', '100%');
-    $("select[id='sel_current_member']").select2({
-        width: 'resolve'
+    $('#sel_current_member').select2({
+        dropdownParent: $('#mdl-department-members-modal'),
+        width: "resolve"
     });
-    $("select[id='sel_current_member']").select2({
-        dropdownParent:$('#mdl-department-members-modal')
-    });
-
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-department-members", function(e) {
         $('#div-department-members-modal-error').hide();
@@ -111,11 +106,16 @@ $(document).ready(function() {
 
         let actionType = "POST";
         let endPointUrl = "{{ route('fc.select-members','') }}/"+$('#sel_current_member').val();
-        
+        let sel_users =  $('#sel_current_member').select2('data');
+        let sel_user_ids = [];
+        sel_users.forEach(element => {
+            sel_user_ids.push(element.id);
+        });
+
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());        
         formData.append('_method', actionType);
-        formData.append('member_id', $('#sel_current_member').val());
+        formData.append('member_id',sel_user_ids);
         @if (isset($department))
         formData.append('department_id', '{{ $department->id }}');
         @endif
@@ -166,7 +166,7 @@ $(document).ready(function() {
                                 closeOnConfirm: false
                             });
                             window.setTimeout(function(){
-                        // location.reload(true);
+                        location.reload(true);
                     }, 1000);
 
                 }
