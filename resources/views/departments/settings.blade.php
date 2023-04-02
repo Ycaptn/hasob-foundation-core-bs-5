@@ -75,59 +75,60 @@
                         </div>
 
                         <div id="tab_members" class="tab-pane fade show" role="tabpanel">
-                           {{ $cdv_department_members->render() }}      
-                            @if (count($department->members) > 0)
-                                <div class="table-responsive">
-                                    <table class="table table-hover mb-0">
-                                        <tbody>
-                                            @foreach ($department->members as $idx => $member)
-                                                <tr>
-                                                    <td class="d-flex align-items-center border-top border-bottom pb-2">
+                           {{ $cdv_department_members->render() }} 
 
-                                                        @if ($member->profile_image == null)
-                                                            <img width="42" height="42" class="rounded-circle p-1 border"
-                                                                src="{{ asset('hasob-foundation-core/imgs/bare-profile.png') }}" />
-                                                        @else
-                                                            <img width="42" height="42" class="rounded-circle p-1 border"
-                                                                src="{{ route('fc.get-profile-picture', $member->id) }}" />
-                                                        @endif
-                                                    </td>
+                            <div class="col-sm-12">
+                                <div class="row">                                    
+                                    @if (count($department->members) > 0)
+                                        @foreach ($department->members as $idx => $member)
 
-                                                    <td style="width: 40%; text-align: center">
-                                                        @if (isset($member->telephone) && empty($member->telephone) == false)
-                                                            <a href="tel:{{$member->telephone}}" class="me-2">
-                                                                <span class="card-text small">
-                                                                    <i class="fa fa-phone-square gray-200"></i> {!! $member->telephone !!}
-                                                                </span>
-                                                            </a>
-                                                        @endif
-                                                    </td>
-                                                  
-                                                    <td style="text-align: left">
-                                                        @if (isset($member->email) && empty($member->email) == false)
-                                                            <a href="mailto:{{$member->email}}">
-                                                                <span class="card-text small"><i class="fa fa-envelope gray-200"></i> {!! $member->email !!}</span>
-                                                            </a>
-                                                        @endif
-                                                    </td>
-                                                 
+                                            <div class="col-6 col-md-6 col-sm-12">
+                                                <div class="card shadow department-item">
+                                                    <div class="row g-0 align-items-center">
+                                                        <div class="col-xs-12 col-md-2 align-middle text-center p-2">
+
+                                                            @if ($member->profile_image == null)
+                                                                <img width="42" height="42" class="rounded-circle p-1 border"
+                                                                    src="{{ asset('hasob-foundation-core/imgs/bare-profile.png') }}" />
+                                                            @else
+                                                                <img width="42" height="42" class="rounded-circle p-1 border"
+                                                                    src="{{ route('fc.get-profile-picture', $member->id) }}" />
+                                                            @endif
+
+                                                        </div>
+                                                        <div class="col-xs-12 col-md-10">
+                                                            <div class="card-body">
+                                                                <h3 class="h6 card-title mb-0">{{ $member->full_name }}</h3>
+                                                                
+                                                                <div class="d-flex justify-content-between align-items-start">
+                                                                    @if (isset($member->telephone) && empty($member->telephone) == false)
+                                                                        <a href="tel:{{$member->telephone}}" class="me-2">
+                                                                            <span class="card-text small">
+                                                                                <i class="fa fa-phone-square gray-200"></i> {!! $member->telephone !!}
+                                                                            </span>
+                                                                        </a>
+                                                                    @endif
+
+                                                                    @if (isset($member->email) && empty($member->email) == false)
+                                                                        <a href="mailto:{{$member->email}}">
+                                                                            <span class="card-text small"><i class="fa fa-envelope gray-200"></i> {!! $member->email !!}</span>
+                                                                        </a>
+                                                                    @endif
+                                                                    <span class="card-text small ms-auto">
+                                                                    </span>
+                                                                </div>
+                                                                @include('hasob-foundation-core::departments.departments-units-modal')
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                               {{--  <a href="#" data-toggle="tooltip" title="Edit" data-val="" data-toggle="tooltip" data-original-title="Edit"
-                                                class="btn btn-sm btn-primary" href="#">
-                                                <i class="bx bxs-edit"></i> Edit</a>&nbsp;--}}
-
-                                                {{-- <a href="#" data-togggle="tooltip" title="Delete" data-val="{{$member->id}}"
-                                                data-original-title="Delete" class="btn btn-sm btn-danger btn-remove-mdl-department-members-modal">
-                                                <i class="bx bxs-trash"></i>&nbsp;Delete</a> --}}
-                                            </td>
-                                        </tr>
+                                            </div>
                                         @endforeach
-                                        </tbody>
-                                    </table>
+                                    @else
+                                        <p class="small text-center m-2">No Member selected for this Department.</p>
+                                    @endif
                                 </div>
-                            @else
-                                <p class="small text-center m-2">No Member selected for this Department.</p>
-                            @endif
+                            </div>
                         </div>
 
                         <div id="tab_site_manager" class="tab-pane fade show" role="tabpanel">
