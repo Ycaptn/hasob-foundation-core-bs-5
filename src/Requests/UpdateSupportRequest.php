@@ -32,7 +32,7 @@ class UpdateSupportRequest extends AppBaseFormRequest
             'designation_department_id' => 'nullable|exists:fc_departments,id',
             'severity' => 'required',
             'description' => 'required',
-            'creator_user_id' => 'required|exists:fc_users,id',
+            'creator_user_id' => 'nullable|exists:fc_users,id',
             'designated-user_id' => 'nullable|exists:fc_departments,id',
 
         ];
