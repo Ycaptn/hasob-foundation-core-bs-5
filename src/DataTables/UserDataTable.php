@@ -14,6 +14,7 @@ class UserDataTable extends DataTable
 {
 
     protected $organization;
+    protected $sn_counter = 0;
 
     public function __construct(Organization $org=null){
         $this->organization = $org;
@@ -24,7 +25,7 @@ class UserDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
 
         $dataTable->addColumn('no', function ($query) {
-            return "{$query->ranking_ordinal}";
+            return $this->sn_counter+=1;
         });
 
         $dataTable->addColumn('user', function ($query) {
@@ -70,10 +71,12 @@ class UserDataTable extends DataTable
     public function query(User $model)
     {
         if ($this->organization != null){
-            return User::where("organization_id", "{$this->organization->id}")->select("fc_users.*"); 
+            return User::where("organization_id", "{$this->organization->id}")
+                    ->orderBy('created_at', 'desc')
+                    ->select("fc_users.*"); 
         }
         
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('created_at', 'desc');
     }
 
     public function html()

@@ -4,6 +4,7 @@
     $(document).ready(function() {
         let page_total = 0;
         let current_page = 0;
+        let filter_by_group_term = null;
 
         {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
 
@@ -206,6 +207,7 @@
         $(document).on('click', ".{{$control_id}}-grp", function(e) {
             e.preventDefault();
             let group_term = $(this).attr('data-val');
+            filter_by_group_term = group_term;
             $("#{{$control_id}}-pagination").hide();
             let group_term_query = "?grp="+group_term;
             @if(!empty(request()->query()) && count(request()->query()) > 0)
@@ -234,6 +236,9 @@
                 page_number = parseInt(current_page) + 1;
             }
            let pg_query = "?pg="+page_number;
+           if(filter_by_group_term!=null) {
+                pg_query += "&grp="+filter_by_group_term; 
+           }
            @if(!empty(request()->query()) && count(request()->query()) > 0)
                 pg_query = "&pg="+page_number;
            @endif
