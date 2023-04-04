@@ -2,25 +2,17 @@
 
 namespace Hasob\FoundationCore\Controllers;
 
-use Hasob\FoundationCore\Models\Batch;
-
+use Hasob\FoundationCore\Controllers\BaseController;
+use Hasob\FoundationCore\DataTables\BatchDataTable;
 use Hasob\FoundationCore\Events\BatchCreated;
-use Hasob\FoundationCore\Events\BatchUpdated;
 use Hasob\FoundationCore\Events\BatchDeleted;
-
+use Hasob\FoundationCore\Events\BatchUpdated;
+use Hasob\FoundationCore\Models\Batch;
+use Hasob\FoundationCore\Models\Organization;
 use Hasob\FoundationCore\Requests\CreateBatchRequest;
 use Hasob\FoundationCore\Requests\UpdateBatchRequest;
-
-use Hasob\FoundationCore\DataTables\BatchDataTable;
-
-use Hasob\FoundationCore\Controllers\BaseController;
-use Hasob\FoundationCore\Models\Organization;
-
-use Flash;
-
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
 
 class BatchController extends BaseController
 {
@@ -35,33 +27,37 @@ class BatchController extends BaseController
         $current_user = Auth()->user();
 
         $cdv_batches = new \Hasob\FoundationCore\View\Components\CardDataView(Batch::class, "hasob-foundation-core::batches.card_view_item");
-        $cdv_batches->setDataQuery(['organization_id'=>$org->id])
-                        //->addDataGroup('label','field','value')
-                        //->setSearchFields(['field_to_search1','field_to_search2'])
-                        //->addDataOrder('display_ordinal','DESC')
-                        //->addDataOrder('id','DESC')
-                        ->enableSearch(true)
-                        ->enablePagination(true)
-                        ->setPaginationLimit(20)
-                        ->setSearchPlaceholder('Search Batch');
+        $cdv_batches->setDataQuery(['organization_id' => $org->id])
+            ->addDataGroup('All', 'deleted_at', null)
+            ->addDataGroup('New', 'status', 'new')
+            ->addDataGroup('Processing', 'status', 'processing')
+            ->addDataGroup('Processed', 'status', 'processed')
+        //->addDataGroup('label','field','value')
+        //->setSearchFields(['field_to_search1','field_to_search2'])
+        //->addDataOrder('display_ordinal','DESC')
+        //->addDataOrder('id','DESC')
+            ->enableSearch(true)
+            ->enablePagination(true)
+            ->setPaginationLimit(20)
+            ->setSearchPlaceholder('Search Batch');
 
-        if (request()->expectsJson()){
+        if (request()->expectsJson()) {
             return $cdv_batches->render();
         }
 
         return view('hasob-foundation-core::batches.card_view_index')
-                    ->with('current_user', $current_user)
-                    ->with('months_list', BaseController::monthsList())
-                    ->with('states_list', BaseController::statesList())
-                    ->with('cdv_batches', $cdv_batches);
+            ->with('current_user', $current_user)
+            ->with('months_list', BaseController::monthsList())
+            ->with('states_list', BaseController::statesList())
+            ->with('cdv_batches', $cdv_batches);
 
         /*
-        return $batchDataTable->render('hasob-foundation-core::batches.index',[
-            'current_user'=>$current_user,
-            'months_list'=>BaseController::monthsList(),
-            'states_list'=>BaseController::statesList()
-        ]);
-        */
+    return $batchDataTable->render('hasob-foundation-core::batches.index',[
+    'current_user'=>$current_user,
+    'months_list'=>BaseController::monthsList(),
+    'states_list'=>BaseController::statesList()
+    ]);
+     */
     }
 
     /**
@@ -114,7 +110,7 @@ class BatchController extends BaseController
         $batched_item_ids = $batch->getBatchedItemIDs();
         $batchable_items = $batch->getBatchableItems($batched_item_ids);
         $batched_items = $batch->getBatchedItems();
-        return view('hasob-foundation-core::batches.show')->with('batch', $batch)->with('batchable_items',$batchable_items)->with('batched_items',$batched_items);
+        return view('hasob-foundation-core::batches.show')->with('batch', $batch)->with('batchable_items', $batchable_items)->with('batched_items', $batched_items);
     }
 
     /**
@@ -138,7 +134,7 @@ class BatchController extends BaseController
         $batchable_items = $batch->getBatchableItems($batched_item_ids);
         $batched_items = $batch->getBatchedItems();
 
-        return view('hasob-foundation-core::batches.edit')->with('batch', $batch)->with('batchable_items',$batchable_items)->with('batched_items',$batched_items);;
+        return view('hasob-foundation-core::batches.edit')->with('batch', $batch)->with('batchable_items', $batchable_items)->with('batched_items', $batched_items);
     }
 
     /**
@@ -164,7 +160,7 @@ class BatchController extends BaseController
         $batch->save();
 
         //Flash::success('Batch updated successfully.');
-        
+
         BatchUpdated::dispatch($batch);
         return redirect(route('fc.batches.index'));
     }
@@ -196,12 +192,12 @@ class BatchController extends BaseController
         return redirect(route('fc.batches.index'));
     }
 
-        
-    public function processBulkUpload(Organization $org, Request $request){
+    public function processBulkUpload(Organization $org, Request $request)
+    {
 
         $attachedFileName = time() . '.' . $request->file->getClientOriginalExtension();
         $request->file->move(public_path('uploads'), $attachedFileName);
-        $path_to_file = public_path('uploads').'/'.$attachedFileName;
+        $path_to_file = public_path('uploads') . '/' . $attachedFileName;
 
         //Process each line
         $loop = 1;
@@ -210,7 +206,7 @@ class BatchController extends BaseController
 
         if (count($lines) > 1) {
             foreach ($lines as $line) {
-                
+
                 if ($loop > 1) {
                     $data = explode(',', $line);
                     // if (count($invalids) > 0) {
@@ -225,10 +221,10 @@ class BatchController extends BaseController
                 }
                 $loop++;
             }
-        }else{
+        } else {
             $errors[] = 'The uploaded csv file is empty';
         }
-        
+
         if (count($errors) > 0) {
             return $this->sendError($this->array_flatten($errors), 'Errors processing file');
         }
