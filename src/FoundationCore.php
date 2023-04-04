@@ -2,6 +2,7 @@
 namespace Hasob\FoundationCore;
 
 use Hasob\FoundationCore\Controllers\API\AttachmentAPIController;
+use Hasob\FoundationCore\Controllers\API\CommentAPIController;
 use Hasob\FoundationCore\Controllers\AttachmentController;
 use Hasob\FoundationCore\Controllers\ChecklistController;
 use Hasob\FoundationCore\Controllers\CommentController;
@@ -637,6 +638,7 @@ class FoundationCore
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
 
             Route::resource('attachables', \Hasob\FoundationCore\Controllers\API\AttachableAPIController::class);
+            Route::resource('comments', \Hasob\FoundationCore\Controllers\API\CommentAPIController::class);
 
             Route::resource('disabled_items', \Hasob\FoundationCore\Controllers\API\DisabledItemAPIController::class);
             Route::resource('tags', \Hasob\FoundationCore\Controllers\API\TagAPIController::class);
