@@ -180,7 +180,10 @@ class UserController extends BaseController
             $message = 'The user record has been created.';   
         }
         $request->session()->flash('success', $message);
-        return redirect()->route('fc.user.show', $zUser->id);
+        
+        return ($is_update==true) ? 
+                redirect()->route('fc.user.show', $zUser->id) : 
+                redirect()->route('fc.user.show', 0);
     }
 
     public function delete(Organization $org, Request $request, $id)
