@@ -146,6 +146,7 @@ class AttachmentAPIController extends BaseController
             return $this->sendResponse($asset, "Asset retrieved successfully");
             //return response()->file(base_path($attach->path));
         }
+        return $this->sendError('Attachment Record was not found.');
     }
 
     public function getAttachmentDetails(Request $request, $id)
