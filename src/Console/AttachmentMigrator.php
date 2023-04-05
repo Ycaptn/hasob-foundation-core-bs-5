@@ -4,7 +4,7 @@ namespace Hasob\FoundationCore\Console;
 
 use Illuminate\Console\Command;
 
-use App\Models\Attachment;
+use Hasob\FoundationCore\Models\Attachment;
 
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
