@@ -6,7 +6,7 @@
         let current_page = 0;
         let filter_by_group_term = null;
 
-        {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
+        {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+"?query_model={{$query_model}}");
 
 
         //get page list 
@@ -191,7 +191,7 @@
             @if(!empty(request()->query()) && count(request()->query()) > 0)
                 search_term_query = "&st="+search_term;
             @endif
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query+"&query_model={{$query_model}}");
         });
 
         $(document).on('click', "#{{$control_id}}-btn-search", function(e) {
@@ -201,7 +201,7 @@
             @if(!empty(request()->query()) && count(request()->query()) > 0)
                 search_term_query = "&st="+page_number;
             @endif
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query+"&query_model={{$query_model}}");
         });
 
         $(document).on('click', ".{{$control_id}}-grp", function(e) {
@@ -213,7 +213,7 @@
             @if(!empty(request()->query()) && count(request()->query()) > 0)
                 group_term_query = "&grp="+group_term;
             @endif
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query+"&query_model={{$query_model}}");
             
         });
 
@@ -242,7 +242,8 @@
            @if(!empty(request()->query()) && count(request()->query()) > 0)
                 pg_query = "&pg="+page_number;
            @endif
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+pg_query);
+    
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+pg_query+"&query_model={{$query_model}}");
             
         });
 

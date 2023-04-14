@@ -436,6 +436,7 @@ class CardDataView extends Component
 
         return view('hasob-foundation-core::cardview.index')
                     ->with('control_obj',$this)
+                    ->with('query_model',get_class($this->data_set_model))
                     ->with('control_id',$this->control_id)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('action_buttons_list',$this->action_buttons_list)
