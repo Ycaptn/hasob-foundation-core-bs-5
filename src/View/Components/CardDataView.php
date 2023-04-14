@@ -436,7 +436,7 @@ class CardDataView extends Component
 
         return view('hasob-foundation-core::cardview.index')
                     ->with('control_obj',$this)
-                    ->with('query_model',get_class($this->data_set_model))
+                    ->with('query_model',$this->data_set_model)
                     ->with('control_id',$this->control_id)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('action_buttons_list',$this->action_buttons_list)
@@ -458,7 +458,7 @@ class CardDataView extends Component
     public function render_css(){
         return view("hasob-foundation-core::cardview.card-view-css")
                     ->with('control_id',$this->control_id)
-                    ->with('query_model',get_class($this->data_set_model))
+                    ->with('query_model',$this->data_set_model)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('action_buttons_list',$this->action_buttons_list)
@@ -472,7 +472,7 @@ class CardDataView extends Component
         return view("hasob-foundation-core::cardview.card-view-js")
                     ->with('control_obj',$this)
                     ->with('control_id',$this->control_id)
-                    ->with('query_model',get_class($this->data_set_model))
+                    ->with('query_model',$this->data_set_model)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('action_buttons_list',$this->action_buttons_list)
