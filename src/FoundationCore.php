@@ -132,7 +132,9 @@ class FoundationCore
                 return Setting::where([
                     'organization_id' => $org->id,
                     'group_name' => 'dashboards',
-                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+                ])->whereIn('owner_feature', $this->enabled_features($org))
+                ->orderBy('display_ordinal','ASC')
+                ->get();
             }
         }
         return [];
@@ -204,7 +206,9 @@ class FoundationCore
                 return Setting::where([
                     'organization_id' => $org->id,
                     'group_name' => 'right_panels',
-                ])->whereIn('owner_feature', $this->enabled_features($org))->get();
+                ])->whereIn('owner_feature', $this->enabled_features($org))
+                ->orderBy('display_ordinal','ASC')
+                ->get();
             }
         }
         return [];
