@@ -627,6 +627,10 @@ class FoundationCore
             Route::resource('model_artifacts', \Hasob\FoundationCore\Controllers\API\ModelArtifactAPIController::class);
             Route::resource('siteArtifacts', \Hasob\FoundationCore\Controllers\API\SiteArtifactAPIController::class);
 
+            Route::resource('departments', DepartmentController::class);
+            Route::get('get-departments', [DepartmentController::class, 'getAllDepartments'])->name('get-all-departments');
+            Route::get('get-department-members/{id}', [DepartmentController::class, 'getSpecificDepartmentMembers'])->name('show-specific-department-members');
+
             Route::resource('batches', \Hasob\FoundationCore\Controllers\API\BatchAPIController::class);
             Route::post('/batch/preview/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'preview'])->name('batch.preview-batch-item');
             Route::post('/batch/remove/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'removeBatchItem'])->name('batch.remove-batch-item');

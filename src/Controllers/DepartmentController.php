@@ -61,6 +61,10 @@ class DepartmentController extends BaseController
         }
 
         if ($item == null){
+            if ($request->expectsJson()){
+                return self::createJsonResponse("fail", "error", 'No department record was found.', 200);
+            }
+
             abort(404);
         }
         
@@ -233,6 +237,22 @@ class DepartmentController extends BaseController
 
         return self::createJSONResponse("ok","success",$department,200);
 
+    }
+
+    public function getAllDepartments(Organization $org, Request $request) {
+        $departments = Department::paginate(10);
+
+        return self::createJSONResponse("All Departments retrived successfully.", 'success', $departments, 200);
+    }
+
+    public function getSpecificDepartmentMembers(Organization $org, Request $request, $id) {
+        $department = Department::with('members')->find($id);
+
+        if (empty($department)) {
+            return self::createJsonResponse("fail", "error", 'No department record was found.', 200);
+        }
+
+        return self::createJSONResponse("Department and Members record retrived successfully.", 'success', $department, 200);
     }
 
 }
