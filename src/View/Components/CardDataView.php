@@ -36,6 +36,9 @@ class CardDataView extends Component
     private $data_set_order_list;
     private $data_set_model;
 
+    private $add_new_data_prop;
+    private $can_add_data;
+
     private $json_data_route_name;
     private $action_buttons_list;
     private $model_join_list;
@@ -51,7 +54,8 @@ class CardDataView extends Component
         $this->data_set_pagination_limit = 20;
         $this->data_set_enable_pagination = true;
         $this->data_set_enable_search = false;
-        
+        $this->add_new_data_prop = [];
+        $this->can_add_data = false;
         $this->data_item_template_path = $template;
         $this->data_set_model = $model;
         $this->api_detail_page_url = $api_detail_page_url;
@@ -76,6 +80,16 @@ class CardDataView extends Component
 
     public function setDataItemTemplate($path){
         $this->data_item_template_path = $path;
+        return $this;
+    }
+
+    public function setAddDataItemProps($values){
+        $this->add_new_data_prop = $values;
+        return $this;
+    }
+
+    public function setCanAddDataItem($value){
+        $this->can_add_data = $value;
         return $this;
     }
 
@@ -422,6 +436,7 @@ class CardDataView extends Component
 
         return view('hasob-foundation-core::cardview.index')
                     ->with('control_obj',$this)
+                    ->with('query_model',$this->data_set_model)
                     ->with('control_id',$this->control_id)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('action_buttons_list',$this->action_buttons_list)
@@ -431,6 +446,8 @@ class CardDataView extends Component
                     ->with('data_set_enable_search',$this->data_set_enable_search)
                     ->with('search_placeholder_text',$this->search_placeholder_text)
                     ->with('filter_is_enabled',$this->filter_is_enabled)
+                    ->with('add_new_data_prop',$this->add_new_data_prop)
+                    ->with('can_add_data',$this->can_add_data)
                     ->with('filter_group_single_select',$this->filter_group_single_select)
                     ->with('filter_group_multiple_select',$this->filter_group_multiple_select)
                     ->with('filter_group_range_select',$this->filter_group_range_select)
@@ -441,6 +458,7 @@ class CardDataView extends Component
     public function render_css(){
         return view("hasob-foundation-core::cardview.card-view-css")
                     ->with('control_id',$this->control_id)
+                    ->with('query_model',$this->data_set_model)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('action_buttons_list',$this->action_buttons_list)
@@ -454,6 +472,7 @@ class CardDataView extends Component
         return view("hasob-foundation-core::cardview.card-view-js")
                     ->with('control_obj',$this)
                     ->with('control_id',$this->control_id)
+                    ->with('query_model',$this->data_set_model)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('action_buttons_list',$this->action_buttons_list)

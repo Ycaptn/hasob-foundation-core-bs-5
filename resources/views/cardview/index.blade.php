@@ -6,6 +6,10 @@
             <i class="bx bx-filter-alt"></i> Filter
         </a>
         @endif
+        
+        @if(isset($can_add_data) &&  $can_add_data == true && isset($add_new_data_prop) && count($add_new_data_prop) > 0)
+           <a href="{{isset($add_new_data_prop['link']) ?  $add_new_data_prop['link'] : '#'}}" id={{isset($add_new_data_prop['id']) ?  $add_new_data_prop['id'] : ''}} class="{{isset($add_new_data_prop['class']) ? $add_new_data_prop['class'] : 'btn btn-sm btn-primary'}}" style="{{isset($add_new_data_prop['style']) ? $add_new_data_prop['style'] : '' }}" > {{isset($add_new_data_prop['name']) ? $add_new_data_prop['name'] : 'Create' }}  </a>
+        @endif
 
         @if (isset($action_buttons_list) && $action_buttons_list != null && count($action_buttons_list) > 0)
             @foreach ($action_buttons_list as $key => $account_button)
