@@ -33,10 +33,12 @@
         <div class="modal fade" id="{{$control_id}}_attachment-viewer-modal" role="dialog" aria-labelledby="attachment-viewer-label" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <div class="modal-header d-flex align-items-center">
-                        <h5 class="modal-title" id="{{$control_id}}_attachment-viewer-modal-label"></h5>
-                        <small id="{{$control_id}}_attachment-viewer-modal-description" class="ms-2 mt-1"></small>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header d-flex">
+                        <div class="col-sm-11">
+                            <h5 class="modal-title" id="{{$control_id}}_attachment-viewer-modal-label"></h5>
+                            <small id="{{$control_id}}_attachment-viewer-modal-description"></small>
+                        </div>
+                        <button type="button" class="btn-close btn-danger" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -57,6 +59,12 @@
         <script type="text/javascript">
             $(document).ready(function(){
 
+                function capitalizeFirstLetter(str) {
+                    // converting first letter to uppercase
+                    const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+                    return capitalized;
+                }
+
                 var attach_list = [];
                 var attach_list_names = [];
                 var attach_list_descriptions = [];
@@ -68,8 +76,10 @@
                 @endforeach
 
                 function displayAttachmentDetails(idx){
-                    $("#{{$control_id}}_attachment-viewer-modal-label").text(attach_list_names[idx]);
-                    $("#{{$control_id}}_attachment-viewer-modal-description").text(attach_list_descriptions[idx]);
+                    let formatted_name = capitalizeFirstLetter(attach_list_names[idx].replaceAll('-', ' '));
+                    let formatted_description = capitalizeFirstLetter(attach_list_descriptions[idx].replaceAll('-', ' '));
+                    $("#{{$control_id}}_attachment-viewer-modal-label").text(formatted_name);
+                    $("#{{$control_id}}_attachment-viewer-modal-description").text(formatted_description);
                 }
 
                 $('#{{$control_id}}_btnShowAttachmentViewer').click(function(){
