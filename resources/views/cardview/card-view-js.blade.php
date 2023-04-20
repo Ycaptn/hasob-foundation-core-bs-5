@@ -213,7 +213,7 @@
             @if(!empty(request()->query()) && count(request()->query()) > 0)
                 group_term_query = "&grp="+group_term;
             @endif
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query+search_term_query+"&query_model="+String.raw`{{$query_model}}`);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query+"&query_model="+String.raw`{{$query_model}}`);
             
         });
 
@@ -243,7 +243,7 @@
                 pg_query = "&pg="+page_number;
            @endif
     
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+pg_query+search_term_query+"&query_model="+String.raw`{{$query_model}}`);
+            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+pg_query+"&query_model="+String.raw`{{$query_model}}`);
             
         });
 
