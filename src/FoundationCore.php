@@ -508,7 +508,7 @@ class FoundationCore
                 $fc_menu = [
                     'mnu_fc_dept_directory' => [
                         'id' => 'mnu_fc_dept_directory',
-                        'label' => 'Departments',
+                        'label' => 'Departments & Units',
                         'icon' =>'bx bx-door-open',
                         'path' =>  route('fc.departments.index'),
                         'route-selector' => 'fc/departments',
@@ -552,7 +552,7 @@ class FoundationCore
 
             if (\FoundationCore::has_feature('departments', $current_user->organization) && $current_user->hasAnyRole(['admin', 'departments-admin'])) {
                 if ($current_user->hasRole('admin')) {
-                    $fc_menu['mnu_fc_admin']['children']['depts'] = ['id' => 'mnu_fc_depts', 'label' => 'Departments', 'icon' => 'bx bx-collection', 'path' => route('fc.departments.index'), 'route-selector' => 'fc/departments', 'is-parent' => false,
+                    $fc_menu['mnu_fc_admin']['children']['depts'] = ['id' => 'mnu_fc_depts', 'label' => 'Departments & Units', 'icon' => 'bx bx-collection', 'path' => route('fc.departments.index'), 'route-selector' => 'fc/departments', 'is-parent' => false,
                         'children' => [],
                     ];
                 } else {   
@@ -560,7 +560,7 @@ class FoundationCore
                     $fc_menu = [
                         'mnu_fc_departments-admin'=>[
                             'id'=>'mnu_departments-admin',
-                            'label'=>'Departments',
+                            'label'=>'Departments & Units',
                             'icon'=>'bx bx-collection',
                             'path' => route('fc.departments.index'),
                             'route-selector'=> 'fc/departments',

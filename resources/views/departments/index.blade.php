@@ -2,15 +2,15 @@
 
 
 @section('title_postfix')
-Departments
+Departments & Units
 @stop
 
 @section('page_title')
-Departments
+Departments & Units
 @stop
 
 @section('page_title_suffix')
-All
+Manage Departments & Units
 @stop
 
 @section('app_css')

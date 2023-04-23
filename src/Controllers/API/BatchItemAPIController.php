@@ -66,7 +66,7 @@ class BatchItemAPIController extends AppBaseController
     public function store(CreateBatchItemAPIRequest $request, Organization $organization)
     {
         $input = $request->all();
-
+dd($input);
         /** @var BatchItem $batchItem */
         $bachable_ids = explode(",",$request->batchable_id);
         $batch_items = \Hasob\FoundationCore\Models\BatchItem::whereIn('batchable_id', $bachable_ids)->where('batchable_type', $request->batchable_type)->where('batch_id', $request->batch_id)->get();
