@@ -12,23 +12,19 @@ Batches
 Batches
 @stop
 
+@section('page_title_suffix')
+All
+@stop
+
 @section('page_title_buttons')
 <span class="float-end">
-    <a id="btn-new-mdl-batch-modal" class="btn btn-xs btn-primary btn-new-mdl-batch-modal" href="#">
-        <i class="zmdi zmdi-file-plus"></i> New&nbsp;Batch
+    <a id="btn-new-mdl-batch-modal" class="btn btn-sm btn-primary btn-new-mdl-batch-modal" href="#">
+        <i class="zmdi zmdi-file-plus"></i> Crete New Batch
     </a>
-    @if (Auth()->user()->hasAnyRole(['','admin']))
-        @include('hasob-foundation-core::batches.bulk-upload-modal')
-    @endif
 </span>
 @stop
 
 @section('content')
-
-    <div class="row hidden-sm hidden-xs">
-        {{-- Summary Row --}}
-    </div>
-
     <div class="row">
         <div class="card border-top border-0 border-4 border-success">
             <div class="card-body">
