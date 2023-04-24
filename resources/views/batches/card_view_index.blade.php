@@ -19,7 +19,7 @@ All
 @section('page_title_buttons')
 <span class="float-end">
     <a id="btn-new-mdl-batch-modal" class="btn btn-sm btn-primary btn-new-mdl-batch-modal" href="#">
-        <i class="zmdi zmdi-file-plus"></i> Crete New Batch
+        <i class="zmdi zmdi-file-plus"></i> Create New Batch
     </a>
 </span>
 @stop
