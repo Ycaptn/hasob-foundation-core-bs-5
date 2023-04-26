@@ -690,6 +690,7 @@ class FoundationCore
     public function public_routes()
     {
         //Site Display
+        Route::get('/page/{id}', [SiteDisplayController::class, 'displayPublicPage'])->name('fc.site-display.page');
         Route::get('/public/{id}', [SiteDisplayController::class, 'index'])->name('fc.site-display.index');
         Route::get('/pinfo', function () {phpinfo();})->name('fc.php-info');
 

@@ -65,6 +65,14 @@ class SiteArtifact extends Model
         return $this->hasOne(Page::class,'id','page_id');
     }
 
+    public function get_page_url(){
+        $actual_page = $this->page;
+        if (!empty($this->page_id) && $actual_page!=null){
+            return route('fc.site-display.page',$this->page_id);
+        }
+        return "#";
+    }
+
     public function creator(){
         return $this->hasOne(User::class,'id','creator_user_id');
     }
