@@ -86,6 +86,7 @@ class Organization extends Model
             config('tetfund-impact.hasob_features')!=null ? config('tetfund-impact.hasob_features') : [] ,
             config('tetfund-bi-submission.hasob_features')!=null ? config('tetfund-bi-submission.hasob_features') : [] ,
             config('tetfund-astd.hasob_features')!=null ? config('tetfund-astd.hasob_features') : [] ,
+            config('tetfund-bims.hasob_features')!=null ? config('tetfund-bims.hasob_features') : [] ,
             config('tetfund-thesis-digitization.hasob_features')!=null ? config('tetfund-thesis-digitization.hasob_features') : [] ,
 
             config('hasob-unified-telco.hasob_features')!=null ? config('hasob-unified-telco.hasob_features') : [] ,
