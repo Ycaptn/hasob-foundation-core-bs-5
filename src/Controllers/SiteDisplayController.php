@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Config;
 
 use Hasob\FoundationCore\Models\User;
 use Hasob\FoundationCore\Models\Site;
+use Hasob\FoundationCore\Models\Page;
 use Hasob\FoundationCore\Models\Comment;
 use Hasob\FoundationCore\Models\Department;
 use Hasob\FoundationCore\Models\Organization;
@@ -29,5 +30,18 @@ class SiteDisplayController extends BaseController
         return view('hasob-foundation-core::sites.index')
                 ->with('sites', Site::all_sites($org));
     }
+
+    public function displayPublicPage(Organization $org, Request $request, $page_id){
+
+        $page = Page::find($page_id);
+        if ($page == null){
+            return abort(404);
+        }
+
+        return view('frontend.public-page-template')
+                ->with('page', $page)
+                ->with('site', $page->site);
+    }
+    
 
 }

@@ -35,7 +35,6 @@ class CreateModelArtifactsTable extends Migration
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
-        //DB::update("ALTER TABLE fc_model_artifacts AUTO_INCREMENT = 5524;");
     }
 
     /**
