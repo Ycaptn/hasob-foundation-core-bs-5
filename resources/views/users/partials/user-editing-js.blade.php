@@ -54,6 +54,7 @@ $(document).ready(function(){
             $('#emailAddress').val(data.email);
             $('#department').val(data.department);
             $('#jobTitle').val(data.job_title);
+            $('#gender').val(data.gender);
 
             for (role in data.roles) {
                 $('#userRole'+data.roles[role].name).attr('checked','checked');
@@ -93,6 +94,7 @@ $(document).ready(function(){
                 'password1_confirmation':$('#password1_confirmation').val(),
                 'department':$('#department').val(),
                 'jobTitle':$('#jobTitle').val(),
+                'gender':$('#gender').val(),
                 // 'selectedRoles':selectedRoles,
             },
             
