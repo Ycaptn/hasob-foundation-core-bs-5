@@ -32,6 +32,7 @@ class FoundationCoreSiteManagerService
         $current_org = \FoundationCore::current_organization();
         if ($current_org == null){
             Log::debug("Current organization not set, cannot return default site");
+            return null;
         }
 
         $default_org_site_id = $current_org->artifact('default-site-id');
