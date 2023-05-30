@@ -89,6 +89,7 @@ class Organization extends Model
             config('tetfund-bims.hasob_features')!=null ? config('tetfund-bims.hasob_features') : [] ,
             config('tetfund-thesis-digitization.hasob_features')!=null ? config('tetfund-thesis-digitization.hasob_features') : [] ,
             config('tetfund-ajls.hasob_features')!=null ? config('tetfund-ajls.hasob_features') : [] ,
+            config('tetfund-icdl.hasob_features')!=null ? config('tetfund-icdl.hasob_features') : [] ,
 
             config('hasob-unified-telco.hasob_features')!=null ? config('hasob-unified-telco.hasob_features') : [] ,
             config('tetfund-thesis-repository.hasob_features')!=null ? config('tetfund-thesis-repository.hasob_features') : [] ,
