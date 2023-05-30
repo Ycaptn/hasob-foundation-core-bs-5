@@ -65,7 +65,7 @@ class SignatureController extends BaseController
             $input->signature_image = base64_encode($temp); 
             array_merge($input,["signature_image" => $temp]);
         }
-        dd(input);
+
         $signature = Signature::create($input);
 
         return redirect(route('fc.signatures.index'));
