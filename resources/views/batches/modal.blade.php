@@ -270,6 +270,8 @@
                     actionType = "PUT";
                     endPointUrl = "{{ route('fc-api.batches.update', '') }}/" + primaryId;
                     formData.append('id', primaryId);
+                }else{
+                    formData.append('status', "new");
                 }
 
                 formData.append('_method', actionType);
