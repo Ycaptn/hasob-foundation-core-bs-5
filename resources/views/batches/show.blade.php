@@ -35,7 +35,7 @@
             }
         @endphp
         @if (!empty($workflow_name) && $batch->status == 'new')
-            <button class="btn btn-danger btn_process_batch mx-2" data-val-workable-type="{{ $batch->workable_type }}"
+            <button class="btn btn-sm btn-danger btn_process_batch mx-2" data-val-workable-type="{{ $batch->workable_type }}"
                 data-val-workable-id="{{ $batch->id }}">Process Batch</button>
             <x-hasob-workflow-engine::workflow-invoker :target="'btn-process-batch'" :workflow="$workflow_name" :workable="$workable_object"
                 :origin_department_only="Auth()
@@ -47,7 +47,7 @@
     @endif
     <span class="float-end">
         <div class="float-end inline-block dropdown mb-15">
-            <a href="#" data-val='{{ $batch->id }}' class='btn btn-xs btn-warning btn-edit-mdl-batch-modal'>
+            <a href="#" data-val='{{ $batch->id }}' class='btn btn-sm btn-warning btn-edit-mdl-batch-modal'>
                 <i class="icon wb-reply" aria-hidden="true"></i>Edit Batch
             </a>
         </div>
@@ -55,7 +55,7 @@
 
     <span class="float-end">
         <div class="float-end inline-block dropdown mx-2">
-            <a href="#" data-val='{{ $batch->id }}' class='btn btn-xs btn-primary btn-preview-mdl-batch-modal'>
+            <a href="#" data-val='{{ $batch->id }}' class='btn btn-sm btn-primary btn-preview-mdl-batch-modal'>
                 <i class="icon wb-reply" aria-hidden="true"></i> Preview Batch Items
             </a>
         </div>

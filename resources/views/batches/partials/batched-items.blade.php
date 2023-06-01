@@ -171,7 +171,7 @@
 
                             swal({
                                 title: '<div id="spinner-remove-batchable-items" class="spinner-border text-primary" role="status"> <span class="visually-hidden">  Loading...  </span> </div> <br><br>Deleting...',
-                                text: 'Please wait while selected is been added to batch.<br><br> Do not refresh this page! ',
+                                text: 'Please wait while selected is been removed from batch.<br><br> Do not refresh this page! ',
                                 showConfirmButton: false,
                                 allowOutsideClick: false,
                                 html: true
@@ -228,7 +228,7 @@
 
                                             swal({
                                                 title: "Saved",
-                                                text: "Batch items removed added successfully",
+                                                text: "Batch items removed successfully",
                                                 type: "success",
                                                 showCancelButton: false,
                                                 closeOnConfirm: false,

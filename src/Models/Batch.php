@@ -115,5 +115,26 @@ class Batch extends Model
         return Batch::where('id','<>',$this->id)->where('status','new')->where("batchable_type",$this->batchable_type)->get();
     }
 
+    public function is_memorable(){
+        $host = request()->getHost();
+        $manager = new \Hasob\FoundationCore\Managers\OrganizationManager();
+        $organization = $manager->loadTenant($host);
+
+        if($this->batchable_type != null && \FoundationCore::has_feature('edms', $organization)){
+           return $this->batchable_type::is_memorable();
+        }
+
+        return false;
+    }
+
+    public function get_memos(){
+
+        if($this->is_memorable()){
+            return \Hasob\EDMS\Models\Memo::where('memorable_type',get_class($this))->where('memorable_id',$this->id)->get();
+        }
+        return [];
+        
+    }
+
 
 }

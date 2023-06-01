@@ -90,7 +90,7 @@
                         if (isConfirm) {
 
                             swal({
-                                title: '<div id="spinner-add-bacthable-items" class="spinner-border text-primary" role="status"> <span class="visually-hidden">  Loading...  </span> </div> <br><br>Deleting...',
+                                title: '<div id="spinner-add-bacthable-items" class="spinner-border text-primary" role="status"> <span class="visually-hidden">  Loading...  </span> </div> <br><br>Adding to Batch...',
                                 text: 'Please wait while selected is been added to batch.<br><br> Do not refresh this page! ',
                                 showConfirmButton: false,
                                 allowOutsideClick: false,

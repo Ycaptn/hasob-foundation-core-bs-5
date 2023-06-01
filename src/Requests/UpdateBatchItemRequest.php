@@ -33,8 +33,8 @@ class UpdateBatchItemRequest extends AppBaseFormRequest
             'status' => 'max:100',
             'wf_status' => 'max:100',
             'wf_meta_data' => 'max:1000',
-            'batchable_id' => 'required|max:150',
-            'batchable_type' => 'required|max:150',
+            'batchable_id' => 'required',
+            'batchable_type' => 'required',
             'batch_id' => 'required|exists:fc_batches,id',
         ];
     }
