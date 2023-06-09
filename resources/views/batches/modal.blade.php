@@ -25,7 +25,7 @@
                             <div id="div-show-txt-batch-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
-                                        @include('hasob-foundation-core::batches.show_fields')
+                                       {{--  @include('hasob-foundation-core::batches.show_fields') --}}
                                     </div>
                                 </div>
                             </div>

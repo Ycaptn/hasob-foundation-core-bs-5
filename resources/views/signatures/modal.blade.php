@@ -310,8 +310,10 @@
                 formData.append('on_behalf', $('#on_behalf').val());
                 formData.append('owner_user_id', $('#pm_user').val());
                 let file = $('#signature_image')
-                console.log((file));
+               if(file[0].files[0] != null || file[0].files[0] != undefined ){
                 formData.append('signature_image', file[0].files[0]);
+               }
+                
                     
                 // formData.append('signature_image', $('#signature_image').files[0]);
                 $.ajax({
