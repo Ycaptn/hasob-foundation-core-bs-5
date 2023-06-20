@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Hasob\FoundationCore\Events\UserCreatedEvent;
+use Hasob\FoundationCore\Events\UserUpdatedEvent;
 use Session;
 use Spatie\Permission\Models\Role;
 use Validator;
@@ -181,6 +183,13 @@ class UserController extends BaseController
         }
         $request->session()->flash('success', $message);
         
+        if($is_update==true){
+            UserUpdatedEvent::dispatch($zUser);
+            
+        }else{
+            UserCreatedEvent::dispatch($zUser);
+        }
+
         return ($is_update==true) ? 
                 redirect()->route('fc.user.show', $zUser->id) : 
                 redirect()->route('fc.user.show', 0);
