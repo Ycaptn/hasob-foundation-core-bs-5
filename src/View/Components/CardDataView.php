@@ -35,6 +35,7 @@ class CardDataView extends Component
 
     private $data_set_order_list;
     private $data_set_model;
+    private $data_set_custom_order;
 
     private $add_new_data_prop;
     private $can_add_data;
@@ -178,8 +179,16 @@ class CardDataView extends Component
         return $this;
     }
 
-    public function enableFilter($setting=true){
-        $this->filter_is_enabled = $setting;
+    public function addCustomDataOrder($order_field, $order_data){
+        if($this->data_set_custom_order == null){
+            $this->data_set_custom_order = array();
+        }
+        $this->data_set_custom_order[$order_field] = $order_data;
+        return $this;
+    }
+
+    public function enableFilter(){
+        $this->filter_is_enabled = true;
         return $this;
     }
 
@@ -249,6 +258,12 @@ class CardDataView extends Component
             if ($this->data_set_order_list != null && is_array($this->data_set_order_list)){
                 foreach($this->data_set_order_list as $order_field=>$order_type){
                     $model_query = $model_query->orderBy($order_field, $order_type);
+                }
+            }
+
+            if($this->data_set_custom_order !== null && is_array($this->data_set_custom_order)) {
+                foreach($this->data_set_custom_order as $order_field=>$order_data) {
+                    $model_query = $model_query->orderByRaw("FIELD($order_field, '" . implode("','", $order_data) . "')");
                 }
             }
 
