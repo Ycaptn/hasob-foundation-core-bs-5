@@ -32,6 +32,7 @@ class CardDataView extends Component
     private $filter_group_single_select;
     private $filter_group_multiple_select;
     private $filter_group_date_range_select;
+    private $filter_related_fields;
 
     private $data_set_order_list;
     private $data_set_model;
@@ -44,6 +45,7 @@ class CardDataView extends Component
     private $action_buttons_list;
     private $model_join_list;
     private $field_group_list;
+    private $multiple_field_group_list;
     private $field_select_query;
     private $api_detail_page_url;
     private $template_data_collection;
@@ -158,6 +160,14 @@ class CardDataView extends Component
         return $this;
     }
 
+    public function addMultipleGroupField($group_fields){
+        if($this->multiple_field_group_list == null){
+            $this->multiple_field_group_list = array();
+        }
+        $this->multiple_field_group_list[] = $group_fields;
+        return $this;
+    }
+
     public function addSelectField($select_field){
         $this->field_select_query = $select_field;
         return $this;
@@ -189,6 +199,14 @@ class CardDataView extends Component
 
     public function enableFilter(){
         $this->filter_is_enabled = true;
+        return $this;
+    }
+
+    public function addFilterRelatedFields($query_field, $query_data){
+        if($this->filter_related_fields == null){
+            $this->filter_related_fields = array();
+        }
+        $this->filter_related_fields[$query_field] = $query_data;
         return $this;
     }
 
@@ -277,6 +295,12 @@ class CardDataView extends Component
                 $model_query = $model_query->groupBy(implode(",", $this->field_group_list));
             }
 
+            
+            if ($this->multiple_field_group_list != null && is_array($this->multiple_field_group_list)){
+                foreach($this->multiple_field_group_list as $group_fields)
+                    $model_query = $model_query->groupBy($group_fields);
+            }
+
             if (empty($search_term)==false && $this->search_fields!=null && is_array($this->search_fields)){
                 
                 $search_fields = $this->search_fields;
@@ -305,6 +329,12 @@ class CardDataView extends Component
                                 $q->orWhere($search_field,"LIKE","%{$search_term}%");
                             }
                         });
+                }
+            }
+
+            if($this->filter_related_fields!==null && is_array($this->filter_related_fields)){
+                foreach($this->filter_related_fields as $query_field=>$query_data) {
+                    $model_query = $model_query->whereIn($query_field,$query_data);
                 }
             }
             
@@ -459,13 +489,16 @@ class CardDataView extends Component
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
                     ->with('data_set_enable_pagination',$this->data_set_enable_pagination)
                     ->with('data_set_enable_search',$this->data_set_enable_search)
+                    ->with('data_set_custom_order',$this->data_set_custom_order)
                     ->with('search_placeholder_text',$this->search_placeholder_text)
                     ->with('filter_is_enabled',$this->filter_is_enabled)
                     ->with('add_new_data_prop',$this->add_new_data_prop)
                     ->with('can_add_data',$this->can_add_data)
+                    ->with('multiple_field_group_list',$this->multiple_field_group_list)
                     ->with('filter_group_single_select',$this->filter_group_single_select)
                     ->with('filter_group_multiple_select',$this->filter_group_multiple_select)
                     ->with('filter_group_range_select',$this->filter_group_range_select)
+                    ->with('filter_related_fields',$this->filter_related_fields)
                     ->with('filter_group_date_range_select',$this->filter_group_date_range_select);
 
     }
@@ -490,6 +523,8 @@ class CardDataView extends Component
                     ->with('query_model',$this->data_set_model)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('data_set_group_list',$this->data_set_group_list)
+                    ->with('data_set_custom_order',$this->data_set_custom_order)
+                    ->with('multiple_field_group_list',$this->multiple_field_group_list)
                     ->with('action_buttons_list',$this->action_buttons_list)
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
                     ->with('data_set_enable_pagination',$this->data_set_enable_pagination)
@@ -499,6 +534,7 @@ class CardDataView extends Component
                     ->with('filter_group_single_select',$this->filter_group_single_select)
                     ->with('filter_group_multiple_select',$this->filter_group_multiple_select)
                     ->with('filter_group_range_select',$this->filter_group_range_select)
+                    ->with('filter_related_fields',$this->filter_related_fields)
                     ->with('filter_group_date_range_select',$this->filter_group_date_range_select);
     }
 
