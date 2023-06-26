@@ -2,16 +2,13 @@
 
 namespace Hasob\FoundationCore\Controllers\API;
 
+use Hasob\FoundationCore\Controllers\BaseController;
+use Hasob\FoundationCore\Models\Organization;
+use Hasob\FoundationCore\Models\Signature;
 use Hasob\FoundationCore\Requests\API\CreateSignatureAPIRequest;
 use Hasob\FoundationCore\Requests\API\UpdateSignatureAPIRequest;
-use Hasob\FoundationCore\Models\Signature;
-
 use Illuminate\Http\Request;
-
-use Hasob\FoundationCore\Controllers\BaseController;
 use Response;
-
-use Hasob\FoundationCore\Models\Organization;
 
 /**
  * Class SignatureController
@@ -37,8 +34,8 @@ class SignatureAPIController extends BaseController
         if ($request->get('limit')) {
             $query->limit($request->get('limit'));
         }
-        
-        if ($organization != null){
+
+        if ($organization != null) {
             $query->where('organization_id', $organization->id);
         }
 
@@ -61,15 +58,26 @@ class SignatureAPIController extends BaseController
         $signature_file = null;
 
         /** @var Signature $signature */
-        if ($request->signature_image != null && $request->signature_image !="undefined"){ 
-            $temp = file_get_contents($request->signature_image);
-            $signature_file = base64_encode($temp);
-            array_merge($input, ["signature_image" => base64_encode($temp) ]) ;  
+        if ($request->signature_image != null && $request->signature_image != "undefined") {
+            list($original_width, $original_height) = getimagesize($request->signature_image);
+            $new_width = 150;
+            $new_height = 80;
+            $image_p = imagecreatetruecolor($new_width, $new_height);
+            $image = imagecreatefromjpeg($request->signature_image);
+            imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $original_width, $original_height);
+            $resize_file_name = public_path() . "/" . time() . "-resize.jpg";
+            $save = imagejpeg($image_p, $resize_file_name, 100);
+            if ($save) {
+                $temp = file_get_contents($resize_file_name);
+                $signature_file = base64_encode($temp);
+                array_merge($input, ["signature_image" => $signature_file]);
+                unlink($resize_file_name);
+            }
         }
         $signature = Signature::create($input);
         $signature->signature_image = $signature_file;
         $signature->save();
-        
+
         return $this->sendResponse($signature->toArray(), 'Signature saved successfully');
     }
 
@@ -113,16 +121,27 @@ class SignatureAPIController extends BaseController
 
         $input = $request->except('signature_image');
         $signature_file = null;
-        if ($request->signature_image != null && $request->signature_image !="undefined"){ 
-          //  dd($request->signature_image);
-            $temp = file_get_contents($request->signature_image);
-            $signature_file = base64_encode($temp);
-            array_merge($input, ["signature_image" => base64_encode($temp) ]) ; 
+        if ($request->signature_image != null && $request->signature_image != "undefined") {
+            list($original_width, $original_height) = getimagesize($request->signature_image);
+            $new_width = 150;
+            $new_height = 80;
+            $image_p = imagecreatetruecolor($new_width, $new_height);
+
+            $image = imagecreatefromjpeg($request->signature_image);
+            imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $original_width, $original_height);
+            $resize_file_name = public_path() . "/" . time() . "-resize.jpg";
+            $save = imagejpeg($image_p, $resize_file_name, 100);          
+            if ($save) {
+                $temp = file_get_contents($resize_file_name);
+                $signature_file = base64_encode($temp);
+                array_merge($input, ["signature_image" => $signature_file]);
+                unlink($resize_file_name);
+            }
         }
         $signature->fill($input);
         $signature->save();
 
-        if($signature_file != null){
+        if ($signature_file != null) {
             $signature->signature_image = $signature_file;
             $signature->save();
         }

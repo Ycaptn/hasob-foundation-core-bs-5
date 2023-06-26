@@ -21,7 +21,7 @@ class UpdateSignatureAPIRequest extends AppBaseFormRequest
             'staff_title' => 'max:200',
             'on_behalf' => 'max:200',
             'owner_user_id' => 'required',
-            'signature_image' => "nullable|mimes:jpg,jpeg,png|max:10000"
+            'signature_image' => "nullable|mimes:jpg,jpeg|max:10000"
         ];
     }
 }
