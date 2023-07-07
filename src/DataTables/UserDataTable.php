@@ -105,10 +105,10 @@ class UserDataTable extends DataTable
                 ->addClass('text-center')
                 ->width(10)
             ,
-            Column::make('user'),
+            Column::make('user')->name('first_name'),
             Column::make('email'),
             Column::make('telephone'),
-            Column::make('roles'),
+            Column::make('roles')->name('last_name'),
             Column::make('last_login'),
             Column::computed('action')
                 ->exportable(false)
