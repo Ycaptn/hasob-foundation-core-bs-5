@@ -5,8 +5,8 @@
         let page_total = 0;
         let current_page = 0;
         let filter_by_group_term = null;
-
-        {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+"?query_model="+String.raw`{{$query_model}}`);
+        let model_name = "{{str_replace('\\','_',$query_model)}}";
+        {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+"?query_model="+String.raw`{{$query_model}}`);
 
 
         //get page list 
@@ -46,19 +46,19 @@
             let currentPage = whichPage;
 
                 // Include the prev button
-            $("#{{$control_id}}-pagination").prepend(
+            $(`#{{$control_id}}-${model_name}-pagination`).prepend(
                     $("<li>").addClass("page-item").attr({ id: "previous-page" }).append(
-                    $("<a>").addClass("page-link {{$control_id}}-pg").attr({
+                    $("<a>").addClass("page-link {{$control_id}}-${model_name}-pg").attr({
                     href: "javascript:void(0)"}).text("Prev").attr('data-type','pre')
                 )
             )
             getPageList(totalPages, currentPage, paginationSize).forEach( item => {
-                $("#{{$control_id}}-pagination").append(
+                $(`#{{$control_id}}-${model_name}-pagination`).append(
                     `<li class="page-item">
                         <a 
                             data-val='${item === 0 ? currentPage : item}'
                             data-type='pg' 
-                            class='{{$control_id}}-pg pg-${item} page-link' ${item ? "currentPage" : "disabled"}'
+                            class='{{$control_id}}-${model_name}-pg pg-${item} page-link' ${item ? "currentPage" : "disabled"}'
                             href =' javascript:void(0)'
                         >
                             ${item || "..."}
@@ -71,9 +71,9 @@
                         
                         
             // include next button:
-            $("#{{$control_id}}-pagination").append(
+            $(`#{{$control_id}}-${model_name}-pagination`).append(
                 $("<li>").addClass("page-item").attr({ id: "next-page" }).append(
-                $("<a>").addClass("page-link").addClass("{{$control_id}}-pg").attr({
+                $("<a>").addClass("page-link").addClass(`{{$control_id}}-${model_name}-pg`).attr({
                     href: "javascript:void(0)"}).text("Next").attr('data-type','nxt')
                 )
             ); 
@@ -83,7 +83,7 @@
                                     
         }
 
-        function {{$control_id}}_display_results(endpoint_url){
+        function {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results(endpoint_url){
             $.ajaxSetup({
                 cache: false, 
                 headers: {'X-CSRF-TOKEN':"{{ csrf_token() }}"}
@@ -97,7 +97,7 @@
                     if (final_endpoint_url.includes("?")){ join_string = "&"; }
 
                     var singleFieldName = "{{$filter_single_select_options[0]}}";
-                    var singleFieldValue = $("#sel-filter-{{$control_id}}-{{$filter_single_select_options[0]}}").val();
+                    var singleFieldValue = $(`#sel-filter-{{$control_id}}-${model_name}-{{$filter_single_select_options[0]}}`).val();
                     final_endpoint_url += join_string + singleFieldName + "="+ singleFieldValue;
                 @endforeach
             @endif
@@ -108,7 +108,7 @@
                     if (final_endpoint_url.includes("?")){ join_string = "&"; }
 
                     var multiFieldName = "{{$filter_multiple_select_options[0]}}";
-                    var multiFieldValues = $("#cbx-filter-{{$control_id}}-{{str_replace(',','',$filter_multiple_select_options[0])}}:checked").map(function(){
+                    var multiFieldValues = $(`#cbx-filter-{{$control_id}}-${model_name}-{{str_replace(',','',$filter_multiple_select_options[0])}}:checked`).map(function(){
                         return $(this).val();
                     });
                     if (multiFieldValues && multiFieldValues.length>0){
@@ -122,8 +122,8 @@
                     if (final_endpoint_url.includes("?")){ join_string = "&"; }
 
                     var rangeFieldName = "{{$filter_range_select_options[0]}}";
-                    var rangeFieldValue = $("#rng-filter-{{ $control_id }}-{{str_replace(",","",$filter_range_select_options[0])}}").val();
-                    var rangeFieldValueIsEntered = $("#rng-filter-{{ $control_id }}-{{str_replace(",","",$filter_range_select_options[0])}}").attr("data-val-is-entered");
+                    var rangeFieldValue = $(`#rng-filter-{{ $control_id }}-{{str_replace(",","",$filter_range_select_options[0])}}`).val();
+                    var rangeFieldValueIsEntered = $(`#rng-filter-{{ $control_id }}-{{str_replace(",","",$filter_range_select_options[0])}}`).attr("data-val-is-entered");
                     if (rangeFieldValueIsEntered && rangeFieldValueIsEntered=="1" && rangeFieldValue && rangeFieldValue != null && rangeFieldValue>0){
                         final_endpoint_url += join_string + rangeFieldName +"="+ rangeFieldValue;
                     }
@@ -135,8 +135,8 @@
                     if (final_endpoint_url.includes("?")){ join_string = "&"; }
 
                     var rangeFieldName = "{{$filter_date_range_select_options[0]}}";
-                    var rangeFieldStartValue = $("#rng-start-date-filter-{{$control_id}}-{{str_replace(",","",$filter_date_range_select_options[0])}}").val();
-                    var rangeFieldEndValue = $("#rng-end-date-filter-{{$control_id}}-{{str_replace(",","",$filter_date_range_select_options[0])}}").val();
+                    var rangeFieldStartValue = $(`#rng-start-date-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_date_range_select_options[0])}}`).val();
+                    var rangeFieldEndValue = $(`#rng-end-date-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_date_range_select_options[0])}}`).val();
 
                     if (rangeFieldStartValue != null && rangeFieldStartValue.length>0 && rangeFieldStartValue != "undefined"){
                         final_endpoint_url += join_string + rangeFieldName +"-start="+ rangeFieldStartValue;
@@ -155,9 +155,9 @@
                 $('.offline').fadeOut(300);
             }
 
-            $("#spinner-{{$control_id}}").show();
-            $('#{{$control_id}}-div-card-view').empty();
-            $('#{{$control_id}}-div-card-view').append("<span class='text-center m-4 p-4'>Loading.....</span>");
+            $(`#spinner-{{$control_id}}-${model_name}`).show();
+            $(`#{{$control_id}}-${model_name}-div-card-view`).empty();
+            $(`#{{$control_id}}-${model_name}-div-card-view`).append("<span class='text-center m-4 p-4'>Loading.....</span>");
            
             $.get(final_endpoint_url).done(function( response ) {
                 current_page = parseInt(response.page_number);
@@ -165,65 +165,65 @@
                
             
                 if (response != null && response.cards_html != null){
-                    $('#{{$control_id}}-div-card-view').empty();
-                    $('#{{$control_id}}-div-card-view').append(response.cards_html);
+                    $(`#{{$control_id}}-${model_name}-div-card-view`).empty();
+                    $(`#{{$control_id}}-${model_name}-div-card-view`).append(response.cards_html);
                 }
                 if (response != null && response.result_count==0){
-                    $('#{{$control_id}}-div-card-view').empty();
-                    $('#{{$control_id}}-div-card-view').append("<span class='text-center ma-20 pa-20' style='padding-bottom:100px'>No results found.</span>");
+                    $(`#{{$control_id}}-${model_name}-div-card-view`).empty();
+                    $(`#{{$control_id}}-${model_name}-div-card-view`).append("<span class='text-center ma-20 pa-20' style='padding-bottom:100px'>No results found.</span>");
                 }
-                $("#{{$control_id}}-pagination").empty();
+                $(`#{{$control_id}}-${model_name}-pagination`).empty();
                 if (response != null && response.paginate && response.result_count > 0){
                     $(".pagination li").slice(1, -1).remove();
                     showPage(current_page, page_total,7)
 
                   
-                    $("#{{$control_id}}-pagination").show();
+                    $(`#{{$control_id}}-${model_name}-pagination`).show();
                 }
-                $("#spinner-{{$control_id}}").hide();
+                $(`#spinner-{{$control_id}}-${model_name}`).hide();
             });
         }
 
-        $(document).on('keyup', "#{{$control_id}}-txt-search", function(e) {
+        $(document).on('keyup', `#{{$control_id}}-${model_name}-txt-search`, function(e) {
             e.preventDefault();
-            let search_term = $('#{{$control_id}}-txt-search').val();
+            let search_term = $(`#{{$control_id}}-${model_name}-txt-search`).val();
             let search_term_query = "?st="+search_term;
             @if(!empty(request()->query()) && count(request()->query()) > 0)
                 search_term_query = "&st="+search_term;
             @endif
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query+"&query_model="+String.raw`{{$query_model}}`);
+            {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query+"&query_model="+String.raw`{{$query_model}}`);
         });
 
-        $(document).on('click', "#{{$control_id}}-btn-search", function(e) {
+        $(document).on('click', `#{{$control_id}}-${model_name}-btn-search`, function(e) {
             e.preventDefault();
-            let search_term = $('#{{$control_id}}-txt-search').val();
+            let search_term = $(`#{{$control_id}}-${model_name}-txt-search`).val();
             let search_term_query = "?st="+search_term;
             @if(!empty(request()->query()) && count(request()->query()) > 0)
                 search_term_query = "&st="+page_number;
             @endif
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query+search_term_query+"&query_model="+String.raw`{{$query_model}}`);
+            {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+search_term_query+search_term_query+"&query_model="+String.raw`{{$query_model}}`);
         });
 
-        $(document).on('click', ".{{$control_id}}-grp", function(e) {
+        $(document).on('click', `.{{$control_id}}-${model_name}-grp`, function(e) {
             e.preventDefault();
             let group_term = $(this).attr('data-val');
             filter_by_group_term = group_term;
-            $("#{{$control_id}}-pagination").hide();
+            $(`#{{$control_id}}-${model_name}-pagination`).hide();
             let group_term_query = "?grp="+group_term;
             @if(!empty(request()->query()) && count(request()->query()) > 0)
                 group_term_query = "&grp="+group_term;
             @endif
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query+"&query_model="+String.raw`{{$query_model}}`);
+            {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_resultsdisplay_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query+"&query_model="+String.raw`{{$query_model}}`);
             
         });
 
         //next and previous button listener
-        $(document).on('click', ".{{$control_id}}-pg", function(e) {
+        $(document).on('click', `.{{$control_id}}-${model_name}-pg`, function(e) {
             e.preventDefault();
 
             let page_number = 1;
             
-            $("#{{$control_id}}-pagination").hide();
+            $(`#{{$control_id}}-${model_name}-pagination`).hide();
             if($(this).attr('data-type') == 'pg'){
                 page_number = $(this).attr('data-val');
             } else if($(this).attr('data-type') == '#'){
@@ -243,22 +243,22 @@
                 pg_query = "&pg="+page_number;
            @endif
     
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+pg_query+"&query_model="+String.raw`{{$query_model}}`);
+           {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+pg_query+"&query_model="+String.raw`{{$query_model}}`);
             
         });
 
         $(document).on('click', ".{{ $control_id }}-btn-filter", function(e) {            
-            $('#mdl-{{ $control_id }}-filter-modal').modal('show');
+            $(`#mdl-{{$control_id}}-${model_name}-filter-modal`).modal('show');
         });
 
         $(document).on('click', "#btn-save-mdl-{{ $control_id }}-filter-modal", function(e) {
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
+            {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
             $('#mdl-{{ $control_id }}-filter-modal').modal('hide');
 
             var filter_settings_string = "<b>Filter</b>";
             @if ($filter_is_enabled && isset($filter_group_single_select) && count($filter_group_single_select)>0)
                 @foreach($filter_group_single_select as $filter_single_select_group=>$filter_single_select_options)
-                    var singleFieldValue = $("#sel-filter-{{$control_id}}-{{$filter_single_select_options[0]}} option:selected").text();
+                    var singleFieldValue = $(`#sel-filter-{{$control_id}}-${model_name}-{{$filter_single_select_options[0]}} option:selected`).text();
                     if (singleFieldValue && singleFieldValue.length>0 && singleFieldValue!="null" && singleFieldValue!="undefined"){
                         filter_settings_string += " - " + singleFieldValue;
                     }
@@ -267,7 +267,7 @@
 
             @if ($filter_is_enabled && isset($filter_group_multiple_select) && count($filter_group_multiple_select)>0)
                 @foreach($filter_group_multiple_select as $filter_multiple_select_group=>$filter_multiple_select_options)
-                    var multiFieldValues = $("#cbx-filter-{{$control_id}}-{{str_replace(',','',$filter_multiple_select_options[0])}}:checked").map(function(){
+                    var multiFieldValues = $(`#cbx-filter-{{$control_id}}-${model_name}-{{str_replace(',','',$filter_multiple_select_options[0])}}:checked`).map(function(){
                         return $(this).val();
                     });
                     if (multiFieldValues && multiFieldValues.length>0){
@@ -278,8 +278,8 @@
 
             @if ($filter_is_enabled && isset($filter_group_range_select) && count($filter_group_range_select)>0)
                 @foreach($filter_group_range_select as $filter_range_select_group=>$filter_range_select_options)
-                    var range_value = new Intl.NumberFormat().format($("#rng-filter-{{ $control_id }}-{{str_replace(",","",$filter_range_select_options[0])}}").val());
-                    var rangeFieldValueIsEntered = $("#rng-filter-{{$control_id}}-{{str_replace(",","",$filter_range_select_options[0])}}").attr("data-val-is-entered");
+                    var range_value = new Intl.NumberFormat().format($(`#rng-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_range_select_options[0])}}`).val());
+                    var rangeFieldValueIsEntered = $(`#rng-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_range_select_options[0])}}`).attr("data-val-is-entered");
                     if (rangeFieldValueIsEntered == "1"){
                         filter_settings_string += " - " + "{{$filter_range_select_group}} {{$filter_range_select_options[1]}} " + range_value;
                     }
@@ -289,8 +289,8 @@
             @if ($filter_is_enabled && isset($filter_group_date_range_select) && count($filter_group_date_range_select)>0)
                 @foreach($filter_group_date_range_select as $filter_date_range_select_group=>$filter_date_range_select_options)                
                     var rangeFieldName = "{{$filter_date_range_select_options[0]}}";
-                    var rangeFieldStartValue = $("#rng-start-date-filter-{{$control_id}}-{{str_replace(",","",$filter_date_range_select_options[0])}}").val();
-                    var rangeFieldEndValue = $("#rng-end-date-filter-{{$control_id}}-{{str_replace(",","",$filter_date_range_select_options[0])}}").val();
+                    var rangeFieldStartValue = $(`#rng-start-date-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_date_range_select_options[0])}}`).val();
+                    var rangeFieldEndValue = $(`#rng-end-date-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_date_range_select_options[0])}}`).val();
 
                     if (rangeFieldStartValue != null && rangeFieldStartValue.length>0 && rangeFieldStartValue != "undefined" && rangeFieldEndValue != null && rangeFieldEndValue.length>0 && rangeFieldEndValue != "undefined"){
                         filter_settings_string += " - {{$filter_date_range_select_group}}";
@@ -305,22 +305,22 @@
             @endif
 
 
-            $('#txt-{{$control_id}}-filter-settings').html(filter_settings_string);
+            $(`#txt-{{$control_id}}-${model_name}-filter-settings`).html(filter_settings_string);
         });
 
-        $(document).on('click', "#btn-reset-mdl-{{ $control_id }}-filter-modal", function(e) {
-            $("#frm-{{$control_id}}-filter-modal").trigger("reset");
-            {{$control_id}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
-            $('#mdl-{{ $control_id }}-filter-modal').modal('hide');
-            $('#txt-{{$control_id}}-filter-settings').html('');
+        $(document).on('click', `#btn-reset-mdl-{{$control_id}}-${model_name}-filter-modal`, function(e) {
+            $(`#frm-{{$control_id}}-${model_name}-filter-modal`).trigger("reset");
+            {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
+            $(`#mdl-{{$control_id}}-${model_name}-filter-modal`).modal('hide');
+            $('#txt-{{$control_id}}-${model_name}-filter-settings').html('');
         });
 
         @if (isset($filter_group_range_select) && count($filter_group_range_select)>0)
             @foreach($filter_group_range_select as $filter_range_select_group=>$filter_range_select_options)
-                $(document).on('input', "#rng-filter-{{$control_id}}-{{str_replace(",","",$filter_range_select_options[0])}}", function(e) {
+                $(document).on('input', `#rng-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_range_select_options[0])}}`, function(e) {
                     var range_value = new Intl.NumberFormat().format($(this).val());
-                    $("#lbl-rng-filter-{{$control_id}}-{{str_replace(",","",$filter_range_select_options[0])}}").html(range_value);
-                    $("#rng-filter-{{$control_id}}-{{str_replace(",","",$filter_range_select_options[0])}}").attr("data-val-is-entered", 1);
+                    $(`#lbl-rng-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_range_select_options[0])}}`).html(range_value);
+                    $(`#rng-filter-{{$control_id}}-${model_name}-{{str_replace(",","",$filter_range_select_options[0])}}`).attr("data-val-is-entered", 1);
                 });
             @endforeach
         @endif
