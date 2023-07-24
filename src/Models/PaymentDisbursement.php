@@ -74,8 +74,6 @@ class PaymentDisbursement extends Model
         'id',
         'organization_id',
         'amount',
-        'payable_type',
-        'payable_id',
         'bank_account_number',
         'bank_name',
         'bank_sort_code',
@@ -87,6 +85,7 @@ class PaymentDisbursement extends Model
         'is_verified',
         'is_verification_passed',
         'is_verification_failed',
+        'gateway_payment_detail_id',
         'transaction_date',
         'verified_amount',
         'verification_meta',
@@ -100,16 +99,13 @@ class PaymentDisbursement extends Model
      */
     protected $casts = [
         'amount' => 'decimal:2',
-        'payable_type' => 'string',
         'bank_account_number' => 'string',
         'bank_name' => 'string',
         'bank_sort_code' => 'string',
-        'gateway_url' => 'string',
         'gateway_name' => 'string',
         'gateway_reference_code' => 'string',
         'status' => 'string',
         'gateway_initialization_response' => 'string',
-        'payment_instrument_type' => 'string',
         'payment_instrument_type' => 'string',
         'is_verified' => 'boolean',
         'is_verification_passed' => 'boolean',
@@ -120,8 +116,17 @@ class PaymentDisbursement extends Model
         'verification_notes' => 'string',
         'wf_status' => 'string',
         'wf_meta_data' => 'string',
-        'payable_type' => 'string'
     ];
+
+    /**
+     * Get the gateway_payment_detail that owns the PaymentDisbursement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function gateway_payment_detail(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(GateWayPaymentDetail::class, 'gateway_payment_id', 'id');
+    }
 
 
     
