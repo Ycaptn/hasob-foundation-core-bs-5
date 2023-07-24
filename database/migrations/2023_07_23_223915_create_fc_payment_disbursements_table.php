@@ -18,14 +18,8 @@ class CreateFcPaymentDisbursementsTable extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('organization_id')->references('id')->on('fc_organizations');
             $table->decimal('amount', 12, 2);
-            $table->string('attempt_code')->nullable();
-            $table->string('payable_type')->nullable();
-            $table->uuid('payable_id')->nullable();
-            $table->string('bank_account_number');
-            $table->string('bank_name');
-            $table->string('bank_sort_code')->nullable();
+            $table->foreignUuid('gateway_payment_detail_id')->references('id')->on('fc_gateway_payment_details');
             $table->string('gateway_url')->nullable();
-            $table->string('gateway_name')->nullable();
             $table->string('gateway_reference_code')->nullable();
             $table->string('status')->nullable();
             $table->text('gateway_initialization_response')->nullable();

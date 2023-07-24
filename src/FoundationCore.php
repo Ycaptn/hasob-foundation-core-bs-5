@@ -657,6 +657,7 @@ class FoundationCore
 
             Route::resource('model_documents', \Hasob\FoundationCore\Controllers\API\ModelDocumentAPIController::class);
             Route::resource('document_generation_templates', \Hasob\FoundationCore\Controllers\API\DocumentGenerationTemplateAPIController::class);
+            Route::resource('gate_way_payment_details', \Hasob\FoundationCore\Controllers\API\GateWayPaymentDetailAPIController::class);
             Route::resource('payment_disbursements', \Hasob\FoundationCore\Controllers\API\PaymentDisbursementAPIController::class);
             Route::resource('signatures', \Hasob\FoundationCore\Controllers\API\SignatureAPIController::class);
 
@@ -788,6 +789,7 @@ class FoundationCore
             Route::resource('tags', \Hasob\FoundationCore\Controllers\TagController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\TaggableController::class);
             Route::resource('modelArtifacts', \Hasob\FoundationCore\Controllers\ModelArtifactController::class);
+            Route::resource('gateWayPaymentDetails', \Hasob\FoundationCore\Controllers\Models\GateWayPaymentDetailController::class);
             Route::resource('paymentDisbursements', \Hasob\FoundationCore\Controllers\Models\PaymentDisbursementController::class);
             //Document Manager 
             Route::get('/dmgr/preview/{template_id}', [\Hasob\FoundationCore\Controllers\DocumentGeneratorController::class, 'processPDFPreview'])->name('dmgr-preview-render');

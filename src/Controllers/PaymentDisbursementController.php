@@ -89,7 +89,7 @@ class PaymentDisbursementController extends BaseController
         $paymentDisbursement = PaymentDisbursement::create($input);
 
         PaymentDisbursementCreated::dispatch($paymentDisbursement);
-        return redirect(route('icdl.paymentDisbursements.index'));
+        return redirect(route('fc.paymentDisbursements.index'));
     }
 
     /**
@@ -107,7 +107,7 @@ class PaymentDisbursementController extends BaseController
         $paymentDisbursement = PaymentDisbursement::find($id);
 
         if (empty($paymentDisbursement)) {
-            return redirect(route('icdl.paymentDisbursements.index'));
+            return redirect(route('fc.paymentDisbursements.index'));
         }
 
         return view('hasob-foundation-core::payment_disbursements.show')
@@ -132,7 +132,7 @@ class PaymentDisbursementController extends BaseController
         $paymentDisbursement = PaymentDisbursement::find($id);
 
         if (empty($paymentDisbursement)) {
-            return redirect(route('icdl.paymentDisbursements.index'));
+            return redirect(route('fc.paymentDisbursements.index'));
         }
 
         return view('hasob-foundation-core::payment_disbursements.edit')
@@ -156,14 +156,14 @@ class PaymentDisbursementController extends BaseController
         $paymentDisbursement = PaymentDisbursement::find($id);
 
         if (empty($paymentDisbursement)) {
-            return redirect(route('icdl.paymentDisbursements.index'));
+            return redirect(route('fc.paymentDisbursements.index'));
         }
 
         $paymentDisbursement->fill($request->all());
         $paymentDisbursement->save();
         
         PaymentDisbursementUpdated::dispatch($paymentDisbursement);
-        return redirect(route('icdl.paymentDisbursements.index'));
+        return redirect(route('fc.paymentDisbursements.index'));
     }
 
     /**
@@ -181,13 +181,13 @@ class PaymentDisbursementController extends BaseController
         $paymentDisbursement = PaymentDisbursement::find($id);
 
         if (empty($paymentDisbursement)) {
-            return redirect(route('icdl.paymentDisbursements.index'));
+            return redirect(route('fc.paymentDisbursements.index'));
         }
 
         $paymentDisbursement->delete();
 
         PaymentDisbursementDeleted::dispatch($paymentDisbursement);
-        return redirect(route('icdl.paymentDisbursements.index'));
+        return redirect(route('fc.paymentDisbursements.index'));
     }
 
         
