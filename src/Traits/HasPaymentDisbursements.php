@@ -3,7 +3,7 @@ namespace Hasob\FoundationCore\Traits;
 
 use Hasob\FoundationCore\Models\PaymentDisbursement;
 
-trait HasPayments
+trait HasPaymentDisbursements
 {
 
     public function get_successful_payment()
