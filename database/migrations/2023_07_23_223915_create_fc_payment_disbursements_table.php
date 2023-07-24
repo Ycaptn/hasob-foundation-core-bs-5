@@ -21,6 +21,7 @@ class CreateFcPaymentDisbursementsTable extends Migration
             $table->foreignUuid('gateway_payment_detail_id')->references('id')->on('fc_gateway_payment_details');
             $table->string('gateway_url')->nullable();
             $table->string('gateway_reference_code')->nullable();
+            $table->string('description')->nullable();
             $table->string('status')->nullable();
             $table->text('gateway_initialization_response')->nullable();
             $table->text('payment_instrument_type')->nullable();
