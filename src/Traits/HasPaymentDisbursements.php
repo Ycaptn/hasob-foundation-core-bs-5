@@ -2,8 +2,9 @@
 namespace Hasob\FoundationCore\Traits;
 
 use Hasob\FoundationCore\Models\PaymentDisbursement;
+use Hasob\FoundationCore\Models\GateWayPaymentDetail;
 
-trait HasPayments
+trait HasPaymentDisbursements
 {
 
     public function get_successful_payment()

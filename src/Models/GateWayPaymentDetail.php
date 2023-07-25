@@ -68,6 +68,7 @@ class GateWayPaymentDetail extends Model
         'payable_id',
         'type',
         'bank_account_number',
+        'bank_account_name',
         'bank_name',
         'bank_sort_code',
         'account_gateway_code',

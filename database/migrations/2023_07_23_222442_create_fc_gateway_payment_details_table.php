@@ -21,6 +21,7 @@ class CreateFcGatewayPaymentDetailsTable extends Migration
             $table->uuid('payable_id')->nullable();
             $table->string('type')->nullable();
             $table->string('bank_account_number');
+            $table->string('bank_account_name');
             $table->string('bank_name');
             $table->string('bank_sort_code');
             $table->string('gateway_name')->nullable();
