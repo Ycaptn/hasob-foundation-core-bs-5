@@ -213,8 +213,7 @@
             @if(!empty(request()->query()) && count(request()->query()) > 0)
                 group_term_query = "&grp="+group_term;
             @endif
-            {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_resultsdisplay_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query+"&query_model="+String.raw`{{$query_model}}`);
-            
+            {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+group_term_query+"&query_model="+String.raw`{{$query_model}}`);            
         });
 
         //next and previous button listener
