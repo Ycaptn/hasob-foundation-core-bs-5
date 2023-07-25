@@ -311,7 +311,7 @@
             $(`#frm-{{$control_id}}-${model_name}-filter-modal`).trigger("reset");
             {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
             $(`#mdl-{{$control_id}}-${model_name}-filter-modal`).modal('hide');
-            $('#txt-{{$control_id}}-${model_name}-filter-settings').html('');
+            $(`#txt-{{$control_id}}-${model_name}-filter-settings`).html('');
         });
 
         @if (isset($filter_group_range_select) && count($filter_group_range_select)>0)
