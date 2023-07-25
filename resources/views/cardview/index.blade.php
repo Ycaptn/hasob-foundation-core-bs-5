@@ -89,7 +89,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal" id="frm-{{$control_id}}-filter-modal" role="form" method="POST" enctype="multipart/form-data" action="">
+                <form class="form-horizontal" id="frm-{{$control_id}}-{{$model_name}}-filter-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                     @if ($filter_is_enabled==true && isset($filter_group_single_select) && count($filter_group_single_select)>0)
                         @foreach($filter_group_single_select as $filter_single_select_group=>$filter_single_select_options)
                             <div class="col-lg-12 mb-2">

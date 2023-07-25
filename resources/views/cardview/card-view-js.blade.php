@@ -246,13 +246,13 @@
             
         });
 
-        $(document).on('click', ".{{ $control_id }}-btn-filter", function(e) {            
+        $(document).on('click', ".{{ $control_id }}-{{str_replace('\\','_',$query_model)}}-btn-filter", function(e) {            
             $(`#mdl-{{$control_id}}-${model_name}-filter-modal`).modal('show');
         });
 
-        $(document).on('click', "#btn-save-mdl-{{ $control_id }}-filter-modal", function(e) {
+        $(document).on('click', "#btn-save-mdl-{{ $control_id }}-{{str_replace('\\','_',$query_model)}}-filter-modal", function(e) {
             {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}");
-            $('#mdl-{{ $control_id }}-filter-modal').modal('hide');
+            $('#mdl-{{ $control_id }}-{{str_replace('\\','_',$query_model)}}-filter-modal').modal('hide');
 
             var filter_settings_string = "<b>Filter</b>";
             @if ($filter_is_enabled && isset($filter_group_single_select) && count($filter_group_single_select)>0)

@@ -197,8 +197,8 @@ class CardDataView extends Component
         return $this;
     }
 
-    public function enableFilter(){
-        $this->filter_is_enabled = true;
+    public function enableFilter($setting=true){
+        $this->filter_is_enabled = $setting;
         return $this;
     }
 
