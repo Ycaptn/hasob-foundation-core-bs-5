@@ -611,7 +611,7 @@ class FoundationCore
 
             return $fc_menu;
         }
-
+ 
         return [];
 
     }
