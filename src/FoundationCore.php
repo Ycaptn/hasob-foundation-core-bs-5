@@ -98,11 +98,16 @@ class FoundationCore
         return $enabled;
     }
 
-    public function has_feature($feature, Organization $org)
+    public function has_feature($feature, Organization $org = null)
     {
+        $organization = $org;
+        if ($organization == null) {
+            //Get the current organization
+            $organization = $this->current_organization();
+        }
 
-        if ($org != null) {
-            $features = $org->get_features();
+        if ($organization != null) {
+            $features = $organization->get_features();
             if (isset($features[$feature])) {
                 return $features[$feature] == true;
             }
