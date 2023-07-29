@@ -789,8 +789,8 @@ class FoundationCore
             Route::resource('tags', \Hasob\FoundationCore\Controllers\TagController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\TaggableController::class);
             Route::resource('modelArtifacts', \Hasob\FoundationCore\Controllers\ModelArtifactController::class);
-            Route::resource('gateWayPaymentDetails', \Hasob\FoundationCore\Controllers\Models\GateWayPaymentDetailController::class);
-            Route::resource('paymentDisbursements', \Hasob\FoundationCore\Controllers\Models\PaymentDisbursementController::class);
+            Route::resource('gateWayPaymentDetails', \Hasob\FoundationCore\Controllers\GateWayPaymentDetailController::class);
+            Route::resource('paymentDisbursements', \Hasob\FoundationCore\Controllers\PaymentDisbursementController::class);
             //Document Manager 
             Route::get('/dmgr/preview/{template_id}', [\Hasob\FoundationCore\Controllers\DocumentGeneratorController::class, 'processPDFPreview'])->name('dmgr-preview-render');
             Route::post('/dmgr/save/{template_id}', [\Hasob\FoundationCore\Controllers\DocumentGeneratorController::class, 'processFileSave'])->name('dmgr-file-save');

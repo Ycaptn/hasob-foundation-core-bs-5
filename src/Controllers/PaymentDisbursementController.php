@@ -1,6 +1,6 @@
 <?php
 
-namespace Hasob\FoundatioCore\Controllers;
+namespace Hasob\FoundationCore\Controllers;
 
 use Hasob\FoundatioCore\Models\PaymentDisbursement;
 
