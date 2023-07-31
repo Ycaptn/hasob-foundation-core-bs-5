@@ -95,7 +95,6 @@ class Organization extends Model
             config('hasob-unified-telco.hasob_features')!=null ? config('hasob-unified-telco.hasob_features') : [] ,
             config('tetfund-thesis-repository.hasob_features')!=null ? config('tetfund-thesis-repository.hasob_features') : [] ,
             config('tetfund-attendance.hasob_features')!=null ? config('tetfund-attendance.hasob_features') : [] ,
-            config('tetfund-eaglescan.hasob_features')!=null ? config('tetfund-eaglescan.hasob_features') : [] ,
 
             config('tetfund-thesis-digitization-ingest.hasob_features')!=null ? config('tetfund-thesis-digitization-ingest.hasob_features') : [] ,
             config('scola-core.hasob_features')!=null ? config('scola-core.hasob_features') : [] ,
