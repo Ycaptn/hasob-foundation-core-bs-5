@@ -4,10 +4,16 @@
     $(document).ready(function() {
         let page_total = 0;
         let current_page = 0;
+        let base_url_joiner = '?';
         let filter_by_group_term = null;
         let model_name = "{{str_replace('\\','_',$query_model)}}";
-        {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results("{{$control_obj->getJSONDataRouteName()}}"+"?query_model="+String.raw`{{$query_model}}`);
+        let base_url_path = "{!!$control_obj->getJSONDataRouteName()!!}";
 
+        if (base_url_path.includes("?")) { base_url_joiner = '&'; }
+        base_url_path += base_url_joiner+"query_model="+String.raw`{{$query_model}}`;
+        
+        // initialization function call
+        {{$control_id}}_{{str_replace('\\','_',$query_model)}}_display_results(base_url_path);
 
         //get page list 
         function getPageList(totalPages, page, maxLength) {
