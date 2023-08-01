@@ -84,6 +84,7 @@ class GateWayPaymentDetail extends Model
         'payable_type' => 'string',
         'type' => 'string',
         'bank_account_number' => 'string',
+        'bank_account_name' => 'string',
         'bank_name' => 'string',
         'bank_sort_code' => 'string',
         'gateway_name' => 'string',
