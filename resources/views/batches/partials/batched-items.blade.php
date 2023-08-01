@@ -25,12 +25,6 @@
                 </div>
             @endforeach
         @else
-        <div class="col-sm-6 my-2">
-           Items inside batch
-        </div>
-        <div class="col-sm-6 my-2">
-          
-        </div>
             <span class="my-3">No Item inside batch</span>
         @endif
     </div>
