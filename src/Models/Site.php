@@ -52,7 +52,9 @@ class Site extends Model
         'is_blade_rendered',
         'blade_file_path',
         'creator_user_id',
-        'organization_id' 
+        'organization_id', 
+        'siteable_id',
+        'siteable_type' 
     ];
 
     protected $casts = [
@@ -68,7 +70,9 @@ class Site extends Model
         'blade_file_path' => 'string',
         'department_id' => 'string',
         'creator_user_id' => 'string',
-        'organization_id' => 'string'
+        'organization_id' => 'string',
+        'siteable_id' => 'string',
+        'siteable_type' => 'string'
     ];
 
     public static function all_sites(Organization $org = null){

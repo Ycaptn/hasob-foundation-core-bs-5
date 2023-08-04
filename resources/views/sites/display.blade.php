@@ -64,10 +64,14 @@
             <a id="btn-cancel-page" href="#" @if(isset($page)) data-val='{{ $page->id }}' @endif class='btn btn-sm btn-info' style="display:none;">
                 <i class="fa fa-times" aria-hidden="true"></i> Cancel
             </a>
-            <a id="btn-new-page" href="#" data-val='{{ $site->id }}' class='btn btn-sm btn-danger' style="display:none;">
-                <i class="fa fa-file" aria-hidden="true"></i> New Page
-            </a>
         @endif
+
+        @if (isset($site) && $site!=null)
+        <a id="btn-new-page" href="#" data-val='{{ $site->id }}' class='btn btn-sm btn-danger' style="display:none;">
+            <i class="fa fa-file" aria-hidden="true"></i> New Page
+        </a>
+        @endif
+
         @if (Auth()->user()->hasAnyRole(['site-admin','admin']) || Auth()->user()->id == $site->creator_user_id)
         <a id="btn-edit-site" href="{{route('fc.sites.show',$site->id)}}" data-val='{{ $site->id }}' class='btn btn-sm btn-primary btn-edit-mdl-site-modal' style="display:none;">
             <i class="icon wb-reply" aria-hidden="true"></i>Edit Site
@@ -185,6 +189,12 @@
                                     <div class="col-lg-12">
                                         {!! Form::text("{$control_id}-page-name", null, ['id' => "{$control_id}-page-name", 'class' => 'form-control', 'minlength' => 1, 'maxlength' => 1000]) !!}
                                     </div>
+                                </div>
+
+
+                                <!-- Name Field -->
+                                <div id="div-{{ $control_id }}-page-is_default" class="form-group">
+                                    {!! Form::checkbox("{$control_id}-page-is_default", '0', null, ['id'=>"{$control_id}-page-is_default",'class'=>'form-check-input']) !!} Is Default
                                 </div>
 
                             </div>
@@ -371,6 +381,7 @@
                 let formData = new FormData();
                 formData.append('_token', $('input[name="_token"]').val());
                 formData.append('page_name', $('#{{ $control_id }}-page-name').val());
+                formData.append('is_site_default_page', $('#{{ $control_id }}-page-is_default').prop('checked')==true ? '1' : '0');
                 formData.append('creator_user_id', "{{ Auth::id() }}");
                 @if (isset($organization) && $organization != null)
                     formData.append('organization_id', '{{ $organization->id }}');

@@ -22,7 +22,7 @@
                         </div>
                     </div>
 
-                    @if (isset($site) && $site != null && count($site->pages) > 0)
+                    @if (isset($site) && $site != null && count($site->pages()) > 0)
                         <div class="table-wrap">
                             <div class="table-responsive">
                                 <table class="table table-hover mb-0">

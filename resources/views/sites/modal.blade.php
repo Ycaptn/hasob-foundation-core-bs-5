@@ -60,6 +60,11 @@ $(document).ready(function() {
         
         $("#spinner-sites").hide();
         $("#div-save-mdl-site-modal").attr('disabled', false);
+
+        @if (isset($sitable_item) && $sitable_item!=null && isset($sitable_item->long_name))
+            $("#site_name").val("{{$sitable_item->long_name}} Site");
+        @endif
+
     });
 
     //Show Modal for View
@@ -238,6 +243,11 @@ $(document).ready(function() {
         formData.append('creator_user_id', "{{ Auth::id() }}");
         formData.append('site_name', $('#site_name').val());
 		formData.append('description', $('#site_description').val());
+
+        @if (isset($sitable_item) && $sitable_item!=null)
+            formData.append('siteable_id', '{{$sitable_item->id}}');
+            formData.append('siteable_type', String.raw`{{get_class($sitable_item)}}`,);
+        @endif
 
         console.log(endPointUrl);
         $.ajax({

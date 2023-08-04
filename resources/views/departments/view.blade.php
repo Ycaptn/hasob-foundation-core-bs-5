@@ -46,9 +46,32 @@
 
 @section('content')
 
+
+    @php
+        $default_page = null;
+        if (isset($department_site) && $department_site!=null){
+            $pages = $department_site->pages();    
+            foreach($pages as $site_page){
+                if ($site_page->is_site_default_page){
+                    $default_page = $site_page;
+                }
+            }
+        }
+    @endphp
+
     <div class="card border-top border-0 border-4 border-primary">
         <div class="card-body">
-            <p class="text-center m-4 fs-4">No site setup for this Department</p>
+            @if (isset($department_site) && $department_site!=null)
+                @if ($default_page!=null && empty($default_page->content) == false)
+                    {!! \Illuminate\Mail\Markdown::parse($default_page->content) !!}
+                @else
+                    <p class="text-center m-4 fs-4">No Content for this Department</p>
+                @endif
+                <br/>
+                <a href="{{ route('fc.site-display',$department_site->id) }}">{{ $department->long_name }} - Department Site</a>
+            @else
+                <p class="text-center m-4 fs-4">Site has not been setup for this Department</p>
+            @endif
         </div>
     </div>
 
