@@ -72,9 +72,17 @@ class DepartmentController extends BaseController
             return self::createJSONResponse("ok","success",$item,200);
         }
         
+        //Load the site manager if the department has a site.
+        $department_site = null;
+        $department_sites = $item->sites();
+        if ($department_sites!=null && count($department_sites)>=1){
+            $department_site = $department_sites[0];
+        }
+
         return view('hasob-foundation-core::departments.view')
                     ->with('department', $item)
                     ->with('organization', $org)
+                    ->with('department_site', $department_site)
                     ->with('current_user', $current_user);
     }
 
@@ -118,11 +126,19 @@ class DepartmentController extends BaseController
         if (request()->expectsJson()){
             return $cdv_child_departments->render();
         }
+
+        //Load the site manager if the department has a site.
+        $department_site = null;
+        $department_sites = $item->sites();
+        if ($department_sites!=null && count($department_sites)>=1){
+            $department_site = $department_sites[0];
+        }
          
         return view('hasob-foundation-core::departments.settings')
                     ->with('department', $item)
                     ->with('organization', $org)
                     ->with('current_user', $current_user)
+                    ->with('department_site', $department_site)
                     ->with('cdv_child_departments', $cdv_child_departments)
                     ->with('cdv_department_members', $cdv_department_members);
     }

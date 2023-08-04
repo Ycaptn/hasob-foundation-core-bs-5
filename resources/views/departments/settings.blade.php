@@ -24,7 +24,7 @@
 
         @include('hasob-foundation-core::departments.departments-units-modal')
         @include('hasob-foundation-core::departments.members-selector')
-                
+
     @endif
 @stop
 
@@ -132,7 +132,21 @@
                         </div>
 
                         <div id="tab_site_manager" class="tab-pane fade show" role="tabpanel">
-                            Site Manager
+                            @if (isset($department_site) && $department_site!=null)
+
+                                @if (Auth()->user()->hasAnyRole(['site-admin','admin']) || Auth()->user()->id == $department_site->creator_user_id)
+                                <a id="btn-edit-site" href="{{route('fc.sites.show',$department_site->id)}}" data-val='{{ $department_site->id }}' class='btn btn-sm btn-primary btn-edit-mdl-site-modal'>
+                                    <i class="icon wb-reply" aria-hidden="true"></i> Manage Site
+                                </a>
+                                @endif
+
+                            @else
+                                No Site setup for this department <br/>
+                                <a id="btn-new-mdl-site-modal" class="btn btn-sm btn-primary btn-new-mdl-site-modal" href="#">
+                                    <i class="fa fa-edit"></i> New&nbsp;Site
+                                </a>
+                                @include('hasob-foundation-core::sites.modal',['sitable_item'=>$department])
+                            @endif
                         </div>
 
                     </div>
