@@ -28,7 +28,7 @@ class CreateSiteAPIRequest extends AppBaseFormRequest
         return [
             'organization_id' => 'required',
             'display_ordinal' => 'nullable|min:0|max:365',
-            'site_name' => 'required|min:4|max:150',
+            'site_name' => 'required|max:150',
             'site_path' => 'nullable|min:4|max:150',
             'description' => 'nullable|min:4|max:150',
             'siteable_id' => 'nullable|max:150',
