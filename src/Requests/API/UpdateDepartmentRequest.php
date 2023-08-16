@@ -1,11 +1,10 @@
 <?php
 
-namespace Hasob\FoundationCore\Requests;
+namespace Hasob\FoundationCore\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Hasob\FoundationCore\Models\Department;
+use Hasob\FoundationCore\Requests\AppBaseFormRequest;
 
-class CreateDepartmentRequest extends AppBaseFormRequest
+class UpdateDepartmentRequest extends AppBaseFormRequest
 {
 
     /**
@@ -28,8 +27,8 @@ class CreateDepartmentRequest extends AppBaseFormRequest
         return [
             'parent_id' => 'required_if:is_unit,==,1',
             'long_name' => 'required|string|max:300',
-            'email' => 'sometimes|email|unique:fc_departments,email|max:300',
-            'telephone' => 'sometimes|unique:fc_departments,telephone|digits:11'
+            'email' => 'sometimes|email|max:300',
+            'telephone' => 'sometimes|digits:11'
         ];
     }
 
