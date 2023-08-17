@@ -16,16 +16,16 @@ trait Artifactable
 {
 
     public function artifacts(){
-        return ModelArtifact::where('model_primary_id',$this->id)
-                        ->where('model_name',self::class)
+        return ModelArtifact::where('artifactable_id',$this->id)
+                        ->where('artifactable_type',self::class)
                         ->orderBy('created_at')
                         ->get();
     }
 
     public function artifact($key){
-        return ModelArtifact::where('model_primary_id',$this->id)
+        return ModelArtifact::where('artifactable_id',$this->id)
                         ->where('key', $key)                
-                        ->where('model_name', self::class)
+                        ->where('artifactable_type', self::class)
                         ->orderBy('created_at')
                         ->first();
     }
@@ -48,8 +48,8 @@ trait Artifactable
                 return $previous;
 
             } else {
-                $properties['model_name'] = self::class;
-                $properties['model_primary_id'] = $this->id;
+                $properties['artifactable_type'] = self::class;
+                $properties['artifactable_id'] = $this->id;
                 
                 return ModelArtifact::create($properties);
             }

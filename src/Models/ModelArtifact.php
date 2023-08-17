@@ -21,8 +21,8 @@ class ModelArtifact extends Model
     ];
 
     public $fillable = [
-        'model_name',
-        'model_primary_id',
+        'artifactable_type',
+        'artifactable_id',
         'key',
         'value',
         'display_ordinal',
@@ -62,5 +62,8 @@ class ModelArtifact extends Model
         return null;
     }
 
-    
+    public function artifactable(){
+
+        return $this->morphsTo();
+    }
 }

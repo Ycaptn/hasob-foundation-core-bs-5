@@ -62,6 +62,10 @@ class Attachable extends Model
     public function attachment(){
         return $this->belongsTo(Attachment::class,'attachment_id','id');
     }
+
+    public function attachments(){
+        return $this->belongsToMany(Attachment::class,'attachment_id','id');
+    }
     
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');
