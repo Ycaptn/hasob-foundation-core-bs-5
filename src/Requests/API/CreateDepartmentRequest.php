@@ -1,9 +1,8 @@
 <?php
 
-namespace Hasob\FoundationCore\Requests;
+namespace Hasob\FoundationCore\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Hasob\FoundationCore\Models\Department;
+use Hasob\FoundationCore\Requests\AppBaseFormRequest;
 
 class CreateDepartmentRequest extends AppBaseFormRequest
 {
