@@ -106,7 +106,7 @@ class TableDataView extends Component
         return $this;
     }
 
-    public function enableTableBordered(bool $enabled=true){
+    public function enableTableBorder(bool $enabled=true){
         $this->table_bordered = $enabled;
         return $this;
     }
