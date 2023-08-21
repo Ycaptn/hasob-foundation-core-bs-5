@@ -70,8 +70,8 @@
     <div class="loader" id="loader-{{$control_id}}-{{$model_name}}"></div>
 </div>
 <div class="table-responsive">
-    <table class="table {{$table_bordered? 'table-bordered': '' }} {{$table_hover? 'table-hover': '' }} {{$table_striped? 'table-striped': '' }} ">
-        <!-- <caption>101 / 200 repo</caption> -->
+    <table class="table {{$table_bordered? 'table-bordered': '' }} {{$table_hover? 'table-hover': '' }} {{$table_striped? 'table-striped': '' }} {{$table_caption_top? 'caption-top': '' }}">
+        <caption>{{$table_caption}}</caption>
         <thead>
             <tr>
                 @foreach($table_headers as $th)

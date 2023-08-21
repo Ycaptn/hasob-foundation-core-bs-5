@@ -20,6 +20,8 @@ class TableDataView extends Component
     public $query_relationship;
 
     private $table_bordered;
+    private $table_caption;
+    private $table_caption_top;
     private $table_headers;
     private $table_hover;
     private $table_striped;
@@ -70,8 +72,10 @@ class TableDataView extends Component
         $this->template_data_collection = $template_data_collection;
 
         $this->filter_is_enabled = false;
-
+        
         $this->table_headers = [];
+        $this->table_caption = "";
+        $this->table_caption_top = false;
         $this->table_hover = false;
         $this->table_striped = false;
         $this->table_bordered = false;
@@ -111,6 +115,11 @@ class TableDataView extends Component
         return $this;
     }
 
+    public function enableTableCaptionTop(bool $enabled=true){
+        $this->table_caption_top = $enabled;
+        return $this;
+    }
+
     public function enableTableHover(bool $enabled=true){
         $this->table_hover = $enabled;
         return $this;
@@ -123,6 +132,11 @@ class TableDataView extends Component
 
     public function setTableHeaders($headers){
         $this->table_headers = $headers;
+        return $this;
+    }
+
+    public function setTableCaption($caption){
+        $this->table_caption = $caption;
         return $this;
     }
 
@@ -518,6 +532,8 @@ class TableDataView extends Component
                     ->with('query_model',$this->data_set_model)
                     ->with('control_id',$this->control_id)
                     ->with('table_headers',$this->table_headers)
+                    ->with('table_caption',$this->table_caption)
+                    ->with('table_caption_top',$this->table_caption_top)
                     ->with('table_hover', $this->table_hover)
                     ->with('table_striped', $this->table_striped)
                     ->with('table_bordered', $this->table_bordered)
