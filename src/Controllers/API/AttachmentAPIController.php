@@ -151,7 +151,7 @@ class AttachmentAPIController extends BaseController
 
     public function getAttachmentDetails(Request $request, $id)
     {
-        $attach = Attachment::find($id);
+        $attach = Attachment::with('artifacts')->find($id);
 
         return $this->sendResponse($attach, "Attachment retrived successfully");
     }
