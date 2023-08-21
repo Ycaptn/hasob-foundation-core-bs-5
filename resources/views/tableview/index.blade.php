@@ -70,7 +70,7 @@
     <div class="loader" id="loader-{{$control_id}}-{{$model_name}}"></div>
 </div>
 <div class="table-responsive">
-    <table class="table table-striped table-hover ">
+    <table class="table {{$table_bordered? 'table-bordered': '' }} {{$table_hover? 'table-hover': '' }} {{$table_striped? 'table-striped': '' }} ">
         <!-- <caption>101 / 200 repo</caption> -->
         <thead>
             <tr>

@@ -13,12 +13,16 @@ class TableDataView extends Component
 {
     
     private $control_id;
-    private $table_headers;
     private $search_fields;
     private $relationship_key;
     private $relationship_search_fields;
     private $search_placeholder_text;
     public $query_relationship;
+
+    private $table_bordered;
+    private $table_headers;
+    private $table_hover;
+    private $table_striped;
 
     private $data_set_pagination_limit;
     private $data_set_enable_pagination;
@@ -67,6 +71,11 @@ class TableDataView extends Component
 
         $this->filter_is_enabled = false;
 
+        $this->table_headers = [];
+        $this->table_hover = false;
+        $this->table_striped = false;
+        $this->table_bordered = false;
+
         return $this;
     }
 
@@ -97,10 +106,27 @@ class TableDataView extends Component
         return $this;
     }
 
+    public function enableTableBordered(bool $enabled=true){
+        $this->table_bordered = $enabled;
+        return $this;
+    }
+
+    public function enableTableHover(bool $enabled=true){
+        $this->table_hover = $enabled;
+        return $this;
+    }
+
+    public function enableTableStripe(bool $enabled=true){
+        $this->table_striped = $enabled;
+        return $this;
+    }
+
     public function setTableHeaders($headers){
         $this->table_headers = $headers;
         return $this;
     }
+
+    
 
     public function setSearchFields($fields){
         $this->search_fields = $fields;
@@ -492,6 +518,9 @@ class TableDataView extends Component
                     ->with('query_model',$this->data_set_model)
                     ->with('control_id',$this->control_id)
                     ->with('table_headers',$this->table_headers)
+                    ->with('table_hover', $this->table_hover)
+                    ->with('table_striped', $this->table_striped)
+                    ->with('table_bordered', $this->table_bordered)
                     ->with('data_set_query',$this->data_set_query)
                     ->with('action_buttons_list',$this->action_buttons_list)
                     ->with('data_set_group_list',$this->data_set_group_list)
