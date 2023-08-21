@@ -467,8 +467,9 @@ class TableDataView extends Component
             }
 
             $table_html = "";
-            foreach($results as $data_item){
+            foreach($results as $index => $data_item){
                 $table_html .= view($this->data_item_template_path)
+                    ->with('index', $index+1)
                     ->with('data_item', $data_item)
                     ->with('data_collection', $this->template_data_collection)
                     ->with('api_detail_page_url', $this->api_detail_page_url);
