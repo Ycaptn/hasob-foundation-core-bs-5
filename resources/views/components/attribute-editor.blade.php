@@ -2,7 +2,7 @@
 
     @php
         $artifactables = $artifactable->artifacts();
-        $model_name = str_replace('\\', '\\\\', get_class($artifactable));
+        $artifactable_type = str_replace('\\', '\\\\', get_class($artifactable));
     @endphp
 
 
@@ -249,8 +249,8 @@
 
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
-                    formData.append('model_primary_id', '{{ $artifactable->id }}');
-                    formData.append('model_name', String.raw`{{ get_class($artifactable) }}`);
+                    formData.append('artifactable_id', '{{ $artifactable->id }}');
+                    formData.append('artifactable_type', String.raw`{{ get_class($artifactable) }}`);
                     formData.append('key', $('#{{ $control_id }}-attribute-name').val());
                     formData.append('value', $('#{{ $control_id }}-attribute-value').val());
                     formData.append('creator_user_id', "{{ Auth::id() }}");
@@ -317,8 +317,8 @@
 
                 //enable up and down move icon
                 $('.form-check-input').change(function() {
-                $('#{{ $control_id }}-downmove-attribute').prop('disabled', !$('.form-check-input:checked').length);
-                $('#{{ $control_id }}-upmove-attribute').prop('disabled', !$('.form-check-input:checked').length);
+                    $('#{{ $control_id }}-downmove-attribute').prop('disabled', !$('.form-check-input:checked').length);
+                    $('#{{ $control_id }}-upmove-attribute').prop('disabled', !$('.form-check-input:checked').length);
                 });
 
                 //update action for display_ordinal
@@ -671,10 +671,9 @@
 
                     formData.append('_token', $('input[name="_token"]').val());
                     formData.append('id', pagePrimaryId);
-                    formData.append('model_name', "{{ $model_name }}")
-                    formData.append('model_primary_id', "{{ $artifactable->id }}")
-                    formData.append('key', $(
-                        '#{{ $control_id }}-attribute-name').val());
+                    formData.append('artifactable_type', String.raw`{{ get_class($artifactable) }}`)
+                    formData.append('artifactable_id', "{{ $artifactable->id }}")
+                    formData.append('key', $('#{{ $control_id }}-attribute-name').val());
                     formData.append('value', $('#{{ $control_id }}-attribute-value').val());
                     //formData.append('is_hidden', $('#{{ $control_id }}-page-text-is_hidden').val());
                     //formData.append('is_published', $('#{{ $control_id }}-page-text-is_published').val());

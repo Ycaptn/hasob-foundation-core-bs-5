@@ -28,8 +28,8 @@ class CreateModelDocumentRequest extends AppBaseFormRequest
         return [
             'organization_id' => 'required',
         'document_generation_template_id' => 'required',
-        'model_primary_id' => 'required',
-        'model_type_name' => 'required',
+        'artifactable_id' => 'required',
+        'artifactable_type' => 'required',
         'display_ordinal' => 'nullable|min:0|max:365'
         ];
     }

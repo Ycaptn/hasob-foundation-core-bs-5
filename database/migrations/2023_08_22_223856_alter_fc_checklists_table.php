@@ -22,7 +22,7 @@ class AlterFcChecklistsTable extends Migration
             $table->boolean('requires_video_capture')->default(false);
             $table->boolean('requires_picture_capture')->default(false);
             $table->boolean('requires_file_attachment')->default(false);
-            $table->string('required_file_attachment_types');
+            $table->string('required_file_attachment_types')->nullable();
             $table->integer('required_attachment_max_size_mb')->default(100);
             $table->boolean('requires_payment')->default(false);
             $table->decimal('required_payment_amount', 15, 2)->default(0);

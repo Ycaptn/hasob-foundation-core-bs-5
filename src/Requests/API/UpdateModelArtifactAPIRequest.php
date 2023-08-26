@@ -30,8 +30,8 @@ class UpdateModelArtifactAPIRequest extends AppBaseFormRequest
         */
         return [
             'organization_id' => 'required',
-        'model_primary_id' => 'required',
-        'model_name' => 'required',
+        'artifactable_id' => 'required',
+        'artifactable_type' => 'required',
         'key' => 'required|max:200',
         'value' => 'nullable|max:2000',
         'binary_value' => 'nullable',
@@ -53,21 +53,21 @@ class UpdateModelArtifactAPIRequest extends AppBaseFormRequest
 
     /**
     * @OA\Property(
-    *     title="model_primary_id",
-    *     description="model_primary_id",
+    *     title="artifactable_id",
+    *     description="artifactable_id",
     *     type="string"
     * )
     */
-    public $model_primary_id;
+    public $artifactable_id;
 
     /**
     * @OA\Property(
-    *     title="model_name",
-    *     description="model_name",
+    *     title="artifactable_type",
+    *     description="artifactable_type",
     *     type="string"
     * )
     */
-    public $model_name;
+    public $artifactable_type;
 
     /**
     * @OA\Property(

@@ -27,8 +27,8 @@ class CreateModelArtifactAPIRequest extends AppBaseFormRequest
     {
         return [
             'organization_id' => 'required',
-            'model_primary_id' => 'required',
-            'model_name' => 'required',
+            'artifactable_id' => 'required',
+            'artifactable_type' => 'required',
             'key' => 'required|max:200',
             'value' => 'nullable|max:2000',
             'binary_value' => 'nullable',

@@ -31,8 +31,8 @@ class UpdateModelDocumentAPIRequest extends AppBaseFormRequest
         return [
             'organization_id' => 'required',
         'document_generation_template_id' => 'required',
-        'model_primary_id' => 'required',
-        'model_type_name' => 'required',
+        'artifactable_id' => 'required',
+        'artifactable_type' => 'required',
         'display_ordinal' => 'nullable|min:0|max:365'
         ];
     }
@@ -57,21 +57,21 @@ class UpdateModelDocumentAPIRequest extends AppBaseFormRequest
 
     /**
     * @OA\Property(
-    *     title="model_primary_id",
-    *     description="model_primary_id",
+    *     title="artifactable_id",
+    *     description="artifactable_id",
     *     type="string"
     * )
     */
-    public $model_primary_id;
+    public $artifactable_id;
 
     /**
     * @OA\Property(
-    *     title="model_type_name",
-    *     description="model_type_name",
+    *     title="artifactable_type",
+    *     description="artifactable_type",
     *     type="string"
     * )
     */
-    public $model_type_name;
+    public $artifactable_type;
 
     /**
     * @OA\Property(

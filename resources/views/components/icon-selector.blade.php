@@ -155,13 +155,13 @@
                 @if (isset($organization) && $organization!=null)
                     formData.append('organization_id', '{{$organization->id}}');
                 @endif
-                formData.append('model_name', String.raw`{{get_class($artifactable)}}`);
-                formData.append('model_primary_id', $('#{{$control_id}}_icon-selector_artifactable_id').val());
+                formData.append('artifactable_type', String.raw`{{get_class($artifactable)}}`);
+                formData.append('artifactable_id', $('#{{$control_id}}_icon-selector_artifactable_id').val());
                 formData.append('key', $('#{{$control_id}}_icon-selector_artifactable_name').val());
                 formData.append('value', $('input[name="{{$control_id}}_selected_icon"]:checked').val());
 
                 $.ajax({
-                    url: "{{ route('fc-api.model_artifacts.store') }}",
+                    url: "{{ route('fc-api.attributes.store') }}",
                     type: 'POST',
                     processData: false,
                     contentType: false,
