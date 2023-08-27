@@ -14,11 +14,12 @@ use Hasob\FoundationCore\Models\Organization;
 
 trait Ratable
 {
+
     public function ratings(){
         $ratings = Rating::where('ratable_id',$this->id)
-                                    ->where('ratable_type',self::class)
-                                    ->orderBy('created_at')
-                                    ->get();
+                            ->where('ratable_type',self::class)
+                            ->orderBy('created_at')
+                            ->get();
         return $ratings;
     }
 
@@ -36,4 +37,19 @@ trait Ratable
 
         return $rating;
     }
+
+    public function rating_score_avg(){
+        $result = Rating::where('ratable_id',$this->id)
+                            ->where('ratable_type',self::class)
+                            ->avg('score');
+        return $result;
+    }
+
+    public function rating_score_count(){
+        $result = Rating::where('ratable_id',$this->id)
+                            ->where('ratable_type',self::class)
+                            ->count();
+        return $result;
+    }
+
 }
