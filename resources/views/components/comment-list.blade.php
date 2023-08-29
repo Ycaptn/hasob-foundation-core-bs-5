@@ -8,13 +8,6 @@
                 }
             @endphp
 
-            @php
-                $text_color = 'black';
-                if ($comment->user->is_principal_officer) {
-                    $text_color = 'red';
-                }
-            @endphp
-
             <div class="d-flex align-items-center mb-2" style="border-bottom: 1px solid #e4e4e4;">
                 <div class="sl-avatar avatar avatar-sm avatar-circle">
                     <a href="javascript:void(0)">
@@ -42,7 +35,7 @@
                             <span
                                 class="block small text-secondary font-12 capitalize-font">{{ $comment->getCommentedDateString() }}
                                 &nbsp;
-                                @if ($comment->user_id == auth()->user()->id)
+                                @if (\Auth::check() && $comment->user_id == auth()->user()->id)
                                     <a data-toggle="tooltip" title="Edit" data-val='{{ $comment->id }}'
                                         class="btn-edit-mdl-comment-modal inline-block " href="#">
                                         <i class="zmdi zmdi-border-color txt-warning" style="opacity:80%"></i>
