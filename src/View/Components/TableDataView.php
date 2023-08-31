@@ -33,6 +33,7 @@ class TableDataView extends Component
     private $data_item_template_path;
     private $data_set_group_list;
     private $data_set_query;
+    private $data_set_query_single_field_multiple_values;
 
     private $filter_is_enabled;
     private $filter_group_range_select;
@@ -182,6 +183,11 @@ class TableDataView extends Component
         $this->data_set_query = $query;
         return $this;
     }
+    
+    public function setDataQuerySingleFieldMultipeValues($field, $values){
+        $this->data_set_query_single_field_multiple_values[$field] = $values;
+        return $this;
+    }
 
     public function addActionButton($button_text, $button_icon=null, $button_href='#', $button_class=null, $button_data_map=null){
         if ($this->action_buttons_list == null){
@@ -306,6 +312,21 @@ class TableDataView extends Component
 
             if ($this->data_set_query!=null && is_array($this->data_set_query)){
                 $model_query = $model_query->where($this->data_set_query);
+            }
+
+            if($this->data_set_query_single_field_multiple_values != null &&  is_array($this->data_set_query_single_field_multiple_values) ){
+                foreach ($this->data_set_query_single_field_multiple_values as $field => $value) {
+                    $values = $value;
+                    if(!is_array($value)){
+                        $values = explode(',' , $value);
+                    }
+                    $counter  = 0;
+                    foreach ($values as $value_key => $value) {
+                       if($counter==0)
+                            $model_query->where($field, $value);
+                        $model_query->orWhere($field, $value);
+                    }
+                }
             }
 
             if ($this->query_relationship!=null && is_array($this->query_relationship)){
@@ -538,6 +559,7 @@ class TableDataView extends Component
                     ->with('table_striped', $this->table_striped)
                     ->with('table_bordered', $this->table_bordered)
                     ->with('data_set_query',$this->data_set_query)
+                    ->with('data_set_query_single_field_multiple_values',$this->data_set_query_single_field_multiple_values)
                     ->with('action_buttons_list',$this->action_buttons_list)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
@@ -562,6 +584,7 @@ class TableDataView extends Component
                     ->with('control_id',$this->control_id)
                     ->with('query_model',$this->data_set_model)
                     ->with('data_set_query',$this->data_set_query)
+                    ->with('data_set_query_single_field_multiple_values',$this->data_set_query_single_field_multiple_values)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('action_buttons_list',$this->action_buttons_list)
                     ->with('data_set_pagination_limit',$this->data_set_pagination_limit)
@@ -576,6 +599,7 @@ class TableDataView extends Component
                     ->with('control_id',$this->control_id)
                     ->with('query_model',$this->data_set_model)
                     ->with('data_set_query',$this->data_set_query)
+                    ->with('data_set_query_single_field_multiple_values',$this->data_set_query_single_field_multiple_values)
                     ->with('data_set_group_list',$this->data_set_group_list)
                     ->with('data_set_custom_order',$this->data_set_custom_order)
                     ->with('multiple_field_group_list',$this->multiple_field_group_list)
