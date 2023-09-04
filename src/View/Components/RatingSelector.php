@@ -10,13 +10,14 @@ class RatingSelector extends Component
     public $control_id;
     public $ratable;
     public $authCheck;
-    public $serviceCheck;
+    public $usedServiceChecker;
 
-    public function __construct($ratable, $authCheck)
+    public function __construct($ratable, $authCheck, $usedServiceChecker)
     {
         $this->ratable = $ratable;
         $this->control_id = "rtl_".time();
-        $this->authCheck = $authCheck;        
+        $this->authCheck = $authCheck;
+        $this->usedServiceChecker = $usedServiceChecker;
     }
 
     public function render()

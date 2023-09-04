@@ -8,10 +8,12 @@ class CommentEntry extends Component
 {
 
     public $commentable;
+    public $usedServiceChecker;
 
-    public function __construct($commentableObject)
+    public function __construct($commentableObject, $usedServiceChecker)
     {
         $this->commentable = $commentableObject;
+        $this->usedServiceChecker = $usedServiceChecker;
     }
     
     public function render(){
