@@ -26,7 +26,7 @@
                 $("#comment-text").on('keypress', function(e) {
                     
                     if (e.which == 13 && $('#comment-text').val().length > 2) {
-                        @if(!$usedServiceChecker)
+                        @if(!$canComment)
                             showPopup('You need to use this service to comment')
                         @else
                             $.ajaxSetup({
@@ -130,7 +130,7 @@
 
                 $("#btn-send-comment").on('click', function(e) {
                     e.preventDefault();
-                    @if(!$usedServiceChecker)
+                    @if(!$canComment)
                         showPopup('You need to use this service to comment')
                     @else
                         if ($('#comment-text').val().length > 2) {

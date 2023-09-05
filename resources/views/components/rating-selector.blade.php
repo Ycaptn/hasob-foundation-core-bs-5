@@ -6,7 +6,7 @@
   
      <div id="div-rating-modal-error"></div>
          
-    <div id='ratingDiv'>
+    <div id="ratingDiv">
             <a  href="#" 
                 title="Rating 1" 
                 class="btn-rating-select btn-outline"
@@ -53,7 +53,7 @@
                 data-val-type="{{$ratableType}}">
                 <i id="btn-{{$control_id}}-4" class="bx bx-star font-20 email-star"></i>
             </a>
-            <input type="hidden" name="ratingId" id="ratingId" value='0'>                    
+            <input type="hidden" name="ratingId" id="ratingId" value="0">                    
     </div>
 
 @endif
@@ -117,7 +117,7 @@
                 @if(!$authCheck)
                 showPopup('You need to login to rate this');
                 @else    
-                    @if(!$usedServiceChecker)
+                    @if(!$canRate)
                     
                         showPopup('You need to use this service to rate it');
                     @else
