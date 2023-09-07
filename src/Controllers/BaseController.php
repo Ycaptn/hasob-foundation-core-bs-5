@@ -15,23 +15,25 @@ class BaseController extends Controller
     public function __construct()
     {
         # code...
-       
-        
+
+
     }
 
-    
-    public static function createJSONResponse($status,$message,$response,$status_code){
+
+    public static function createJSONResponse($status, $message, $response, $status_code)
+    {
         return response()->json([
-            'status'=>"{$status}",
-            'message'=>"{$message}",
-            'response'=>$response
-        ],$status_code);
+            'status' => "{$status}",
+            'message' => "{$message}",
+            'response' => $response
+        ], $status_code);
     }
 
 
-    public static function statesList(){
+    public static function statesList()
+    {
         return [
-            "Abuja FCT", "Anambra", "Enugu", "Akwa Ibom", "Adamawa", "Abia", "Bauchi","Bayelsa",
+            "Abuja FCT", "Anambra", "Enugu", "Akwa Ibom", "Adamawa", "Abia", "Bauchi", "Bayelsa",
             "Benue", "Borno", "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Gombe", "Imo",
             "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos", "Nasarawa",
             "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto", "Taraba",
@@ -39,27 +41,31 @@ class BaseController extends Controller
         ];
     }
 
-    public static function geoZoneList(){
+    public static function geoZoneList()
+    {
         return [
-          "North West", "North Central", "North East",
-          "South West", "South South", "South East"
+            "North West", "North Central", "North East",
+            "South West", "South South", "South East"
         ];
     }
 
-    public static function monthsList(){
+    public static function monthsList()
+    {
         return [
-          "January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
         ];
     }
 
 
-    public static function getRandomDigits($digits){
-        return str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
+    public static function getRandomDigits($digits)
+    {
+        return str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
     }
 
-    
-    public static function getRandomString($valid_chars, $length){
+
+    public static function getRandomString($valid_chars, $length)
+    {
         // start with an empty random string
         $random_string = "";
 
@@ -67,13 +73,13 @@ class BaseController extends Controller
         $num_valid_chars = strlen($valid_chars);
 
         // repeat the steps until we've created a string of the right length
-        for ($i = 0; $i < $length; $i++){
+        for ($i = 0; $i < $length; $i++) {
             // pick a random number from 1 up to the number of valid chars
             $random_pick = mt_rand(1, $num_valid_chars);
 
             // take the random character out of the string of valid chars
             // subtract 1 from $random_pick because strings are indexed starting at 0, and we started picking at 1
-            $random_char = $valid_chars[$random_pick-1];
+            $random_char = $valid_chars[$random_pick - 1];
 
             // add the randomly-chosen char onto the end of our string so far
             $random_string .= $random_char;
@@ -84,7 +90,8 @@ class BaseController extends Controller
     }
 
 
-    public static function generateRandomCode($length=5){
+    public static function generateRandomCode($length = 5)
+    {
 
         $valid_chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
         return self::getRandomString($valid_chars, $length);
@@ -102,7 +109,7 @@ class BaseController extends Controller
         return Response::json(self::makeError($error), $code);
     }
 
-    
+
     public function sendSuccess($message)
     {
         return Response::json([
@@ -134,6 +141,4 @@ class BaseController extends Controller
 
         return $res;
     }
-
-
 }
