@@ -295,6 +295,35 @@ class FoundationCore
 
     }
 
+    public function register_artifacts_attributes(Organization $org, $owner_name,$model, $artribute_names=[]){
+        
+        $class = new \ReflectionClass($model);
+        $short_class_name = $class->getShortName();
+        if (Schema::hasTable('fc_settings')) {
+
+            foreach($artribute_names as $idx=> $name){
+
+                if ($org != null) {
+                    $record = Setting::where(['organization_id' => $org->id, 'key' => $name, 'group_name' =>  $model , 'owner_feature' => $owner_name])->first();
+                    if ($record == null) {
+                        Setting::create([
+                            'organization_id' => $org->id,
+                            'display_ordinal' => $idx,
+                            'group_name' => $model,
+                            'display_name' => $short_class_name,
+                            'display_type' => 'string',
+                            'owner_feature' => $owner_name,
+                            'key' => $name,
+                            'value' => '',
+                        ]);
+                    }
+                }
+
+            }
+        }
+    
+    }
+
     public function register_batchable_model(Organization $org, $model_names=[], $batch_item_template=""){
 
         if (Schema::hasTable('fc_settings')) {

@@ -75,6 +75,11 @@ class Attachment extends Model
         return EloquentAttachable::where('attachment_id', $this->id)->first();
     }
 
+    public function artifacts(){
+
+        return $this->morphMany(ModelArtifact::class,'artifactable');
+    }
+
     public function uploader(){
         return $this->hasOne(User::class,'id','uploader_user_id');
     }
