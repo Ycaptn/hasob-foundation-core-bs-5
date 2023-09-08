@@ -22,10 +22,6 @@ use Hasob\FoundationCore\Traits\Socialable;
 use Hasob\FoundationCore\Traits\Taggable;
 use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
-use Hasob\Scola\Core\Models\Staff;
-use Hasob\Scola\Core\Models\Student;
-use Hasob\Scola\ELearning\Models\Lecturer;
-use Hasob\Scola\ELearning\Models\Manager;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -128,26 +124,5 @@ class User extends Authenticatable
         parent::delete();
         UserDeletedEvent::dispatch($this);
     }
-
-    public function getUserAccount($type = null)
-    {
-        $current_user = Auth()->user();
-
-        if ($type === 'student') {
-            return Student::where('user_id', $current_user->id)->first();
-        }
-
-        $staff = Staff::where('user_id', $current_user->id)->first();
-
-        switch ($type) {
-            case 'lecturer':
-                return optional($staff)->lecturer;
-            case 'manager':
-                return optional($staff)->manager;
-            default:
-                return $staff;
-        }
-    }
-
 
 }
