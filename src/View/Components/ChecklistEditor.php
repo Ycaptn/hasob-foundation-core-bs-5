@@ -22,7 +22,7 @@ class ChecklistEditor extends Component
     public $selected_name;
     public $selected_template_items;
 
-    public function __construct(Organization $org, Request $request, $attributeGroups)
+    public function __construct(Organization $org, Request $request, $attributeGroups=null)
     {
         $this->control_id = "ckle_".time();
         $this->selected_template_items = [];
