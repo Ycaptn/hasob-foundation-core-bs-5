@@ -660,6 +660,7 @@ class FoundationCore
             Route::resource('supports', \Hasob\FoundationCore\Controllers\API\SupportAPIController::class);
             Route::resource('announcements', \Hasob\FoundationCore\Controllers\API\AnnouncementAPIController::class);
             Route::resource('attributes', \Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class);
+            Route::resource('reactions', \Hasob\FoundationCore\Controllers\API\ReactionAPIController::class);
             Route::put('/attributes/display_ordinal/{id}', [\Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class, 'changeDisplayOrdinal'])->name('attributes.changeDisplayOrdinal');
 
             Route::resource('model_artifacts', \Hasob\FoundationCore\Controllers\API\ModelArtifactAPIController::class);
@@ -814,6 +815,7 @@ class FoundationCore
             Route::resource('batchItems', \Hasob\FoundationCore\Controllers\BatchItemController::class);
             Route::resource('paymentDetails', \Hasob\FoundationCore\Controllers\PaymentDetailController::class);
             Route::resource('ratings', \Hasob\FoundationCore\Controllers\RatingController::class);
+            Route::resource('reactions', \Hasob\FoundationCore\Controllers\ReactionController::class);
             Route::resource('relationships', \Hasob\FoundationCore\Controllers\RelationshipController::class);
 
             Route::resource('documentGenerationTemplates', \Hasob\FoundationCore\Controllers\DocumentGenerationTemplateController::class);

@@ -13,12 +13,14 @@ use Hasob\FoundationCore\Traits\Socialable;
 use Hasob\FoundationCore\Traits\Taggable;
 use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
+use Hasob\FoundationCore\Traits\OrganizationalConstraint;
 
 class Ledger extends Model
 {
     use SoftDeletes;
     use Artifactable;
     use GuidId;
+    use OrganizationalConstraint;
 
     public $table = 'fc_ledgers';
     

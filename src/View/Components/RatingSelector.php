@@ -12,7 +12,7 @@ class RatingSelector extends Component
     public $authCheck;
     public $canRate;
 
-    public function __construct($ratable, $authCheck, $canRate)
+    public function __construct($ratable, $authCheck=true, $canRate=true)
     {
         $this->ratable = $ratable;
         $this->control_id = "rtl_".time();
