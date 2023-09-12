@@ -55,7 +55,14 @@ class Reaction extends Model
     public $fillable = [
         'id',
         'organization_id',
-        'creator_user_id'
+        'creator_user_id',
+        'reactionable_type',
+        'reactionable_id',
+        'is_liked',
+        'is_not_liked',
+        'client_ip_address',
+        'client_user_agent_string',
+        'comments',
     ];
 
     /**
@@ -65,9 +72,12 @@ class Reaction extends Model
      */
     protected $casts = [
         'status' => 'string',
+        'reactionable_id' => 'string',
         'reactionable_type' => 'string',
         'is_liked' => 'boolean',
         'is_not_liked' => 'boolean',
+        'client_ip_address' => 'string',
+        'client_user_agent_string' => 'string',
         'comments' => 'string'
     ];
 

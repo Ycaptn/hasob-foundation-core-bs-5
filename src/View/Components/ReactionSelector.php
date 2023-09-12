@@ -10,12 +10,15 @@ class ReactionSelector extends Component
     public $control_id;
     public $reactionable;
     public $canSelect;
+    public $selectorIcon;
 
-    public function __construct($reactionable, $canSelect=true)
+    public function __construct($reactionable, $selectorIcon, $canSelect=true)
     {
         $this->reactionable = $reactionable;
         $this->control_id = "ratl_".time();
+        $this->selectorIcon = $selectorIcon;
         $this->canSelect = $canSelect;
+        
     }
 
     public function render()

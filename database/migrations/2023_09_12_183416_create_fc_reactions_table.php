@@ -22,13 +22,15 @@ class CreateFcReactionsTable extends Migration
             $table->boolean('is_liked')->default(false);
             $table->boolean('is_not_liked')->default(false);
             $table->string('status')->nullable();
+            $table->string('client_ip_address')->nullable();
+            $table->string('client_user_agent_string')->nullable();
             $table->string('comments')->nullable();
             $table->foreignUuid('creator_user_id')->nullable()->references('id')->on('fc_users');
             $table->timestamps();
             $table->softDeletes();
         });
 
-        DB::update("ALTER TABLE `fc_reactions` ADD INDEX `fc_reactions_type_idx` (`reactionable_id`, `reactionable_type`, `is_liked`, `is_not_liked`);");
+        // DB::update("ALTER TABLE `fc_reactions` ADD INDEX `fc_reactions_type_idx` (`reactionable_id`, `reactionable_type`, `is_liked`, `is_not_liked`);");
     }
 
     /**

@@ -1,5 +1,11 @@
-@if (isset($reactionable) && $reactionable!=null)
+@once
     <div id="div-reaction-modal-error"></div>
+@endonce
+    
+@if (isset($reactionable) && $reactionable!=null)
+    <a href="#" class="btn-reaction-like" data-val-id="{{$reactionable->id}}" data-val-type="{{get_class($reactionable)}}">
+        <i class="{{$selectorIcon}}"></i>
+    </a>
 @endif
 
 @once
@@ -7,18 +13,15 @@
     <script type="text/javascript">
         $(document).ready(function(){
 
-            function applyReaction(liked){
+            function applyReaction(liked, reactionableItemId, reactionableItemType){
                 @if($canSelect)
-                
-                    let endPointUrl = "{{ route('fc-api.reactions.store')}}";
-                    let reactionableItemId = $(this).attr('data-val-id');
-                    let reactionableItemType = $(this).attr('data-val-type');
-                    
                     let formData = new FormData();
                     formData.append('_token', $('input[name="_token"]').val());
                     formData.append('reactionable_id', reactionableItemId);
                     formData.append('reactionable_type', reactionableItemType);
                     formData.append('creator_user_id',"{{ Auth::id() }}");
+                    formData.append('client_ip_address', "{{request()->ip()}}");
+                    formData.append('client_user_agent_string', "{{ request()->server('HTTP_USER_AGENT'); }}");
 
                     if (liked==true){ formData.append('is_liked', 1); }
                     if (liked==false){ formData.append('is_not_liked', 1); }
@@ -28,7 +31,7 @@
                     @endif
 
                     $.ajax({
-                        url: endPointUrl,
+                        url: "{{route('fc-api.reactions.store')}}",
                         type: 'POST',
                         data: formData,
                         cache: false,
@@ -61,7 +64,6 @@
                             console.log(data);
                         }
                     });
-
                 @endif
             }
 
@@ -69,16 +71,21 @@
             $('.btn-reaction-like').click(function(e){
                 e.preventDefault();
                 $.ajaxSetup({headers:{'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-                applyReaction(true);
+
+                let reactionableItemId = $(this).attr('data-val-id');
+                let reactionableItemType = $(this).attr('data-val-type');
+                applyReaction(true, reactionableItemId, reactionableItemType);
             });
 
             //Save DisLike Reaction
             $('.btn-reaction-dislike').click(function(e){
                 e.preventDefault();
                 $.ajaxSetup({headers:{'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-                applyReaction(false);
-            });
 
+                let reactionableItemId = $(this).attr('data-val-id');
+                let reactionableItemType = $(this).attr('data-val-type');
+                applyReaction(false, reactionableItemId, reactionableItemType);
+            });
 
         });
     </script>
