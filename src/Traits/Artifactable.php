@@ -64,4 +64,53 @@ trait Artifactable
         }
     }
 
+    /**
+     * Delete model artifact by key(s)
+     * 
+     * @param optional string||array  $key1, $key2, $key3...
+     * @return null
+     */
+    public function delete_artifact(){
+        if (Schema::hasColumn('fc_model_artifacts','artifactable_id')) {  
+             
+            $args = func_get_args();  // Get all arguments as an array
+
+            foreach ($args as $index => $key) {
+    
+                if(is_array($key)){
+                    $flatten_keys = $this->flattenArray($key);
+                    foreach ($flatten_keys as $key => $flatten_key) {
+                        if(!empty($artifact = $this->artifact( $flatten_key)))
+                            $artifact->delete();
+                    }
+                   continue;
+                }
+    
+                if(!empty($artifact = $this->artifact($key)))
+                    $artifact->delete();
+            }
+        }
+    }
+
+    /**
+     * Flatten multidimensional array to single array
+     * 
+     * @param array $array
+     * @return array $result;
+     */
+    function flattenArray($array) : array
+    {
+        $result = [];
+
+        foreach ($array as $element) {
+            if (is_array($element)) {
+                $result = array_merge($result, flattenArray($element));
+            } else {
+                $result[] = $element;
+            }
+        }
+
+        return $result;
+    }
+
 }
