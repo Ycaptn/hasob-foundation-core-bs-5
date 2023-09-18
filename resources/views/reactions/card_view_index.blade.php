@@ -1,55 +1,48 @@
 @extends('layouts.app')
 
 @section('app_css')
+    {!! $cdv_reactions->render_css() !!}
 @stop
 
 @section('title_postfix')
-All Gate Way Payment Detail
+Reactions
 @stop
 
 @section('page_title')
-Gate Way Payment Detail
+Reactions
 @stop
 
 @section('page_title_suffix')
-All Gate Way Payment Detail
+All Reactions
 @stop
 
 @section('page_title_subtext')
 <a class="ms-1" href="{{ route('dashboard') }}">
     <i class="bx bx-chevron-left"></i> Back to Dashboard
-</a> 
+</a>
 @stop
 
 @section('page_title_buttons')
-<a id="btn-new-mdl-gateWayPaymentDetail-modal" class="btn btn-sm btn-primary btn-new-mdl-gateWayPaymentDetail-modal">
-    <i class="bx bx-book-add mr-1"></i>New Gate Way Payment Detail
+<a id="btn-new-mdl-reaction-modal" class="btn btn-sm btn-primary btn-new-mdl-reaction-modal">
+    <i class="bx bx-book-add me-1"></i>New Reaction
 </a>
 @if (Auth()->user()->hasAnyRole(['','admin']))
-    @include('hasob-foundation-core::pages.gate_way_payment_details.bulk-upload-modal')
+    @include('hasob-foundation-core::pages.reactions.bulk-upload-modal')
 @endif
 @stop
 
-
 @section('content')
-    
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 hidden-sm hidden-xs">
         {{-- Summary Row --}}
     </div>
     
-    <div class="card">
+    <div class="card border-top border-0 border-4 border-primary">
         <div class="card-body">
-        
-            <div class="table-responsive">
-                @include('hasob-foundation-core::pages.gate_way_payment_details.table')
-                
-            </div>
-        
+            {{ $cdv_reactions->render() }}
         </div>
     </div>
 
-    @include('hasob-foundation-core::pages.gate_way_payment_details.modal')
-
+    @include('hasob-foundation-core::pages.reactions.modal')
 @stop
 
 @section('side-panel')
@@ -66,4 +59,5 @@ All Gate Way Payment Detail
 @stop
 
 @push('page_scripts')
+    {!! $cdv_reactions->render_js() !!}
 @endpush

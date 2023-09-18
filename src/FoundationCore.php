@@ -686,7 +686,6 @@ class FoundationCore
             Route::resource('tags', \Hasob\FoundationCore\Controllers\API\TagAPIController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\API\TaggableAPIController::class);
 
-            Route::resource('ratings', \Hasob\FoundationCore\Controllers\API\RatingAPIController::class);
             Route::resource('relationships', \Hasob\FoundationCore\Controllers\API\RelationshipAPIController::class);
 
             Route::resource('model_documents', \Hasob\FoundationCore\Controllers\API\ModelDocumentAPIController::class);
@@ -713,6 +712,10 @@ class FoundationCore
     public function api_public_routes()
     {
         Route::name('fc-api.')->prefix('fc-api')->group(function () {
+
+            Route::resource('ratings', \Hasob\FoundationCore\Controllers\API\RatingAPIController::class);
+            Route::resource('reactions', \Hasob\FoundationCore\Controllers\API\ReactionAPIController::class);
+
             //Multi Tenancy
             Route::get('/org-detect', [OrganizationController::class, 'detect'])->name('fc.org-detect');
 
@@ -725,6 +728,12 @@ class FoundationCore
 
     public function public_routes()
     {
+
+        Route::name('fc.')->prefix('fc')->group(function () {
+            Route::resource('ratings', \Hasob\FoundationCore\Controllers\RatingController::class);
+            Route::resource('reactions', \Hasob\FoundationCore\Controllers\ReactionController::class);
+        });
+
         //Site Display
         Route::get('/page/{id}', [SiteDisplayController::class, 'displayPublicPage'])->name('fc.site-display.page');
         Route::get('/public/{id}', [SiteDisplayController::class, 'index'])->name('fc.site-display.index');
@@ -813,7 +822,6 @@ class FoundationCore
             Route::resource('batches', \Hasob\FoundationCore\Controllers\BatchController::class);
             Route::resource('batchItems', \Hasob\FoundationCore\Controllers\BatchItemController::class);
             Route::resource('paymentDetails', \Hasob\FoundationCore\Controllers\PaymentDetailController::class);
-            Route::resource('ratings', \Hasob\FoundationCore\Controllers\RatingController::class);
             Route::resource('relationships', \Hasob\FoundationCore\Controllers\RelationshipController::class);
 
             Route::resource('documentGenerationTemplates', \Hasob\FoundationCore\Controllers\DocumentGenerationTemplateController::class);

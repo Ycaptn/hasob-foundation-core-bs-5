@@ -29,24 +29,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class ModelDocument
+ * Class Reaction
  * @package Hasob\FoundationCore\Models
- * @version October 22, 2022, 4:28 pm UTC
+ * @version September 12, 2023, 6:34 pm UTC
  *
- * @property \Hasob\FoundationCore\Models\DocumentGenerationTemplate $documentGenerationTemplate
+ * @property \Hasob\FoundationCore\Models\User $user
  * @property string $id
  * @property string $organization_id
- * @property string $document_generation_template_id
- * @property string $model_primary_id
+ * @property string $creator_user_id
  */
-class ModelDocument extends Model
+class Reaction extends Model
 {
     use GuidId;
     use OrganizationalConstraint;
     use SoftDeletes;
     use HasFactory;
 
-    public $table = 'fc_model_documents';
+    public $table = 'fc_reactions';
     
 
     protected $dates = ['deleted_at'];
@@ -56,10 +55,14 @@ class ModelDocument extends Model
     public $fillable = [
         'id',
         'organization_id',
-        'document_generation_template_id',
-        'model_primary_id',
-        'model_type_name',
-        'is_default_template'
+        'creator_user_id',
+        'reactionable_type',
+        'reactionable_id',
+        'is_liked',
+        'is_not_liked',
+        'client_ip_address',
+        'client_user_agent_string',
+        'comments',
     ];
 
     /**
@@ -68,19 +71,23 @@ class ModelDocument extends Model
      * @var array
      */
     protected $casts = [
-        'model_primary_id' => 'string',
-        'model_type_name' => 'string',
-        'display_ordinal' => 'integer',
-        'is_default_template' => 'boolean'
+        'status' => 'string',
+        'reactionable_id' => 'string',
+        'reactionable_type' => 'string',
+        'is_liked' => 'boolean',
+        'is_not_liked' => 'boolean',
+        'client_ip_address' => 'string',
+        'client_user_agent_string' => 'string',
+        'comments' => 'string'
     ];
 
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
-    public function documentGenerationTemplate()
+    public function user()
     {
-        return $this->belongsTo(\Hasob\FoundationCore\Models\DocumentGenerationTemplate::class, 'document_generation_template_id', 'id');
+        return $this->hasOne(\Hasob\FoundationCore\Models\User::class, 'creator_user_id', 'id');
     }
 
 }

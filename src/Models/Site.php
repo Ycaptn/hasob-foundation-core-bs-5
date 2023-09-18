@@ -18,6 +18,7 @@ use Hasob\FoundationCore\Traits\Socialable;
 use Hasob\FoundationCore\Traits\Taggable;
 use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
+use Hasob\FoundationCore\Traits\OrganizationalConstraint;
 
 
 class Site extends Model
@@ -31,6 +32,7 @@ class Site extends Model
     use Disable;
     use GuidId;
     use Pageable;
+    use OrganizationalConstraint;
 
     public $table = 'fc_sites';
     
