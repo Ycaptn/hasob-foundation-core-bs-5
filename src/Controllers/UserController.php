@@ -99,6 +99,7 @@ class UserController extends BaseController
                 "phone" => $request->phoneNumber,
                 "email" => $request->emailAddress,
                 "gender" => ucfirst(substr($request->gender, 0, 1)),
+                "type" => config('bims.BIMS_USER_TYPE')
             ]);
 
         }
