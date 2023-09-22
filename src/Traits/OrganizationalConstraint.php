@@ -34,6 +34,11 @@ trait OrganizationalConstraint {
                 ->hasColumn($this->getTable(), 'display_ordinal')) {
             $query = $query->orderBy('display_ordinal','ASC');
             
+        }elseif($this->getConnection()
+        ->getSchemaBuilder()
+        ->hasColumn($this->getTable(), 'ordinal')){
+            $query = $query->orderBy('ordinal','ASC');
+            
         } elseif ($this->getConnection()
                 ->getSchemaBuilder()
                 ->hasColumn($this->getTable(), 'created_at')) {
