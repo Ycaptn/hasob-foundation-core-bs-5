@@ -108,6 +108,13 @@ class Batch extends Model
 
         return [];
     }
+
+    public function getBatchFilterItem(){
+        if($this->batchable_type != null){
+            $batchable_type = new $this->batchable_type();
+           return  $batchable_type->get_batchable_filter_items();
+        }
+    }
     public function getBatchedItemIDs(){
       return  $this->batchItems()->pluck('batchable_id')->toArray();
     }

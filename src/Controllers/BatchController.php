@@ -110,7 +110,8 @@ class BatchController extends BaseController
         $batched_item_ids = $batch->getBatchedItemIDs();
         $batchable_items = $batch->getBatchableItems($batched_item_ids);
         $batched_items = $batch->getBatchedItems();
-        return view('hasob-foundation-core::batches.show')->with('batch', $batch)->with('batchable_items', $batchable_items)->with('batched_items', $batched_items);
+        $batch_filter_items = $batch->getBatchFilterItem();
+        return view('hasob-foundation-core::batches.show')->with('batch', $batch)->with('batchable_items', $batchable_items)->with('batched_items', $batched_items)->with('batch_filter_items',$batch_filter_items);
     }
 
     /**
