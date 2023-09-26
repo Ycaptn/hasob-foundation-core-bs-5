@@ -57,6 +57,9 @@
                                     confirmButtonText: "OK",
                                     closeOnConfirm: false
                                 });
+                                window.setTimeout(function(){
+                                    location.reload(true);
+                                },1000);
                             }
                         },
                         error: function(data) {
