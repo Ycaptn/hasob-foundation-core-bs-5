@@ -584,6 +584,13 @@ class FoundationCore
                 ];
             }
 
+            if ($current_user->hasAnyRole(['admin']) && Schema::hasTable('personal_access_tokens') && \FoundationCore::has_feature('api_tokens', $current_user->organization)) {
+                $fc_menu['mnu_fc_admin']['children']['api_tokens'] = ['id' => 'mnu_fc_api_tokens', 'label' => 'API Tokens', 'icon' => 'bx bx-key', 'path' => route('fc.api_tokens.index'), 'route-selector' => 'fc/api_tokens', 'is-parent' => false,
+                    'children' => [],
+                ];
+            }
+
+
             if (\FoundationCore::has_feature('departments', $current_user->organization) && $current_user->hasAnyRole(['admin', 'departments-admin'])) {
                 if ($current_user->hasRole('admin')) {
                     $fc_menu['mnu_fc_admin']['children']['depts'] = ['id' => 'mnu_fc_depts', 'label' => 'Departments & Units', 'icon' => 'bx bx-collection', 'path' => route('fc.departments.index'), 'route-selector' => 'fc/departments', 'is-parent' => false,
@@ -676,6 +683,7 @@ class FoundationCore
             Route::post('/batch/move/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'moveBatchItem'])->name('batch.move-batch-item');
            
             Route::resource('addresses', \Hasob\FoundationCore\Controllers\API\AddressAPIController::class);
+            Route::resource('api_tokens', \Hasob\FoundationCore\Controllers\API\APITokenAPIController::class);
             Route::resource('batch_items', \Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
 
@@ -830,6 +838,7 @@ class FoundationCore
             Route::resource('disabledItems', \Hasob\FoundationCore\Controllers\DisabledItemController::class);
             Route::resource('tags', \Hasob\FoundationCore\Controllers\TagController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\TaggableController::class);
+            Route::resource('api_tokens', \Hasob\FoundationCore\Controllers\APITokenController::class);
             Route::resource('modelArtifacts', \Hasob\FoundationCore\Controllers\ModelArtifactController::class);
             Route::resource('gateWayPaymentDetails', \Hasob\FoundationCore\Controllers\GateWayPaymentDetailController::class);
             Route::resource('paymentDisbursements', \Hasob\FoundationCore\Controllers\PaymentDisbursementController::class);
