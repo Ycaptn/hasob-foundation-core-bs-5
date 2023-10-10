@@ -659,6 +659,7 @@ class FoundationCore
             Route::resource('pageables', \Hasob\FoundationCore\Controllers\API\PageableAPIController::class);
             Route::resource('supports', \Hasob\FoundationCore\Controllers\API\SupportAPIController::class);
             Route::resource('announcements', \Hasob\FoundationCore\Controllers\API\AnnouncementAPIController::class);
+            Route::post('announceable-store', [\Hasob\FoundationCore\Controllers\API\AnnouncementAPIController::class, 'createAnnouncement'])->name('announceable.store');
             Route::resource('attributes', \Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class);
             Route::put('/attributes/display_ordinal/{id}', [\Hasob\FoundationCore\Controllers\API\ModelAttributeAPIController::class, 'changeDisplayOrdinal'])->name('attributes.changeDisplayOrdinal');
 

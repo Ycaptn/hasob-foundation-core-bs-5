@@ -135,7 +135,7 @@
                         success: function(result) {
                         if (result.errors) {
                             //implement
-                             $('#div-role-selector-modal-error').html('');
+                            $('#div-role-selector-modal-error').html('');
                             $('#div-role-selector-modal-error').show();
                             $.each(result.errors, function(key, value) {
                                 $('#div-role-selector-modal-error').append(
@@ -229,9 +229,6 @@
                 //call endpoint to update user roles
 
             });
-
-
-
 
         });
     </script>

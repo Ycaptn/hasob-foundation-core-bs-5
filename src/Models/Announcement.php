@@ -7,10 +7,9 @@ use Hasob\FoundationCore\Traits\Ledgerable;
 use Hasob\FoundationCore\Traits\Artifactable;
 use Hasob\FoundationCore\Traits\OrganizationalConstraint;
 
-use Eloquent as Model;
-
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Address
@@ -31,7 +30,6 @@ class Announcement extends Model
 {
     use GuidId;
     use OrganizationalConstraint;
-    
     use SoftDeletes;
 
     use HasFactory;

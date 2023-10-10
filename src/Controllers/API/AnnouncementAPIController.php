@@ -45,8 +45,8 @@ class AnnouncementAPIController extends AppBaseController
         if ($request->get('limit')) {
             $query->limit($request->get('limit'));
         }
-        
-        if ($organization != null){
+
+        if ($organization != null) {
             $query->where('organization_id', $organization->id);
         }
 
@@ -69,7 +69,7 @@ class AnnouncementAPIController extends AppBaseController
 
         /** @var Announcement $announcement */
         $announcement = Announcement::create($input);
-        
+
         AnnouncementCreated::dispatch($announcement);
         return $this->sendResponse($announcement->toArray(), 'announcement saved successfully');
     }
@@ -114,7 +114,7 @@ class AnnouncementAPIController extends AppBaseController
 
         $announcement->fill($request->all());
         $announcement->save();
-        
+
         AnnouncementUpdated::dispatch($announcement);
         return $this->sendResponse($announcement->toArray(), 'announcement updated successfully');
     }
@@ -141,5 +141,48 @@ class AnnouncementAPIController extends AppBaseController
         $announcement->delete();
         AnnouncementDeleted::dispatch($announcement);
         return $this->sendSuccess('Announcement deleted successfully');
+    }
+
+    public function createAnnouncement(Organization $org, Request $request){
+
+        $options = json_decode($request->options, true);
+        if (isset($options['headline']) == false || $options['headline'] == null || empty($options['headline'])) {
+            $err_msg = ['The title must be provided.'];
+            return self::createJSONResponse("fail", "error", $err_msg, 200);
+        }
+        if (isset($options['end_date']) == false || $options['end_date'] == null || empty($options['end_date'])) {
+            $err_msg = ['The End date must be provided.'];
+            return self::createJSONResponse("fail", "error", $err_msg, 200);
+        }
+        if (isset($options['content']) == false || $options['content'] == null || empty($options['content'])) {
+            $err_msg = ['The Description must be provided.'];
+            return self::createJSONResponse("fail", "error", $err_msg, 200);
+        }
+        if (isset($options['announceable_id']) == false || empty($options['announceable_id'])) {
+            $err_msg = ['Invalid upload request.'];
+            return self::createJSONResponse("fail", "error", $err_msg, 200);
+        }
+        if (isset($options['announceable_type']) == false || empty($options['announceable_type']) || class_exists($options['announceable_type']) == false) {
+            $err_msg = ['Invalid upload request.'];
+            return self::createJSONResponse("fail", "error", $err_msg, 200);
+        }
+
+        $announceable_type = $options['announceable_type']::find($options['announceable_id']);
+        if ($announceable_type == null) {
+            $err_msg = ['Invalid upload request.'];
+            return self::createJSONResponse("fail", "error", $err_msg, 200);
+        }
+
+        $announceable = Announcement::create([
+            'organization_id ' => $org->id,
+            'headline' => $options['headline'],
+            'end_date' => $options['end_date'],
+            'content' => $options['content'],
+            'creator_user_id' => Auth()->user()->id,
+            'announceable_id' => $options['announceable_id'],
+            'announceable_type' => $options['announceable_type'],
+        ]);
+
+        return self::createJSONResponse("ok", "success", $announceable, 200);
     }
 }

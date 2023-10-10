@@ -25,12 +25,12 @@ class UpdateAnnouncementAPIRequest extends AppBaseFormRequest
     public function rules()
     {
         return [
-            'organization_id' => 'required',
+            'organization_id' => 'nullable',
             'headline' => 'required',
-            'start_date' => 'required|date',
+            'start_date' => 'nullable|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'content' => 'nullable|max:200',          
-            'creator_user_id' => 'required|exists:fc_users,id',
+            'creator_user_id' => 'nullable|exists:fc_users,id',
         ];
     }
 }
