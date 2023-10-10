@@ -43,9 +43,7 @@ class ModelDocument extends Model
 {
     use GuidId;
     use OrganizationalConstraint;
-    
     use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'fc_model_documents';

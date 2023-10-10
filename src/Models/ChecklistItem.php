@@ -69,7 +69,7 @@ class ChecklistItem extends Model
     ];
 
     public function checking_user(){
-        return $this->hasOne(User::class,'id','checking_user_id');
+        return $this->belongsTo(User::class,'checking_user_id','id');
     }
 
     public function organization(){

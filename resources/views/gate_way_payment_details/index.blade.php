@@ -26,7 +26,7 @@ All Gate Way Payment Detail
     <i class="bx bx-book-add mr-1"></i>New Gate Way Payment Detail
 </a>
 @if (Auth()->user()->hasAnyRole(['','admin']))
-    @include('tetfund-attendance-module::pages.gate_way_payment_details.bulk-upload-modal')
+    @include('hasob-foundation-core::pages.gate_way_payment_details.bulk-upload-modal')
 @endif
 @stop
 
@@ -41,14 +41,14 @@ All Gate Way Payment Detail
         <div class="card-body">
         
             <div class="table-responsive">
-                @include('tetfund-attendance-module::pages.gate_way_payment_details.table')
+                @include('hasob-foundation-core::pages.gate_way_payment_details.table')
                 
             </div>
         
         </div>
     </div>
 
-    @include('tetfund-attendance-module::pages.gate_way_payment_details.modal')
+    @include('hasob-foundation-core::pages.gate_way_payment_details.modal')
 
 @stop
 

@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Hasob\FoundationCore\Traits\GuidId;
+use Hasob\FoundationCore\Traits\OrganizationalConstraint;
 
 class Signature extends Model
 {
     use SoftDeletes;
     use GuidId;
+    use OrganizationalConstraint;
 
     public $table = 'fc_signatures';
     

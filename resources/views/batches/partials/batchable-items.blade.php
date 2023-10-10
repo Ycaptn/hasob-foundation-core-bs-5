@@ -1,19 +1,41 @@
 <div>
-   
+
     <div class="row">
-       
+
         @if (count($batchable_items) > 0)
-     {{--        @if ($batch->status != 'processed') --}}
-              
-                <div class="col-sm-6 ">
-                    <strong> Items that can be Batched </strong>
+            {{--        @if ($batch->status != 'processed') --}}
+            <div class="row mb-3">
+                <div class="col-md-6">
+
                 </div>
-                <div class="col-sm-6 mb-4">
-                    <button class="btn btn-primary btn-sm float-end btn-save-add-batch-item mx-2">Add Selected Items to
-                        Batch</button>
+                <div class="col-md-6">
+                    @php
+                        $filter_value = request()->input('filter');
+                    @endphp
+
+                    <select name="batch_filter" id="batch_filter" class="form-select">
+                        <option value="">
+                            --- select filter ---
+                        </option>
+                        @foreach ($batch_filter_items as $idx => $item)
+                            <option value="{{ $item['key'] }}"
+                                {{ strtolower($filter_value) == strtolower($item['key']) ? 'selected' : '' }}>
+                                {{ $item['value'] }}</option>
+                        @endforeach
+                    </select>
                 </div>
-          {{--   @endif --}}
-          <div id="div-batch-item-modal-error" class="alert alert-danger" role="alert"></div>
+            </div>
+
+
+            <div class="col-sm-6 ">
+                <strong> Items that can be Batched </strong>
+            </div>
+            <div class="col-sm-6 mb-4">
+                <button class="btn btn-primary btn-sm float-end btn-save-add-batch-item mx-2">Add Selected Items to
+                    Batch</button>
+            </div>
+            {{--   @endif --}}
+            <div id="div-batch-item-modal-error" class="alert alert-danger" role="alert"></div>
             @foreach ($batchable_items as $batchable_item)
                 <div class="col-md-12">
                     <div class="form-check">
@@ -29,7 +51,7 @@
             <div class="col-sm-6">
                 <strong> Items that can be Batched </strong>
             </div>
-            <div class="col-sm-6 mb-4">         
+            <div class="col-sm-6 mb-4">
             </div>
             <span class="my-3">No available item that can be batched</span>
         @endif
@@ -41,6 +63,12 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#div-batch-item-modal-error').hide();
+            $('#batch_filter').change(function(e) {
+                e.preventDefault();
+                let filter = $(this).val();
+
+                location.assign("{{ Request::url() }}?filter=" + filter)
+            })
             $('.btn-save-add-batch-item').click(function(e) {
                 e.preventDefault();
                 //check for internet status 
@@ -108,7 +136,8 @@
                             let formData = new FormData();
                             formData.append('_token', $('input[name="_token"]').val());
                             formData.append('batch_id', "{{ $batch->id }}");
-                            formData.append('batchable_type', String.raw`{{ $batch->batchable_type }}`);
+                            formData.append('batchable_type', String
+                                .raw`{{ $batch->batchable_type }}`);
                             formData.append('batchable_id', selected_ids);
                             formData.append('_method', actionType);
 

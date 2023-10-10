@@ -584,6 +584,13 @@ class FoundationCore
                 ];
             }
 
+            if ($current_user->hasAnyRole(['admin']) && Schema::hasTable('personal_access_tokens') && \FoundationCore::has_feature('api_tokens', $current_user->organization)) {
+                $fc_menu['mnu_fc_admin']['children']['api_tokens'] = ['id' => 'mnu_fc_api_tokens', 'label' => 'API Tokens', 'icon' => 'bx bx-key', 'path' => route('fc.api_tokens.index'), 'route-selector' => 'fc/api_tokens', 'is-parent' => false,
+                    'children' => [],
+                ];
+            }
+
+
             if (\FoundationCore::has_feature('departments', $current_user->organization) && $current_user->hasAnyRole(['admin', 'departments-admin'])) {
                 if ($current_user->hasRole('admin')) {
                     $fc_menu['mnu_fc_admin']['children']['depts'] = ['id' => 'mnu_fc_depts', 'label' => 'Departments & Units', 'icon' => 'bx bx-collection', 'path' => route('fc.departments.index'), 'route-selector' => 'fc/departments', 'is-parent' => false,
@@ -677,6 +684,7 @@ class FoundationCore
             Route::post('/batch/move/{id}', [\Hasob\FoundationCore\Controllers\API\BatchAPIController::class, 'moveBatchItem'])->name('batch.move-batch-item');
            
             Route::resource('addresses', \Hasob\FoundationCore\Controllers\API\AddressAPIController::class);
+            Route::resource('api_tokens', \Hasob\FoundationCore\Controllers\API\APITokenAPIController::class);
             Route::resource('batch_items', \Hasob\FoundationCore\Controllers\API\BatchItemAPIController::class);
             Route::resource('payment_details', \Hasob\FoundationCore\Controllers\API\PaymentDetailAPIController::class);
 
@@ -687,7 +695,6 @@ class FoundationCore
             Route::resource('tags', \Hasob\FoundationCore\Controllers\API\TagAPIController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\API\TaggableAPIController::class);
 
-            Route::resource('ratings', \Hasob\FoundationCore\Controllers\API\RatingAPIController::class);
             Route::resource('relationships', \Hasob\FoundationCore\Controllers\API\RelationshipAPIController::class);
 
             Route::resource('model_documents', \Hasob\FoundationCore\Controllers\API\ModelDocumentAPIController::class);
@@ -714,6 +721,10 @@ class FoundationCore
     public function api_public_routes()
     {
         Route::name('fc-api.')->prefix('fc-api')->group(function () {
+
+            Route::resource('ratings', \Hasob\FoundationCore\Controllers\API\RatingAPIController::class);
+            Route::resource('reactions', \Hasob\FoundationCore\Controllers\API\ReactionAPIController::class);
+
             //Multi Tenancy
             Route::get('/org-detect', [OrganizationController::class, 'detect'])->name('fc.org-detect');
 
@@ -726,6 +737,12 @@ class FoundationCore
 
     public function public_routes()
     {
+
+        Route::name('fc.')->prefix('fc')->group(function () {
+            Route::resource('ratings', \Hasob\FoundationCore\Controllers\RatingController::class);
+            Route::resource('reactions', \Hasob\FoundationCore\Controllers\ReactionController::class);
+        });
+
         //Site Display
         Route::get('/page/{id}', [SiteDisplayController::class, 'displayPublicPage'])->name('fc.site-display.page');
         Route::get('/public/{id}', [SiteDisplayController::class, 'index'])->name('fc.site-display.index');
@@ -814,7 +831,6 @@ class FoundationCore
             Route::resource('batches', \Hasob\FoundationCore\Controllers\BatchController::class);
             Route::resource('batchItems', \Hasob\FoundationCore\Controllers\BatchItemController::class);
             Route::resource('paymentDetails', \Hasob\FoundationCore\Controllers\PaymentDetailController::class);
-            Route::resource('ratings', \Hasob\FoundationCore\Controllers\RatingController::class);
             Route::resource('relationships', \Hasob\FoundationCore\Controllers\RelationshipController::class);
 
             Route::resource('documentGenerationTemplates', \Hasob\FoundationCore\Controllers\DocumentGenerationTemplateController::class);
@@ -823,6 +839,7 @@ class FoundationCore
             Route::resource('disabledItems', \Hasob\FoundationCore\Controllers\DisabledItemController::class);
             Route::resource('tags', \Hasob\FoundationCore\Controllers\TagController::class);
             Route::resource('taggables', \Hasob\FoundationCore\Controllers\TaggableController::class);
+            Route::resource('api_tokens', \Hasob\FoundationCore\Controllers\APITokenController::class);
             Route::resource('modelArtifacts', \Hasob\FoundationCore\Controllers\ModelArtifactController::class);
             Route::resource('gateWayPaymentDetails', \Hasob\FoundationCore\Controllers\GateWayPaymentDetailController::class);
             Route::resource('paymentDisbursements', \Hasob\FoundationCore\Controllers\PaymentDisbursementController::class);

@@ -93,4 +93,7 @@ trait Batchable
   
       }
 
+      public function get_batchable_filter_items(){
+        return [];
+      }
 }

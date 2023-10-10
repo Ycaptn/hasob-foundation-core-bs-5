@@ -48,8 +48,8 @@ Gate Way Payment Detail
     <div class="card border-top border-0 border-4 border-primary">
         <div class="card-body">
 
-            @include('tetfund-tetfund-attendance-module::pages.gate_way_payment_details.modal') 
-            @include('tetfund-tetfund-attendance-module::pages.gate_way_payment_details.show_fields')
+            @include('tetfund-hasob-foundation-core::pages.gate_way_payment_details.modal') 
+            @include('tetfund-hasob-foundation-core::pages.gate_way_payment_details.show_fields')
             
         </div>
     </div>

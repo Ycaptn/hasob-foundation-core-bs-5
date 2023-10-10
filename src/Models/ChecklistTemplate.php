@@ -13,6 +13,7 @@ use Hasob\FoundationCore\Traits\Socialable;
 use Hasob\FoundationCore\Traits\Taggable;
 use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
+use Hasob\FoundationCore\Traits\OrganizationalConstraint;
 
 
 class ChecklistTemplate extends Model
@@ -20,6 +21,7 @@ class ChecklistTemplate extends Model
     use SoftDeletes;
     use Artifactable;
     use GuidId;
+    use OrganizationalConstraint;
 
     public $table = 'fc_checklist_templates';
     

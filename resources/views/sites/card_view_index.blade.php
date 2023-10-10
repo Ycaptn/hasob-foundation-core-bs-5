@@ -69,7 +69,7 @@ Manager
                         @php
                             $default_org_site = \FoundationCore::current_organization()->artifact('default-site-id');
                         @endphp
-                        <input type="hidden" id="txt-modelArtifact-primary-id" value="{{($default_org_site!==null)?$default_org_site->value:'0'}}" />
+                        <input type="hidden" id="txt-modelArtifact-primary-id" value="{{($default_org_site!=null && method_exists($default_org_site,'value'))?$default_org_site->value:'0'}}" />
 
 
                         <label class="form-label text-primary m-1">Select the default website for the organization, each organization, may have a default website deplayed as the landing page</label>
@@ -80,7 +80,7 @@ Manager
                                     <option value="">No Default Site Selected</option>
                                     @if (isset($all_sites) && $all_sites != null)
                                         @foreach ($all_sites as $idx=>$item)
-                                            <option {{($default_org_site!==null&&$default_org_site->value==$item->id)?'selected':''}} value="{{$item->id}}">{{$item->site_name}}</option>
+                                            <option {{($default_org_site!=null && method_exists($default_org_site,'value') && $default_org_site->value==$item->id)?'selected':''}} value="{{$item->id}}">{{$item->site_name}}</option>
                                         @endforeach
                                     @endif
                                 </select>

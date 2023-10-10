@@ -64,6 +64,6 @@ class ModelArtifact extends Model
 
     public function artifactable(){
 
-        return $this->morphsTo();
+        return $this->morphTo();
     }
 }
