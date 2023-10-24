@@ -558,7 +558,6 @@ class FoundationCore
 
     public function get_menu_map()
     {
-
         $current_user = Auth::user();
         if ($current_user != null) {
 

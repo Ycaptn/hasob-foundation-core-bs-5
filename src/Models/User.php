@@ -24,6 +24,7 @@ use Hasob\FoundationCore\Traits\Disable;
 use Hasob\FoundationCore\Traits\Artifactable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 
 class User extends Authenticatable
 {
@@ -37,8 +38,11 @@ class User extends Authenticatable
     use Artifactable;
     use GuidId;
     use Ledgerable;
+    use AuthenticatesWithLdap;
 
     public $table = 'fc_users';
+
+    protected array $guard_name = ['web'];
 
     protected $fillable = [
         'email', 'password','gender', 'telephone', 'first_name', 'middle_name', 'job_title', 'title', 'last_name', 'last_loggedin_at', 'department_id', 'organization_id','is_disabled','disable_reason','disabling_user_id','disabled_at'
