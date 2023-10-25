@@ -26,8 +26,8 @@ class AttributeHandler{
             }
          
         } */
-        dd("here");
-        $database->syncRoles($roles);
+      
+       // $database->syncRoles($roles);
   
         $database->first_name = $ldap->getFirstAttribute('givenname');
         $database->last_name = $ldap->getFirstAttribute('sn');
