@@ -88,11 +88,8 @@ trait AuthenticateLdapUsers{
                     
                  
 
-                } else {
-                 
-                    $ldap_auth = Auth::attempt($this->credentials($request));
                 }
-
+                
                 $ldap_auth = Auth::attempt($this->credentials($request));
 
                 if ($ldap_auth) {
